@@ -41,8 +41,8 @@ const CoursDetails = () => {
   const numberOfExercices = fakeExercices.filter(e => e.coursId === Number(id)).length
   
   const supprimerCours = () => {
-        toast.success("Inscription supprimer");
-      }
+    toast.success("Inscription supprimer");
+  }
   return (
     <div className="flex flex-col gap-3 mt-5">
       {showModal && (
