@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { fakeCoursDetail, fakeLecons, fakeExercices, fakeEtudiantsInscrits } from "../../fakeData";
 import StateBox from "../../components/shared/PageComponents/StateBox";
 import FormModal from "../../components/modals/FormModal";
@@ -100,8 +100,9 @@ const CoursDetails = () => {
         <h3 className="text-bleu-principal font-semibold text-xl">Leçons</h3>
         <div className="w-full border-2 border-gris-clair rounded-2xl p-1 flex flex-col gap-2 justify-between">
           {selectedLecons.map((lecon) => (
-            <div
+            <Link
               key={`${lecon.id}-${lecon.coursId}`}
+              to={`${location.pathname}/${lecon.id}`}
               className={`flex flex-col  border-t-${lecon.id === 1 ? '0' : '2'} border-gris-clair p-4 gap-3`}
             >
               <div className="flex justify-between">
@@ -135,7 +136,7 @@ const CoursDetails = () => {
                   onClick={() => navigate(`${location.pathname}?create=true&leconId=${lecon.id}`)}
                 />
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
