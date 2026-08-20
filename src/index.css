@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+
+
+@theme {
+  --color-bleu-principal: #22354D;
+  --color-bleu-secondaire: #5B7188;
+  --color-orange-cuivre: #C97817;
+  --color-rouge-lampe: #D94A3D;
+  --color-vert-reussite: #70B77E;
+  --color-rouge-echec: #C97D60;
+  --color-gris-clair: #E8EDF2;
+  --color-gris-fonce: #4B5563;
+
+  --font-titres: 'Manrope', sans-serif;
+  --font-texte: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-texte);
+}
