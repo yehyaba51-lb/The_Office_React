@@ -105,7 +105,7 @@ const CoursDetails = () => {
                 <div
                   key={`${lecon.id}-${lecon.coursId}`}
                   to={`${location.pathname}/${lecon.id}`}
-                  className={`flex flex-col  border-t-${lecon.id === 1 ? '0' : '2'} border-gris-clair p-4 gap-3 !items-center`}
+                  className={`flex flex-col  border-t-${lecon.id === 1 ? '0' : '2'} border-gris-clair p-4 gap-3 items-center`}
                 >
                   <div className="flex justify-between w-full">
                     <div className="flex gap-4">
