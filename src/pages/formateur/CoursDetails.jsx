@@ -5,7 +5,6 @@ import StateBox from "../../components/shared/PageComponents/StateBox";
 import LessonBuilderModal from "../../components/modals/LessonBuilderModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import ConfirmModal from "../../components/modals/ConfirmModal";
-import { exerciceFields } from '../../formModalsData'
 import TableData from "../../components/shared/PageComponents/TableData";
 import { etudiantsInscritsColumns } from "../../fakeData";
 import { toast } from 'react-toastify'
