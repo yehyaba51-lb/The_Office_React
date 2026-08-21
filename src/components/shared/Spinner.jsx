@@ -1,8 +1,9 @@
 import React from 'react'
+import { ClipLoader } from 'react-spinners'
 
 const Spinner = () => {
   return (
-    <div>Spinner</div>
+    <ClipLoader className='text-orange-cuivre' color='text-orange-cuivre' size={75} />
   )
 }
 

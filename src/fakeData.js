@@ -97,6 +97,13 @@ export const fakeCoursDetail = [
     description: "Ce cours s'adresse aux personnes intéressées par la conception d'espaces de travail modernes et fonctionnels.Les participants apprendront les principes fondamentaux d'aménagement d'espaces collaboratifs : optimisation de la lumière naturelle, gestion des flux de circulation, acoustique, et équilibre entre espaces ouverts et zones de concentration.À l'issue du cours, ils seront capables de proposer une conception d'espace de travail adaptée aux besoins réels de ses futurs occupants.", 
     categorie: "Architecture", lecons: 3, etudiantsInscrits: 6, exercices: 2, edit: Pencil, delete: Trash2 
   },
+  { 
+    id: 6, 
+    titre: "Cours sans contenu", 
+    formateur: "Sofiane Ghomari", 
+    description: "", 
+    categorie: "Informatique", lecons: 0, etudiantsInscrits: 0, exercices: 0, edit: Pencil, delete: Trash2 
+  },
 ];
 
 export const fakeLecons = [
@@ -132,41 +139,37 @@ export const fakeLecons = [
 ];
 
 export const fakeExercices = [
-  // Cours 1
-  { id: 1, coursId: 1, leconId: 1, titre: "Structurer une page HTML" },
-  { id: 2, coursId: 1, leconId: 2, titre: "Mettre en page avec CSS - Flexbox" },
-  { id: 3, coursId: 1, leconId: 3, titre: "Manipuler le DOM en JavaScript" },
-  { id: 4, coursId: 1, leconId: 4, titre: "Valider un formulaire côté client" },
-  { id: 5, coursId: 1, leconId: 4, titre: "Formulaire avancé avec messages d'erreur" },
 
-  // Cours 2
-  { id: 6, coursId: 2, leconId: 1, titre: "Vocabulaire de réunion" },
-  { id: 7, coursId: 2, leconId: 2, titre: "Exprimer une opinion en anglais" },
-  { id: 8, coursId: 2, leconId: 3, titre: "Gérer un désaccord" },
-  { id: 9, coursId: 2, leconId: 4, titre: "Prise de parole en réunion" },
-  { id: 10, coursId: 2, leconId: 5, titre: "Résumer les points clés" },
-  { id: 11, coursId: 2, leconId: 6, titre: "Simuler une visioconférence" },
+  { id: 1, coursId: 1, leconId: 1, titre: "Exercice 01" },
+  { id: 2, coursId: 1, leconId: 2, titre: "Exercice 02" },
+  { id: 3, coursId: 1, leconId: 3, titre: "Exercice 03" },
+  { id: 4, coursId: 1, leconId: 4, titre: "Exercice 04" },
+  { id: 5, coursId: 1, leconId: 4, titre: "Exercice 05" },
 
-  // Cours 3
-  { id: 12, coursId: 3, leconId: 1, titre: "Identifier son style de management" },
-  { id: 13, coursId: 3, leconId: 2, titre: "Déléguer une tâche" },
-  { id: 14, coursId: 3, leconId: 3, titre: "Rédiger un feedback constructif" },
-  { id: 15, coursId: 3, leconId: 4, titre: "Résoudre un conflit d'équipe" },
-  { id: 16, coursId: 3, leconId: 5, titre: "Plan de motivation d'équipe" },
+  { id: 6, coursId: 2, leconId: 1, titre: "Exercice 01" },
+  { id: 7, coursId: 2, leconId: 2, titre: "Exercice 02" },
+  { id: 8, coursId: 2, leconId: 3, titre: "Exercice 03" },
+  { id: 9, coursId: 2, leconId: 4, titre: "Exercice 04" },
+  { id: 10, coursId: 2, leconId: 5, titre: "Exercice 05" },
+  { id: 11, coursId: 2, leconId: 6, titre: "Exercice 06" },
 
-  // Cours 4
-  { id: 17, coursId: 4, leconId: 1, titre: "Vocabulaire relationnel" },
-  { id: 18, coursId: 4, leconId: 2, titre: "Modéliser un schéma" },
-  { id: 19, coursId: 4, leconId: 3, titre: "Définir des clés étrangères" },
-  { id: 20, coursId: 4, leconId: 4, titre: "Normaliser une table" },
-  { id: 21, coursId: 4, leconId: 5, titre: "Écrire une requête SELECT" },
-  { id: 22, coursId: 4, leconId: 6, titre: "Écrire une requête UPDATE" },
-  { id: 23, coursId: 4, leconId: 7, titre: "Réaliser une jointure" },
+  { id: 12, coursId: 3, leconId: 1, titre: "Exercice 01" },
+  { id: 13, coursId: 3, leconId: 2, titre: "Exercice 02" },
+  { id: 14, coursId: 3, leconId: 3, titre: "Exercice 03" },
+  { id: 15, coursId: 3, leconId: 4, titre: "Exercice 04" },
+  { id: 16, coursId: 3, leconId: 5, titre: "Exercice 05" },
 
-  // Cours 5
-  { id: 24, coursId: 5, leconId: 1, titre: "Analyser un espace existant" },
-  { id: 25, coursId: 5, leconId: 2, titre: "Proposer un plan d'éclairage" },
-  { id: 26, coursId: 5, leconId: 3, titre: "Optimiser un flux de circulation" },
+  { id: 17, coursId: 4, leconId: 1, titre: "Exercice 01" },
+  { id: 18, coursId: 4, leconId: 2, titre: "Exercice 02" },
+  { id: 19, coursId: 4, leconId: 3, titre: "Exercice 03" },
+  { id: 20, coursId: 4, leconId: 4, titre: "Exercice 04" },
+  { id: 21, coursId: 4, leconId: 5, titre: "Exercice 05" },
+  { id: 22, coursId: 4, leconId: 6, titre: "Exercice 06" },
+  { id: 23, coursId: 4, leconId: 7, titre: "Exercice 07" },
+
+  { id: 24, coursId: 5, leconId: 1, titre: "Exercice 01" },
+  { id: 25, coursId: 5, leconId: 2, titre: "Exercice 02" },
+  { id: 26, coursId: 5, leconId: 3, titre: "Exercice 03" },
 ];
 
 export const fakeEtudiantsInscrits = [
@@ -223,4 +226,54 @@ export const fakeSoumissions = [
   { id: 4, etudiant: "Nabil Taleb", exercice: "Modéliser un schéma", cours: "Bases de données", soumisLe: "2026-08-15", corrigeLe: null, note: null },
   { id: 5, etudiant: "Katia Larbi", exercice: "Vocabulaire de réunion", cours: "Anglais des affaires : réunions", soumisLe: "2026-08-16", corrigeLe: null, note: null },
   { id: 6, etudiant: "Yacine Belaïd", exercice: "Mettre en page avec CSS - Flexbox", cours: "Fondations du développement web", soumisLe: "2026-08-17", corrigeLe: null, note: null },
+];
+export const fakeQuestions = [
+  { id: 1, exerciceId: 1, texte: "Quel élément HTML définit l'en-tête d'une page ?", type: "Input" },
+  { id: 2, exerciceId: 1, texte: "Quelle balise est utilisée pour du contenu sémantique de navigation ?", type: "QCM", choix: [
+    { id: 1, texte: "<nav>", correct: true },
+    { id: 2, texte: "<div>", correct: false },
+    { id: 3, texte: "<section>", correct: false },
+    { id: 4, texte: "<link>", correct: false },
+  ]},
+  { id: 3, exerciceId: 1, texte: "Envoyez une capture d'écran de votre page structurée", type: "File Upload" },
+
+
+  { id: 4, exerciceId: 2, texte: "Que fait la propriété justify-content dans un conteneur flex ?", type: "Input" },
+  { id: 5, exerciceId: 2, texte: "Quelle valeur de display active Flexbox ?", type: "QCM", choix: [
+    { id: 1, texte: "flex", correct: true },
+    { id: 2, texte: "block", correct: false },
+    { id: 3, texte: "grid", correct: false },
+    { id: 4, texte: "inline", correct: false },
+  ]},
+  { id: 6, exerciceId: 2, texte: "Envoyez le fichier CSS de votre mise en page", type: "File Upload" },
+
+
+  { id: 7, exerciceId: 3, texte: "Quelle méthode permet de sélectionner un élément par son id ?", type: "Input" },
+  { id: 8, exerciceId: 3, texte: "Quelle méthode ajoute un élément enfant au DOM ?", type: "QCM", choix: [
+    { id: 1, texte: "appendChild()", correct: true },
+    { id: 2, texte: "innerHTML()", correct: false },
+    { id: 3, texte: "getElementById()", correct: false },
+    { id: 4, texte: "querySelector()", correct: false },
+  ]},
+  { id: 9, exerciceId: 3, texte: "Envoyez votre script JavaScript", type: "File Upload" },
+
+  
+  { id: 10, exerciceId: 4, texte: "Expliquez en une phrase à quoi sert l'attribut required", type: "Input" },
+  { id: 11, exerciceId: 4, texte: "Qu'est-ce qu'un composant contrôlé ?", type: "QCM", choix: [
+    { id: 1, texte: "Un composant dont la valeur est gérée par le state de React", correct: true },
+    { id: 2, texte: "Un composant qui ne peut pas recevoir de props", correct: false },
+    { id: 3, texte: "Un composant qui gère lui-même son propre DOM sans React", correct: false },
+    { id: 4, texte: "Un composant utilisé uniquement pour le style", correct: false },
+  ]},
+  { id: 12, exerciceId: 4, texte: "Envoyez une capture de votre formulaire validé", type: "File Upload" },
+
+  
+  { id: 13, exerciceId: 5, texte: "Comment afficher un message d'erreur conditionnellement en React ?", type: "Input" },
+  { id: 14, exerciceId: 5, texte: "Quelle balise regroupe des champs de formulaire liés ?", type: "QCM", choix: [
+    { id: 1, texte: "<fieldset>", correct: true },
+    { id: 2, texte: "<group>", correct: false },
+    { id: 3, texte: "<section>", correct: false },
+    { id: 4, texte: "<form>", correct: false },
+  ]},
+  { id: 15, exerciceId: 5, texte: "Envoyez votre script de classe abstraite", type: "File Upload" },
 ];

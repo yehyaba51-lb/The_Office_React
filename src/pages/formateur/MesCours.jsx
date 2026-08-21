@@ -11,10 +11,8 @@ const MesCours = () => {
     coursSelected.some(c => c.titre === s.cours)
   ).length
   
-  console.log(enrolledStudents);
-  
   return (
-    <div className="flex flex-col gap-4 px-5 mt-8 gap-4 items-center">
+    <div className="flex flex-col px-5 mt-8 gap-4 items-center">
       <SearchBar />
       <CourseCardFormateur cours={ coursSelected } enrolled={ '4' } />
     </div>

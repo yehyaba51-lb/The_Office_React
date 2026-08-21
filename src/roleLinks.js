@@ -10,7 +10,7 @@ export const adminNav = [
 
 export const formateurNav = [
   { to: "/formateur", label: "Tableau de bord", icon: LayoutDashboard, end: true },
-  { to: "/formateur/cours", label: "Mes cours", icon: NotebookText },
+  { to: "/formateur/cours", label: "Mes cours", icon: NotebookText, end: true },
   { to: "/formateur/etudiants", label: "Mes étudiants", icon: UsersRound },
   { to: "/formateur/corrections", label: "Corrections", icon: KeyRound },
 ];
