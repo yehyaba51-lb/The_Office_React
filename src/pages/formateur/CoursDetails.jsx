@@ -30,13 +30,6 @@ const CoursDetails = () => {
     const [searchParams] = useSearchParams()
     const showModal = searchParams.get('create')=== 'true'
     const showSuccess = searchParams.get('success')=== 'true'
-    const showDelete = searchParams.get('delete')=== 'true'
-    const etudiantId = searchParams.get('id')
-  
-    const selectedEtudiant = fakeEtudiantsInscrits.find(etudiant => etudiant.id === Number(etudiantId))
-  
-    const leconId = searchParams.get('leconId')
-    const selectedLecon = fakeLecons.find((lecon) => lecon.coursId === Number(id) && lecon.id === Number(leconId))
   
     const enrolledStudentsNumber = selectedCours ? fakeEtudiantsInscrits.filter(e => e.cours === selectedCours.titre).length : 0
     const numberOfExercices = fakeExercices.filter(e => e.coursId === Number(id)).length
