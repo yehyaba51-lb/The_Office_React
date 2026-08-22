@@ -18,7 +18,9 @@ const FormModal = ({ type, fields, initialData, editFunction }) => {
         <div className='bg-white rounded-2xl px-12 py-8 w-160 flex flex-col gap-5' onClick={(e) => e.stopPropagation()}>
           <div className="flex w-full justify-between items-center">
             <h3 className="font-titres text-bleu-primaire text-xl">{isEditMode ? 'Modifier' : 'Créer'} {type}</h3>
-            <CircleX size={22} className='text-gris-fonce cursor-pointer hover:text-gris-fonce/50 transition duration-300 ease-in-out' onClick={() => navigate(location.pathname)} />
+            <button title='Fermer' className='text-gris-fonce cursor-pointer hover:text-gris-fonce/50 transition duration-300 ease-in-out' onClick={() => navigate(location.pathname)}>
+              <CircleX size={22}  />
+            </button>
           </div>
           <form action="" method="post" className='flex flex-col' >
             {fields.map(field => (

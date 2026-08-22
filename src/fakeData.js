@@ -230,8 +230,8 @@ export const fakeSoumissions = [
 export const fakeQuestions = [
   { id: 1, exerciceId: 1, texte: "Quel élément HTML définit l'en-tête d'une page ?", type: "Input" },
   { id: 2, exerciceId: 1, texte: "Quelle balise est utilisée pour du contenu sémantique de navigation ?", type: "QCM", choix: [
-    { id: 1, texte: "<nav>", correct: true },
-    { id: 2, texte: "<div>", correct: false },
+    { id: 1, texte: "<div>", correct: false },
+    { id: 2, texte: "<nav>", correct: true },
     { id: 3, texte: "<section>", correct: false },
     { id: 4, texte: "<link>", correct: false },
   ]},
@@ -240,9 +240,9 @@ export const fakeQuestions = [
 
   { id: 4, exerciceId: 2, texte: "Que fait la propriété justify-content dans un conteneur flex ?", type: "Input" },
   { id: 5, exerciceId: 2, texte: "Quelle valeur de display active Flexbox ?", type: "QCM", choix: [
-    { id: 1, texte: "flex", correct: true },
-    { id: 2, texte: "block", correct: false },
-    { id: 3, texte: "grid", correct: false },
+    { id: 1, texte: "block", correct: false },
+    { id: 2, texte: "grid", correct: false },
+    { id: 3, texte: "flex", correct: true },
     { id: 4, texte: "inline", correct: false },
   ]},
   { id: 6, exerciceId: 2, texte: "Envoyez le fichier CSS de votre mise en page", type: "File Upload" },
@@ -250,18 +250,18 @@ export const fakeQuestions = [
 
   { id: 7, exerciceId: 3, texte: "Quelle méthode permet de sélectionner un élément par son id ?", type: "Input" },
   { id: 8, exerciceId: 3, texte: "Quelle méthode ajoute un élément enfant au DOM ?", type: "QCM", choix: [
-    { id: 1, texte: "appendChild()", correct: true },
-    { id: 2, texte: "innerHTML()", correct: false },
-    { id: 3, texte: "getElementById()", correct: false },
-    { id: 4, texte: "querySelector()", correct: false },
+    { id: 1, texte: "innerHTML()", correct: false },
+    { id: 2, texte: "getElementById()", correct: false },
+    { id: 3, texte: "querySelector()", correct: false },
+    { id: 4, texte: "appendChild()", correct: true },
   ]},
   { id: 9, exerciceId: 3, texte: "Envoyez votre script JavaScript", type: "File Upload" },
 
   
   { id: 10, exerciceId: 4, texte: "Expliquez en une phrase à quoi sert l'attribut required", type: "Input" },
   { id: 11, exerciceId: 4, texte: "Qu'est-ce qu'un composant contrôlé ?", type: "QCM", choix: [
-    { id: 1, texte: "Un composant dont la valeur est gérée par le state de React", correct: true },
-    { id: 2, texte: "Un composant qui ne peut pas recevoir de props", correct: false },
+    { id: 1, texte: "Un composant qui ne peut pas recevoir de props", correct: false },
+    { id: 2, texte: "Un composant dont la valeur est gérée par le state de React", correct: true },
     { id: 3, texte: "Un composant qui gère lui-même son propre DOM sans React", correct: false },
     { id: 4, texte: "Un composant utilisé uniquement pour le style", correct: false },
   ]},
@@ -270,10 +270,100 @@ export const fakeQuestions = [
   
   { id: 13, exerciceId: 5, texte: "Comment afficher un message d'erreur conditionnellement en React ?", type: "Input" },
   { id: 14, exerciceId: 5, texte: "Quelle balise regroupe des champs de formulaire liés ?", type: "QCM", choix: [
-    { id: 1, texte: "<fieldset>", correct: true },
-    { id: 2, texte: "<group>", correct: false },
-    { id: 3, texte: "<section>", correct: false },
+    { id: 1, texte: "<group>", correct: false },
+    { id: 2, texte: "<section>", correct: false },
+    { id: 3, texte: "<fieldset>", correct: true },
     { id: 4, texte: "<form>", correct: false },
   ]},
   { id: 15, exerciceId: 5, texte: "Envoyez votre script de classe abstraite", type: "File Upload" },
+
+    { id: 16, exerciceId: 17, texte: "Quel type de relation existe entre deux tables lorsqu'une ligne d'une table correspond à plusieurs lignes d'une autre ?", type: "Input" },
+  { id: 17, exerciceId: 17, texte: "Que représente une clé primaire dans une table ?", type: "QCM", choix: [
+    { id: 1, texte: "Un identifiant unique pour chaque ligne", correct: true },
+    { id: 2, texte: "Une colonne facultative", correct: false },
+    { id: 3, texte: "Une colonne toujours en texte", correct: false },
+    { id: 4, texte: "Une colonne dupliquée dans chaque table", correct: false },
+  ]},
+  { id: 18, exerciceId: 17, texte: "Envoyez votre schéma de base de données", type: "File Upload" },
+
+  { id: 19, exerciceId: 18, texte: "À quoi sert une clé étrangère ?", type: "Input" },
+  { id: 20, exerciceId: 18, texte: "Que se passe-t-il avec ON DELETE CASCADE ?", type: "QCM", choix: [
+    { id: 1, texte: "Les lignes liées sont aussi supprimées", correct: true },
+    { id: 2, texte: "Rien ne se passe", correct: false },
+    { id: 3, texte: "La colonne devient NULL", correct: false },
+    { id: 4, texte: "Une erreur est levée", correct: false },
+  ]},
+  { id: 21, exerciceId: 18, texte: "Envoyez votre script SQL de création de table", type: "File Upload" },
+
+  { id: 22, exerciceId: 19, texte: "Expliquez en une phrase le but de la normalisation", type: "Input" },
+  { id: 23, exerciceId: 19, texte: "Quelle forme normale élimine les dépendances partielles ?", type: "QCM", choix: [
+    { id: 1, texte: "1NF", correct: false },
+    { id: 2, texte: "2NF", correct: true },
+    { id: 3, texte: "3NF", correct: false },
+    { id: 4, texte: "BCNF", correct: false },
+  ]},
+  { id: 24, exerciceId: 19, texte: "Envoyez votre table normalisée", type: "File Upload" },
+
+  { id: 25, exerciceId: 20, texte: "Quelle clause filtre les résultats d'une requête SELECT ?", type: "Input" },
+  { id: 26, exerciceId: 20, texte: "Quelle clause trie les résultats ?", type: "QCM", choix: [
+    { id: 1, texte: "GROUP BY", correct: false },
+    { id: 2, texte: "ORDER BY", correct: true },
+    { id: 3, texte: "HAVING", correct: false },
+    { id: 4, texte: "LIMIT", correct: false },
+  ]},
+  { id: 27, exerciceId: 20, texte: "Envoyez votre requête SELECT", type: "File Upload" },
+
+  { id: 28, exerciceId: 21, texte: "Quelle instruction modifie des lignes existantes ?", type: "Input" },
+  { id: 29, exerciceId: 21, texte: "Quelle clause est obligatoire avec UPDATE pour éviter de tout modifier ?", type: "QCM", choix: [
+    { id: 1, texte: "SET", correct: false },
+    { id: 2, texte: "FROM", correct: false },
+    { id: 3, texte: "WHERE", correct: true },
+    { id: 4, texte: "VALUES", correct: false },
+  ]},
+  { id: 30, exerciceId: 21, texte: "Envoyez votre requête UPDATE", type: "File Upload" },
+
+  { id: 31, exerciceId: 22, texte: "Qu'est-ce qu'une jointure interne (INNER JOIN) ?", type: "Input" },
+  { id: 32, exerciceId: 22, texte: "Quelle jointure retourne toutes les lignes de la table de gauche ?", type: "QCM", choix: [
+    { id: 1, texte: "INNER JOIN", correct: false },
+    { id: 2, texte: "RIGHT JOIN", correct: false },
+    { id: 3, texte: "LEFT JOIN", correct: true },
+    { id: 4, texte: "FULL JOIN", correct: false },
+  ]},
+  { id: 33, exerciceId: 22, texte: "Envoyez votre requête avec jointure", type: "File Upload" },
+
+  { id: 34, exerciceId: 23, texte: "Combien de tables minimum faut-il pour une jointure ?", type: "Input" },
+  { id: 35, exerciceId: 23, texte: "Quel mot-clé combine deux SELECT en supprimant les doublons ?", type: "QCM", choix: [
+    { id: 1, texte: "UNION ALL", correct: false },
+    { id: 2, texte: "JOIN", correct: false },
+    { id: 3, texte: "UNION", correct: true },
+    { id: 4, texte: "MERGE", correct: false },
+  ]},
+  { id: 36, exerciceId: 23, texte: "Envoyez votre requête finale", type: "File Upload" },
+
+  { id: 37, exerciceId: 24, texte: "Quel facteur influence le plus le confort visuel dans un espace de travail ?", type: "Input" },
+  { id: 38, exerciceId: 24, texte: "Quelle orientation maximise généralement la lumière naturelle ?", type: "QCM", choix: [
+    { id: 1, texte: "Nord", correct: false },
+    { id: 2, texte: "Sud", correct: true },
+    { id: 3, texte: "Est uniquement", correct: false },
+    { id: 4, texte: "Ouest uniquement", correct: false },
+  ]},
+  { id: 39, exerciceId: 24, texte: "Envoyez votre analyse d'espace", type: "File Upload" },
+
+  { id: 40, exerciceId: 25, texte: "Pourquoi l'éclairage indirect est-il souvent préféré en open space ?", type: "Input" },
+  { id: 41, exerciceId: 25, texte: "Quel type d'éclairage réduit le plus l'éblouissement sur écran ?", type: "QCM", choix: [
+    { id: 1, texte: "Éclairage direct fort", correct: false },
+    { id: 2, texte: "Éclairage indirect diffus", correct: true },
+    { id: 3, texte: "Aucun éclairage artificiel", correct: false },
+    { id: 4, texte: "Néons apparents", correct: false },
+  ]},
+  { id: 42, exerciceId: 25, texte: "Envoyez votre plan d'éclairage", type: "File Upload" },
+
+  { id: 43, exerciceId: 26, texte: "Qu'est-ce qu'un flux de circulation dans un espace de travail ?", type: "Input" },
+  { id: 44, exerciceId: 26, texte: "Quelle largeur minimale est généralement recommandée pour un couloir principal ?", type: "QCM", choix: [
+    { id: 1, texte: "60 cm", correct: false },
+    { id: 2, texte: "90 cm", correct: false },
+    { id: 3, texte: "120 cm", correct: true },
+    { id: 4, texte: "30 cm", correct: false },
+  ]},
+  { id: 45, exerciceId: 26, texte: "Envoyez votre plan de circulation", type: "File Upload" },
 ];

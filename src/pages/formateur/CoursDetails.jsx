@@ -7,7 +7,7 @@ import SuccessModal from "../../components/modals/SuccessModal";
 import ConfirmModal from "../../components/modals/ConfirmModal";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { etudiantsInscritsColumns } from "../../fakeData";
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 import { FileX } from 'lucide-react';
 
 const CoursDetails = () => {
@@ -41,12 +41,9 @@ const CoursDetails = () => {
     const enrolledStudentsNumber = selectedCours ? fakeEtudiantsInscrits.filter(e => e.cours === selectedCours.titre).length : 0
     const numberOfExercices = fakeExercices.filter(e => e.coursId === Number(id)).length
     
-    const supprimerCours = () => {
-      toast.success("Inscription supprimer");
-    }
 
-  const [isEditSpec, setIsEditSpec] = useState(false)
-  const [description, setDescription] = useState(selectedCours ? selectedCours.description : '')
+    const [isEditSpec, setIsEditSpec] = useState(false)
+    const [description, setDescription] = useState(selectedCours ? selectedCours.description : '')
 
 
   return (
@@ -55,10 +52,7 @@ const CoursDetails = () => {
         <LessonBuilderModal lecon={ selectedLecons } />
       )}
       {showSuccess && (
-        <SuccessModal type={ 'Lecçon' } content = { selectedLecon?.titre } create={ true } lecon={ true } />
-      )}
-      {showDelete && (
-        <ConfirmModal name={ 'hello' } type={ "l'inscription" } inscriptionEtudiant={ selectedEtudiant.etudiant } deleteFunction={ supprimerCours } irreversible={ false } />
+        <SuccessModal type={ 'Leçon' } content = { selectedCours?.titre } create={ true } lecon={ true } />
       )}
       {selectedCours && selectedCours.lecons > 0 ? (
         <>

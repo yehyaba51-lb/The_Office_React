@@ -49,7 +49,7 @@ const App = () => {
           <Route path="/formateur/etudiants" element={<MesEtudiants />} handle={{ titre: 'Mes étudiants', sousTitre: "Belkacem Nadia" }} />
           <Route path="/formateur/corrections" element={<Corrections />} handle={{ titre: 'Corrections', sousTitre: "Belkacem Nadia" }} />
           <Route path="/formateur/cours/:id" element={<CoursDetails />} handle={{ titre: 'Prise de parole en public', sousTitre: "Retour aux cours", backLink: '/formateur/cours', addButton:'Ajouter leçon' }} />
-          <Route path="/formateur/cours/:id/:id" element={<ExercicePage />} handle={{ titre: 'Prise de parole en public', sousTitre: "Retour aux cours", backLink: '/formateur/cours/:id', addButton:'Ajouter question' }} />
+          <Route path="/formateur/cours/:id/:exerciceId" element={<ExercicePage />} handle={{ titre: 'Prise de parole en public', sousTitre: "Retour aux cours", backLink: '/formateur/cours/:id', addButton:'Ajouter question' }} />
         </Route>
 
         <Route path='/' element={<MainLayout role={'etudiant'} />}>

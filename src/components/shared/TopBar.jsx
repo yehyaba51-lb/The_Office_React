@@ -32,9 +32,9 @@ const TopBar = () => {
         </div>
         <div className='flex items-center gap-5'>
           {addButton ? (
-            <div className='flex items-center rounded bg-orange-cuivre px-4 py-1 gap-1 hover:bg-orange-cuivre/90 transition duration-300 ease-in-out cursor-pointer'>
+            <div onClick={() => navigate(`${location.pathname}?create=true`)} className='flex items-center rounded bg-orange-cuivre px-4 py-1 gap-1 hover:bg-orange-cuivre/90 transition duration-300 ease-in-out cursor-pointer'>
               <Plus className='text-white' size={15} />
-              <button onClick={() => navigate(`${location.pathname}?create=true`)} className='text-white text-sm font-semibold cursor-pointer'>{addButton}</button>
+              <button className='text-white text-sm font-semibold cursor-pointer'>{addButton}</button>
             </div>
           ) : ''}
           <div className="border-2 border-gris-clair h-8 flex items-center px-1 rounded-lg">
