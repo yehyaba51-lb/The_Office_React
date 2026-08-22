@@ -102,12 +102,12 @@ const AddQuestionModal = ({ initialData, editFunction }) => {
                       type="text"
                       name="choix_un"
                       id="choix_un"
-                      defaultValue={initialData[0].choix[0].texte}
+                      defaultValue={isEditMode ? initialData[0].choix[0].texte : ''}
                     />
                     <input
                       type="radio"
                       name="bonne_reponse"
-                      defaultChecked={initialData[0].choix[0].correct}
+                      defaultChecked={isEditMode ? initialData[0].choix[0].correct : ''}
                       className="accent-orange-cuivre"
                     />
                   </div>
@@ -122,12 +122,12 @@ const AddQuestionModal = ({ initialData, editFunction }) => {
                       type="text"
                       name="choix_deux"
                       id="choix_deux"
-                      defaultValue={initialData[0].choix[1].texte}
+                      defaultValue={isEditMode ? initialData[0].choix[1].texte : ''}
                     />
                     <input
                       type="radio"
                       name="bonne_reponse"
-                      defaultChecked={initialData[0].choix[1].correct}
+                      defaultChecked={isEditMode ? initialData[0].choix[1].correct : ''}
                       className="accent-orange-cuivre"
                     />
                   </div>
@@ -142,12 +142,12 @@ const AddQuestionModal = ({ initialData, editFunction }) => {
                       type="text"
                       name="choix_trois"
                       id="choix_trois"
-                      defaultValue={initialData[0].choix[2].texte}
+                      defaultValue={isEditMode ? initialData[0].choix[2].texte : ''}
                     />
                     <input
                       type="radio"
                       name="bonne_reponse"
-                      defaultChecked={initialData[0].choix[2].correct}
+                      defaultChecked={isEditMode ? initialData[0].choix[2].correct : ''}
                       className="accent-orange-cuivre"
                     />
                   </div>
@@ -162,12 +162,12 @@ const AddQuestionModal = ({ initialData, editFunction }) => {
                       type="text"
                       name="choix_quatre"
                       id="choix_quatre"
-                      defaultValue={initialData[0].choix[3].texte}
+                      defaultValue={isEditMode ? initialData[0].choix[3].texte : ''}
                     />
                     <input
                       type="radio"
                       name="bonne_reponse"
-                      defaultChecked={initialData[0].choix[3].correct}
+                      defaultChecked={isEditMode ? initialData[0].choix[3].correct : ''}
                       className="accent-orange-cuivre"
                     />
                   </div>
