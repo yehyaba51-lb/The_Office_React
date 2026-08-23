@@ -11,7 +11,8 @@ import Utilisateurs from './pages/admin/Utilisateurs'
 import Cours from './pages/admin/Cours'
 import AccesPage from './pages/admin/AccesPage'
 import Categorie from './pages/admin/Categorie'
-import CoursDetails from './pages/formateur/CoursDetails'
+import CoursDetails from './pages/admin/CoursDetails'
+import CoursDetailsFormateur from './pages/formateur/CoursDetails'
 import ExercicePage from './pages/formateur/ExercicePage'
 import TableauDeBordFormateur from "./pages/formateur/TableauDeBordFormateur";
 import MesCours from "./pages/formateur/MesCours";
@@ -48,7 +49,7 @@ const App = () => {
           <Route path="/formateur/cours" element={<MesCours />} handle={{ titre: 'Mes cours', sousTitre: "Belkacem Nadia" }} />
           <Route path="/formateur/etudiants" element={<MesEtudiants />} handle={{ titre: 'Mes étudiants', sousTitre: "Belkacem Nadia" }} />
           <Route path="/formateur/corrections" element={<Corrections />} handle={{ titre: 'Corrections', sousTitre: "Belkacem Nadia" }} />
-          <Route path="/formateur/cours/:id" element={<CoursDetails />} handle={{ titre: 'Prise de parole en public', sousTitre: "Retour aux cours", backLink: '/formateur/cours', addButton:'Ajouter leçon' }} />
+          <Route path="/formateur/cours/:id" element={<CoursDetailsFormateur />} handle={{ titre: 'Prise de parole en public', sousTitre: "Retour aux cours", backLink: '/formateur/cours', addButton:'Ajouter leçon' }} />
           <Route path="/formateur/cours/:id/:exerciceId" element={<ExercicePage />} handle={{ titre: 'Prise de parole en public', sousTitre: "Retour aux cours", backLink: '/formateur/cours/:id', addButton:'Ajouter question' }} />
         </Route>
 

@@ -13,6 +13,13 @@
 
   --font-titres: 'Manrope', sans-serif;
   --font-texte: 'Inter', sans-serif;
+
+  --text-h1: 48px;
+  --text-h2: 36px;
+  --text-h3: 28px;
+  --text-h4: 22px;
+  --text-body: 16px;
+  --text-small: 14px;
 }
 
 body {

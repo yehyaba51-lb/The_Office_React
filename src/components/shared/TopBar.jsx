@@ -15,13 +15,15 @@ const TopBar = () => {
   const { id } = useParams()
   const selectedCours = fakeCoursDetail.find(cours => cours.id === Number(id))
 
+  const finalBackLink = id ? backLink.replace(':id', id) : backLink
+
   const displayTitre = selectedCours ? selectedCours.titre : titre
   return (
     <>
       <div className='flex justify-between w-full p-5'>
         <div className="flex flex-col gap-1">
         {backLink && (
-          <Link to='/admin/cours' className='text-gris-fonce text-sm flex items-center gap-1'>
+          <Link to={ finalBackLink } className='text-gris-fonce text-sm flex items-center gap-1'>
             <MoveLeft size='15' /> {sousTitre}
           </Link>
         )}

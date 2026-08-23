@@ -1,8 +1,10 @@
 import React from 'react'
 
-const BreadCrumb = () => {
+const BreadCrumb = ({ cours, exo }) => {
   return (
-    <div>BreadCrumb</div>
+    <p className='text-sm text-bleu-secondaire'>
+        {`${cours} › ${exo}`}
+    </p>
   )
 }
 

@@ -6,8 +6,6 @@ import Spinner from '../../components/shared/Spinner'
 const CourseCardFormateur = ({ cours, enrolled }) => {
   const [imageLoadedCount, setImageLoadedCount] = useState(0)
   const allLoaded = imageLoadedCount >= cours.length
-
-  console.log(allLoaded);
   
   return (
     <>
@@ -26,7 +24,7 @@ const CourseCardFormateur = ({ cours, enrolled }) => {
                   <img src={c.imageUrl} onLoad={() => {console.log('image loaded'); setImageLoadedCount(prev => prev + 1)}} alt="cours_image" className='rounded-t-2xl w-full' />
                 </div>
                 <div className='flex flex-col gap-1 p-3'>
-                  <h3 className='text-xl font-semibold text-bleu-principal'>{c.titre}</h3>
+                  <h3 className='font-titres text-xl font-semibold text-bleu-principal'>{c.titre}</h3>
                   <p className='text-md text-bleu-secondaire'>{c.description}</p>
                   <div className='flex justify-between'>
                     <p className='text-gris-fonce text-md'>{enrolled} étudiants inscrits</p>
@@ -34,7 +32,7 @@ const CourseCardFormateur = ({ cours, enrolled }) => {
                   </div>
                   <div className="flex flex-col gap-2 my-3">
                     <div className="flex justify-between items-center">
-                      <h3 className="text-md font-semibold text-bleu-principal">Complétion</h3>
+                      <h3 className="font-titres text-md font-semibold text-bleu-principal">Complétion</h3>
                       <p  className='text-orange-cuivre font-semibold'>2/4</p>
                     </div>
                     <div className="w-full">

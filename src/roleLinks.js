@@ -1,4 +1,4 @@
-import { LayoutDashboard, UsersRound, NotebookText, LayoutList, KeyRound } from "lucide-react";
+import { LayoutDashboard, UsersRound, NotebookText, LayoutList, KeyRound, ClipboardList } from "lucide-react";
 
 export const adminNav = [
   { to: "/admin", label: "Tableau de bord", icon: LayoutDashboard, end: true },
@@ -12,7 +12,7 @@ export const formateurNav = [
   { to: "/formateur", label: "Tableau de bord", icon: LayoutDashboard, end: true },
   { to: "/formateur/cours", label: "Mes cours", icon: NotebookText, end: true },
   { to: "/formateur/etudiants", label: "Mes étudiants", icon: UsersRound },
-  { to: "/formateur/corrections", label: "Corrections", icon: KeyRound },
+  { to: "/formateur/corrections", label: "Corrections", icon: ClipboardList },
 ];
 
 export const etudiantNav = [

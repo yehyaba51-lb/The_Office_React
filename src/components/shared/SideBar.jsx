@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import logo from "../../assets/logo.png";
 import logoLampe from "../../assets/logo-lampe.png";
-import { LayoutDashboard } from "lucide-react";
-import { UsersRound } from "lucide-react";
-import { NotebookText } from "lucide-react";
-import { LayoutList } from "lucide-react";
-import { KeyRound } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import { ChevronsRightLeft } from "lucide-react";

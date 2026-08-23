@@ -63,7 +63,7 @@ const Cours = () => {
         </select>
       </div>
       <div className='px-5 py-3'>
-        <TableData columns={ coursColumns } rows={ filteredcours } onClickRow = {true} />
+        <TableData columns={ coursColumns } rows={ filteredcours } onClickRow = { true } />
       </div>
     </div>
   )

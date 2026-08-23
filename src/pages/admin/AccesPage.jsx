@@ -71,7 +71,7 @@ const AccesPage = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-5">
-                    <h4 className="text-md text-gris-fonce">{access.date}</h4>
+                    <h4 className="font-titres text-md text-gris-fonce">{access.date}</h4>
                     <CircleX size={18} className='cursor-pointer hover:text-gris-fonce/40 transition duration-300 ease-in-out' onClick={() => navigate(`${location.pathname}?delete=true&id=${access.id}`)} />
                   </div>
                 </div>

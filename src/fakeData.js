@@ -1,5 +1,49 @@
 import { Pencil, Trash2 } from "lucide-react";
 
+export const userColumns = [
+  { label: 'PRENOM', key: 'prenom' },
+  { label: 'NOM', key: 'nom' },
+  { label: 'EMAIL', key: 'email' },
+  { label: 'ROLE', key: 'role' },
+];
+
+export const coursColumns = [
+  { label: 'TITRE', key: 'titre' },
+  { label: 'FORMATEUR', key: 'formateur' },
+  { label: 'DESCRIPTION', key: 'description' },
+  { label: 'CATÉGORIE', key: 'categorie' },
+  { label: 'LEÇONS', key: 'lecons' },
+];
+
+export const categorieColumns = [
+  { label: 'NOM', key: 'nom' },
+  { label: 'COURS', key: 'coursCount' },
+];
+
+export const etudiantsInscritsColumns = [
+  { label: "ÉTUDIANT", key: "etudiant" },
+  { label: "INSCRIT LE", key: "inscritLe" },
+  { label: "PROGRESSION", key: "progression" },
+  { label: "NOTE FINALE", key: "noteFinale" },
+];
+
+export const mesEtudiantsColumns = [
+  { label: "ÉTUDIANT", key: "etudiant" },
+  { label: "COURS", key: "cours" },
+  { label: "INSCRIT LE", key: "inscritLe" },
+  { label: "PROGRESSION", key: "progression" },
+  { label: "NOTE FINALE", key: "noteFinale" },
+];
+
+export const correctionsColumns = [
+  { label: "ÉTUDIANT", key: "etudiant" },
+  { label: "COURS", key: "cours" },
+  { label: "QUESTION", key: "question" },
+  { label: "SOUMIS LE", key: "soumisLe" },
+  { label: "TYPE", key: "type" },
+  { label: "STATUT", key: "statut" },
+];
+
 export const fakeUsers = [
   { id: 0, prenom: "Ikram", nom: "Djeghali", email: "ikram.gjeghali@gmail.com", role: "Administrateur", creeLe: "2026-07-19", edit: Pencil, delete: Trash2 },
   { id: 1, prenom: "Yacine", nom: "Belaïd", email: "yacine.belaid@gmail.com", role: "Etudiant", creeLe: "2026-07-25", edit: Pencil, delete: Trash2 },
@@ -32,33 +76,6 @@ export const fakeAcces = [
   { id: 3, etudiant: "Ryma Ouahab", cours: "Fondations du développement web", date: "2026-08-02" },
   { id: 4, etudiant: "Nabil Taleb", cours: "Bases de données", date: "2026-08-05" },
   { id: 5, etudiant: "Katia Larbi", cours: "Gestion d'équipe et leadership", date: "2026-08-10" },
-];
-
-export const userColumns = [
-  { label: 'PRENOM', key: 'prenom' },
-  { label: 'NOM', key: 'nom' },
-  { label: 'EMAIL', key: 'email' },
-  { label: 'ROLE', key: 'role' },
-];
-
-export const coursColumns = [
-  { label: 'TITRE', key: 'titre' },
-  { label: 'FORMATEUR', key: 'formateur' },
-  { label: 'DESCRIPTION', key: 'description' },
-  { label: 'CATÉGORIE', key: 'categorie' },
-  { label: 'LEÇONS', key: 'lecons' },
-];
-
-export const categorieColumns = [
-  { label: 'NOM', key: 'nom' },
-  { label: 'COURS', key: 'coursCount' },
-];
-
-export const etudiantsInscritsColumns = [
-  { label: "ÉTUDIANT", key: "etudiant" },
-  { label: "INSCRIT LE", key: "inscritLe" },
-  { label: "PROGRESSION", key: "progression" },
-  { label: "NOTE FINALE", key: "noteFinale" },
 ];
 
 export const fakeCoursDetail = [
@@ -220,13 +237,14 @@ export const fakeActivitesEtudiant = [
 ];
 
 export const fakeSoumissions = [
-  { id: 1, etudiant: "Yacine Belaïd", exercice: "Structurer une page HTML", cours: "Fondations du développement web", soumisLe: "2026-07-18", corrigeLe: "2026-07-20", note: 16 },
-  { id: 2, etudiant: "Amina Kerrouche", exercice: "Mettre en page avec CSS - Flexbox", cours: "Fondations du développement web", soumisLe: "2026-08-14", corrigeLe: null, note: null },
-  { id: 3, etudiant: "Ryma Ouahab", exercice: "Introduction aux bases de données", cours: "Bases de données", soumisLe: "2026-07-25", corrigeLe: "2026-07-27", note: 18 },
-  { id: 4, etudiant: "Nabil Taleb", exercice: "Modéliser un schéma", cours: "Bases de données", soumisLe: "2026-08-15", corrigeLe: null, note: null },
-  { id: 5, etudiant: "Katia Larbi", exercice: "Vocabulaire de réunion", cours: "Anglais des affaires : réunions", soumisLe: "2026-08-16", corrigeLe: null, note: null },
-  { id: 6, etudiant: "Yacine Belaïd", exercice: "Mettre en page avec CSS - Flexbox", cours: "Fondations du développement web", soumisLe: "2026-08-17", corrigeLe: null, note: null },
+  { id: 1, etudiant: "Yacine Belaïd", questionId: 1, exercice: "Structurer une page HTML", cours: "Fondations du développement web", type: "Input", reponse: "C'est la balise <header> qui définit l'en-tête d'une page HTML.", soumisLe: "2026-07-18", corrigeLe: "2026-07-20", note: 16, commentaire: "Ce n'est pas tout à fait exact — la balise <header> ne définit pas l'en-tête d'une page HTML, c'est <head> qui joue ce rôle." },
+  { id: 2, etudiant: "Amina Kerrouche", questionId: 5, exercice: "Mettre en page avec CSS - Flexbox", cours: "Fondations du développement web", type: "QCM", reponseChoixId: 1, soumisLe: "2026-08-14", corrigeLe: null, note: null, commentaire: null },
+  { id: 3, etudiant: "Ryma Ouahab", questionId: 16, exercice: "Introduction aux bases de données", cours: "Bases de données", type: "Input", reponse: "Une relation un-à-plusieurs.", soumisLe: "2026-07-25", corrigeLe: "2026-07-27", note: 18, commentaire: "Correct, bien expliqué." },
+  { id: 4, etudiant: "Nabil Taleb", questionId: 17, exercice: "Modéliser un schéma", cours: "Bases de données", type: "QCM", reponseChoixId: 2, soumisLe: "2026-08-15", corrigeLe: null, note: null, commentaire: null },
+  { id: 5, etudiant: "Katia Larbi", questionId: 3, exercice: "Vocabulaire de réunion", cours: "Anglais des affaires : réunions", type: "File Upload", reponseFichier: "vocabulaire_reunion.pdf", soumisLe: "2026-08-16", corrigeLe: null, note: null, commentaire: null },
+  { id: 6, etudiant: "Yacine Belaïd", questionId: 6, exercice: "Mettre en page avec CSS - Flexbox", cours: "Fondations du développement web", type: "File Upload", reponseFichier: "flexbox_layout.css", soumisLe: "2026-08-17", corrigeLe: null, note: null, commentaire: null },
 ];
+
 export const fakeQuestions = [
   { id: 1, exerciceId: 1, texte: "Quel élément HTML définit l'en-tête d'une page ?", type: "Input" },
   { id: 2, exerciceId: 1, texte: "Quelle balise est utilisée pour du contenu sémantique de navigation ?", type: "QCM", choix: [

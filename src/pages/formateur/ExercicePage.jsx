@@ -62,7 +62,7 @@ const ExercicePage = () => {
       {selectedQuestions.map((question) => (
         <div className="m-5  border-2 border-gris-clair rounded-2xl px-5 py-4 flex flex-col gap-2 items-start justify-between">
           <div className="flex justify-between w-full items-center">
-            <h3 className="block text-bleu-principal font-semibold">
+            <h3 className="font-titres block text-bleu-principal font-semibold">
               {question.texte}
             </h3>
             <div className="flex w-1/6 justify-between">
