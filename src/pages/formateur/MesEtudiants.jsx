@@ -13,7 +13,6 @@ const MesEtudiants = () => {
     if(filter === 'tous') return true
     return e.cours === filter
   })
-  console.log(filteredArray);
   
   return (
     <div >

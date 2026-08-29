@@ -17,7 +17,7 @@ export const formateurNav = [
 
 export const etudiantNav = [
   { to: "/etudiant", label: "Tableau de bord", icon: LayoutDashboard, end: true },
-  { to: "/etudiant/mes-cours", label: "Mes cours", icon: NotebookText },
-  { to: "/etudiant/mes-exercices", label: "Mes exercices", icon: LayoutList },
-  { to: "/etudiant/mes-notes", label: "Mes notes", icon: KeyRound },
+  { to: "/etudiant/cours", label: "Mes cours", icon: NotebookText, end: true },
+  { to: "/etudiant/exercices", label: "Mes exercices", icon: LayoutList, end: true },
+  { to: "/etudiant/notes", label: "Mes notes", icon: KeyRound, end: true },
 ];

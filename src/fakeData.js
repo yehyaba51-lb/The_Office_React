@@ -1,4 +1,6 @@
 import { Pencil, Trash2 } from "lucide-react";
+import videoPic from './assets/Video_thumbnail.png';
+import videoFile from './assets/Celldweller - Fadeaway.mp4';
 
 export const userColumns = [
   { label: 'PRENOM', key: 'prenom' },
@@ -44,6 +46,13 @@ export const correctionsColumns = [
   { label: "STATUT", key: "statut" },
 ];
 
+export const mesNotesColumns = [
+  { label: "EXERCICE", key: "exercice" },
+  { label: "COURS", key: "cours" },
+  { label: "SOUMIS LE", key: "soumisLe" },
+  { label: "NOTE", key: "note" },
+];
+
 export const fakeUsers = [
   { id: 0, prenom: "Ikram", nom: "Djeghali", email: "ikram.gjeghali@gmail.com", role: "Administrateur", creeLe: "2026-07-19", edit: Pencil, delete: Trash2 },
   { id: 1, prenom: "Yacine", nom: "Belaïd", email: "yacine.belaid@gmail.com", role: "Etudiant", creeLe: "2026-07-25", edit: Pencil, delete: Trash2 },
@@ -52,14 +61,16 @@ export const fakeUsers = [
   { id: 4, prenom: "Sofiane", nom: "Ghomari", email: "sofiane.ghomari@gmail.com", role: "Formateur", creeLe: "2026-07-24", edit: Pencil, delete: Trash2 },
   { id: 5, prenom: "Ryma", nom: "Ouahab", email: "ryma.ouahab@gmail.com", role: "Etudiant", creeLe: "2026-08-08", edit: Pencil, delete: Trash2 },
   { id: 6, prenom: "Islam", nom: "Bensalem", email: "islam.bensalem@gmail.com", role: "Formateur", creeLe: "2026-08-15", edit: Pencil, delete: Trash2 },
+  { id: 7, prenom: "Nabil", nom: "Taleb", email: "nabil.taleb@gmail.com", role: "Etudiant", creeLe: "2026-08-10", edit: Pencil, delete: Trash2 },
+  { id: 8, prenom: "Katia", nom: "Larbi", email: "katia.larbi@gmail.com", role: "Etudiant", creeLe: "2026-08-12", edit: Pencil, delete: Trash2 },
 ];
 
 export const fakeCours = [
-  { id: 1, titre: "Fondations du développement web", formateur: "Nadia Belkacem", description: "HTML sémantique, CSS moderne et premiers pas en JavaScript.", categorie: "Informatique", lecons: 4, creeLe: "2026-07-10", imageUrl: "https://picsum.photos/seed/webdev/600/300", edit: Pencil, delete: Trash2 },
-  { id: 2, titre: "Anglais des affaires : réunions", formateur: "Sofiane Ghomari", description: "Animer, participer et conclure une réunion professionnelle en anglais.", categorie: "Soft skills", lecons: 6, creeLe: "2026-07-18", imageUrl: "https://picsum.photos/seed/meeting/600/300", edit: Pencil, delete: Trash2 },
-  { id: 3, titre: "Gestion d'équipe et leadership", formateur: "Islam Bensalem", description: "Motiver, déléguer et gérer les conflits au sein d'une équipe.", categorie: "Management", lecons: 5, creeLe: "2026-08-05", imageUrl: "https://picsum.photos/seed/leadership/600/300", edit: Pencil, delete: Trash2 },
-  { id: 4, titre: "Bases de données", formateur: "Nadia Belkacem", description: "Modélisation relationnelle, SQL et normalisation.", categorie: "Informatique", lecons: 7, creeLe: "2026-07-22", imageUrl: "https://picsum.photos/seed/database/600/300", edit: Pencil, delete: Trash2 },
-  { id: 5, titre: "Conception architecturale et espaces de travail", formateur: "Yasmine Haddad", description: "Principes de conception d'espaces collaboratifs modernes.", categorie: "Architecture", lecons: 3, creeLe: "2026-08-12", imageUrl: "https://picsum.photos/seed/architecture/600/300", edit: Pencil, delete: Trash2 },
+  { id: 1, titre: "Fondations du développement web", formateur: "Nadia Belkacem", description: "Ce cours s'adresse aux débutants souhaitant acquérir les bases du développement web moderne : structure HTML sémantique, mise en forme CSS (Flexbox, Grid, responsive design), et premiers pas en JavaScript pour rendre une page interactive.Les participants apprendront à construire des pages accessibles et bien structurées, à les styliser de manière cohérente, et à manipuler le DOM pour ajouter de l'interactivité de base — tout en suivant les bonnes pratiques de validation de formulaires et d'accessibilité.À l'issue du cours, ils seront capables de construire une page web complète et fonctionnelle à partir de zéro.", categorie: "Informatique", lecons: 4, creeLe: "2026-07-10", imageUrl: "https://picsum.photos/seed/webdev/600/300", edit: Pencil, delete: Trash2 },
+  { id: 2, titre: "Anglais des affaires : réunions", formateur: "Sofiane Ghomari", description: "Ce cours s'adresse aux professionnels souhaitant gagner en aisance lors de réunions en anglais, qu'il s'agisse de réunions internes, d'appels clients, ou de présentations à distance.À travers des mises en situation réalistes, les participants apprendront le vocabulaire clé pour ouvrir et clore une réunion, exprimer un désaccord poliment, relancer un point de discussion, et prendre la parole avec assurance face à un auditoire international.À l'issue du cours, les participants seront capables de participer activement à une réunion professionnelle en anglais et d'en assurer l'animation si nécessaire.", categorie: "Soft skills", lecons: 6, creeLe: "2026-07-18", imageUrl: "https://picsum.photos/seed/meeting/600/300", edit: Pencil, delete: Trash2 },
+  { id: 3, titre: "Gestion d'équipe et leadership", formateur: "Islam Bensalem", description: "Ce cours s'adresse à toute personne amenée à encadrer une équipe, qu'elle soit déjà manager ou en passe de le devenir.Les participants apprendront à identifier les différents styles de management, à déléguer efficacement sans perdre le contrôle, à donner un feedback constructif, et à gérer les conflits interpersonnels au sein de leur équipe.À l'issue du cours, ils seront capables d'adapter leur style de leadership au contexte et de conduire leur équipe vers des objectifs communs avec plus de confiance.", categorie: "Management", lecons: 5, creeLe: "2026-08-05", imageUrl: "https://picsum.photos/seed/leadership/600/300", edit: Pencil, delete: Trash2 },
+  { id: 4, titre: "Bases de données", formateur: "Nadia Belkacem", description: "Ce cours s'adresse aux étudiants souhaitant comprendre comment structurer et interroger efficacement des données relationnelles.Les participants apprendront à modéliser un schéma de base de données cohérent (entités, relations, clés primaires et étrangères), à appliquer les règles de normalisation pour éviter la redondance, et à écrire des requêtes SQL pour créer, lire, modifier et supprimer des données.À l'issue du cours, ils seront capables de concevoir une base de données pour un projet réel et d'en interroger le contenu avec assurance.", categorie: "Informatique", lecons: 7, creeLe: "2026-07-22", imageUrl: "https://picsum.photos/seed/database/600/300", edit: Pencil, delete: Trash2 },
+  { id: 5, titre: "Conception architecturale et espaces de travail", formateur: "Yasmine Haddad", description: "Ce cours s'adresse aux personnes intéressées par la conception d'espaces de travail modernes et fonctionnels.Les participants apprendront les principes fondamentaux d'aménagement d'espaces collaboratifs : optimisation de la lumière naturelle, gestion des flux de circulation, acoustique, et équilibre entre espaces ouverts et zones de concentration.À l'issue du cours, ils seront capables de proposer une conception d'espace de travail adaptée aux besoins réels de ses futurs occupants.", categorie: "Architecture", lecons: 3, creeLe: "2026-08-12", imageUrl: "https://picsum.photos/seed/architecture/600/300", edit: Pencil, delete: Trash2 },
   { id: 6, titre: "Cours sans contenu", formateur: "Sofiane Ghomari", description: "", categorie: "Informatique", lecons: 0, creeLe: "2026-08-18", imageUrl: null, edit: Pencil, delete: Trash2 },
 ];
 
@@ -190,11 +201,15 @@ export const fakeExercices = [
 ];
 
 export const fakeEtudiantsInscrits = [
-  { id: 1, etudiant: "Yacine Belaïd", cours: "Fondations du développement web", inscritLe: "2026-07-18", progression: "4/4", noteFinale: 14, delete: Trash2 },
-  { id: 2, etudiant: "Amina Kerrouche", cours: "Fondations du développement web", inscritLe: "2026-07-20", progression: "2/4", noteFinale: null, delete: Trash2 },
-  { id: 3, etudiant: "Ryma Ouahab", cours: "Bases de données", inscritLe: "2026-07-25", progression: "4/4", noteFinale: 16, delete: Trash2 },
-  { id: 4, etudiant: "Nabil Taleb", cours: "Gestion d'équipe et leadership", inscritLe: "2026-08-01", progression: "1/4", noteFinale: null, delete: Trash2 },
-  { id: 5, etudiant: "Katia Larbi", cours: "Anglais des affaires : réunions", inscritLe: "2026-08-05", progression: "3/4", noteFinale: null, delete: Trash2 },
+  { id: 1, userId: 1, etudiant: "Yacine Belaïd", coursId: 1, cours: "Fondations du développement web", inscritLe: "2026-07-18", progression: "4/4", noteFinale: 14, delete: Trash2 },
+  { id: 2, userId: 2, etudiant: "Amina Kerrouche", coursId: 1, cours: "Fondations du développement web", inscritLe: "2026-07-20", progression: "2/4", noteFinale: null, delete: Trash2 },
+  { id: 3, userId: 5, etudiant: "Ryma Ouahab", coursId: 4, cours: "Bases de données", inscritLe: "2026-07-25", progression: "4/4", noteFinale: 16, delete: Trash2 },
+  { id: 4, userId: 7, etudiant: "Nabil Taleb", coursId: 3, cours: "Gestion d'équipe et leadership", inscritLe: "2026-08-01", progression: "1/4", noteFinale: null, delete: Trash2 },
+  { id: 5, userId: 8, etudiant: "Katia Larbi", coursId: 2, cours: "Anglais des affaires : réunions", inscritLe: "2026-08-05", progression: "3/4", noteFinale: null, delete: Trash2 },
+  { id: 6, userId: 1, etudiant: "Yacine Belaïd", coursId: 4, cours: "Bases de données", inscritLe: "2026-08-01", progression: "2/7", noteFinale: null, delete: Trash2 },
+  { id: 7, userId: 1, etudiant: "Yacine Belaïd", coursId: 2, cours: "Anglais des affaires : réunions", inscritLe: "2026-08-10", progression: "1/6", noteFinale: null, delete: Trash2 },
+  { id: 8, userId: 2, etudiant: "Amina Kerrouche", coursId: 4, cours: "Bases de données", inscritLe: "2026-08-05", progression: "3/7", noteFinale: null, delete: Trash2 },
+  { id: 9, userId: 5, etudiant: "Ryma Ouahab", coursId: 3, cours: "Gestion d'équipe et leadership", inscritLe: "2026-08-08", progression: "5/5", noteFinale: 15, delete: Trash2 },
 ];
 
 export const fakeActivites = [
@@ -237,12 +252,54 @@ export const fakeActivitesEtudiant = [
 ];
 
 export const fakeSoumissions = [
-  { id: 1, etudiant: "Yacine Belaïd", questionId: 1, exercice: "Structurer une page HTML", cours: "Fondations du développement web", type: "Input", reponse: "C'est la balise <header> qui définit l'en-tête d'une page HTML.", soumisLe: "2026-07-18", corrigeLe: "2026-07-20", note: 16, commentaire: "Ce n'est pas tout à fait exact — la balise <header> ne définit pas l'en-tête d'une page HTML, c'est <head> qui joue ce rôle." },
-  { id: 2, etudiant: "Amina Kerrouche", questionId: 5, exercice: "Mettre en page avec CSS - Flexbox", cours: "Fondations du développement web", type: "QCM", reponseChoixId: 1, soumisLe: "2026-08-14", corrigeLe: null, note: null, commentaire: null },
-  { id: 3, etudiant: "Ryma Ouahab", questionId: 16, exercice: "Introduction aux bases de données", cours: "Bases de données", type: "Input", reponse: "Une relation un-à-plusieurs.", soumisLe: "2026-07-25", corrigeLe: "2026-07-27", note: 18, commentaire: "Correct, bien expliqué." },
-  { id: 4, etudiant: "Nabil Taleb", questionId: 17, exercice: "Modéliser un schéma", cours: "Bases de données", type: "QCM", reponseChoixId: 2, soumisLe: "2026-08-15", corrigeLe: null, note: null, commentaire: null },
-  { id: 5, etudiant: "Katia Larbi", questionId: 3, exercice: "Vocabulaire de réunion", cours: "Anglais des affaires : réunions", type: "File Upload", reponseFichier: "vocabulaire_reunion.pdf", soumisLe: "2026-08-16", corrigeLe: null, note: null, commentaire: null },
-  { id: 6, etudiant: "Yacine Belaïd", questionId: 6, exercice: "Mettre en page avec CSS - Flexbox", cours: "Fondations du développement web", type: "File Upload", reponseFichier: "flexbox_layout.css", soumisLe: "2026-08-17", corrigeLe: null, note: null, commentaire: null },
+  { id: 1, userId: 1, etudiant: "Yacine Belaïd", questionId: 1, exercice: "Structurer une page HTML", leconId: 1, coursId: 1, cours: "Fondations du développement web", type: "Input", reponse: "C'est la balise <header> qui définit l'en-tête d'une page HTML.", soumisLe: "2026-07-18", corrigeLe: "2026-07-20", note: 16, commentaire: "Ce n'est pas tout à fait exact — la balise <header> ne définit pas l'en-tête d'une page HTML, c'est <head> qui joue ce rôle." },
+  { id: 2, userId: 2, etudiant: "Amina Kerrouche", questionId: 5, exercice: "Mettre en page avec CSS - Flexbox", leconId: 2, coursId: 1, cours: "Fondations du développement web", type: "QCM", reponseChoixId: 3, soumisLe: "2026-07-22", corrigeLe: "2026-07-23", note: 18, commentaire: "Parfait." },
+  { id: 3, userId: 5, etudiant: "Ryma Ouahab", questionId: 16, exercice: "Introduction aux bases de données", leconId: 1, coursId: 4, cours: "Bases de données", type: "Input", reponse: "Une relation un-à-plusieurs.", soumisLe: "2026-07-25", corrigeLe: "2026-07-27", note: 18, commentaire: "Correct, bien expliqué." },
+  { id: 4, userId: 7, etudiant: "Nabil Taleb", questionId: 17, exercice: "Introduction aux bases de données", leconId: 1, coursId: 4, cours: "Bases de données", type: "QCM", reponseChoixId: 2, soumisLe: "2026-08-15", corrigeLe: null, note: null, commentaire: null },
+  { id: 5, userId: 8, etudiant: "Katia Larbi", questionId: 3, exercice: "Structurer une page HTML", leconId: 1, coursId: 1, cours: "Fondations du développement web", type: "File Upload", reponseFichier: "vocabulaire_reunion.pdf", soumisLe: "2026-08-16", corrigeLe: null, note: null, commentaire: null },
+  { id: 6, userId: 1, etudiant: "Yacine Belaïd", questionId: 6, exercice: "Mettre en page avec CSS - Flexbox", leconId: 2, coursId: 1, cours: "Fondations du développement web", type: "File Upload", reponseFichier: "flexbox_layout.css", soumisLe: "2026-08-17", corrigeLe: null, note: null, commentaire: null },
+  { id: 7, userId: 1, etudiant: "Yacine Belaïd", questionId: 16, exercice: "Introduction aux bases de données", leconId: 1, coursId: 4, cours: "Bases de données", type: "Input", reponse: "Une relation où une ligne correspond à plusieurs lignes d'une autre table.", soumisLe: "2026-08-02", corrigeLe: "2026-08-04", note: 14, commentaire: "Bon, un peu imprécis sur le sens de la relation." },
+  { id: 8, userId: 1, etudiant: "Yacine Belaïd", questionId: 20, exercice: "Modéliser un schéma", leconId: 2, coursId: 4, cours: "Bases de données", type: "QCM", reponseChoixId: 1, soumisLe: "2026-08-18", corrigeLe: null, note: null, commentaire: null },
+  { id: 9, userId: 1, etudiant: "Yacine Belaïd", questionId: 6, exercice: "Mettre en page avec CSS - Flexbox", leconId: 2, coursId: 1, cours: "Fondations du développement web", type: "File Upload", reponseFichier: "vocabulaire_yacine.pdf", soumisLe: "2026-08-19", corrigeLe: null, note: null, commentaire: null },
+  { id: 10, userId: 2, etudiant: "Amina Kerrouche", questionId: 16, exercice: "Introduction aux bases de données", leconId: 1, coursId: 4, cours: "Bases de données", type: "Input", reponse: "Un lien entre deux tables via une clé étrangère.", soumisLe: "2026-08-10", corrigeLe: "2026-08-12", note: 17, commentaire: "Très bien." },
+  { id: 11, userId: 5, etudiant: "Ryma Ouahab", questionId: 47, exercice: "Identifier son style de management", leconId: 1, coursId: 3, cours: "Gestion d'équipe et leadership", type: "QCM", reponseChoixId: 3, soumisLe: "2026-08-09", corrigeLe: "2026-08-11", note: 15, commentaire: "Bonne analyse." },
+  { id: 12, userId: 7, etudiant: "Nabil Taleb", questionId: 11, exercice: "Formulaires et validation", leconId: 4, coursId: 1, cours: "Fondations du développement web", type: "QCM", reponseChoixId: 2, soumisLe: "2026-08-15", corrigeLe: null, note: null, commentaire: null },
+  { id: 13, userId: 2, etudiant: "Amina Kerrouche", questionId: 1, exercice: "Structurer une page HTML", leconId: 1, coursId: 1, cours: "Fondations du développement web", type: "Input", reponse: "C'est la balise <head> qui définit l'en-tête d'une page HTML.", soumisLe: "2026-07-19", corrigeLe: "2026-07-20", note: 18, commentaire: "Exact." },
+  { id: 14, userId: 2, etudiant: "Amina Kerrouche", questionId: 2, exercice: "Structurer une page HTML", leconId: 1, coursId: 1, cours: "Fondations du développement web", type: "QCM", reponseChoixId: 2, soumisLe: "2026-07-19", corrigeLe: "2026-07-20", note: 20, commentaire: null },
+  { id: 15, userId: 2, etudiant: "Amina Kerrouche", questionId: 3, exercice: "Structurer une page HTML", leconId: 1, coursId: 1, cours: "Fondations du développement web", type: "File Upload", reponseFichier: "page_structuree.png", soumisLe: "2026-07-19", corrigeLe: "2026-07-20", note: 16, commentaire: null },
+  { id: 16, userId: 2, etudiant: "Amina Kerrouche", questionId: 4, exercice: "Mettre en page avec CSS - Flexbox", leconId: 2, coursId: 1, cours: "Fondations du développement web", type: "Input", reponse: "Elle aligne les enfants sur l'axe principal du conteneur.", soumisLe: "2026-07-22", corrigeLe: "2026-07-23", note: 17, commentaire: null },
+  { id: 18, userId: 2, etudiant: "Amina Kerrouche", questionId: 19, exercice: "Modéliser un schéma", leconId: 2, coursId: 4, cours: "Bases de données", type: "Input", reponse: "Elle permet de relier une ligne à une autre table.", soumisLe: "2026-08-10", corrigeLe: "2026-08-12", note: 15, commentaire: null },
+  { id: 19, userId: 2, etudiant: "Amina Kerrouche", questionId: 20, exercice: "Modéliser un schéma", leconId: 2, coursId: 4, cours: "Bases de données", type: "QCM", reponseChoixId: 1, soumisLe: "2026-08-10", corrigeLe: "2026-08-12", note: 20, commentaire: null },
+  { id: 20, userId: 2, etudiant: "Amina Kerrouche", questionId: 21, exercice: "Modéliser un schéma", leconId: 2, coursId: 4, cours: "Bases de données", type: "File Upload", reponseFichier: "schema_cles.sql", soumisLe: "2026-08-10", corrigeLe: "2026-08-12", note: 16, commentaire: null },
+  { id: 21, userId: 2, etudiant: "Amina Kerrouche", questionId: 22, exercice: "Clés primaires et étrangères", leconId: 3, coursId: 4, cours: "Bases de données", type: "Input", reponse: "Réduire la redondance des données.", soumisLe: "2026-08-13", corrigeLe: "2026-08-14", note: 14, commentaire: null },
+];
+
+export const fakeLeconProgression = [
+  { userId: 1, leconId: 1, coursId: 1, completeLe: "2026-07-19" },
+  { userId: 1, leconId: 2, coursId: 1, completeLe: "2026-07-21" },
+  { userId: 1, leconId: 3, coursId: 1, completeLe: "2026-07-23" },
+  { userId: 1, leconId: 4, coursId: 1, completeLe: "2026-07-25" },
+  { userId: 1, leconId: 1, coursId: 4, completeLe: "2026-08-01" },
+  { userId: 1, leconId: 2, coursId: 4, completeLe: "2026-08-03" },
+  { userId: 1, leconId: 1, coursId: 2, completeLe: "2026-08-11" },
+  { userId: 2, leconId: 1, coursId: 1, completeLe: "2026-07-21" },
+  { userId: 2, leconId: 2, coursId: 1, completeLe: "2026-07-23" },
+  { userId: 2, leconId: 1, coursId: 4, completeLe: "2026-08-06" },
+  { userId: 2, leconId: 2, coursId: 4, completeLe: "2026-08-08" },
+  { userId: 2, leconId: 3, coursId: 4, completeLe: "2026-08-10" },
+  { userId: 5, leconId: 1, coursId: 4, completeLe: "2026-07-26" },
+  { userId: 5, leconId: 2, coursId: 4, completeLe: "2026-07-28" },
+  { userId: 5, leconId: 3, coursId: 4, completeLe: "2026-07-30" },
+  { userId: 5, leconId: 4, coursId: 4, completeLe: "2026-08-01" },
+  { userId: 5, leconId: 1, coursId: 3, completeLe: "2026-08-09" },
+  { userId: 5, leconId: 2, coursId: 3, completeLe: "2026-08-10" },
+  { userId: 5, leconId: 3, coursId: 3, completeLe: "2026-08-11" },
+  { userId: 5, leconId: 4, coursId: 3, completeLe: "2026-08-12" },
+  { userId: 5, leconId: 5, coursId: 3, completeLe: "2026-08-13" },
+  { userId: 7, leconId: 1, coursId: 3, completeLe: "2026-08-02" },
+  { userId: 8, leconId: 1, coursId: 2, completeLe: "2026-08-06" },
+  { userId: 8, leconId: 2, coursId: 2, completeLe: "2026-08-08" },
+  { userId: 8, leconId: 3, coursId: 2, completeLe: "2026-08-10" },
 ];
 
 export const fakeQuestions = [
@@ -255,7 +312,6 @@ export const fakeQuestions = [
   ]},
   { id: 3, exerciceId: 1, texte: "Envoyez une capture d'écran de votre page structurée", type: "File Upload" },
 
-
   { id: 4, exerciceId: 2, texte: "Que fait la propriété justify-content dans un conteneur flex ?", type: "Input" },
   { id: 5, exerciceId: 2, texte: "Quelle valeur de display active Flexbox ?", type: "QCM", choix: [
     { id: 1, texte: "block", correct: false },
@@ -264,7 +320,6 @@ export const fakeQuestions = [
     { id: 4, texte: "inline", correct: false },
   ]},
   { id: 6, exerciceId: 2, texte: "Envoyez le fichier CSS de votre mise en page", type: "File Upload" },
-
 
   { id: 7, exerciceId: 3, texte: "Quelle méthode permet de sélectionner un élément par son id ?", type: "Input" },
   { id: 8, exerciceId: 3, texte: "Quelle méthode ajoute un élément enfant au DOM ?", type: "QCM", choix: [
@@ -275,7 +330,6 @@ export const fakeQuestions = [
   ]},
   { id: 9, exerciceId: 3, texte: "Envoyez votre script JavaScript", type: "File Upload" },
 
-  
   { id: 10, exerciceId: 4, texte: "Expliquez en une phrase à quoi sert l'attribut required", type: "Input" },
   { id: 11, exerciceId: 4, texte: "Qu'est-ce qu'un composant contrôlé ?", type: "QCM", choix: [
     { id: 1, texte: "Un composant qui ne peut pas recevoir de props", correct: false },
@@ -285,7 +339,6 @@ export const fakeQuestions = [
   ]},
   { id: 12, exerciceId: 4, texte: "Envoyez une capture de votre formulaire validé", type: "File Upload" },
 
-  
   { id: 13, exerciceId: 5, texte: "Comment afficher un message d'erreur conditionnellement en React ?", type: "Input" },
   { id: 14, exerciceId: 5, texte: "Quelle balise regroupe des champs de formulaire liés ?", type: "QCM", choix: [
     { id: 1, texte: "<group>", correct: false },
@@ -295,7 +348,52 @@ export const fakeQuestions = [
   ]},
   { id: 15, exerciceId: 5, texte: "Envoyez votre script de classe abstraite", type: "File Upload" },
 
-    { id: 16, exerciceId: 17, texte: "Quel type de relation existe entre deux tables lorsqu'une ligne d'une table correspond à plusieurs lignes d'une autre ?", type: "Input" },
+  { id: 46, exerciceId: 12, texte: "Citez un exemple de style de management directif", type: "Input" },
+  { id: 47, exerciceId: 12, texte: "Quel style de management laisse le plus d'autonomie à l'équipe ?", type: "QCM", choix: [
+    { id: 1, texte: "Directif", correct: false },
+    { id: 2, texte: "Persuasif", correct: false },
+    { id: 3, texte: "Délégatif", correct: true },
+    { id: 4, texte: "Participatif", correct: false },
+  ]},
+  { id: 48, exerciceId: 12, texte: "Envoyez votre analyse de style de management", type: "File Upload" },
+
+  { id: 49, exerciceId: 13, texte: "Quelle information doit toujours accompagner une tâche déléguée ?", type: "Input" },
+  { id: 50, exerciceId: 13, texte: "Que faut-il éviter en déléguant une tâche ?", type: "QCM", choix: [
+    { id: 1, texte: "Donner un délai clair", correct: false },
+    { id: 2, texte: "Micro-gérer la personne", correct: true },
+    { id: 3, texte: "Vérifier la compréhension", correct: false },
+    { id: 4, texte: "Fixer un objectif précis", correct: false },
+  ]},
+  { id: 51, exerciceId: 13, texte: "Envoyez votre plan de délégation", type: "File Upload" },
+
+  { id: 52, exerciceId: 14, texte: "Quelle est la première règle d'un feedback constructif ?", type: "Input" },
+  { id: 53, exerciceId: 14, texte: "Quel modèle structure un feedback en 3 parties ?", type: "QCM", choix: [
+    { id: 1, texte: "SWOT", correct: false },
+    { id: 2, texte: "SBI (Situation-Comportement-Impact)", correct: true },
+    { id: 3, texte: "PDCA", correct: false },
+    { id: 4, texte: "RACI", correct: false },
+  ]},
+  { id: 54, exerciceId: 14, texte: "Envoyez un exemple rédigé de feedback", type: "File Upload" },
+
+  { id: 55, exerciceId: 15, texte: "Quelle est la première étape pour désamorcer un conflit ?", type: "Input" },
+  { id: 56, exerciceId: 15, texte: "Quel comportement aggrave généralement un conflit ?", type: "QCM", choix: [
+    { id: 1, texte: "Écouter activement", correct: false },
+    { id: 2, texte: "Ignorer le problème", correct: true },
+    { id: 3, texte: "Reformuler les points de vue", correct: false },
+    { id: 4, texte: "Chercher un compromis", correct: false },
+  ]},
+  { id: 57, exerciceId: 15, texte: "Envoyez votre plan de résolution de conflit", type: "File Upload" },
+
+  { id: 58, exerciceId: 16, texte: "Citez un levier de motivation non financier", type: "Input" },
+  { id: 59, exerciceId: 16, texte: "Quel facteur est souvent le plus démotivant pour une équipe ?", type: "QCM", choix: [
+    { id: 1, texte: "Reconnaissance du travail", correct: false },
+    { id: 2, texte: "Manque de reconnaissance", correct: true },
+    { id: 3, texte: "Autonomie", correct: false },
+    { id: 4, texte: "Objectifs clairs", correct: false },
+  ]},
+  { id: 60, exerciceId: 16, texte: "Envoyez votre plan de motivation d'équipe", type: "File Upload" },
+
+  { id: 16, exerciceId: 17, texte: "Quel type de relation existe entre deux tables lorsqu'une ligne d'une table correspond à plusieurs lignes d'une autre ?", type: "Input" },
   { id: 17, exerciceId: 17, texte: "Que représente une clé primaire dans une table ?", type: "QCM", choix: [
     { id: 1, texte: "Un identifiant unique pour chaque ligne", correct: true },
     { id: 2, texte: "Une colonne facultative", correct: false },
@@ -384,4 +482,27 @@ export const fakeQuestions = [
     { id: 4, texte: "30 cm", correct: false },
   ]},
   { id: 45, exerciceId: 26, texte: "Envoyez votre plan de circulation", type: "File Upload" },
+];
+
+export const fakeLeconTexteCours4 = [
+  { id: 4, leconId: 2, coursId: 4, contenu: "Une clé primaire identifie de façon unique chaque ligne d'une table. Une clé étrangère référence la clé primaire d'une autre table, créant ainsi une relation entre les deux.", ordre: 1 },
+  { id: 5, leconId: 3, coursId: 4, contenu: "La normalisation réduit la redondance des données en découpant les tables selon des règles précises : 1NF, 2NF, 3NF. Chaque forme normale élimine un type de dépendance problématique.", ordre: 1 },
+  { id: 6, leconId: 7, coursId: 4, contenu: "Une jointure combine des lignes de deux tables ou plus selon une condition. INNER JOIN ne garde que les correspondances, LEFT JOIN garde toutes les lignes de la table de gauche même sans correspondance.", ordre: 1 },
+];
+
+export const fakeLeconPdfCours4 = [
+  { id: 5, leconId: 1, coursId: 4, fileName: "intro_bases_donnees.pdf", ordre: 1 },
+  { id: 6, leconId: 2, coursId: 4, fileName: "cles_primaires_etrangeres.pdf", ordre: 1 },
+  { id: 11, leconId: 3, coursId: 4, fileName: "cles_primaires_schema.pdf", ordre: 1 },
+  { id: 7, leconId: 4, coursId: 4, fileName: "normalisation_formes.pdf", ordre: 1 },
+  { id: 8, leconId: 5, coursId: 4, fileName: "select_syntaxe.pdf", ordre: 1 },
+  { id: 9, leconId: 6, coursId: 4, fileName: "update_insert_delete.pdf", ordre: 1 },
+  { id: 10, leconId: 7, coursId: 4, fileName: "jointures_types.pdf", ordre: 1 },
+];
+
+export const fakeLeconVideoCours4 = [
+  { id: 4, leconId: 1, coursId: 4, fileName: "intro_bases_donnees.mp4", url: videoFile, thumbnail: videoPic, duree: 480, ordre: 1 },
+  { id: 5, leconId: 3, coursId: 4, fileName: "normalisation_exemple.mp4", url: videoFile, thumbnail: videoPic, duree: 540, ordre: 1 },
+  { id: 6, leconId: 5, coursId: 4, fileName: "requetes_select.mp4", url: videoFile, thumbnail: videoPic, duree: 390, ordre: 1 },
+  { id: 7, leconId: 6, coursId: 4, fileName: "requetes_modification.mp4", url: videoFile, thumbnail: videoPic, duree: 420, ordre: 1 },
 ];

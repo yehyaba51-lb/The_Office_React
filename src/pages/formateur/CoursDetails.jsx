@@ -6,7 +6,7 @@ import LessonBuilderModal from "../../components/modals/LessonBuilderModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { etudiantsInscritsColumns } from "../../fakeData";
-import { FileX, BookOpen } from 'lucide-react';
+import { FileX } from 'lucide-react';
 
 const CoursDetails = () => {
     const [fileName, setFileName] = useState('')
@@ -127,7 +127,7 @@ const CoursDetails = () => {
             <TableData columns={ etudiantsInscritsColumns } rows={ fakeEtudiantsInscrits.filter(e => e.cours === selectedCours.titre) } admin={ false } />
           </div>
         </>
-      ) : selectedCours.lecons === 0 ? (
+      ) : selectedCours && selectedCours.lecons === 0 ? (
         <>
           <div className="flex justify-between">
             <StateBox
@@ -176,7 +176,7 @@ const CoursDetails = () => {
             <TableData columns={ etudiantsInscritsColumns } rows={ '' } admin={ false } />
           </div>
         </>
-      ) : (
+      ) : !selectedCours && (
         <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
           <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
             <FileX className="text-gris-fonce" size={26} />

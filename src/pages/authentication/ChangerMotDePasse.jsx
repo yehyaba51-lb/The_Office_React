@@ -1,10 +1,9 @@
 import React from 'react'
-import { TriangleAlert } from 'lucide-react'
 
 const ChangerMotDePasse = () => {
   return (
     <>
-      <form action="" method="post" className='flex flex-col gap-8'>
+      <form action="" method="post" className='flex flex-col gap-8'  onSubmit={e => e.preventDefault()}>
         <h3 className='font-titres font-bold text-bleu-secondaire text-2xl'>Changer votre Mot de passe</h3>
         <div className='flex flex-col gap-6'>
           <div className='flex flex-col gap-1'>

@@ -2,15 +2,16 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProgressBar from '../../shared/ProgressBar'
 import { fakeQuestions } from "../../../fakeData";
+import { Pencil, Trash2 } from "lucide-react";
 
-const TableData = ({ columns, rows, onClickRow, admin=true, type=null }) => {
+const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const getNums = (row) => {
-    const pregressionParts = row.progression.split('/')
-    const current = pregressionParts[0]
-    const total = pregressionParts[1]
+    const progressionParts = row.progression.split('/')
+    const current = progressionParts[0]
+    const total = progressionParts[1]
     return [current, total]
   }
 
@@ -63,45 +64,68 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null }) => {
                         </span>
                       ) : col.key === 'question' ? (
                         trimQuestion(row)
+                      ) : col.key === 'note' ? (
+                        <span className={row.note >= 10 
+                          ? 'text-vert-reussite bg-vert-reussite/20 px-3 py-1 rounded-full text-xs font-semibold' 
+                          : 'text-rouge-echec bg-rouge-echec/20 px-3 py-1 rounded-full text-xs font-semibold'
+                        }>
+                          {row.note}
+                        </span>
+                      ) : col.key === 'description' ? (
+                        row[col.key] ? (
+                          <p>{row[col.key].slice(0, 40) + '...'}</p>
+                        ) : (
+                          <p>Pas de description</p>
+                        )
+                      ) : col.key === 'lecons' ? (
+                          row[col.key] ?? 0 
                       ) : (
                         row[col.key]
                       )}
                     </td>
                   ))}
-                  {row.role === "Administrateur" || type === 'formateur' ? (
-                    ""
-                  ) : (
-                    <td className="px-4 py-2">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`${location.pathname}?edit=true&id=${row.id}`);
-                        }}
-                        className="cursor-pointer text-gris-fonce/50 hover:text-orange-cuivre/80 transition duration-300 ease-in-out"
-                        title="Modifier"
-                      >
-                        {<row.edit size={18} />}
-                      </button>
-                    </td>
-                  )}
-                  {row.role === "Administrateur" || type === 'formateur' ? (
-                    ""
-                  ) : (
-                    <td className="px-4 py-2">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`${location.pathname}?delete=true&id=${row.id}`);
-                        }}
-                        className="cursor-pointer text-gris-fonce/50 hover:text-orange-cuivre/80 transition duration-300 ease-in-out"
-                        title="Supprimer"
-                      >
-                        {<row.delete size={18} />}
-                      </button>
-                    </td>
-                  )}
+                  
+                  {admin && (
+                    row.role === "Administrateur" ? (
+                      ""
+                    ) : edit && (
+                      <td className="px-4 py-2 w-12">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            navigate(`${location.pathname}?edit=true&id=${row.id}`)
+                          }
+                          }
+                          className="cursor-pointer text-gris-fonce/50 hover:text-orange-cuivre/80 transition duration-300 ease-in-out"
+                          title="Modifier"
+                        >
+                          {<Pencil size={18} />}
+                        </button>
+                      </td>
+                    ))}
+                    {admin && (
+                      row.role === "Administrateur" ? (
+                        ""
+                      ) : (
+                        <td className="px-4 py-2 w-12">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              navigate(`${location.pathname}?delete=true&id=${row.id}`)
+                            }
+                            }
+                            className="cursor-pointer text-gris-fonce/50 hover:text-orange-cuivre/80 transition duration-300 ease-in-out"
+                            title="Supprimer"
+                          >
+                            {<Trash2 size={18} />}
+                          </button>
+                        </td>
+                      )
+                    )}
                 </tr>
-              ))
+                
+              )
+            )
             : rows.length === 0 ? '' : rows.map((row) => (
                 <tr
                   key={row.id}
@@ -121,6 +145,15 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null }) => {
                         }>
                           {row.corrigeLe === null ? 'À corriger' : 'Corrigée'}
                         </span>
+                      ) : col.key === 'note' ? (
+                        <span className={row.note >= 10 
+                          ? 'text-vert-reussite bg-vert-reussite/20 px-5 py-1 rounded-full text-sm font-semibold' 
+                          : 'text-rouge-echec bg-rouge-echec/20 px-5 py-1 rounded-full text-sm font-semibold'
+                        }>
+                          {row.note}
+                        </span>
+                      ) : col.key === 'coursCount' ? (
+                        row[col.key] ?? 0 
                       ) : (
                         row[col.key] === null ? '—' : row[col.key]
                       )}
@@ -129,7 +162,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null }) => {
                   {admin && (
                     row.role === "Administrateur" ? (
                       ""
-                    ) : ( row.edit && (
+                    ) : edit && (
                       <td className="px-4 py-2 w-12">
                         <button
                           onClick={() =>
@@ -138,14 +171,14 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null }) => {
                           className="cursor-pointer text-gris-fonce/50 hover:text-orange-cuivre/80 transition duration-300 ease-in-out"
                           title="Modifier"
                         >
-                          {<row.edit size={18} />}
+                          {<Pencil size={18} />}
                         </button>
                       </td>
-                    )))}
+                    ))}
                     {admin && (
                       row.role === "Administrateur" ? (
                         ""
-                      ) : ( row.delete && (
+                      ) : (
                         <td className="px-4 py-2 w-12">
                           <button
                             onClick={() =>
@@ -154,11 +187,10 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null }) => {
                             className="cursor-pointer text-gris-fonce/50 hover:text-orange-cuivre/80 transition duration-300 ease-in-out"
                             title="Supprimer"
                           >
-                            {<row.delete size={18} />}
+                            {<Trash2 size={18} />}
                           </button>
                         </td>
-                      ))
-
+                      )
                     )}
                 </tr>
               ))}

@@ -8,7 +8,7 @@ const RecentActivities = ({ role='admin', badge, text, note, date, to }) => {
     <>
         <div className='flex flex-col px-3 py-1'>
             {role === 'student' ? (
-                <Link to='/' className="flex justify-between items-center mt-1">
+                <Link to={to} className="flex justify-between items-center mt-1">
                     <div className='flex gap-3 items-center'>
                         <div className={`w-3 h-3 ${badgeColorClass(badge)}`}></div>
                         <p className="text-md text-bleu-secondaire font-semibold">{text}</p>

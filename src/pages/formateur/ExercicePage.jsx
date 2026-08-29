@@ -38,8 +38,6 @@ const ExercicePage = () => {
     toast.success("Question supprimé");
   };
 
-  console.log(selectedQuestion);
-
   return (
     <div className="mt-3">
       {showModal && <AddQuestionModal />}

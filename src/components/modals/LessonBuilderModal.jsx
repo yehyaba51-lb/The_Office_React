@@ -28,7 +28,6 @@ const LessonBuilderModal = ({ lecon }) => {
     .map((video) => video.ordre)
     .filter((o) => o !== "");
 
-  console.log(usedOrdersPdf);
 
   return (
     <>

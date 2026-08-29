@@ -21,7 +21,6 @@ const TableauDeBordFormateur = () => {
 
     const numberOfsoumission = fakeSoumissions.filter(s => s.cours === coursSelected[0].titre).length
 
-    console.log(numberOfsoumission);
     
 
   return (

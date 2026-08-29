@@ -12,7 +12,7 @@ const AuthLayout = () => {
           <Link className='w-full' to='/'>
             <img src={logo} alt="logo" className='w-1/9' />        
           </Link>
-          <div className="border border-gris-clair h-full p-1 flex items-center px-1 rounded-lg">
+          <div className="border-2 border-gris-clair h-full p-1 flex items-center px-1 rounded-lg">
               <button className={activeClass(lang === 'en')} onClick={() => setLang('en')} >EN</button>
               <button className={activeClass(lang === 'fr')} onClick={() => setLang('fr')} >FR</button>
             </div>

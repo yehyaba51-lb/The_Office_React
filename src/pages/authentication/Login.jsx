@@ -3,7 +3,7 @@ import { useMatches } from 'react-router-dom';
 
 const Login = () => {
   return (
-      <form action="" method="post" className='flex flex-col gap-8'>
+      <form action="" method="post" className='flex flex-col gap-8' onSubmit={e => e.preventDefault()}>
         <h3 className='font-titres font-bold text-bleu-secondaire text-2xl'>Connection</h3>
         <div className='flex flex-col gap-6'>
           <div className='flex flex-col gap-1'>

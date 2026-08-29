@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useRef } from "react";
 import { CircleX } from "lucide-react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const FormModal = ({ type, fields, initialData, editFunction }) => {
+const FormModal = ({
+  type,
+  fields,
+  initialData,
+  editFunction,
+  submitFunction
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const formRef = useRef(null);
 
   const isEditMode = Boolean(initialData);
 
@@ -32,7 +38,7 @@ const FormModal = ({ type, fields, initialData, editFunction }) => {
               <CircleX size={22} />
             </button>
           </div>
-          <form action="" method="post" className="flex flex-col">
+          <form ref={formRef} action="" method="post" className="flex flex-col">
             {fields.map((field) => (
               <div key={field.label} className="flex flex-col gap-1 mb-2">
                 <label
@@ -94,8 +100,22 @@ const FormModal = ({ type, fields, initialData, editFunction }) => {
                 />
                 <input
                   type="button"
-                  onClick={() => {
-                    if (isEditMode) editFunction();
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const formData = new FormData(formRef.current);
+                    const data = {}
+                    fields.forEach(field => {
+                      if(field.lockedOn && initialData){
+                        data[field.name] = initialData[field.name]
+                      } else {
+                        data[field.name] = formData.get(field.name)
+                      }
+                    });
+                    if (isEditMode) {
+                      editFunction(data);
+                    } else {
+                      submitFunction(data);
+                    }
                     navigate(
                       isEditMode
                         ? location.pathname

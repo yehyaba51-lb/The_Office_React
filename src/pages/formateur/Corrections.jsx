@@ -53,7 +53,7 @@ const Corrections = () => {
           </button>
         </div>
       </div>
-      <div className="flex px-5 mt-5 gap-4 items-center">
+      <div className="flex px-5 my-5 gap-4 items-center">
         <TableData
           columns={correctionsColumns}
           rows={filteredSoumissions}
