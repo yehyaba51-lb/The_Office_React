@@ -40,8 +40,6 @@ const Login = () => {
     const loadEverything = async () => {
       const results = await Promise.all([getUsers(), getPasswords()]);
       setHasErrors(results.includes(false));
-
-      setLoading(false);
     };
 
     loadEverything();
@@ -52,7 +50,9 @@ const Login = () => {
   const getuserInfo = (email) => {
     const matchedUser = users ? users.find((u) => u.email === email) : "";
 
-    const password = matchedUser !== "" ? passwords[matchedUser.email] : "";
+    const password = matchedUser
+      ? passwords.find((p) => p.email === matchedUser.email)?.password
+      : "";
     return { matchedUser, password };
   };
 

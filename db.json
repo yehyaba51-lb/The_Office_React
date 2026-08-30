@@ -1,0 +1,769 @@
+{
+  "testPasswords": [
+    { "id": 1, "email": "ikram.gjeghali@gmail.com", "password": "admin1234" },
+    { "id": 2, "email": "yacine.belaid@gmail.com", "password": "test1234" },
+    { "id": 3, "email": "amina.kerrouche@gmail.com", "password": "test1234" },
+    { "id": 4, "email": "nadia.belkacem@gmail.com", "password": "formateur1234" },
+    { "id": 5, "email": "sofiane.ghomari@gmail.com", "password": "formateur1234" },
+    { "id": 6, "email": "ryma.ouahab@gmail.com", "password": "test1234" },
+    { "id": 7, "email": "islam.bensalem@gmail.com", "password": "formateur1234" },
+    { "id": 8, "email": "nabil.taleb@gmail.com", "password": "test1234" },
+    { "id": 9, "email": "katia.larbi@gmail.com", "password": "test1234" },
+    { "id": 10, "email": "simon2020lee@gmail.com", "password": "test1234" },
+    { "id": 11, "email": "yehyaba51wd@gmail.com", "password": "test1234" }
+  ],
+  "users": [
+    {
+      "id": "0",
+      "prenom": "Ikram",
+      "nom": "Djeghali",
+      "email": "ikram.gjeghali@gmail.com",
+      "role": "Administrateur",
+      "creeLe": "2026-07-19"
+    },
+    {
+      "id": "1",
+      "prenom": "Yacine",
+      "nom": "Belaïd",
+      "email": "yacine.belaid@gmail.com",
+      "role": "Étudiant",
+      "creeLe": "2026-07-25"
+    },
+    {
+      "id": "2",
+      "prenom": "Amina",
+      "nom": "Kerrouche",
+      "email": "amina.kerrouche@gmail.com",
+      "role": "Étudiant",
+      "creeLe": "2026-08-02"
+    },
+    {
+      "id": "3",
+      "prenom": "Nadia",
+      "nom": "Belkacem",
+      "email": "nadia.belkacem@gmail.com",
+      "role": "Formateur",
+      "creeLe": "2026-08-27"
+    },
+    {
+      "id": "4",
+      "prenom": "Sofiane",
+      "nom": "Ghomari",
+      "email": "sofiane.ghomari@gmail.com",
+      "role": "Formateur",
+      "creeLe": "2026-07-30"
+    },
+    {
+      "id": "5",
+      "prenom": "Ryma",
+      "nom": "Ouahab",
+      "email": "ryma.ouahab@gmail.com",
+      "role": "Étudiant",
+      "creeLe": "2026-08-08"
+    },
+    {
+      "id": "6",
+      "prenom": "Islam",
+      "nom": "Bensalem",
+      "email": "islam.bensalem@gmail.com",
+      "role": "Formateur",
+      "creeLe": "2026-08-15"
+    },
+    {
+      "id": "7",
+      "prenom": "Nabil",
+      "nom": "Taleb",
+      "email": "nabil.taleb@gmail.com",
+      "role": "Étudiant",
+      "creeLe": "2026-08-10"
+    },
+    {
+      "id": "8",
+      "prenom": "Katia",
+      "nom": "Larbi",
+      "email": "katia.larbi@gmail.com",
+      "role": "Étudiant",
+      "creeLe": "2026-08-12"
+    },
+    {
+      "id": "U6sxew3fCFI",
+      "prenom": "Simon",
+      "nom": "Lee",
+      "email": "simon2020lee@gmail.com",
+      "role": "Étudiant",
+      "creeLe": "2026-08-27"
+    },
+    {
+      "id": "__Haw2qyD2U",
+      "prenom": "Yehya Baha Eddine",
+      "nom": "Laabed",
+      "email": "yehyaba51wd@gmail.com",
+      "role": "Étudiant",
+      "creeLe": "2026-08-28"
+    }
+  ],
+  "cours": [
+    {
+      "id": "1",
+      "titre": "Fondations du développement web",
+      "formateur": "Nadia Belkacem",
+      "description": "Ce cours s'adresse aux débutants souhaitant acquérir les bases du développement web moderne : structure HTML sémantique, mise en forme CSS (Flexbox, Grid, responsive design), et premiers pas en JavaScript pour rendre une page interactive. Les participants apprendront à construire des pages accessibles et bien structurées, à les styliser de manière cohérente, et à manipuler le DOM pour ajouter de l'interactivité de base. À l'issue du cours, ils seront capables de construire une page web complète et fonctionnelle à partir de zéro.",
+      "categorie": "Informatique",
+      "lecons": 4,
+      "creeLe": "2026-07-10",
+      "imageUrl": "https://picsum.photos/seed/webdev/600/300"
+    },
+    {
+      "id": "2",
+      "titre": "Anglais des affaires : réunions",
+      "formateur": "Sofiane Ghomari",
+      "description": "Ce cours s'adresse aux professionnels souhaitant gagner en aisance lors de réunions en anglais, qu'il s'agisse de réunions internes, d'appels clients, ou de présentations à distance. Les participants apprendront le vocabulaire clé pour ouvrir et clore une réunion, exprimer un désaccord poliment, et prendre la parole avec assurance face à un auditoire international. À l'issue du cours, ils seront capables de participer activement à une réunion professionnelle en anglais.",
+      "categorie": "Soft skills",
+      "lecons": 6,
+      "creeLe": "2026-07-18",
+      "imageUrl": "https://picsum.photos/seed/meeting/600/300"
+    },
+    {
+      "id": "3",
+      "titre": "Gestion d'équipe et leadership",
+      "formateur": "Islam Bensalem",
+      "description": "Ce cours s'adresse à toute personne amenée à encadrer une équipe, qu'elle soit déjà manager ou en passe de le devenir. Les participants apprendront à identifier les différents styles de management, à déléguer efficacement, à donner un feedback constructif, et à gérer les conflits interpersonnels. À l'issue du cours, ils seront capables d'adapter leur style de leadership au contexte et de conduire leur équipe avec plus de confiance.",
+      "categorie": "Management",
+      "lecons": 5,
+      "creeLe": "2026-08-05",
+      "imageUrl": "https://picsum.photos/seed/leadership/600/300"
+    },
+    {
+      "id": "4",
+      "titre": "Bases de données",
+      "formateur": "Nadia Belkacem",
+      "description": "Ce cours s'adresse aux étudiants souhaitant comprendre comment structurer et interroger efficacement des données relationnelles. Les participants apprendront à modéliser un schéma de base de données cohérent, à appliquer les règles de normalisation, et à écrire des requêtes SQL pour créer, lire, modifier et supprimer des données. À l'issue du cours, ils seront capables de concevoir une base de données pour un projet réel.",
+      "categorie": "Informatique",
+      "lecons": 7,
+      "creeLe": "2026-07-22",
+      "imageUrl": "https://picsum.photos/seed/database/600/300"
+    },
+    {
+      "id": "5",
+      "titre": "Conception architecturale et espaces de travail",
+      "formateur": "Yasmine Haddad",
+      "description": "Ce cours s'adresse aux personnes intéressées par la conception d'espaces de travail modernes et fonctionnels. Les participants apprendront les principes fondamentaux d'aménagement d'espaces collaboratifs : optimisation de la lumière naturelle, gestion des flux de circulation, acoustique, et équilibre entre espaces ouverts et zones de concentration. À l'issue du cours, ils seront capables de proposer une conception d'espace de travail adaptée aux besoins réels de ses futurs occupants.",
+      "categorie": "Architecture",
+      "lecons": 3,
+      "creeLe": "2026-08-12",
+      "imageUrl": "https://picsum.photos/seed/architecture/600/300"
+    },
+    {
+      "id": "6",
+      "titre": "Cours sans contenu",
+      "formateur": "Sofiane Ghomari",
+      "description": "",
+      "categorie": "Informatique",
+      "lecons": 0,
+      "creeLe": "2026-08-18",
+      "imageUrl": null
+    },
+    {
+      "titre": "PHP Advanced",
+      "formateur": "Nadia Belkacem",
+      "categorie": "Informatique",
+      "description": "",
+      "lecons": 0,
+      "imageUrl": null,
+      "creeLe": "2026-08-29",
+      "id": "jCTrZNqVk3Y"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "nom": "Informatique",
+      "coursCount": 3
+    },
+    {
+      "id": "2",
+      "nom": "Soft skills",
+      "coursCount": 1
+    },
+    {
+      "id": "3",
+      "nom": "Management",
+      "coursCount": 1
+    },
+    {
+      "id": "4",
+      "nom": "Architecture",
+      "coursCount": 1
+    },
+    {
+      "nom": "Marketing",
+      "id": "H8JSmUgNNg8"
+    }
+  ],
+  "lecons": [
+    {
+      "id": "1",
+      "coursId": 1,
+      "titre": "Structurer une page HTML",
+      "description": "Balises sémantiques, hiérarchie de contenu et bonnes pratiques d'accessibilité",
+      "ordre": 1,
+      "types": [
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "2",
+      "coursId": 1,
+      "titre": "Mettre en page avec CSS",
+      "description": "Flexbox, Grid et responsive design pour des mises en page modernes",
+      "ordre": 2,
+      "types": [
+        "Texte",
+        "PDF"
+      ]
+    },
+    {
+      "id": "3",
+      "coursId": 1,
+      "titre": "Les bases de JavaScript",
+      "description": "Variables, fonctions et manipulation du DOM",
+      "ordre": 3,
+      "types": [
+        "Texte",
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "4",
+      "coursId": 1,
+      "titre": "Formulaires et validation",
+      "description": "Créer et valider des formulaires côté client",
+      "ordre": 4,
+      "types": [
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "1",
+      "coursId": 2,
+      "titre": "Ouvrir une réunion",
+      "description": "Phrases clés pour démarrer une réunion professionnelle",
+      "ordre": 1,
+      "types": [
+        "Vidéo"
+      ]
+    },
+    {
+      "id": "2",
+      "coursId": 2,
+      "titre": "Participer activement",
+      "description": "Donner son avis et réagir en anglais",
+      "ordre": 2,
+      "types": [
+        "Texte",
+        "PDF"
+      ]
+    },
+    {
+      "id": "3",
+      "coursId": 2,
+      "titre": "Gérer un désaccord",
+      "description": "Exprimer un désaccord poliment",
+      "ordre": 3,
+      "types": [
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "4",
+      "coursId": 2,
+      "titre": "Relancer une discussion",
+      "description": "Techniques pour relancer un point",
+      "ordre": 4,
+      "types": [
+        "Texte"
+      ]
+    },
+    {
+      "id": "5",
+      "coursId": 2,
+      "titre": "Conclure une réunion",
+      "description": "Résumer et clôturer efficacement",
+      "ordre": 5,
+      "types": [
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "6",
+      "coursId": 2,
+      "titre": "Mise en situation",
+      "description": "Simulation complète de réunion",
+      "ordre": 6,
+      "types": [
+        "Vidéo"
+      ]
+    },
+    {
+      "id": "1",
+      "coursId": 3,
+      "titre": "Identifier son style de management",
+      "description": "Styles directif, persuasif, délégatif, participatif",
+      "ordre": 1,
+      "types": [
+        "Texte",
+        "PDF"
+      ]
+    },
+    {
+      "id": "2",
+      "coursId": 3,
+      "titre": "Déléguer efficacement",
+      "description": "Confier une tâche sans perdre le contrôle",
+      "ordre": 2,
+      "types": [
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "3",
+      "coursId": 3,
+      "titre": "Donner un feedback constructif",
+      "description": "Le modèle SBI en pratique",
+      "ordre": 3,
+      "types": [
+        "Texte",
+        "Vidéo"
+      ]
+    },
+    {
+      "id": "4",
+      "coursId": 3,
+      "titre": "Gérer les conflits",
+      "description": "Désamorcer les tensions dans une équipe",
+      "ordre": 4,
+      "types": [
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "5",
+      "coursId": 3,
+      "titre": "Motiver son équipe",
+      "description": "Leviers de motivation au quotidien",
+      "ordre": 5,
+      "types": [
+        "Texte",
+        "PDF"
+      ]
+    },
+    {
+      "id": "1",
+      "coursId": 4,
+      "titre": "Introduction aux bases de données",
+      "description": "Concepts fondamentaux et vocabulaire relationnel",
+      "ordre": 1,
+      "types": [
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "2",
+      "coursId": 4,
+      "titre": "Modéliser un schéma",
+      "description": "Entités, relations et cardinalités",
+      "ordre": 2,
+      "types": [
+        "Texte",
+        "PDF"
+      ]
+    },
+    {
+      "id": "3",
+      "coursId": 4,
+      "titre": "Clés primaires et étrangères",
+      "description": "Garantir l'intégrité référentielle entre les tables",
+      "ordre": 3,
+      "types": [
+        "Texte",
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "4",
+      "coursId": 4,
+      "titre": "Normalisation",
+      "description": "Éviter la redondance grâce aux formes normales",
+      "ordre": 4,
+      "types": [
+        "PDF"
+      ]
+    },
+    {
+      "id": "5",
+      "coursId": 4,
+      "titre": "Requêtes SQL — SELECT",
+      "description": "Interroger et filtrer les données efficacement",
+      "ordre": 5,
+      "types": [
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "6",
+      "coursId": 4,
+      "titre": "Requêtes SQL — INSERT, UPDATE, DELETE",
+      "description": "Modifier les données d'une base existante",
+      "ordre": 6,
+      "types": [
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "7",
+      "coursId": 4,
+      "titre": "Jointures",
+      "description": "Combiner des données provenant de plusieurs tables",
+      "ordre": 7,
+      "types": [
+        "Texte",
+        "PDF"
+      ]
+    },
+    {
+      "id": "1",
+      "coursId": 5,
+      "titre": "Principes d'aménagement",
+      "description": "Lumière, acoustique et flux de circulation",
+      "ordre": 1,
+      "types": [
+        "Vidéo",
+        "PDF"
+      ]
+    },
+    {
+      "id": "2",
+      "coursId": 5,
+      "titre": "Espaces ouverts vs zones de concentration",
+      "description": "Trouver le bon équilibre",
+      "ordre": 2,
+      "types": [
+        "Texte",
+        "PDF"
+      ]
+    },
+    {
+      "id": "3",
+      "coursId": 5,
+      "titre": "Étude de cas",
+      "description": "Concevoir un espace de travail complet",
+      "ordre": 3,
+      "types": [
+        "Vidéo"
+      ]
+    }
+  ],
+  "inscriptions": [
+    {
+      "id": "1",
+      "etudiant": "Yacine Belaïd",
+      "coursId": 1,
+      "cours": "Fondations du développement web",
+      "inscritLe": "2026-07-18",
+      "progression": "4/4",
+      "noteFinale": 14
+    },
+    {
+      "id": "2",
+      "etudiant": "Amina Kerrouche",
+      "coursId": 1,
+      "cours": "Fondations du développement web",
+      "inscritLe": "2026-07-20",
+      "progression": "2/4",
+      "noteFinale": null
+    },
+    {
+      "id": "3",
+      "etudiant": "Ryma Ouahab",
+      "coursId": 4,
+      "cours": "Bases de données",
+      "inscritLe": "2026-07-25",
+      "progression": "7/7",
+      "noteFinale": 16
+    },
+    {
+      "id": "4",
+      "etudiant": "Nabil Taleb",
+      "coursId": 3,
+      "cours": "Gestion d'équipe et leadership",
+      "inscritLe": "2026-08-01",
+      "progression": "1/5",
+      "noteFinale": null
+    },
+    {
+      "etudiant": "Laabed Yehya Baha Eddine",
+      "cours": "Bases de données",
+      "inscritLe": "2026-08-29",
+      "noteFinale": null,
+      "coursId": 4,
+      "progression": "0/7",
+      "id": "8OfwHljmuJQ"
+    }
+  ],
+  "exercices": [
+    {
+      "id": "1",
+      "coursId": 1,
+      "leconId": 1,
+      "titre": "Exercice 01"
+    },
+    {
+      "id": "2",
+      "coursId": 1,
+      "leconId": 2,
+      "titre": "Exercice 02"
+    },
+    {
+      "id": "3",
+      "coursId": 1,
+      "leconId": 3,
+      "titre": "Exercice 03"
+    },
+    {
+      "id": "4",
+      "coursId": 1,
+      "leconId": 4,
+      "titre": "Exercice 04"
+    },
+    {
+      "id": "5",
+      "coursId": 1,
+      "leconId": 4,
+      "titre": "Exercice 05"
+    },
+    {
+      "id": "6",
+      "coursId": 2,
+      "leconId": 1,
+      "titre": "Exercice 01"
+    },
+    {
+      "id": "7",
+      "coursId": 2,
+      "leconId": 2,
+      "titre": "Exercice 02"
+    },
+    {
+      "id": "8",
+      "coursId": 2,
+      "leconId": 3,
+      "titre": "Exercice 03"
+    },
+    {
+      "id": "9",
+      "coursId": 2,
+      "leconId": 4,
+      "titre": "Exercice 04"
+    },
+    {
+      "id": "10",
+      "coursId": 2,
+      "leconId": 5,
+      "titre": "Exercice 05"
+    },
+    {
+      "id": "11",
+      "coursId": 2,
+      "leconId": 6,
+      "titre": "Exercice 06"
+    },
+    {
+      "id": "12",
+      "coursId": 3,
+      "leconId": 1,
+      "titre": "Exercice 01"
+    },
+    {
+      "id": "13",
+      "coursId": 3,
+      "leconId": 2,
+      "titre": "Exercice 02"
+    },
+    {
+      "id": "14",
+      "coursId": 3,
+      "leconId": 3,
+      "titre": "Exercice 03"
+    },
+    {
+      "id": "15",
+      "coursId": 3,
+      "leconId": 4,
+      "titre": "Exercice 04"
+    },
+    {
+      "id": "16",
+      "coursId": 3,
+      "leconId": 5,
+      "titre": "Exercice 05"
+    },
+    {
+      "id": "17",
+      "coursId": 4,
+      "leconId": 1,
+      "titre": "Exercice 01"
+    },
+    {
+      "id": "18",
+      "coursId": 4,
+      "leconId": 2,
+      "titre": "Exercice 02"
+    },
+    {
+      "id": "19",
+      "coursId": 4,
+      "leconId": 3,
+      "titre": "Exercice 03"
+    },
+    {
+      "id": "20",
+      "coursId": 4,
+      "leconId": 4,
+      "titre": "Exercice 04"
+    },
+    {
+      "id": "21",
+      "coursId": 4,
+      "leconId": 5,
+      "titre": "Exercice 05"
+    },
+    {
+      "id": "22",
+      "coursId": 4,
+      "leconId": 6,
+      "titre": "Exercice 06"
+    },
+    {
+      "id": "23",
+      "coursId": 4,
+      "leconId": 7,
+      "titre": "Exercice 07"
+    },
+    {
+      "id": "24",
+      "coursId": 5,
+      "leconId": 1,
+      "titre": "Exercice 01"
+    },
+    {
+      "id": "25",
+      "coursId": 5,
+      "leconId": 2,
+      "titre": "Exercice 02"
+    },
+    {
+      "id": "26",
+      "coursId": 5,
+      "leconId": 3,
+      "titre": "Exercice 03"
+    }
+  ],
+  "soumissions": [
+    {
+      "id": "1",
+      "etudiant": "Yacine Belaïd",
+      "questionId": 1,
+      "exercice": "Structurer une page HTML",
+      "coursId": 1,
+      "cours": "Fondations du développement web",
+      "type": "Input",
+      "reponse": "C'est la balise <header> qui définit l'en-tête d'une page HTML.",
+      "soumisLe": "2026-07-18",
+      "corrigeLe": "2026-07-20",
+      "note": 16,
+      "commentaire": "Ce n'est pas tout à fait exact — la balise <header> ne définit pas l'en-tête d'une page HTML, c'est <head> qui joue ce rôle."
+    },
+    {
+      "id": "2",
+      "etudiant": "Amina Kerrouche",
+      "questionId": 5,
+      "exercice": "Mettre en page avec CSS - Flexbox",
+      "coursId": 1,
+      "cours": "Fondations du développement web",
+      "type": "QCM",
+      "reponseChoixId": 3,
+      "soumisLe": "2026-07-22",
+      "corrigeLe": "2026-07-23",
+      "note": 18,
+      "commentaire": "Parfait."
+    },
+    {
+      "id": "3",
+      "etudiant": "Ryma Ouahab",
+      "questionId": 16,
+      "exercice": "Introduction aux bases de données",
+      "coursId": 4,
+      "cours": "Bases de données",
+      "type": "Input",
+      "reponse": "Une relation un-à-plusieurs.",
+      "soumisLe": "2026-07-25",
+      "corrigeLe": "2026-07-27",
+      "note": 18,
+      "commentaire": "Correct, bien expliqué."
+    },
+    {
+      "id": "4",
+      "etudiant": "Nabil Taleb",
+      "questionId": 17,
+      "exercice": "Introduction aux bases de données",
+      "coursId": 4,
+      "cours": "Bases de données",
+      "type": "QCM",
+      "reponseChoixId": 2,
+      "soumisLe": "2026-08-15",
+      "corrigeLe": null,
+      "note": null,
+      "commentaire": null
+    },
+    {
+      "id": "5",
+      "etudiant": "Katia Larbi",
+      "questionId": 3,
+      "exercice": "Structurer une page HTML",
+      "coursId": 1,
+      "cours": "Fondations du développement web",
+      "type": "File Upload",
+      "reponseFichier": "vocabulaire_reunion.pdf",
+      "soumisLe": "2026-08-16",
+      "corrigeLe": null,
+      "note": null,
+      "commentaire": null
+    },
+    {
+      "id": "6",
+      "etudiant": "Yacine Belaïd",
+      "questionId": 6,
+      "exercice": "Mettre en page avec CSS - Flexbox",
+      "coursId": 1,
+      "cours": "Fondations du développement web",
+      "type": "File Upload",
+      "reponseFichier": "flexbox_layout.css",
+      "soumisLe": "2026-08-17",
+      "corrigeLe": null,
+      "note": null,
+      "commentaire": null
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
