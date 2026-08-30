@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
 import logoLampe from "../../assets/logo-lampe.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import { ChevronsRightLeft } from "lucide-react";
 import { ChevronsLeftRight } from "lucide-react";
 import { adminNav, formateurNav, etudiantNav } from "../../roleLinks";
 
 const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
+  const navigate = useNavigate()
   const navRole =
     role === "admin"
       ? adminNav
@@ -25,6 +26,8 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
   const widthClasses = isCollapsed
     ? "md:w-15 md:px-1 md:py-20 md:items-center md:justify-between"
     : "md:w-15 md:px-1 md:py-20 md:items-center md:justify-between lg:w-1/5 lg:px-8 lg:py-8 lg:items-stretch";
+
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   return (
     <>
@@ -58,16 +61,17 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
             <div className="absolute bottom-25 left-full ml-1 bg-bleu-principal border-2 border-gris-clair rounded-lg p-4 w-58 flex flex-col gap-4 shadow-lg">
               <div className="flex flex-col">
                 <h3 className="font-titres text-white text-sm font-semibold">
-                  User
+                  {currentUser.prenom + " " + currentUser.nom}
                 </h3>
-                <p className="text-gris-clair text-xs">user2020@gmail.com</p>
+                <p className="text-gris-clair text-xs">{currentUser.email}</p>
               </div>
-              <Link
-                to="/"
+              <button
+                onClick={(e) => {e.preventDefault(); localStorage.removeItem('user'); navigate('/');}}
                 className="cursor-pointer flex justify-center items-center  border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
+                
               >
                 <LogOut color="currentColor" size="20" /> Se déconnecter
-              </Link>
+              </button>
             </div>
           </>
         )}
@@ -131,7 +135,7 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
             onClick={() => setShowLogoutMenu(!showLogoutMenu)}
             className="cursor-pointer rounded-[50%] w-10 h-10 bg-gris-clair text-xl font-bold text-bleu-principal flex items-center justify-center hover:opacity-90"
           >
-            L
+            {currentUser.prenom[0].toUpperCase() + currentUser.nom[0].toUpperCase()}
           </button>
         </div>
         <div
@@ -143,23 +147,23 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
         >
           <div className="flex gap-3">
             <div className="rounded-full w-11.5 h-11.5 bg-gris-clair text-xl font-bold text-bleu-principal flex items-center justify-center shrink-0">
-              L
+              {currentUser.prenom[0].toUpperCase() + currentUser.nom[0].toUpperCase()}
             </div>
             <div className="flex flex-col text-gris-clair min-w-0">
               <h3 className="font-titres text-gris-clair text-m font-semibold">
-                User
+                {currentUser.prenom + ' ' + currentUser.nom}
               </h3>
               <p className="text-gris-clair text-xs truncate">
-                user2020@gmail.com
+                {currentUser.email}
               </p>
             </div>
           </div>
-          <Link
-            to="/"
+          <button
+            onClick={(e) => {e.preventDefault(); localStorage.removeItem('user'); navigate('/');}}
             className="cursor-pointer flex justify-center items-center  border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
           >
             <LogOut color="currentColor" size="20" /> Se déconnecter
-          </Link>
+          </button>
         </div>
       </div>
     </>
