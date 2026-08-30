@@ -1,9 +1,9 @@
 import React from 'react'
 import { ClipLoader } from 'react-spinners'
 
-const Spinner = () => {
+const Spinner = ({ login=false }) => {
   return (
-    <ClipLoader className='text-orange-cuivre' color='text-orange-cuivre' size={125} />
+    <ClipLoader className={login ? 'text-white font-bold' : 'text-orange-cuivre'} color='text-orange-cuivre' size={login ? 23 : 125} />
   )
 }
 

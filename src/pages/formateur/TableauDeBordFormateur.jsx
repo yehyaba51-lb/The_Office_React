@@ -3,32 +3,19 @@ import StateBox from '../../components/shared/PageComponents/StateBox'
 import RecentActivities from '../../components/shared/PageComponents/RecentActivities'
 import QuickAccess from '../../components/shared/PageComponents/QuickAccess'
 import { GraduationCap, ChartSpline, Book , NotebookPen} from 'lucide-react'
-import { fakeActivitesFormateur, fakeEtudiantsInscrits, fakeUsers, fakeCours, fakeSoumissions } from '../../fakeData'
 import Spinner from '../../components/shared/Spinner'
 import FetchError from '../../components/shared/FetchError'
 
 const TableauDeBordFormateur = () => {
     const [showAll, setshowAll] = useState(false)
-    const [users, setUsers] = useState([])
     const [soumissions, setSoumissions] = useState([])
     const [cours, setCours] = useState([])
     const [inscriptions, setInscriptions] = useState([])
     const [hasError, setHasError] = useState(false)
     const [loading, setLoading] = useState(true)
-    const [currentUser, setCurrentUser] = useState(true)
+    const [currentUser, setCurrentUser] = useState(null)
+    const [activities, setActivities] = useState([])
 
-    const getUsers = async () => {
-      try {
-        const response = await fetch('http://localhost:8000/users')
-        const data = await response.json()
-
-        setUsers(data)
-        return true
-      } catch (error) {
-        setUsers('')
-        return false
-      }
-    }
 
     const getCours = async () => {
       try {
@@ -71,7 +58,7 @@ const TableauDeBordFormateur = () => {
 
     useEffect(() => {
       const loadEverything = async () => {
-        const results = await Promise.all([getCours(), getInscriptions(), getSoumissions(), getUsers()])
+        const results = await Promise.all([getInscriptions(), getSoumissions(), getCours()])
         setHasError(results.includes(false))
 
         setLoading(false)
@@ -80,9 +67,29 @@ const TableauDeBordFormateur = () => {
       loadEverything()
       setCurrentUser(JSON.parse(localStorage.getItem('user')))
     }, [])
-  
-    console.log('currentUser', currentUser);
-    console.log('inscriptions', inscriptions);
+
+    useEffect(() => {
+      const inscriptionActivities = inscriptions ? inscriptions.map(i => ({
+        badge: `admin`,
+        text: `Nouvel étudiant inscrit : ${i.etudiant} — « ${i.cours} »`,
+        date: i.inscritLe,
+        to: `/formateur/etudiants`
+      })) : ''
+
+      const soumissionsActivities = soumissions ? soumissions.map(s => ({
+        badge: 'admin',
+        text: `Nouvelle soumission de ${s.etudiant} — « ${s.exercice} »`,
+        date: s.soumisLe,
+        to: '/formateur/corrections'
+      })) : ''
+
+
+      setActivities(
+        [...soumissionsActivities, ...inscriptionActivities].sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        ).slice(0, 10)
+      )
+    }, [soumissions, inscriptions])
     
     
     
@@ -90,7 +97,7 @@ const TableauDeBordFormateur = () => {
     const etudiantInscriptions = inscriptions ? inscriptions.filter(i => formateurCours.some(c => c.titre.toLowerCase() === i.cours.toLowerCase())) : ''
 
     
-    const filteredActivitesFormateur = showAll ? fakeActivitesFormateur : fakeActivitesFormateur.slice(0, 5)
+    const filteredActivitesFormateur = showAll ? activities : activities.slice(0, 5)
 
     const numberOfCours = formateurCours.length
 
@@ -155,7 +162,7 @@ const TableauDeBordFormateur = () => {
               <div className='border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col'>
                 <h2 className='font-titres font-semibold text-bleu-principal text-xl px-3 mb-1'>Activité récente</h2>
                 {filteredActivitesFormateur.map((activity, i) => (
-                  <RecentActivities key={i} badge={ activity.bagde } text={ activity.text } date={ activity.date } to={ activity.to }  />
+                  <RecentActivities key={i} badge={ activity.badge } text={ activity.text } date={ activity.date } to={ activity.to }  />
                 ))}
                 <button className='font-semibold text-orange-cuivre text-lg cursor-pointer hover:text-orange-cuivre/75 hover:underline transition duration-300 ease-in-out' onClick={() => setshowAll(activity => !activity)}>{showAll ? 'Voir moins' : 'Voir plus'}</button>
               </div>

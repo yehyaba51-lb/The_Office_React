@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import SideBar from '../shared/SideBar'
 import TopBar from '../shared/TopBar'
 import { Outlet } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 
 const MainLayout = ({ role }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
