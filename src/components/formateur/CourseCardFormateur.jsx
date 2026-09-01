@@ -3,7 +3,7 @@ import ProgressBar from "../shared/ProgressBar";
 import { Link } from "react-router-dom";
 import NoImageFound from "../../assets/no-image-found.png";
 
-const CourseCardFormateur = ({ cours, enrolled, etudiant = false }) => {
+const CourseCardFormateur = ({ cours, enrolled, etudiant = false, lecons, exercices, progression }) => {
   const [imageLoadedCount, setImageLoadedCount] = useState(0);
   const allLoaded = imageLoadedCount >= cours.length;
 
@@ -16,7 +16,7 @@ const CourseCardFormateur = ({ cours, enrolled, etudiant = false }) => {
       <div
         className={`w-full rounded-2xl h-fit grid grid-cols-2 gap-20 justify-between p-2`}
       >
-        {cours.map((c) => (
+        {cours.map((c, i) => (
           <Link
             to={`${c.id}`}
             className="w-full flex flex-col gap-2 border-2 border-gris-clair rounded-2xl"
@@ -52,22 +52,22 @@ const CourseCardFormateur = ({ cours, enrolled, etudiant = false }) => {
                   </div>
                 ) : (
                   <p className="text-gris-fonce text-md">
-                    {enrolled} étudiants inscrits
+                    {enrolled[i]} étudiants inscrits
                   </p>
                 )}
-                <p className="text-gris-fonce text-md">
-                  4 leçons · 5 exercices
-                </p>
+                  <p key={i} className="text-gris-fonce text-md">
+                    {lecons[i]} leçons · {exercices[i]} exercices
+                  </p>
               </div>
               <div className="flex flex-col gap-2 my-3">
                 <div className="flex justify-between items-center">
                   <h3 className="font-titres text-md font-semibold text-bleu-principal">
                     Complétion
                   </h3>
-                  <p className="text-orange-cuivre font-semibold">2/4</p>
+                  <p className="text-orange-cuivre font-semibold">{progression[i]}/{enrolled[i]}</p>
                 </div>
                 <div className="w-full">
-                  <ProgressBar current={2} total={4} className="w-full" />
+                  <ProgressBar current={progression[i]} total={enrolled[i]} className="w-full" />
                 </div>
               </div>
             </div>

@@ -105,7 +105,7 @@ const Cours = () => {
     }
   }
 
-  const searchCours = filteredCours.filter(c => `${c.titre}`.toLowerCase().includes(search.toLowerCase()))
+  const searchCours = filteredCours ? filteredCours.filter(c => `${c.titre}`.toLowerCase().includes(search.toLowerCase())) : ''
 
   return (
     <div>

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import SearchBar from "../../components/shared/SearchBar";
 import CourseCardFormateur from "../../components/formateur/CourseCardFormateur";
-import { fakeCours, fakeUsers, fakeEtudiantsInscrits } from "../../fakeData";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 
 const MesCours = () => {
   const [cours, setCours] = useState([]);
   const [inscriptions, setInscriptions] = useState([]);
+  const [exercices, setExercices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
   const [hasError, setHasError] = useState(false);
+  const [search, setSearch] = useState("");
 
   const getCours = async () => {
     try {
@@ -38,11 +39,25 @@ const MesCours = () => {
     }
   };
 
+  const getExercices = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/exercices");
+      const data = await response.json();
+
+      setExercices(data);
+      return true;
+    } catch (error) {
+      setExercices("");
+      return false;
+    }
+  };
+
   useEffect(() => {
     const loadEverything = async () => {
       const results = await Promise.all([
         getInscriptions(),
         getCours(),
+        getExercices(),
       ]);
       setHasError(results.includes(false));
 
@@ -53,25 +68,66 @@ const MesCours = () => {
     setCurrentUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  const coursSelected = cours.filter(
+  const coursSelected = cours
+    ? cours.filter(
+        (c) =>
+          c.formateur.toLowerCase() ===
+          `${currentUser && currentUser.prenom.toLowerCase()} ${currentUser && currentUser.nom.toLowerCase()}`,
+      )
+    : "";
+
+  const searchCours = coursSelected ? coursSelected.filter(
     (c) =>
-      c.formateur.toLowerCase() ===
-      `${currentUser.prenom.toLowerCase()} ${currentUser.nom.toLowerCase()}`,
-  );
-  const enrolledStudents = inscriptions.filter((i) =>
-    coursSelected.some((c) => c.titre === i.cours),
-  ).length;
+      `${c.titre}`.toLowerCase().includes(search.toLowerCase())
+  ) : ''
+
+  const numberOfExercises = searchCours
+    ? searchCours.map(
+        (c) => exercices.filter((e) => e.coursId === Number(c.id)).length,
+      )
+    : "";
+
+  const enrolledStudents = searchCours
+    ? searchCours.map(
+        (c) =>
+          inscriptions.filter(
+            (i) => i.cours.toLowerCase() === c.titre.toLowerCase(),
+          ).length,
+      )
+    : "";
+
+  const progression = searchCours
+    ? searchCours.map(
+        (c) =>
+          inscriptions.filter(
+            (i) =>
+              i.cours.toLowerCase() === c.titre.toLowerCase() &&
+              i.noteFinale !== null,
+          ).length,
+      )
+    : "";
 
   return (
-    <div className="flex flex-col px-5 mt-8 gap-4 items-center">
+    <div
+      className={`flex flex-col px-5 mt-8 gap-4 items-center ${loading && "mt-25"}`}
+    >
       {loading ? (
         <Spinner />
       ) : hasError ? (
         <FetchError />
       ) : (
         <>
-          <SearchBar />
-          <CourseCardFormateur cours={coursSelected} enrolled={enrolledStudents} />
+          <SearchBar
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <CourseCardFormateur
+            cours={searchCours}
+            enrolled={enrolledStudents}
+            lecons={searchCours.map((c) => c.lecons)}
+            exercices={numberOfExercises}
+            progression={progression}
+          />
         </>
       )}
     </div>
