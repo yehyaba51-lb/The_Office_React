@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { CircleX } from "lucide-react";
 
-const AddQuestionModal = ({ initialData, editFunction }) => {
+const AddQuestionModal = ({ initialData, editFunction, addFunction }) => {
+  const formRef = useRef()
   const navigate = useNavigate();
   const location = useLocation();
-
   const [exerciceType, setExerciceType] = useState("Input");
+  const { id, exerciceId } = useParams();
 
   const isEditMode = Boolean(initialData);
   return (
@@ -32,7 +33,7 @@ const AddQuestionModal = ({ initialData, editFunction }) => {
               <CircleX size={22} />
             </button>
           </div>
-          <form action="" method="post" className="flex flex-col gap-3">
+          <form action="" method="post" className="flex flex-col gap-3" ref={formRef}>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="texte" className="text-gris-fonce text-sm">
                 Texte de la question
@@ -105,6 +106,7 @@ const AddQuestionModal = ({ initialData, editFunction }) => {
                       defaultValue={isEditMode ? initialData[0].choix[0].texte : ''}
                     />
                     <input
+                      value = '0'
                       type="radio"
                       name="bonne_reponse"
                       defaultChecked={isEditMode ? initialData[0].choix[0].correct : ''}
@@ -126,6 +128,7 @@ const AddQuestionModal = ({ initialData, editFunction }) => {
                     />
                     <input
                       type="radio"
+                      value = '1'
                       name="bonne_reponse"
                       defaultChecked={isEditMode ? initialData[0].choix[1].correct : ''}
                       className="accent-orange-cuivre"
@@ -146,6 +149,7 @@ const AddQuestionModal = ({ initialData, editFunction }) => {
                     />
                     <input
                       type="radio"
+                      value = '2'
                       name="bonne_reponse"
                       defaultChecked={isEditMode ? initialData[0].choix[2].correct : ''}
                       className="accent-orange-cuivre"
@@ -166,6 +170,7 @@ const AddQuestionModal = ({ initialData, editFunction }) => {
                     />
                     <input
                       type="radio"
+                      value = '3'
                       name="bonne_reponse"
                       defaultChecked={isEditMode ? initialData[0].choix[3].correct : ''}
                       className="accent-orange-cuivre"
@@ -186,12 +191,59 @@ const AddQuestionModal = ({ initialData, editFunction }) => {
                 value={`${isEditMode ? "Modifier question" : "Ajouter question"}`}
                 onClick={
                   isEditMode
-                    ? () => {
-                        editFunction();
-                        navigate(location.pathname);
+                      ? () => {
+                          const formData = new FormData(formRef.current);
+                          const questionTitre = formData.get('texte');
+
+                          const updatedQuestion = { ...initialData[0], texte: questionTitre };
+
+                          if (initialData[0].type === "QCM") {
+                            const choixUnInput = formData.get('choix_un');
+                            const choixDeuxInput = formData.get('choix_deux');
+                            const choixTroisInput = formData.get('choix_trois');
+                            const choixQuatreInput = formData.get('choix_quatre');
+                            const bonneReponseIndex = formData.get('bonne_reponse');
+
+                            updatedQuestion.choix = [
+                              { texte: choixUnInput, correct: bonneReponseIndex === '0' },
+                              { texte: choixDeuxInput, correct: bonneReponseIndex === '1' },
+                              { texte: choixTroisInput, correct: bonneReponseIndex === '2' },
+                              { texte: choixQuatreInput, correct: bonneReponseIndex === '3' },
+                            ];
+                          }
+
+                          editFunction(updatedQuestion);
+                          navigate(location.pathname);
+                        }
+                      : () => {
+                        const formData = new FormData(formRef.current);
+                        const questionTitre = formData.get('texte');
+                        
+                        const newQuestion = {
+                          texte: questionTitre,
+                          type: exerciceType,
+                          exerciceId: Number(exerciceId),
+                        };
+
+                        if(exerciceType === 'QCM'){
+                          const choixUnInput = formData.get('choix_un');
+                          const choixDeuxInput = formData.get('choix_deux');
+                          const choixTroisInput = formData.get('choix_trois');
+                          const choixQuatreInput = formData.get('choix_quatre');
+                          const bonneReponseIndex = formData.get('bonne_reponse');
+
+                          newQuestion.choix = [
+                            { texte: choixUnInput, correct: bonneReponseIndex === '0' },
+                            { texte: choixDeuxInput, correct: bonneReponseIndex === '1' },
+                            { texte: choixTroisInput, correct: bonneReponseIndex === '2' },
+                            { texte: choixQuatreInput, correct: bonneReponseIndex === '3' },    
+                          ]}
+                        
+
+                        addFunction(newQuestion)
+                        navigate(`${location.pathname}?success=true`)
                       }
-                    : () => navigate(`${location.pathname}?success=true`)
-                }
+                    }
                 className={`text-sm w-7/8 bg-orange-cuivre border-2 border-orange-cuivre rounded-xl px-3 py-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}
               />
             </div>

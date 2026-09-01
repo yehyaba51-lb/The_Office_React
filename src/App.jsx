@@ -21,6 +21,7 @@ import MesEtudiants from "./pages/formateur/MesEtudiants";
 import Corrections from "./pages/formateur/Corrections";
 import CoursDetailsFormateur from './pages/formateur/CoursDetails'
 import ExercicePage from './pages/formateur/ExercicePage'
+import LessonDetailsPageFormateur from './pages/formateur/LessonDetailsPage'
 import TableauDeBordEtudiant from "./pages/etudiants/TableauDeBordEtudiant";
 import MesCoursEtudiant from "./pages/etudiants/MesCoursEtudiant";
 import MesExercices from "./pages/etudiants/MesExercices";
@@ -57,7 +58,8 @@ const App = () => {
           <Route path="/formateur/etudiants" element={<MesEtudiants />} handle={{ titre: 'Mes étudiants', sousTitre: "Belkacem Nadia" }} />
           <Route path="/formateur/corrections" element={<Corrections />} handle={{ titre: 'Corrections', sousTitre: "Belkacem Nadia" }} />
           <Route path="/formateur/cours/:id" element={<CoursDetailsFormateur />} handle={{ titre:'Cours introuvable', sousTitre: "Retour aux cours", backLink: '/formateur/cours', addButton:'Ajouter leçon' }} />
-          <Route path="/formateur/cours/:id/:exerciceId" element={<ExercicePage />} handle={{ sousTitre: "Retour aux cours", backLink: '/formateur/cours/:id', addButton:'Ajouter question' }} />
+          <Route path="/formateur/cours/:id/exercices/:exerciceId" element={<ExercicePage />} handle={{ sousTitre: "Retour aux cours", backLink: '/formateur/cours/:id', addButton:'Ajouter question' }} />
+          <Route path="/formateur/cours/:id/lecons/:leconId" element={<LessonDetailsPageFormateur />} handle={{ sousTitre: "Retour aux cours", backLink: '/formateur/cours/:id' }} />
           <Route path='/formateur/*' element={<NotFoundPage />} handle={{ titre: 'Page introuvable', homeLink: '/formateur' }} />
         </Route>
 

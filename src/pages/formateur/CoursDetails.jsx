@@ -6,12 +6,6 @@ import {
   useSearchParams,
   useNavigate,
 } from "react-router-dom";
-import {
-  fakeCoursDetail,
-  fakeLecons,
-  fakeExercices,
-  fakeEtudiantsInscrits,
-} from "../../fakeData";
 import StateBox from "../../components/shared/PageComponents/StateBox";
 import LessonBuilderModal from "../../components/modals/LessonBuilderModal";
 import SuccessModal from "../../components/modals/SuccessModal";
@@ -29,33 +23,35 @@ const CoursDetails = () => {
   const [inscriptions, setInscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null)
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isEditSpec, setIsEditSpec] = useState(false);
+  const [description, setDescription] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const getCours = async () => {
+  const getCours = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8000/cours/`);
+      const response = await fetch(`http://localhost:8000/cours/${id}`);
       const data = await response.json();
 
       setCours(data);
       return true;
     } catch (error) {
-      setCours("");
+      setCours([]);
       return false;
     }
   };
 
   const getLecons = async () => {
     try {
-      const response = await fetch("http://localhost:8000/lecons");
+      const response = await fetch(`http://localhost:8000/lecons`);
       const data = await response.json();
 
       setLecons(data);
       return true;
     } catch (error) {
-      setLecons("");
+      setLecons([]);
       return false;
     }
   };
@@ -68,7 +64,7 @@ const CoursDetails = () => {
       setExercices(data);
       return true;
     } catch (error) {
-      setExercices("");
+      setExercices([]);
       return false;
     }
   };
@@ -81,7 +77,7 @@ const CoursDetails = () => {
       setInscriptions(data);
       return true;
     } catch (error) {
-      setInscriptions("");
+      setInscriptions([]);
       return false;
     }
   };
@@ -89,10 +85,10 @@ const CoursDetails = () => {
   useEffect(() => {
     const loadEverything = async () => {
       const results = await Promise.all([
+        getCours(id),
         getExercices(),
         getInscriptions(),
         getLecons(),
-        getCours(),
       ]);
       setHasErrors(results.includes(false));
 
@@ -103,64 +99,66 @@ const CoursDetails = () => {
     setCurrentUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  const selectedCours = cours ? cours.find(
-    (cours) => cours.id === id,
-  ) : ''
-
-  const selectedLecons = lecons ? lecons.filter(
-    (lecon) => lecon.coursId === Number(id),
-  ) : ''
-  
-
-  console.log('Cours', selectedCours);
-  console.log('Lecons', selectedLecons);
-  
+  const selectedLecons = lecons
+    ? lecons.filter((lecon) => lecon.coursId === Number(id))
+    : [];
 
   const exos = (lecon) => {
-    return fakeExercices.filter(
-      (exo) => exo.leconId === lecon.id && exo.coursId === Number(id),
-    );
+    const selectedExos = exercices
+        ? exercices.filter(
+            (exo) => exo.leconId === Number(lecon.id) && exo.coursId === Number(id),
+          )
+        : []
+      return selectedExos
   };
 
   const [searchParams] = useSearchParams();
   const showModal = searchParams.get("create") === "true";
   const showSuccess = searchParams.get("success") === "true";
 
-  const enrolledStudentsNumber = selectedCours
-    ? inscriptions ? inscriptions.filter((i) => i.cours.toLowerCase() === selectedCours.titre.toLowerCase()).length : ''
+  const enrolledStudentsNumber = cours
+    ? inscriptions
+      ? inscriptions.filter(
+          (i) => i.cours.toLowerCase() === cours?.titre?.toLowerCase(),
+        ).length
+      : ""
     : 0;
-  const numberOfExercices = exercices ? exercices.filter(
-    (e) => e.coursId === Number(id),
-  ).length : 0
 
-  const [isEditSpec, setIsEditSpec] = useState(false);
-  const [description, setDescription] = useState(
-    selectedCours ? selectedCours.description : "",
-  );
+  const numberOfExercices = exercices
+    ? exercices.filter((e) => e.coursId === Number(id)).length
+    : 0;
 
-  console.log(selectedCours.description);
-  
+  useEffect(() => {
+    setDescription(cours ? cours.description : "");
+  }, [cours]);
+
+  const etudiantInscrits = inscriptions ? inscriptions.filter(i => i.coursId === Number(id)) : [] 
+
   return (
-    <div className="flex flex-col gap-3 mt-5">
+    <div className={`flex flex-col gap-4 justify-center items-center ${loading && "mt-25"}`}>
       {showModal && <LessonBuilderModal lecon={selectedLecons} />}
       {showSuccess && (
         <SuccessModal
           type={"Leçon"}
-          content={selectedCours?.titre}
+          content={cours?.titre}
           create={true}
           lecon={true}
         />
       )}
-      {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
-        <>
-          {selectedCours && selectedCours.lecons > 0 ? (
+      {loading ? (
+        <Spinner />
+      ) : hasErrors ? (
+        <FetchError />
+      ) : (
+        <div className="w-full">
+          {cours && cours.lecons > 0 ? (
             <>
               <div className="flex justify-between">
                 <StateBox
                   titre={"Étudiants inscrits"}
                   label={enrolledStudentsNumber}
                 />
-                <StateBox titre={"Leçons"} label={selectedCours.lecons} />
+                <StateBox titre={"Leçons"} label={cours.lecons} />
                 <StateBox titre={"Exercices"} label={numberOfExercices} />
               </div>
               <div className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2 mx-5">
@@ -216,10 +214,10 @@ const CoursDetails = () => {
                 </h3>
                 <div className="w-full border-2 border-gris-clair rounded-2xl p-1 flex flex-col gap-2 justify-between">
                   {selectedLecons.map((lecon) => (
-                    <div
+                    <Link
                       key={`${lecon.id}-${lecon.coursId}`}
-                      to={`${location.pathname}/${lecon.id}`}
-                      className={`flex flex-col  border-t-${lecon.id === 1 ? "0" : "2"} border-gris-clair p-4 gap-3 items-center`}
+                      to={`${location.pathname}/lecons/${lecon.id}`}
+                      className={`flex flex-col  border-t-${lecon.id === '1' ? "0" : "2"} border-gris-clair p-4 gap-3 items-center`}
                     >
                       <div className="flex justify-between w-full">
                         <div className="flex gap-4">
@@ -241,11 +239,11 @@ const CoursDetails = () => {
                           </p>
                         </div>
                       </div>
-                      <hr className="w-7/8 text-gris-clair border-2 my-2" />
+                      <hr className={`w-7/8 text-gris-clair border-2 my-2`} />
                       <div className="w-7/8 flex gap-5">
                         {exos(lecon).map((exo) => (
                           <Link
-                            to={`/formateur/cours/${id}/${exo.id}`}
+                            to={`/formateur/cours/${id}/exercices/${exo.id}`}
                             key={exo.id}
                             className="font-semibold px-8 py-2 border-2 border-gris-clair rounded-xl text-bleu-secondaire"
                           >
@@ -253,7 +251,7 @@ const CoursDetails = () => {
                           </Link>
                         ))}
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -263,21 +261,19 @@ const CoursDetails = () => {
                 </h3>
                 <TableData
                   columns={etudiantsInscritsColumns}
-                  rows={fakeEtudiantsInscrits.filter(
-                    (e) => e.cours === selectedCours.titre,
-                  )}
+                  rows={etudiantInscrits}
                   admin={false}
                 />
               </div>
             </>
-          ) : selectedCours && selectedCours.lecons === 0 ? (
+          ) : cours && cours.lecons === 0 ? (
             <>
               <div className="flex justify-between">
                 <StateBox
                   titre={"Étudiants inscrits"}
                   label={enrolledStudentsNumber}
                 />
-                <StateBox titre={"Leçons"} label={selectedCours.lecons} />
+                <StateBox titre={"Leçons"} label={cours.lecons} />
                 <StateBox titre={"Exercices"} label={numberOfExercices} />
               </div>
               <div className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2 mx-5">
@@ -343,13 +339,13 @@ const CoursDetails = () => {
                 </h3>
                 <TableData
                   columns={etudiantsInscritsColumns}
-                  rows={""}
+                  rows={[]}
                   admin={false}
                 />
               </div>
             </>
           ) : (
-            !selectedCours && (
+            !cours && (
               <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
                 <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
                   <FileX className="text-gris-fonce" size={26} />
@@ -370,8 +366,7 @@ const CoursDetails = () => {
               </div>
             )
           )}
-        
-        </>
+        </div>
       )}
     </div>
   );
