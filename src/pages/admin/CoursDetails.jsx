@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import StateBox from "../../components/shared/PageComponents/StateBox";
 import FormModal from "../../components/modals/FormModal";
@@ -24,53 +24,53 @@ const CoursDetails = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch('http://localhost:8000/cours')
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`)
       const data = await response.json()
 
       setCours(data)
       return true
     } catch (error) {
-      setCours('')
+      setCours([])
       return false
     }
   }
 
   const getCoursDetail = async () => {
     try {
-      const response = await fetch('http://localhost:8000/lecons')
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons`)
       const data = await response.json()
       
       setLecons(data)
       return true
     } catch (error) {
-      setLecons('')
+      setLecons([])
       return false
     }
   }
 
   const getExercices = async () => {
     try {
-      const response = await fetch('http://localhost:8000/exercices')
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices`)
       const data = await response.json()
 
       setExercices(data)
       return true
     } catch (error) {
-      setExercices('')
+      setExercices([])
       return false
     }
   }
 
   const getInscriptions = async () => {
     try {
-      const response = await fetch('http://localhost:8000/inscriptions')
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`)
       const data = await response.json()
 
       setInscriptions(data)
       
       return true
     } catch (error) {
-      setInscriptions('')
+      setInscriptions([])
       return false
     }
   }
@@ -116,11 +116,10 @@ const CoursDetails = () => {
   const numberOfExercices = exercices ? exercices.filter(e => e.coursId === Number(id)).length : 0
   
   const selectedInscription = inscriptions ? inscriptions.find(i => i.id === etudiantId) : '';
-  console.log(selectedInscription);
   
   const addExercice = async (submittedExercice) => {
     try {
-      await fetch('http://localhost:8000/exercices', {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -140,7 +139,7 @@ const CoursDetails = () => {
 
   const supprimerInscription = async (id) => {
     try {
-      await fetch(`http://localhost:8000/inscriptions/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions/${id}`, {
         method: 'DELETE'
       })
 

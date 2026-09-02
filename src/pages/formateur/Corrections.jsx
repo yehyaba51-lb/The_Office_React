@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../../components/shared/SearchBar";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { correctionsColumns } from "../../fakeData";
@@ -22,7 +22,7 @@ const Corrections = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cours");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`)
       const data = await response.json();
 
       setCours(data);
@@ -35,7 +35,7 @@ const Corrections = () => {
 
   const getSoumissions = async () => {
     try {
-      const response = await fetch("http://localhost:8000/soumissions");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions`)
       const data = await response.json();
 
       setSoumissions(data);
@@ -87,7 +87,7 @@ const Corrections = () => {
 
   const soumisFunction = async (id, data) => {
     try {
-      await fetch(`http://localhost:8000/soumissions/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

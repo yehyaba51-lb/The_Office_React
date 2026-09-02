@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { coursColumns } from "../../fakeData";
@@ -26,7 +26,7 @@ const Cours = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cours");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
       const data = await response.json();
 
       setCours(data);
@@ -49,7 +49,7 @@ const Cours = () => {
 
   const addCours = async (insertedCours) => {
     try {
-      await fetch("http://localhost:8000/cours", {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ const Cours = () => {
 
   const editCours = async(id, initialData) => {
     try {
-      await fetch(`http://localhost:8000/cours/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/cours/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -94,7 +94,7 @@ const Cours = () => {
   }
   const removeCours = async(id) => {
     try {
-      await fetch(`http://localhost:8000/cours/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/cours/${id}`, {
         method: 'DELETE'
       })
 

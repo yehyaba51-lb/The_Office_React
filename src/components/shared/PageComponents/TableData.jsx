@@ -1,12 +1,12 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProgressBar from '../../shared/ProgressBar'
-import { fakeQuestions } from "../../../fakeData";
 import { Pencil, Trash2 } from "lucide-react";
 
 const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true, deleting=true }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [questions, setQuestions] = useState([])
 
   const getNums = (row) => {
     const progressionParts = row.progression.split('/')
@@ -15,8 +15,22 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
     return [current, total]
   }
 
+  const getQuestions = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions`)
+      const data = await response.json()
+
+      setQuestions(data)
+    } catch (error) {
+      setQuestions([])
+    }
+  }
+
+  useEffect(() => {
+    getQuestions()
+  }, [])
   const trimQuestion = (row) => {
-    const value = fakeQuestions.find(q => q.id === row.questionId)?.texte    
+    const value = questions ? questions.find(q => q.id === row.questionId)?.texte : '' 
     return value.slice(0, 30) + '...'
   }
   

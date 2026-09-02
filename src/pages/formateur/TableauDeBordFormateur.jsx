@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import StateBox from '../../components/shared/PageComponents/StateBox'
 import RecentActivities from '../../components/shared/PageComponents/RecentActivities'
 import QuickAccess from '../../components/shared/PageComponents/QuickAccess'
@@ -19,39 +19,39 @@ const TableauDeBordFormateur = () => {
 
     const getCours = async () => {
       try {
-        const response = await fetch('http://localhost:8000/cours')
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`)
         const data = await response.json()
 
         setCours(data)
         return true
       } catch (error) {
-        setCours('')
+        setCours([])
         return false
       }
     }
 
     const getInscriptions = async () => {
       try {
-        const response = await fetch('http://localhost:8000/inscriptions')
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`)
         const data = await response.json()
 
         setInscriptions(data)
         return true
       } catch (error) {
-        setInscriptions('')
+        setInscriptions([])
         return false
       }
     }
 
     const getSoumissions = async () => {
       try {
-        const response = await fetch('http://localhost:8000/soumissions')
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions`)
         const data = await response.json()
 
         setSoumissions(data)
         return true
       } catch (error) {
-        setSoumissions('')
+        setSoumissions([])
         return false
       }
     }
@@ -93,9 +93,9 @@ const TableauDeBordFormateur = () => {
     
     
     
-    const formateurCours = cours ? cours.filter(c => c.formateur.toLowerCase() === currentUser.prenom.toLowerCase() + ' ' + currentUser.nom.toLowerCase()) : ''
+    const formateurCours = cours ? cours.filter(c => currentUser ? c.formateur.toLowerCase() === currentUser.prenom.toLowerCase() + ' ' + currentUser.nom.toLowerCase() : []) : ''
+    
     const etudiantInscriptions = inscriptions ? inscriptions.filter(i => formateurCours.some(c => c.titre.toLowerCase() === i.cours.toLowerCase())) : ''
-
     
     const filteredActivitesFormateur = showAll ? activities : activities.slice(0, 5)
 
@@ -171,8 +171,8 @@ const TableauDeBordFormateur = () => {
               <div className='border-2 border-gris-clair rounded-xl p-3 mx-5 my-1 flex flex-col gap-2'>
                 <h2 className='font-titres font-semibold text-bleu-principal text-xl'>Accès rapide</h2>
                 <QuickAccess link={'Gérer mes cours'} portail={'formateur'} direction={'cours'} />
-                <QuickAccess link={'Corriger les exercices' } portail={'formateur'} direction={'categorie'} />
-                <QuickAccess link={'Voir mes étudiants' } portail={'formateur'} direction={'acces'} />
+                <QuickAccess link={'Corriger les exercices' } portail={'formateur'} direction={'corrections'} />
+                <QuickAccess link={'Voir mes étudiants' } portail={'formateur'} direction={'etudiants'} />
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../../components/shared/SearchBar";
 import CourseCardFormateur from "../../components/formateur/CourseCardFormateur";
 import Spinner from "../../components/shared/Spinner";
@@ -15,7 +15,7 @@ const MesCours = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cours");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
       const data = await response.json();
 
       setCours(data);
@@ -28,7 +28,7 @@ const MesCours = () => {
 
   const getInscriptions = async () => {
     try {
-      const response = await fetch("http://localhost:8000/inscriptions");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`);
       const data = await response.json();
 
       setInscriptions(data);
@@ -41,7 +41,7 @@ const MesCours = () => {
 
   const getExercices = async () => {
     try {
-      const response = await fetch("http://localhost:8000/exercices");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices`);
       const data = await response.json();
 
       setExercices(data);

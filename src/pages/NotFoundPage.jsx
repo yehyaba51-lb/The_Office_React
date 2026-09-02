@@ -1,4 +1,3 @@
-import React from 'react'
 import { SearchX } from 'lucide-react'
 import { useNavigate, useMatches } from 'react-router-dom'
 

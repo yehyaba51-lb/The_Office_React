@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { userColumns } from "../../fakeData";
@@ -29,7 +29,7 @@ const Utilisateurs = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch("http://localhost:8000/users");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`);
       const data = await response.json();
 
       setUsers(data);
@@ -60,7 +60,7 @@ const Utilisateurs = () => {
 
   const addUser = async (submittedUser) => {
     try {
-      await fetch("http://localhost:8000/users", {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +77,7 @@ const Utilisateurs = () => {
 
   const editUser = async (id, submittedUser) => {
     try {
-      await fetch(`http://localhost:8000/users/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/users/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -94,7 +94,7 @@ const Utilisateurs = () => {
 
   const removeUser = async (id) => {
     try {
-      await fetch(`http://localhost:8000/users/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/users/${id}`, {
         method: 'DELETE'
       })
 

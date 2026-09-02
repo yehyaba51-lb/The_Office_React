@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CircleX, KeyRound } from "lucide-react";
 import ConfirmModal from "../../components/modals/ConfirmModal";
 import SuccessModal from "../../components/modals/SuccessModal";
@@ -27,7 +27,7 @@ const AccesPage = () => {
 
   const getInscription = async () => {
     try {
-      const response = await fetch("http://localhost:8000/inscriptions");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`);
       const data = await response.json();
 
       setAccess(data);
@@ -40,7 +40,7 @@ const AccesPage = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch("http://localhost:8000/users");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`);
       const data = await response.json();
 
       setUsers(data);
@@ -53,7 +53,7 @@ const AccesPage = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cours");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
       const data = await response.json();
 
       setCours(data);
@@ -88,7 +88,7 @@ const AccesPage = () => {
 
   const supprimerInscription = async (id) => {
     try {
-      await fetch(`http://localhost:8000/inscriptions/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions/${id}`, {
         method: "DELETE",
       });
 
@@ -101,7 +101,7 @@ const AccesPage = () => {
 
   const addAccess = async (a) => {
     try {
-      await fetch("http://localhost:8000/inscriptions", {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

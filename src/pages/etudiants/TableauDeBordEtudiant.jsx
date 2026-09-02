@@ -1,10 +1,16 @@
-import React from 'react'
 import StateBox from '../../components/shared/PageComponents/StateBox'
 import RecentActivities from '../../components/shared/PageComponents/RecentActivities'
 import QuickAccess from '../../components/shared/PageComponents/QuickAccess'
 import { Check, Book } from 'lucide-react'
+import { useState } from 'react'
 
 const TableauDeBordEtudiant = () => {
+  const [cours, setCours] = useState([])
+  const [soumissions, setSoumissions] = useState([])
+  const [inscriptions, setInscriptions] = useState([])
+  const [loading, setLoading] = useState(true)
+  
+
   return (
     <div className='flex flex-col justify-start'>
       <div className="flex justify-between p-2 mx-5">
