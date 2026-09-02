@@ -4,7 +4,7 @@ import ProgressBar from '../../shared/ProgressBar'
 import { fakeQuestions } from "../../../fakeData";
 import { Pencil, Trash2 } from "lucide-react";
 
-const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true }) => {
+const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true, deleting=true }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -84,7 +84,6 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                       )}
                     </td>
                   ))}
-                  
                   {admin && (
                     row.role === "Administrateur" ? (
                       ""
@@ -106,7 +105,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                     {admin && (
                       row.role === "Administrateur" ? (
                         ""
-                      ) : (
+                      ) : deleting && (
                         <td className="px-4 py-2 w-12">
                           <button
                             onClick={(e) => {
@@ -178,7 +177,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                     {admin && (
                       row.role === "Administrateur" ? (
                         ""
-                      ) : (
+                      ) : deleting && (
                         <td className="px-4 py-2 w-12">
                           <button
                             onClick={() =>

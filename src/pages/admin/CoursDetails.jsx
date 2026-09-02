@@ -19,7 +19,6 @@ const CoursDetails = () => {
   const [inscriptions, setInscriptions] = useState([])
   const [hasErrors, setHasErrors] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [newExerciceName, setNewExerciceName] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -152,7 +151,7 @@ const CoursDetails = () => {
     }
   }
   return (
-    <div  className="flex flex-col justify-start">
+    <div  className="flex flex-col justify-center">
       {showModal && (
         <FormModal type={ 'un exercice' } fields={ exerciceFields } submitFunction={ addExercice } />
       )}

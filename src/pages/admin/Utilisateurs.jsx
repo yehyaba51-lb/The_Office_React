@@ -105,7 +105,7 @@ const Utilisateurs = () => {
     }
   }
 
-  const searchUsers = filteredUsers.filter(u => `${u.nom} ${u.prenom}`.toLowerCase().includes(search.toLowerCase()))
+  const searchUsers = filteredUsers ? filteredUsers.filter(u => `${u.nom} ${u.prenom}`.toLowerCase().includes(search.toLowerCase())) : ''
   return (
     <div>
       {showModal && (

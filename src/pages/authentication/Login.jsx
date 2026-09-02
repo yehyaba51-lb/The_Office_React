@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useMatches, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Spinner from "../../components/shared/Spinner";
 
 const Login = () => {
   const [users, setUsers] = useState([]);
   const [passwords, setPasswords] = useState([]);
-  const [hasErrors, setHasErrors] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
   const formRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,14 +39,12 @@ const Login = () => {
 
   useEffect(() => {
     const loadEverything = async () => {
-      const results = await Promise.all([getUsers(), getPasswords()]);
-      setHasErrors(results.includes(false));
+      await Promise.all([getUsers(), getPasswords()]);
     };
 
     loadEverything();
   }, []);
 
-  console.log(users);
 
   const getuserInfo = (email) => {
     const matchedUser = users ? users.find((u) => u.email === email) : "";
@@ -57,19 +56,22 @@ const Login = () => {
   };
 
   const handleLogin = () => {
+    setIsLoggingIn(true)
     const formData = new FormData(formRef.current);
     const emailInput = formData.get("email");
     const passwordInput = formData.get("mot_de_passe");
-
     const { matchedUser, password } = getuserInfo(emailInput);
 
     if (matchedUser && password === passwordInput) {
       localStorage.setItem("user", JSON.stringify(matchedUser));
-      navigate(
-        `${location.pathname}/${matchedUser.role === "Étudiant" ? "etudiant" : matchedUser.role === "Formateur" ? "formateur" : matchedUser.role === "Administrateur" && "admin"}`,
-      );
+      setTimeout(() => {
+        navigate(
+          `${location.pathname}/${matchedUser.role === "Étudiant" ? "etudiant" : matchedUser.role === "Formateur" ? "formateur" : matchedUser.role === "Administrateur" && "admin"}`,
+        );
+      }, 400)
     } else {
       toast.error("Email ou mot de passe incorrect");
+      setIsLoggingIn(false)
     }
   };
 
@@ -115,12 +117,14 @@ const Login = () => {
           />
         </div>
       </div>
-      <input
-        type="button"
+      <button
+      type="button"
         onClick={handleLogin}
-        value="Connecter"
-        className="w-2/6 bg-orange-cuivre rounded-lg p-1 cursor-pointer text-white font-semibold self-end hover:bg-orange-cuivre/90 transition duration-300 ease-in-out"
-      />
+        disabled={isLoggingIn}
+        className="w-2/6 bg-orange-cuivre rounded-lg p-1 flex items-center justify-center cursor-pointer text-white font-semibold self-end hover:bg-orange-cuivre/90 transition duration-300 ease-in-out"
+      >
+        {isLoggingIn ? <Spinner login={true} /> : 'Connecter'}
+      </button>
     </form>
   );
 };

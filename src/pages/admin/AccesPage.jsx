@@ -82,9 +82,9 @@ const AccesPage = () => {
   const etudiants = users ? users.filter((u) => u.role === "Étudiant") : "";
 
   const deleteId = searchParams.get("id");
-  const selectedInscription = access.find(
+  const selectedInscription = access ? access.find(
     (inscription) => inscription.id === deleteId,
-  );
+  ) : ''
 
   const supprimerInscription = async (id) => {
     try {
@@ -115,8 +115,8 @@ const AccesPage = () => {
     getInscription();
   };
 
-  const filtersEtudiants = etudiants.filter(e => `${e.nom} ${e.prenom}`.toLowerCase().includes(search.toLowerCase()))
-  
+  const filtersEtudiants = etudiants ? etudiants.filter(e => `${e.nom} ${e.prenom}`.toLowerCase().includes(search.toLowerCase())) : ""
+  const appliableCours = cours ? cours.filter(c => c.lecons > 0) : ''
   return (
     <div className="flex flex-col justify-start">
       {showModal && (
@@ -192,7 +192,7 @@ const AccesPage = () => {
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
                     placeholder="Entrer votre email"
                   >
-                    {cours.map((cours) => (
+                    {appliableCours.map((cours) => (
                       <option value={cours.titre} key={cours.id}>
                         {cours.titre}
                       </option>
