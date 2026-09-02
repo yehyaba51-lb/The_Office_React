@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import StateBox from "../../components/shared/PageComponents/StateBox";
 import RecentActivities from "../../components/shared/PageComponents/RecentActivities";
 import QuickAccess from "../../components/shared/PageComponents/QuickAccess";
@@ -18,7 +18,7 @@ const TableauDeBord = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cours");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
       const data = await response.json();
 
       setCours(data);
@@ -31,7 +31,7 @@ const TableauDeBord = () => {
 
   const getInscriptions = async () => {
     try {
-      const response = await fetch("http://localhost:8000/inscriptions");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`);
       const data = await response.json();
 
       setInscriptions(data);
@@ -45,7 +45,7 @@ const TableauDeBord = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch("http://localhost:8000/users");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`);
       const data = await response.json();
 
       setUsers(data);
@@ -58,7 +58,7 @@ const TableauDeBord = () => {
 
   const getSoumissions = async () => {
     try {
-      const response = await fetch("http://localhost:8000/soumissions");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions`);
       const data = await response.json();
 
       setSoumissions(data);

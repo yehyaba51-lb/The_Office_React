@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CircleX, Check, Download, File, FileX } from "lucide-react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import BreadCrumb from "../shared/BreadCrumb";
-import { fakeSoumissions, fakeQuestions } from "../../fakeData";
 import Spinner from "../shared/Spinner";
 import FetchError from "../shared/FetchError";
 
@@ -19,39 +18,39 @@ const CorrectionModal = ({ submitFunction, downloadFunction }) => {
 
   const getCours = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cours");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
       const data = await response.json();
 
       setCours(data);
       return true;
     } catch (error) {
-      setCours("");
+      setCours([]);
       return false;
     }
   };
 
   const getSoumissions = async () => {
     try {
-      const response = await fetch('http://localhost:8000/soumissions')
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions`)
       const data = await response.json()
 
       setSoumissions(data)
       return true
     } catch (error) {
-      setSoumissions('')
+      setSoumissions([])
       return false
     }
   }
 
   const getQuestions = async () => {
     try {
-      const response = await fetch('http://localhost:8000/questions')
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions`)
       const data = await response.json()
 
       setQuestions(data)
       return true
     } catch (error) {
-      setQuestions('')
+      setQuestions([])
       return false
     }
   }

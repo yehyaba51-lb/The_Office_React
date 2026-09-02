@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 const RecentActivities = ({ role='admin', badge, text, note, date, to }) => {

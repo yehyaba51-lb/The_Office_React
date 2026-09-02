@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ProgressBar from "../shared/ProgressBar";
 import { Link } from "react-router-dom";
 import NoImageFound from "../../assets/no-image-found.png";

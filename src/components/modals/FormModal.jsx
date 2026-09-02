@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { CircleX } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 

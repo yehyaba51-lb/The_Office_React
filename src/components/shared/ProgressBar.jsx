@@ -1,4 +1,3 @@
-import React from 'react'
 
 const ProgressBar = ({ current, total }) => {
   const percentage = total === 0 ? 0 : (current * 100) / total

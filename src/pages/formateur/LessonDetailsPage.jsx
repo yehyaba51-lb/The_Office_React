@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useLocation,
   useNavigate,
@@ -28,7 +28,7 @@ const LessonDetailsPage = () => {
 
   const getLecons = async () => {
     try {
-      const response = await fetch('http://localhost:8000/lecons')
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons`)
       const data = await response.json()
 
       setLecons(data)
@@ -42,7 +42,7 @@ const LessonDetailsPage = () => {
 
   const getLeconTextes = async () => {
     try {
-      const response = await fetch('http://localhost:8000/leconTextes')
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/leconTextes`)
       const data = await response.json()
 
       setTextes(data)
@@ -55,7 +55,7 @@ const LessonDetailsPage = () => {
 
   const getLeconPdfs = async () => {
     try {
-      const response = await fetch('http://localhost:8000/leconPdfs')
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/leconPdfs`)
       const data = await response.json()
 
       setPdfs(data)
@@ -68,7 +68,7 @@ const LessonDetailsPage = () => {
 
   const getLeconVideos = async () => {
     try {
-      const response = await fetch('http://localhost:8000/leconVideos')
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/leconVideos`)
       const data = await response.json()
 
       setVideos(data)
