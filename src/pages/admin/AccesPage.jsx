@@ -175,8 +175,8 @@ const AccesPage = () => {
                     placeholder="Entrer votre email"
                   >
                     {filtersEtudiants.map((e) => (
-                      <option value={e.nom + " " + e.prenom} key={e.id}>
-                        {e.nom + " " + e.prenom}
+                      <option value={e.prenom + " " + e.nom} key={e.id}>
+                        {e.prenom + " " + e.nom}
                       </option>
                     ))}
                   </select>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../../components/shared/SearchBar";
 import { Check, LockKeyhole } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
@@ -8,27 +8,137 @@ const fakeCoursExercices = [
     coursId: 1,
     cours: "Fondations du développement web",
     lecons: [
-      { id: 1, titre: "Structurer une page HTML", ordre: 1, statut: "corrigée", note: 18 },
+      {
+        id: 1,
+        titre: "Structurer une page HTML",
+        ordre: 1,
+        statut: "corrigée",
+        note: 18,
+      },
       { id: 2, titre: "Mettre en page avec CSS", ordre: 2, statut: "soumis" },
       { id: 3, titre: "Les bases de JavaScript", ordre: 3, statut: "a_faire" },
-      { id: 4, titre: "Formulaires et validation", ordre: 4, statut: "verrouille" },
+      {
+        id: 4,
+        titre: "Formulaires et validation",
+        ordre: 4,
+        statut: "verrouille",
+      },
     ],
   },
   {
     coursId: 4,
     cours: "Bases de données",
     lecons: [
-      { id: 1, titre: "Introduction aux bases de données", ordre: 1, statut: "corrigée", note: 15 },
-      { id: 2, titre: "Modéliser un schéma", ordre: 2, statut: "corrigée", note: 17 },
-      { id: 3, titre: "Clés primaires et étrangères", ordre: 3, statut: "a_faire" },
+      {
+        id: 1,
+        titre: "Introduction aux bases de données",
+        ordre: 1,
+        statut: "corrigée",
+        note: 15,
+      },
+      {
+        id: 2,
+        titre: "Modéliser un schéma",
+        ordre: 2,
+        statut: "corrigée",
+        note: 17,
+      },
+      {
+        id: 3,
+        titre: "Clés primaires et étrangères",
+        ordre: 3,
+        statut: "a_faire",
+      },
       { id: 4, titre: "Normalisation", ordre: 4, statut: "verrouille" },
     ],
   },
 ];
 
 const MesExercices = () => {
+  const [progressionExercices, setProgressionExercices] = useState([]);
+  const [lecons, setLecons] = useState([]);
+  const [soumissions, setSoumissions] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [hasErrors, setHasErrors] = useState(false);
   const location = useLocation();
   const [filter, setFilter] = useState("all");
+
+  const getProgressionExercices = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/progressionExercices`,
+      );
+      const data = await response.json();
+
+      setProgressionExercices(data);
+      return true
+    } catch (error) {
+      setProgressionExercices([]);
+      return false
+    }
+  }
+
+  const getSoumissions = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/soumissions`,
+      );
+      const data = await response.json();
+
+      setSoumissions(data);
+      return true
+    } catch (error) {
+      setSoumissions([]);
+      return false
+    }
+  }
+
+  const getLecons = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/lecons`,
+      );
+      const data = await response.json();
+
+      setLecons(data);
+      return true
+    } catch (error) {
+      setLecons([]);
+      return false
+    }
+  };
+
+  useEffect(() => {
+    const loadEverything = async () => {
+      const results = await Promise.all([getLecons(), getSoumissions(), getProgressionExercices()])
+      setHasErrors(results.includes(false))
+
+      setLoading(false)
+    }
+    
+    loadEverything()
+    setCurrentUser(JSON.parse(localStorage.getItem("user")));
+  }, []);  
+
+  const selectedProgressionExercice = progressionExercices
+    ? progressionExercices.filter(
+        p => 
+           p.etudiant.toLowerCase() ===
+          currentUser.prenom.toLowerCase() +
+            " " +
+            currentUser.nom.toLowerCase()
+      )
+    : [];
+
+  const selectedProgressionExerciceId = selectedProgressionExercice.map(p => p.coursId)
+
+  console.log('selectedProgressionExerciceId', selectedProgressionExerciceId);
+  
+
+  const selectedLecons = lecons ? lecons.filter(l => selectedProgressionExerciceId.includes(l.coursId)) : []
+
+  console.log('selectedLecons', selectedLecons);
 
   const activeClass = (isActive) =>
     `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre"}`;
@@ -38,13 +148,22 @@ const MesExercices = () => {
       <div className="flex mt-5 gap-4 items-center">
         <SearchBar />
         <div className="w-80 p-1 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
-          <button className={activeClass(filter === "all")} onClick={() => setFilter("all")}>
+          <button
+            className={activeClass(filter === "all")}
+            onClick={() => setFilter("all")}
+          >
             Tous les exercices
           </button>
-          <button className={activeClass(filter === "a_faire")} onClick={() => setFilter("a_faire")}>
+          <button
+            className={activeClass(filter === "a_faire")}
+            onClick={() => setFilter("a_faire")}
+          >
             À faire
           </button>
-          <button className={activeClass(filter === "corrigée")} onClick={() => setFilter("corrigée")}>
+          <button
+            className={activeClass(filter === "corrigée")}
+            onClick={() => setFilter("corrigée")}
+          >
             Corrigées
           </button>
         </div>
@@ -52,7 +171,7 @@ const MesExercices = () => {
 
       {fakeCoursExercices.map((cours) => {
         const filteredLecons = cours.lecons.filter((l) =>
-          filter === "all" ? true : l.statut === filter
+          filter === "all" ? true : l.statut === filter,
         );
 
         return (
@@ -60,12 +179,16 @@ const MesExercices = () => {
             key={cours.coursId}
             className="mt-5 w-full border-2 border-gris-clair rounded-2xl py-3 flex flex-col gap-2 justify-between"
           >
-            <h3 className="px-5 font-titres text-bleu-principal text-xl">{cours.cours}</h3>
+            <h3 className="px-5 font-titres text-bleu-principal text-xl">
+              {cours.cours}
+            </h3>
             <hr className="border-2 border-gris-clair w-full mb-2" />
 
-            {filteredLecons.map((lecon) => (
+            {selectedLecons.map((lecon) => (
               <div key={lecon.id}>
-                {lecon.id !== 1 && <hr className="border-2 border-gris-clair w-full mb-2" />}
+                {lecon.id !== '1' && (
+                  <hr className="border-2 border-gris-clair w-full mb-2" />
+                )}
                 <Link
                   to={
                     lecon.statut !== "verrouille"
@@ -92,7 +215,9 @@ const MesExercices = () => {
                       >
                         {lecon.titre}
                       </h3>
-                      <p className={`${lecon.statut === "verrouille" && "text-gris-fonce/40"} text-bleu-secondaire text-xs`}>
+                      <p
+                        className={`${lecon.statut === "verrouille" && "text-gris-fonce/40"} text-bleu-secondaire text-xs`}
+                      >
                         Leçon 0{lecon.id}
                       </p>
                     </div>
