@@ -26,7 +26,7 @@ const Cours = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`);
       const data = await response.json();
 
       setCours(data);
@@ -47,6 +47,8 @@ const Cours = () => {
       })
     : "";
 
+    console.log(cours);
+    
   const addCours = async (insertedCours) => {
     try {
       await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`, {

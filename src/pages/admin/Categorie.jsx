@@ -24,7 +24,7 @@ const Categorie = () => {
   const getCategories = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/categories`,
+        `${import.meta.env.VITE_SERVER_URL}/categories.php`,
       );
       const data = await response.json();
 
@@ -47,7 +47,7 @@ const Categorie = () => {
 
   const addCategorie = async (newCategory) => {
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/categories`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

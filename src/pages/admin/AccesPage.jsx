@@ -27,7 +27,7 @@ const AccesPage = () => {
 
   const getInscription = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`);
       const data = await response.json();
 
       setAccess(data);
@@ -40,7 +40,7 @@ const AccesPage = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`);
       const data = await response.json();
 
       setUsers(data);
@@ -53,7 +53,7 @@ const AccesPage = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`);
       const data = await response.json();
 
       setCours(data);
@@ -79,7 +79,7 @@ const AccesPage = () => {
     loadEverything();
   }, []);
 
-  const etudiants = users ? users.filter((u) => u.role === "Étudiant") : "";
+  const etudiants = users ? users.filter((u) => u.role === "Etudiant") : "";
 
   const deleteId = searchParams.get("id");
   const selectedInscription = access ? access.find(
@@ -117,6 +117,7 @@ const AccesPage = () => {
 
   const filtersEtudiants = etudiants ? etudiants.filter(e => `${e.nom} ${e.prenom}`.toLowerCase().includes(search.toLowerCase())) : ""
   const appliableCours = cours ? cours.filter(c => c.lecons > 0) : ''
+  
   return (
     <div className="flex flex-col justify-start">
       {showModal && (
@@ -246,7 +247,7 @@ const AccesPage = () => {
                   </div>
                   <div className="flex items-center gap-5">
                     <h4 className="font-titres text-md text-gris-fonce">
-                      {access.inscritLe}
+                      {access.inscrit_le.split(' ')[0]}
                     </h4>
                     <CircleX
                       size={18}

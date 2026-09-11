@@ -29,7 +29,7 @@ const Utilisateurs = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`);
       const data = await response.json();
 
       setUsers(data);
