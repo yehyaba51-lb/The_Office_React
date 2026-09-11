@@ -14,7 +14,7 @@ const TopBar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`)
       const data = await response.json()
 
       setCours(data)
@@ -25,7 +25,7 @@ const TopBar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
 
   const getLecons = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php`)
       const data = await response.json()
 
       setLecons(data)
