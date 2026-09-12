@@ -18,7 +18,7 @@ export const coursColumns = [
 ];
 
 export const categorieColumns = [
-  { label: 'NOM', key: 'nom' },
+  { label: 'NOM', key: 'categorie_nom' },
   { label: 'COURS', key: 'cours' },
 ];
 
