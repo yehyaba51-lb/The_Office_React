@@ -14,7 +14,7 @@ const ConfirmModal = ({ type, name, deleteFunction, inscriptionEtudiant, irrever
             <h3 className="font-titres text-bleu-primaire text-xl text-center">Voulez-vous supprimer {inscriptionEtudiant ? `${type} de ${inscriptionEtudiant}` : `${name}`}?⚠️</h3>
             <div className='flex  w-1/2 gap-3'>
                 <input onClick={() =>  navigate(location.pathname)} type="button" value="Non" className='text-sm w-5/6 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out'  />
-                <input type="button"  onClick={()=> {deleteFunction(); navigate(location.pathname)}} value='Oui' className={`text-sm w-5/6 bg-bleu-principal rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-bleu-principal/90 transition duration-300 ease-in-out`}  />
+                <input type="button"  onClick={async ()=> {const success = await deleteFunction(); if(success) navigate(location.pathname)}} value='Oui' className={`text-sm w-5/6 bg-bleu-principal rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-bleu-principal/90 transition duration-300 ease-in-out`}  />
               </div>
               {irreversible  && (
                 <p className='text-sm text-bleu-secondaire'>Cette action est irréversible</p>
