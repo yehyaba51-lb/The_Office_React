@@ -7,25 +7,28 @@ export const userFields = [
     name: "role", 
     type: "select", 
     options: ["Formateur", "Étudiant"],
-    lockedOn: true
+    lockedOn: true,
+    placeholder: "Choisir un rôle..."
   },
 ];
 
 export const coursFields = [
-  { label: "Titre", name: "titre", type: "text" },
+  { label: "Titre", name: "cours_titre", type: "text", placeholder: "Entrer le titre du cours..." },
   { 
     label: "Formateur", 
-    name: "formateur", 
+    name: "formateur_id", 
     type: "select", 
+    placeholder: "Choisir un formateur",
     options: ["Nadia Belkacem", "Sofiane Ghomari", "Islam Bensalem", "Yasmine Haddad"]
   },
   { 
     label: "Catégorie", 
-    name: "categorie", 
+    name: "categorie_id", 
     type: "select", 
+    placeholder: "Choisir une catégorie",
     options: ["Informatique", "Soft skills", "Management", "Architecture"] 
-  },
-];
+  }
+]
 
 export const categorieFields = [
   { label: "Nom", name: "categorie_nom", type: "text", placeholder: "Entrez le nom de la catégorie" },
