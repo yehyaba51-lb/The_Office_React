@@ -28,7 +28,7 @@ export const coursFields = [
 ];
 
 export const categorieFields = [
-  { label: "Nom", name: "nom", type: "text" },
+  { label: "Nom", name: "categorie_nom", type: "text" },
 ];
 
 export const exerciceFields = [
