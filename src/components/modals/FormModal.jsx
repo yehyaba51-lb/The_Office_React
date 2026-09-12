@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { CircleX } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const FormModal = ({
   type,
@@ -100,7 +101,7 @@ const FormModal = ({
                 />
                 <input
                   type="button"
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.preventDefault();
                     const formData = new FormData(formRef.current);
                     const data = {}
@@ -111,16 +112,14 @@ const FormModal = ({
                         data[field.name] = formData.get(field.name)
                       }
                     });
-                    if (isEditMode) {
-                      editFunction(data);
-                    } else {
-                      submitFunction(data);
+                    const success = isEditMode ? await editFunction(data) : await submitFunction(data);
+                    if (success) {
+                      navigate(
+                        isEditMode
+                          ? location.pathname
+                          : `${location.pathname}${location.search.replace("create=true", "success=true")}`,
+                      );
                     }
-                    navigate(
-                      isEditMode
-                        ? location.pathname
-                        : `${location.pathname}${location.search.replace("create=true", "success=true")}`,
-                    );
                   }}
                   value={`${isEditMode ? "Modifier" : "Créer"}`}
                   className={`text-sm w-${isEditMode ? "6/7" : "5/6"} bg-orange-cuivre border-2 border-orange-cuivre rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}
