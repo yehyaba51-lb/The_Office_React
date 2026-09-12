@@ -1,7 +1,7 @@
 export const userFields = [
-  { label: "Prénom", name: "prenom", type: "text" },
-  { label: "Nom", name: "nom", type: "text" },
-  { label: "Email", name: "email", type: "email" },
+  { label: "Prénom", name: "prenom", type: "text", placeholder: "Entrer votre prénom..." },
+  { label: "Nom", name: "nom", type: "text", placeholder: "Entrer votre nom..." },
+  { label: "Email", name: "email", type: "text", placeholder: "Entrer votre email..." },
   { 
     label: "Rôle", 
     name: "role", 
@@ -28,7 +28,7 @@ export const coursFields = [
 ];
 
 export const categorieFields = [
-  { label: "Nom", name: "categorie_nom", type: "text" },
+  { label: "Nom", name: "categorie_nom", type: "text", placeholder: "Entrez le nom de la catégorie" },
 ];
 
 export const exerciceFields = [
