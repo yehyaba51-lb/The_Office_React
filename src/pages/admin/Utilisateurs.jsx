@@ -16,6 +16,7 @@ const Utilisateurs = () => {
   const [filter, setFilter] = useState("all");
   const [users, setUsers] = useState([]);
   const [newUserName, setNewUserName] = useState("");
+  const [generatedPassword, setGeneratedPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('')
   const activeClass = (isActive) =>
@@ -59,25 +60,83 @@ const Utilisateurs = () => {
   
 
   const addUser = async (submittedUser) => {
+    let errors = []
+    const nameRegex = /^[A-Z][A-Za-z ]*$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if(!submittedUser.prenom || submittedUser.prenom.length < 2 || !nameRegex.test(submittedUser.prenom)){
+      errors.push("Prenom invalide")
+    }
+
+    if(!submittedUser.nom || submittedUser.nom.length < 2 || !nameRegex.test(submittedUser.nom)){
+      errors.push("Nom invalide")
+    }
+
+    if(!submittedUser.email || !emailRegex.test(submittedUser.email)){
+      errors.push("Email invalide")
+    }
+
+    if(!submittedUser.role || submittedUser.role === ""){
+      errors.push("Role invalide")
+    }
+
+    if(errors.length > 0){
+      errors.forEach(error => toast.error(error))
+      return false;
+    }
+
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/users`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(submittedUser),
       });
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
+      setGeneratedPassword(data.mot_de_passe)
 
       setNewUserName(`${submittedUser.prenom} ${submittedUser.nom}`);
       getUsers();
+      return true
     } catch (error) {
       toast.error("Impossible de créer le compte");
+      return false
     }
   };
 
   const editUser = async (id, submittedUser) => {
+    let errors = []
+    const nameRegex = /^[A-Z][A-Za-z ]*$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if(!submittedUser.prenom || submittedUser.prenom.length < 2 || !nameRegex.test(submittedUser.prenom)){
+      errors.push("Prenom invalide")
+    }
+
+    if(!submittedUser.nom || submittedUser.nom.length < 2 || !nameRegex.test(submittedUser.nom)){
+      errors.push("Nom invalide")
+    }
+
+    if(!submittedUser.email || !emailRegex.test(submittedUser.email)){
+      errors.push("Email invalide")
+    }
+
+    if(!submittedUser.role || submittedUser.role === ""){
+      errors.push("Role invalide")
+    }
+
+    if(errors.length > 0){
+      errors.forEach(error => toast.error(error))
+      return false;
+    }
+
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/users/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -87,21 +146,45 @@ const Utilisateurs = () => {
       
       toast.success(`${selectedUser.prenom + " " + selectedUser.nom} modifier`);
       getUsers()
+      return true
     } catch (error) {
       toast.error("Impossible de modifier le compte");
+      return false
     }
   }
 
   const removeUser = async (id) => {
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/users/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}`, {
         method: 'DELETE'
       })
 
-      toast.success(`${selectedUser.prenom + " " + selectedUser.nom} supprimer`);
+      toast.success(`${selectedUser.prenom + " " + selectedUser.nom} à été supprimer`);
       getUsers()
     } catch (error) {
       toast.error("Impossible de supprimer le compte");
+    }
+  }
+
+  const resetPassword = async (id) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}&action=reset`, {
+        method: 'PUT'
+      })
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
+      setGeneratedPassword(data.mot_de_passe)
+
+      getUsers()
+      return true
+    } catch (error) {
+      toast.error("Impossible de modifier le mot de passe");
+      return false;
     }
   }
 
@@ -116,7 +199,7 @@ const Utilisateurs = () => {
         />
       )}
       {showSuccess && (
-        <SuccessModal type={"Compte"} content={ newUserName } create={true} />
+        <SuccessModal type={"Compte"} content={ newUserName } create={true} password={generatedPassword} />
       )}
       {showEdit && (
         <FormModal
@@ -124,12 +207,14 @@ const Utilisateurs = () => {
           fields={userFields}
           initialData={selectedUser}
           editFunction={(data) => editUser(selectedUser.id, data)}
+          resetPassword={() => resetPassword(selectedUser.id)}
         />
       )}
       {showReset && (
         <SuccessModal
           type={"Compte"}
           content={selectedUser.prenom + " " + selectedUser.nom}
+          password={generatedPassword}
         />
       )}
       {showDelete && (
@@ -155,8 +240,8 @@ const Utilisateurs = () => {
             Formateur
           </button>
           <button
-            className={activeClass(filter === "étudiant")}
-            onClick={() => setFilter("étudiant")}
+            className={activeClass(filter === "etudiant")}
+            onClick={() => setFilter("etudiant")}
           >
             Etudiant
           </button>
