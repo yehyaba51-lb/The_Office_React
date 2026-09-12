@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { CircleX } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const FormModal = ({
   type,
@@ -63,7 +62,7 @@ const FormModal = ({
                     className={`border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition ${isEditMode && field.lockedOn ? "cursor-not-allowed" : ""}`}
                     disabled={isEditMode && field.lockedOn}
                   >
-                     <option value="" selected>Choisir un rôle</option>
+                    <option value="" selected>{field.placeholder}</option>
                     {field.options.map((option) => (
                       <option
                         key={option}
