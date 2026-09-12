@@ -14,7 +14,6 @@ const Categorie = () => {
   const [categories, setCategories] = useState([]);
   const [newCategoryName, setNewCategoryName] = useState("");
   const [loading, setLoading] = useState(true);
-  const [hasErrors, setHasErrors] = useState(false);
   const [searchParams] = useSearchParams();
   const showModal = searchParams.get("create") === "true";
   const showEdit = searchParams.get("edit") === "true";
@@ -28,6 +27,11 @@ const Categorie = () => {
       );
       const data = await response.json();
 
+      if (!response.ok) {
+          toast.error(data.error);
+          return false;
+      }
+
       setCategories(data);
       setLoading(false);
     } catch (error) {
@@ -38,8 +42,7 @@ const Categorie = () => {
 
   useEffect(() => {
     const loadFunction = async () => {
-      const results = await getCategories();
-      
+      await getCategories();
     }
 
     loadFunction()
@@ -51,13 +54,19 @@ const Categorie = () => {
       return false
     }
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newCategory),
       });
+      const data = await response.json()
+
+      if (!response.ok) {
+          toast.error(data.error);
+          return false;
+      }
 
       setNewCategoryName(newCategory.categorie_nom);
       getCategories();
@@ -73,33 +82,55 @@ const Categorie = () => {
     ? categories.find((categorie) => categorie.id === id)
     : "";
 
+    console.log(selectedCategory);
+    
   const editCategoty = async (id, initialData) => {
+    if(!initialData.categorie_nom || initialData.categorie_nom.length < 2){
+      toast.error("Nom invalide")
+      return false
+    }
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/categories/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php?id=${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(initialData),
       });
+      const data = await response.json()
 
-      toast.success(`${selectedCategory.nom} modifier`);
+      if (!response.ok) {
+          toast.error(data.error);
+          return false;
+      }
+
+      toast.success(`${selectedCategory.categorie_nom} modifier`);
       getCategories();
+      return true
     } catch (error) {
       toast.error("Impossible de modifier la catégorie");
+      return false
     }
   };
 
   const removeCategoty = async (id) => {
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/categories/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php?id=${id}`, {
         method: "DELETE",
       });
+      const data = await response.json()
 
-      toast.success(`${selectedCategory.nom} supprimé`);
+      if (!response.ok) {
+          toast.error(data.error)
+          return false;
+      }
+
+      toast.success(`${selectedCategory.categorie_nom} supprimé`);
       getCategories();
+      return true
     } catch (error) {
       toast.error("Impossible de supprimer la catégorie");
+      return false
     }
   };
 
@@ -130,7 +161,7 @@ const Categorie = () => {
       {showDelete && (
         <ConfirmModal
           type={"categorie"}
-          name={selectedCategory.nom}
+          name={selectedCategory.categorie_nom}
           deleteFunction={() => removeCategoty(id)}
         />
       )}
