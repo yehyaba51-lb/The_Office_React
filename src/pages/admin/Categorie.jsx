@@ -46,6 +46,10 @@ const Categorie = () => {
   }, []);
 
   const addCategorie = async (newCategory) => {
+    if(!newCategory.categorie_nom || newCategory.categorie_nom.length < 2){
+      toast.error("Nom invalide")
+      return false
+    }
     try {
       await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php`, {
         method: "POST",
@@ -55,10 +59,12 @@ const Categorie = () => {
         body: JSON.stringify(newCategory),
       });
 
-      setNewCategoryName(newCategory.nom);
+      setNewCategoryName(newCategory.categorie_nom);
       getCategories();
+      return true
     } catch (error) {
       toast.error("Impossible de créer la catégorie");
+      return false
     }
   };
 
