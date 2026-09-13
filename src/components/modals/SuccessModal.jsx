@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { BadgeCheck } from 'lucide-react'
 import { toast } from 'react-toastify'
 
-const SuccessModal = ({ accord, type, content, create=false, lecon=false }) => {
+const SuccessModal = ({ accord, type, content, create=false, lecon=false, password }) => {
   const [copied, setCopied] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
@@ -11,9 +11,6 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false }) => {
 
   const passwordSuccess = () => {
     toast.success("Mot de passe copié");
-  }
-  const generatePassword = () => {
-    return 'x4#jf@Wa'
   }
 
   return (
@@ -38,20 +35,23 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false }) => {
             {create && type==='Compte' ? (
               <>
                 <div className='w-4/5 rounded-xl border-2 border-gris-clair p-2 flex justify-between items-center'>
-                  <h3 className='text-bleu-principal font-titres font-bold'>{generatePassword()}</h3>
-                  <button className={`text-white font-semibold text-md rounded-lg bg-orange-cuivre px-2 py-1 cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`} onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(generatePassword()); passwordSuccess(); setCopied(true)}}>{copied ? 'Copiée ' : 'Copier'}</button>
+                  <h3 className='text-bleu-principal font-titres font-bold'>{password}</h3>
+                  <button className={`text-white font-semibold text-md rounded-lg bg-orange-cuivre px-2 py-1 cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`}
+                    onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(password); passwordSuccess(); setCopied(true)}}>
+                      {copied ? 'Copiée ' : 'Copier'}
+                  </button>
                 </div>
                 <p className='text-sm text-bleu-secondaire'>⚠️ Ce mot de passe ne sera plus affiché</p>  
               </>
-            ) : type==='Compte' ? (
+            ) : type === 'Compte' ? (
               <div className="flex flex-col w-full justify-center items-center gap-2 p-2">
                 <div className="flex w-full justify-center items-center gap-2 p-2">
                   <h3 className="font-titres text-bleu-primaire text-xl text-center">Mot de passe réinitialisé  pour { content }</h3>
                   <BadgeCheck className='text-vert-reussite' size={25} />
               </div>
                 <div className='w-4/5 rounded-xl border-2 border-gris-clair p-2 flex justify-between items-center'>
-                  <h3 className='text-bleu-principal font-titres font-bold'>{generatePassword()}</h3>
-                  <button className={`text-white font-semibold text-md rounded-lg bg-orange-cuivre px-2 py-1 cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`} onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(generatePassword()); passwordSuccess(); setCopied(true)}}>{copied ? 'Copiée ' : 'Copier'}</button>
+                  <h3 className='text-bleu-principal font-titres font-bold'>{password}</h3>
+                  <button className={`text-white font-semibold text-md rounded-lg bg-orange-cuivre px-2 py-1 cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`} onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(password); passwordSuccess(); setCopied(true)}}>{copied ? 'Copiée ' : 'Copier'}</button>
                 </div>
                 <p className='text-sm text-bleu-secondaire'>⚠️ Ce mot de passe ne sera plus affiché</p>  
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import {
   useLocation,
   useNavigate,
@@ -24,7 +24,7 @@ const ExercicePage = () => {
 
   const getQuestions = async () => {
     try {
-      const response = await fetch("http://localhost:8000/questions");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions`)
       const data = await response.json();
 
       setQuestions(data);
@@ -60,7 +60,7 @@ const ExercicePage = () => {
 
   const ajouterQuestion = async (question) => {
     try {
-      await fetch('http://localhost:8000/questions/', {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/questions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ const ExercicePage = () => {
 
   const modifierQuestion = async (id, data) => {
     try {
-      await fetch(`http://localhost:8000/questions/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/questions/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json' 
@@ -97,7 +97,7 @@ const ExercicePage = () => {
 
   const supprimerQuestion = async (id) => {
     try {
-      await fetch(`http://localhost:8000/questions/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/questions/${id}`, {
         method: 'DELETE'
       })
       toast.success("Question supprimé");

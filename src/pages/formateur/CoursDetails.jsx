@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Link,
   useLocation,
@@ -32,7 +32,7 @@ const CoursDetails = () => {
 
   const getCours = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8000/cours/${id}`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours/${id}`);
       const data = await response.json();
 
       setCours(data);
@@ -45,7 +45,7 @@ const CoursDetails = () => {
 
   const getLecons = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/lecons`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons`);
       const data = await response.json();
 
       setLecons(data);
@@ -58,7 +58,7 @@ const CoursDetails = () => {
 
   const getExercices = async () => {
     try {
-      const response = await fetch("http://localhost:8000/exercices");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices`);
       const data = await response.json();
 
       setExercices(data);
@@ -71,7 +71,7 @@ const CoursDetails = () => {
 
   const getInscriptions = async () => {
     try {
-      const response = await fetch("http://localhost:8000/inscriptions");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`);
       const data = await response.json();
 
       setInscriptions(data);
@@ -131,6 +131,8 @@ const CoursDetails = () => {
   useEffect(() => {
     setDescription(cours ? cours.description : "");
   }, [cours]);
+
+  
 
   const etudiantInscrits = inscriptions ? inscriptions.filter(i => i.coursId === Number(id)) : [] 
 

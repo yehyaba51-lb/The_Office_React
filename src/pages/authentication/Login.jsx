@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useMatches, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
@@ -13,7 +13,7 @@ const Login = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch("http://localhost:8000/users");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`);
       const data = await response.json();
 
       setUsers(data);
@@ -26,7 +26,7 @@ const Login = () => {
 
   const getPasswords = async () => {
     try {
-      const response = await fetch("http://localhost:8000/testPasswords");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/testPasswords`);
       const data = await response.json();
 
       setPasswords(data);

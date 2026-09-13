@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CircleX, KeyRound } from "lucide-react";
 import ConfirmModal from "../../components/modals/ConfirmModal";
 import SuccessModal from "../../components/modals/SuccessModal";
@@ -27,7 +27,7 @@ const AccesPage = () => {
 
   const getInscription = async () => {
     try {
-      const response = await fetch("http://localhost:8000/inscriptions");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`);
       const data = await response.json();
 
       setAccess(data);
@@ -40,7 +40,7 @@ const AccesPage = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch("http://localhost:8000/users");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`);
       const data = await response.json();
 
       setUsers(data);
@@ -53,7 +53,7 @@ const AccesPage = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cours");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`);
       const data = await response.json();
 
       setCours(data);
@@ -79,7 +79,7 @@ const AccesPage = () => {
     loadEverything();
   }, []);
 
-  const etudiants = users ? users.filter((u) => u.role === "Étudiant") : "";
+  const etudiants = users ? users.filter((u) => u.role === "Etudiant") : "";
 
   const deleteId = searchParams.get("id");
   const selectedInscription = access ? access.find(
@@ -88,35 +88,48 @@ const AccesPage = () => {
 
   const supprimerInscription = async (id) => {
     try {
-      await fetch(`http://localhost:8000/inscriptions/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${id}`, {
         method: "DELETE",
       });
 
+      if(!response.ok){
+        return false
+      }
+      
       toast.success(`Inscription de ${selectedInscription.etudiant} supprimer`);
       getInscription();
+      return true
     } catch (error) {
       toast.error("Impossible de supprimer l'inscription");
+      return false
     }
   };
 
   const addAccess = async (a) => {
     try {
-      await fetch("http://localhost:8000/inscriptions", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(a),
       });
+
+      if(!response.ok){
+        return false
+      }
+
+      getInscription();
+      return true
     } catch (error) {
       toast.error("Impossible de donner l'accès");
+      return false
     }
-
-    getInscription();
   };
 
   const filtersEtudiants = etudiants ? etudiants.filter(e => `${e.nom} ${e.prenom}`.toLowerCase().includes(search.toLowerCase())) : ""
   const appliableCours = cours ? cours.filter(c => c.lecons > 0) : ''
+  
   return (
     <div className="flex flex-col justify-start">
       {showModal && (
@@ -175,8 +188,8 @@ const AccesPage = () => {
                     placeholder="Entrer votre email"
                   >
                     {filtersEtudiants.map((e) => (
-                      <option value={e.nom + " " + e.prenom} key={e.id}>
-                        {e.nom + " " + e.prenom}
+                      <option value={Number(e.id)} key={e.id}>
+                        {e.prenom + " " + e.nom}
                       </option>
                     ))}
                   </select>
@@ -193,7 +206,7 @@ const AccesPage = () => {
                     placeholder="Entrer votre email"
                   >
                     {appliableCours.map((cours) => (
-                      <option value={cours.titre} key={cours.id}>
+                      <option value={Number(cours.id)} key={cours.id}>
                         {cours.titre}
                       </option>
                     ))}
@@ -201,23 +214,23 @@ const AccesPage = () => {
                 </div>
               </form>
               <button
-                onClick={() => {
+                onClick={async () => {
                   const formData = new FormData(formRef.current);
                   const etudiantInput = formData.get("etudiant");
                   const coursInput = formData.get("cours");
-                  const selectedCoursObj = cours.find(c => c.titre === coursInput);
-                  setNewAccessCours(coursInput);
-                  setNewAccessEtudiant(etudiantInput);
 
-                  addAccess({
-                    etudiant: etudiantInput,
-                    cours: coursInput,
-                    inscritLe: new Date().toISOString().split("T")[0],
-                    noteFinale: null,
-                    coursId: Number(selectedCoursObj.id),
-                    progression: `0/${selectedCoursObj.lecons}`
+                  const etudiant = filtersEtudiants ? filtersEtudiants.find(e => Number(e.id) === Number(etudiantInput)) : ''
+                  const cours = appliableCours ? appliableCours.find(c => Number(c.id) === Number(coursInput)) : ''
+                  console.log(cours);
+                  
+                  setNewAccessCours(cours.titre);
+                  setNewAccessEtudiant(`${etudiant.prenom} ${etudiant.nom}`);
+                  
+                  const success = await addAccess({
+                    etudiant_id: etudiantInput,
+                    cours_id: coursInput
                   });
-                  navigate(`${location.pathname}?success=true`);
+                  if(success) navigate(`${location.pathname}?success=true`);
                 }}
                 className="text-white font-semibold mt-3 flex items-center rounded bg-orange-cuivre px-4 py-1 gap-1 hover:bg-orange-cuivre/90 transition duration-300 ease-in-out cursor-pointer"
               >
@@ -246,7 +259,7 @@ const AccesPage = () => {
                   </div>
                   <div className="flex items-center gap-5">
                     <h4 className="font-titres text-md text-gris-fonce">
-                      {access.inscritLe}
+                      {access.inscrit_le.split(' ')[0]}
                     </h4>
                     <CircleX
                       size={18}

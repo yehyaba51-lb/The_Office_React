@@ -18,8 +18,8 @@ export const coursColumns = [
 ];
 
 export const categorieColumns = [
-  { label: 'NOM', key: 'nom' },
-  { label: 'COURS', key: 'coursCount' },
+  { label: 'NOM', key: 'categorie_nom' },
+  { label: 'COURS', key: 'cours' },
 ];
 
 export const etudiantsInscritsColumns = [

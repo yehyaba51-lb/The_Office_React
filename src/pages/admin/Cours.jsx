@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { coursColumns } from "../../fakeData";
@@ -26,7 +26,7 @@ const Cours = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cours");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`);
       const data = await response.json();
 
       setCours(data);
@@ -47,27 +47,48 @@ const Cours = () => {
       })
     : "";
 
+    console.log(cours);
+    
   const addCours = async (insertedCours) => {
+    let errors = []
+    const nameRegex = /^[A-Z][A-Za-z ]*$/
+    if(!insertedCours.cours_titre || insertedCours.cours_titre.length < 2 || !nameRegex.test(insertedCours.cours_titre)){
+      errors.push('Titre invalide')
+    }
+
+    if(!insertedCours.formateur_id || insertedCours.formateur_id === ''){
+      errors.push('Formateur invalide')
+    }
+
+    if(!insertedCours.categorie_id || insertedCours.categorie_id === ''){
+      errors.push('Categorie invalide')
+    }
+
+    if(errors.length > 0){
+      errors.forEach(error => toast.error(error))
+      return false;
+    }
+
     try {
-      await fetch("http://localhost:8000/cours", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...insertedCours,
-          description: '',
-          lecons: 0,
-          imageUrl: null,
-          creeLe: new Date().toISOString().split('T')[0]
-        }),
+        body: JSON.stringify(insertedCours)
       })
 
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
 
-      setNewFormateur(insertedCours.formateur)
+      setNewFormateur(insertedCours.formateur_id)
       getCours()
+      return true
     } catch (error) {
       toast.error("Impossible de créer le cours");
+      return false
     }
   };
 
@@ -79,7 +100,7 @@ const Cours = () => {
 
   const editCours = async(id, initialData) => {
     try {
-      await fetch(`http://localhost:8000/cours/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -94,7 +115,7 @@ const Cours = () => {
   }
   const removeCours = async(id) => {
     try {
-      await fetch(`http://localhost:8000/cours/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
         method: 'DELETE'
       })
 

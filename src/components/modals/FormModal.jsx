@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { CircleX } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -7,7 +7,8 @@ const FormModal = ({
   fields,
   initialData,
   editFunction,
-  submitFunction
+  submitFunction,
+  resetPassword
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -38,7 +39,11 @@ const FormModal = ({
               <CircleX size={22} />
             </button>
           </div>
-          <form ref={formRef} action="" method="post" className="flex flex-col">
+          <form ref={formRef}
+            action=""
+            method="post"
+            className="flex flex-col"
+          >
             {fields.map((field) => (
               <div key={field.label} className="flex flex-col gap-1 mb-2">
                 <label
@@ -52,11 +57,12 @@ const FormModal = ({
                     name={field.name}
                     id="role"
                     defaultValue={
-                      isEditMode ? initialData[field.name] : field.options[0]
+                      isEditMode ? initialData[field.name] : ""
                     }
                     className={`border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition ${isEditMode && field.lockedOn ? "cursor-not-allowed" : ""}`}
                     disabled={isEditMode && field.lockedOn}
                   >
+                    <option value="" selected>{field.placeholder}</option>
                     {field.options.map((option) => (
                       <option
                         key={option}
@@ -71,7 +77,29 @@ const FormModal = ({
                     name={field.name}
                     id="prenom"
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                    placeholder={`Entrer votre ${field.name}`}
+                    placeholder={field.placeholder}
+                    onKeyDown={async (e) => {
+                      if(e.key === 'Enter'){
+                        e.preventDefault();
+                      const formData = new FormData(formRef.current);
+                      const data = {}
+                      fields.forEach(field => {
+                        if(field.lockedOn && initialData){
+                          data[field.name] = initialData[field.name]
+                        } else {
+                          data[field.name] = formData.get(field.name)
+                        }
+                      });
+                      const success = isEditMode ? await editFunction(data) : await submitFunction(data);
+                      if (success) {
+                        navigate(
+                          isEditMode
+                            ? location.pathname
+                            : `${location.pathname}${location.search.replace("create=true", "success=true")}`,
+                        );
+                      }
+                        }
+                      }}
                   />
                 )}
               </div>
@@ -81,11 +109,10 @@ const FormModal = ({
             >
               {isEditMode && type === "un compte" && (
                 <input
-                  onClick={() =>
-                    navigate(
-                      `${location.pathname}?reset=true&id=${initialData.id}`,
-                    )
-                  }
+                  onClick={async () =>{
+                    const success = await resetPassword(initialData.id)
+                    if(success) navigate(`${location.pathname}?reset=true&id=${initialData.id}`)
+                  }}
                   type="button"
                   value="Réinitialiser le mot de passe"
                   className="text-sm bg-bleu-secondaire border-2 border-bleu-secondaire rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
@@ -100,7 +127,7 @@ const FormModal = ({
                 />
                 <input
                   type="button"
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.preventDefault();
                     const formData = new FormData(formRef.current);
                     const data = {}
@@ -111,16 +138,14 @@ const FormModal = ({
                         data[field.name] = formData.get(field.name)
                       }
                     });
-                    if (isEditMode) {
-                      editFunction(data);
-                    } else {
-                      submitFunction(data);
+                    const success = isEditMode ? await editFunction(data) : await submitFunction(data);
+                    if (success) {
+                      navigate(
+                        isEditMode
+                          ? location.pathname
+                          : `${location.pathname}${location.search.replace("create=true", "success=true")}`,
+                      );
                     }
-                    navigate(
-                      isEditMode
-                        ? location.pathname
-                        : `${location.pathname}${location.search.replace("create=true", "success=true")}`,
-                    );
                   }}
                   value={`${isEditMode ? "Modifier" : "Créer"}`}
                   className={`text-sm w-${isEditMode ? "6/7" : "5/6"} bg-orange-cuivre border-2 border-orange-cuivre rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}

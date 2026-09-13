@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import{ useEffect, useState } from 'react'
 import { Link, useLocation, useMatches, useNavigate, useParams } from 'react-router-dom'
 import { MoveLeft, Plus, Menu } from 'lucide-react'
-import { fakeCours, fakeLecons } from '../../fakeData'
 
 const TopBar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const [lang, setLang] = useState('fr')
@@ -10,13 +9,47 @@ const TopBar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const { titre, sousTitre, backLink, addButton } = matches[matches.length - 1].handle || {}
   const location = useLocation()
   const navigate = useNavigate()
+  const [cours, setCours] = useState([])
+  const [lecons, setLecons] = useState([])
+
+  const getCours = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`)
+      const data = await response.json()
+
+      setCours(data)
+    } catch (error) {
+      setCours([])
+    }
+  }
+
+  const getLecons = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php`)
+      const data = await response.json()
+
+      setLecons(data)
+    } catch (error) {
+      setLecons([])
+    }
+  }
+
+  useEffect(() => {
+    const loadEverything = async () => {
+      await Promise.all([getCours(), getLecons()])
+    }
+    
+    loadEverything()
+  }, [])
+  
 
   const { id, leconId } = useParams()
 
   const isNotePage = location.pathname.startsWith('/etudiant/notes');
-  const selectedCours = !isNotePage ? fakeCours.find(cours => cours.id === Number(id)) : null
+  const selectedCours = !isNotePage ? cours ? cours.find(cours => cours.id === id) : [] : null
 
-  const selectedLessons = fakeLecons.filter(l => l.coursId === Number(id))
+  
+  const selectedLessons = lecons ? lecons.filter(l => l.coursId === Number(id)) : []
   const selectedLesson = selectedLessons.filter(l => l.id === Number(leconId))
   const selectedLeconTitre = selectedLesson.map(l => l.titre)
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../../components/shared/SearchBar";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { mesEtudiantsColumns } from "../../fakeData";
@@ -16,7 +16,7 @@ const MesEtudiants = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cours");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
       const data = await response.json();
 
       setCours(data);
@@ -29,7 +29,7 @@ const MesEtudiants = () => {
 
   const getInscriptions = async () => {
     try {
-      const response = await fetch("http://localhost:8000/inscriptions");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`);
       const data = await response.json();
 
       setInscriptions(data);

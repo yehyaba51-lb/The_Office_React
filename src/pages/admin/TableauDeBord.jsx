@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import StateBox from "../../components/shared/PageComponents/StateBox";
 import RecentActivities from "../../components/shared/PageComponents/RecentActivities";
 import QuickAccess from "../../components/shared/PageComponents/QuickAccess";
@@ -18,7 +18,7 @@ const TableauDeBord = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch("http://localhost:8000/cours");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`);
       const data = await response.json();
 
       setCours(data);
@@ -31,7 +31,7 @@ const TableauDeBord = () => {
 
   const getInscriptions = async () => {
     try {
-      const response = await fetch("http://localhost:8000/inscriptions");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`);
       const data = await response.json();
 
       setInscriptions(data);
@@ -45,7 +45,7 @@ const TableauDeBord = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch("http://localhost:8000/users");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`);
       const data = await response.json();
 
       setUsers(data);
@@ -56,25 +56,11 @@ const TableauDeBord = () => {
     }
   };
 
-  const getSoumissions = async () => {
-    try {
-      const response = await fetch("http://localhost:8000/soumissions");
-      const data = await response.json();
-
-      setSoumissions(data);
-      return true;
-    } catch (error) {
-      setSoumissions("");
-      return false;
-    }
-  };
-
   useEffect(() => {
     const loadEverything = async () => {
       const results = await Promise.all([
         getCours(),
         getUsers(),
-        getSoumissions(),
         getInscriptions(),
       ]);
       setHasErrors(results.includes(false));
@@ -90,7 +76,7 @@ const TableauDeBord = () => {
       ? inscriptions.map((i) => ({
           badge: "admin",
           text: `Accès à « ${i.cours} » accordé à ${i.etudiant}`,
-          date: i.inscritLe,
+          date: i.inscrit_le,
           to: `/admin/acces`,
         }))
       : "";
@@ -99,11 +85,14 @@ const TableauDeBord = () => {
       ? users.map((c) => ({
           badge: "admin",
           text: `Compte ${c.role.toLowerCase()} créé pour ${c.nom + " " + c.prenom}`,
-          date: c.creeLe,
+          date: c.cree_le,
           to: `/admin/utilisateurs`,
         }))
       : "";
 
+    console.log('userActivities', userActivities);
+    console.log('inscriptionActivities', inscriptionActivities);
+    
     setActivities(
       [...inscriptionActivities, ...userActivities].sort(
         (a, b) => new Date(b.date) - new Date(a.date)
@@ -115,7 +104,7 @@ const TableauDeBord = () => {
     const filteredActivities = showAll ? activities : activities.slice(0, 5)
 
   const students = users
-    ? users.filter((user) => user.role === "Étudiant")
+    ? users.filter((user) => user.role === "Etudiant")
     : "";
   const formateur = users
     ? users.filter((user) => user.role === "Formateur")
@@ -131,7 +120,7 @@ const TableauDeBord = () => {
 
   const studentsThisMonth = students
     ? students.filter((s) => {
-        const d = new Date(s.creeLe);
+        const d = new Date(s.cree_le);
         return (
           d.getMonth() === now.getMonth() &&
           d.getFullYear() === now.getFullYear()
@@ -141,7 +130,7 @@ const TableauDeBord = () => {
 
   const formateurThisMonth = formateur
     ? formateur.filter((f) => {
-        const d = new Date(f.creeLe);
+        const d = new Date(f.cree_le);
         return (
           d.getMonth() === now.getMonth() &&
           d.getFullYear() === now.getFullYear()
@@ -151,7 +140,7 @@ const TableauDeBord = () => {
 
   const coursThisMonth = cours
     ? cours.filter((c) => {
-        const d = new Date(c.creeLe);
+        const d = new Date(c.cree_le);
         return (
           d.getMonth() === now.getMonth() &&
           d.getFullYear() === now.getFullYear()
@@ -161,7 +150,7 @@ const TableauDeBord = () => {
 
   const accessThisMonth = inscriptions
     ? inscriptions.filter((a) => {
-        const d = new Date(a.inscritLe);
+        const d = new Date(a.inscrit_le);
         return (
           d.getMonth() === now.getMonth() &&
           d.getFullYear() === now.getFullYear()

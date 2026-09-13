@@ -1,4 +1,3 @@
-import React from 'react'
 
 const BreadCrumb = ({ cours, exo }) => {
   return (
