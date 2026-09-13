@@ -22,10 +22,15 @@ const CoursDetails = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const getCours = async () => {
+  const { id } = useParams();
+  const getSelectedCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`)
       const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+      }
 
       setCours(data)
       return true
@@ -35,37 +40,35 @@ const CoursDetails = () => {
     }
   }
 
-  const getCoursDetail = async () => {
+
+  const getLecons = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}`)
       const data = await response.json()
-      
+
+      if(!response.ok){
+        toast.error(data.error)
+      }
+
       setLecons(data)
+      
       return true
     } catch (error) {
+      console.log(error);
+      
       setLecons([])
       return false
     }
   }
-
-  const getExercices = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices`)
-      const data = await response.json()
-
-      setExercices(data)
-      return true
-    } catch (error) {
-      setExercices([])
-      return false
-    }
-  }
-
   const getInscriptions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${id}`)
       const data = await response.json()
 
+      if(!response.ok){
+        toast.error(data.error)
+      }
+      
       setInscriptions(data)
       
       return true
@@ -75,9 +78,11 @@ const CoursDetails = () => {
     }
   }
 
+
   useEffect(() => {
     const loadEverything = async () => {
-      const results = await Promise.all([getCours(), getCoursDetail(), getExercices(), getInscriptions()])
+      const results = await Promise.all([getSelectedCours(), getInscriptions(), getLecons()])
+      
       setHasErrors(results.includes(false))
 
       setLoading(false)
@@ -86,7 +91,7 @@ const CoursDetails = () => {
     loadEverything()
   }, [])
 
-  const { id } = useParams();
+
   const selectedCours = cours ? cours.find(
     (cours) => cours.id === id,
   ) : ''
@@ -94,11 +99,6 @@ const CoursDetails = () => {
     (lecon) => lecon.coursId === Number(id),
   ) : ''
   
-  
-  
-  const exerciceCount = (lecon) => {
-    return exercices ? exercices.filter(exo => exo.leconId === Number(lecon.id) && exo.coursId === Number(id)).length : "Pas d'exercices"
-  };
 
   const [searchParams] = useSearchParams()
   const showModal = searchParams.get('create')=== 'true'
@@ -155,7 +155,7 @@ const CoursDetails = () => {
         <FormModal type={ 'un exercice' } fields={ exerciceFields } submitFunction={ addExercice } />
       )}
       {showSuccess && (
-        <SuccessModal type={ 'Exercice' } content = { selectedLecon.titre } create={ true } lecon={ true } />
+        <SuccessModal type={ 'Exercice' } content = { cours.titre } create={ true } lecon={ true } />
       )}
       {showDelete && (
         <ConfirmModal type={ "l'inscription" } inscriptionEtudiant={ selectedInscription.etudiant } deleteFunction={ () => supprimerInscription(selectedInscription.id) } irreversible={ false } />
@@ -171,41 +171,41 @@ const CoursDetails = () => {
           selectedCours ? (
             <div className="w-full">
               <div className="flex justify-between w-full">
-                <StateBox titre={"Formateur"} label={selectedCours.formateur} />
+                <StateBox titre={"Formateur"} label={cours.formateur} />
                 <StateBox
                   titre={"Étudiants inscrits"}
                   label={ enrolledStudentsNumber }
                 />
-                <StateBox titre={"Leçons"} label={selectedCours.lecons} />
-                <StateBox titre={"Exercices"} label={numberOfExercices} />
+                <StateBox titre={"Leçons"} label={cours.lecons} />
+                <StateBox titre={"Exercices"} label={cours.exercices} />
               </div>
               <div className="m-5 border-2 border-gris-clair rounded-2xl px-5 py-2 flex flex-col gap-2 items-start justify-between">
                 <h3 className="font-titres text-gris-fonce/80 text-xl">Description</h3>
                 <p className="text-bleu-principal text-md">
-                  {selectedCours.description ? selectedCours.description : 'Pas de description'}
+                  {cours.description ? cours.description : 'Pas de description'}
                 </p>
               </div>
               <div className="flex flex-col gap-3 px-5 py-2 w-full mb-5">
                 <h3 className="font-titres text-bleu-principal font-semibold text-xl">Leçons</h3>
                 <div className="border-2 border-gris-clair rounded-2xl p-1 flex flex-col gap-2 justify-between">
-                  {selectedCours && selectedLecons.length === 0 ? (
+                  {cours && lecons.length === 0 ? (
                       <p className="text-bleu-secondaire self-center p-4">Pas de leçons</p>
-                  ) : selectedLecons.map((lecon) => (
+                  ) : lecons.map((lecon) => (
                     <div
-                      key={`${lecon.id}-${lecon.coursId}`}
+                      key={`${lecon.id}-${lecon.cours_id}`}
                       className={`flex flex-col border-t-${lecon.id === '1' ? '0' : '2'} border-gris-clair p-4 gap-3`}
                     >
                       <div className="flex justify-between">
                         <div className="flex gap-4">
                           <div className="bg-orange-cuivre/30 w-12 h-12 rounded flex items-center justify-center text-orange-cuivre text-2xl font-bold">
-                            {String(lecon.ordre).padStart(2, "0")}
+                            {String(lecon.lecon_ordre).padStart(2, "0")}
                           </div>
                           <div className="flex flex-col items-start">
                             <h3 className="font-titres text-bleu-principal font-semibold text-lg">
-                              {lecon.titre}
+                              {lecon.lecon_titre}
                             </h3>
                             <p className="text-bleu-secondaire text-sm">
-                              {lecon.description}
+                              {lecon.description ? lecon.description : ''}
                             </p>
                           </div>
                         </div>
@@ -217,13 +217,13 @@ const CoursDetails = () => {
                       </div>
                       <div className="flex justify-between items-center">
                         <p className="text-sm text-bleu-secondaire">
-                          Exercices: {exerciceCount(lecon)}
+                          Exercices: {lecon.exercices}
                         </p>
                         <input
                           type="submit"
                           value="Ajouter Exercice"
                           className="text-orange-cuivre text-md font-semibold cursor-pointer hover:text-orange-cuivre/75 transition duration-300 ease-in-out"
-                          onClick={() => navigate(`${location.pathname}?create=true&coursId=${lecon.coursId}&leconId=${lecon.id}`)}
+                          onClick={() => navigate(`${location.pathname}?create=true&coursId=${lecon.cours_id}&leconId=${lecon.id}`)}
                         />
                       </div>
                     </div>
@@ -232,7 +232,7 @@ const CoursDetails = () => {
               </div>
               <div className="flex flex-col gap-3 px-5 py-2 mb-3">
                 <h3 className="font-titres text-bleu-principal font-semibold text-xl">Étudiants inscrits</h3>
-                <TableData columns={ etudiantsInscritsColumns } rows={ inscriptions.filter(e => e.cours === selectedCours.titre) }  edit={false} />
+                <TableData columns={ etudiantsInscritsColumns } rows={ inscriptions }  edit={false} />
               </div>
             </div>
           ) : (
@@ -243,7 +243,7 @@ const CoursDetails = () => {
               <h3 className="text-bleu-principal font-titres font-semibold text-lg">Cours introuvable</h3>
               <p className="text-gris-fonce text-sm max-w-sm">Ce cours n'existe pas ou a été supprimé. Vérifiez le lien ou retournez à la liste des cours.</p>
               <button 
-                onClick={() => navigate('/formateur/cours')} 
+                onClick={() => navigate('/admin/cours')} 
                 className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
               >
                 Retour aux cours
