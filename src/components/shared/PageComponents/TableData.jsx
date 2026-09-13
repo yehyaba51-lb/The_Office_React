@@ -9,9 +9,8 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
   const [questions, setQuestions] = useState([])
 
   const getNums = (row) => {
-    const progressionParts = row.progression.split('/')
-    const current = progressionParts[0]
-    const total = progressionParts[1]
+    const current = row.current
+    const total = row.total
     return [current, total]
   }
 
@@ -66,8 +65,8 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                     <td key={col.key} className="px-4 py-2">
                       {col.key === 'progression' ? (
                         (() => {
-                          const [current, total] = getNums(row);
-                          return <ProgressBar current={ current } total={ total } />
+                          getNums(row);
+                          return <ProgressBar current={ row.current } total={ row.total } />
                         })()
                       ) : col.key === 'statut' ? (
                         <span className={row.corrigeLe === null 
@@ -148,8 +147,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                     <td key={col.key} className="px-4 py-2">
                       {col.key === 'progression' ? (
                         (() => {
-                          const [current, total] = getNums(row);
-                          return <ProgressBar current={ current } total={ total } />
+                          return <ProgressBar current={ row.current } total={ row.total } />
                         })()
                       ) : col.key === 'statut' ? (
                         <span className={row.corrigeLe === null 
