@@ -19,14 +19,12 @@ export const coursFields = [
     name: "formateur_id", 
     type: "select", 
     placeholder: "Choisir un formateur",
-    options: ["Nadia Belkacem", "Sofiane Ghomari", "Islam Bensalem", "Yasmine Haddad"]
   },
   { 
     label: "Catégorie", 
     name: "categorie_id", 
     type: "select", 
     placeholder: "Choisir une catégorie",
-    options: ["Informatique", "Soft skills", "Management", "Architecture"] 
   }
 ]
 
