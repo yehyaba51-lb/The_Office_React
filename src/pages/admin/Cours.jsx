@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { coursColumns } from "../../fakeData";
-import { coursFields } from "../../formModalsData";
+import { coursFields, userFields } from "../../formModalsData";
 import FormModal from "../../components/modals/FormModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import ConfirmModal from "../../components/modals/ConfirmModal";
@@ -15,6 +15,9 @@ import FetchError from "../../components/shared/FetchError";
 const Cours = () => {
   const [filter, setFilter] = useState("tous");
   const [cours, setCours] = useState([]);
+  const [formateurs, setFormateurs] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [hasErrors, setHasErrors] = useState(false);
   const [loading, setLoading] = useState(true);
   const [newFormateur, setNewFormateur] = useState('')
   const [searchParams] = useSearchParams();
@@ -30,16 +33,50 @@ const Cours = () => {
       const data = await response.json();
 
       setCours(data);
-      setLoading(false);
+      return true
     } catch (error) {
-      setCours("");
-      setLoading(false);
+      setCours([]);
+      return false
+    }
+  };
+
+  const getFormateurs = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?formateur=true`);
+      const data = await response.json();
+
+      setFormateurs(data);
+      return true
+    } catch (error) {
+      setFormateurs([]);
+      return false
+    }
+  };
+
+  const getCategories = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php`);
+      const data = await response.json();
+
+      setCategories(data);
+      return true
+    } catch (error) {
+      setCategories([]);
+      return false
     }
   };
   useEffect(() => {
-    getCours();
+    const loadEverything = async () => {
+      const results = await Promise.all([getCours(), getFormateurs(), getCategories()])
+      setHasErrors(results.includes(false))
+
+      setLoading(false)
+    };
+
+    loadEverything()
   }, []);
 
+  
   const filteredCours = cours
     ? cours.filter((c) => {
         if (filter === "tous") return true;
@@ -47,12 +84,19 @@ const Cours = () => {
       })
     : "";
 
-    console.log(cours);
+    const dynamicCoursFields = coursFields.map(field=> {
+      if(field.name === 'formateur_id'){
+        return {...field, options: formateurs.map(f => ({value: f.id, label: `${f.prenom} ${f.nom}`}))}
+      } else if(field.name === 'categorie_id'){
+        return {...field, options: categories.map(c => ({value: c.id, label: c.categorie_nom}))}
+      }
+      return field
+    })
     
   const addCours = async (insertedCours) => {
     let errors = []
-    const nameRegex = /^[A-Z][A-Za-z ]*$/
-    if(!insertedCours.cours_titre || insertedCours.cours_titre.length < 2 || !nameRegex.test(insertedCours.cours_titre)){
+    const nameRegex = /^[A-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9' :\-]*$/
+    if(!insertedCours.cours_titre || insertedCours.cours_titre.length < 5 || !nameRegex.test(insertedCours.cours_titre)){
       errors.push('Titre invalide')
     }
 
@@ -77,13 +121,15 @@ const Cours = () => {
         },
         body: JSON.stringify(insertedCours)
       })
+      const data = await response.json()
 
       if(!response.ok){
         toast.error(data.error)
         return false
       }
 
-      setNewFormateur(insertedCours.formateur_id)
+      const formateur = formateurs.find(f => Number(f.id) === Number(insertedCours.formateur_id));
+      setNewFormateur(formateur ? `${formateur.prenom} ${formateur.nom}` : '');
       getCours()
       return true
     } catch (error) {
@@ -94,35 +140,72 @@ const Cours = () => {
 
   const id = searchParams.get("id");
   const selectedCours = filteredCours
-    ? filteredCours.find((cours) => cours.id === id)
+    ? filteredCours.find((cours) => Number(cours.id) === Number(id))
     : "";
 
+  console.log(selectedCours);
+  
 
   const editCours = async(id, initialData) => {
+    let errors = []
+    const nameRegex = /^[A-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9' :\-]*$/
+    if(!initialData.cours_titre || initialData.cours_titre.length < 5 || !nameRegex.test(initialData.cours_titre)){
+      errors.push('Titre invalide')
+    }
+
+    if(!initialData.formateur_id || initialData.formateur_id === ''){
+      errors.push('Formateur invalide')
+    }
+
+    if(!initialData.categorie_id || initialData.categorie_id === ''){
+      errors.push('Categorie invalide')
+    }
+
+    if(errors.length > 0){
+      errors.forEach(error => toast.error(error))
+      return false;
+    }
+
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(initialData)
       })
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
       toast.success(`${selectedCours.titre} modifier`);
       getCours()
+      return true
     } catch (error) {
       toast.error("Impossible de modifier le cours");
+      return false
     }
   }
   const removeCours = async(id) => {
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
         method: 'DELETE'
       })
+      const data = response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
 
       toast.success(`${selectedCours.titre} supprimée`);
       getCours()
+      return true
     } catch (error) {
       toast.error("Impossible de supprimer le cours");
+      return false
     }
   }
 
@@ -133,7 +216,7 @@ const Cours = () => {
       {showModal && (
         <FormModal
           type={"un cours"}
-          fields={coursFields}
+          fields={dynamicCoursFields}
           submitFunction={addCours}
         />
       )}
@@ -150,7 +233,7 @@ const Cours = () => {
       {showEdit && (
         <FormModal
           type={"un cours"}
-          fields={coursFields}
+          fields={dynamicCoursFields}
           initialData={selectedCours}
           editFunction={(data) => editCours(id, data)}
         />
