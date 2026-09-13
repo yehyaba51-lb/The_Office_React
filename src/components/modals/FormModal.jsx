@@ -66,8 +66,8 @@ const FormModal = ({
                     {field.options.map((option) => (
                       <option
                         key={option}
-                        value={`${option}`}
-                      >{`${option}`}</option>
+                        value={`${option.value}`}
+                      >{`${option.label}`}</option>
                     ))}
                   </select>
                 ) : (
