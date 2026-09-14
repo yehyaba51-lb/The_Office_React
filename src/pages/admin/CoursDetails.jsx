@@ -15,7 +15,6 @@ import FetchError from "../../components/shared/FetchError";
 const CoursDetails = () => {
   const [cours, setCours] = useState([])
   const [lecons, setLecons] = useState([])
-  const [exercices, setExercices] = useState([])
   const [inscriptions, setInscriptions] = useState([])
   const [hasErrors, setHasErrors] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -103,21 +102,20 @@ const CoursDetails = () => {
   const leconId = Number(searchParams.get('leconId'))
   const coursId = Number(searchParams.get('coursId'))
 
-  console.log(typeof(leconId));
   
-
+  const selectedLecon = lecons ? lecons.find(l => l.id === leconId && l.cours_id === coursId) : ''
   
   const selectedInscription = inscriptions.length > 0 ? inscriptions.find(i => i.id === etudiantId) : '';  
   
   const addExercice = async (submittedExercice) => {
     let errors = []
-    const nameRegex = /^[A-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9' :\-]*$/
+    const nameRegex = /^[a-zA-ZÀ-ÿ' :\-]*$/
     if(!submittedExercice.exercice_titre || submittedExercice.exercice_titre.length < 2 || !nameRegex.test(submittedExercice.exercice_titre)){
       errors.push('Titre invalide')
     }
 
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices.php`, {
+      const response  = await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -127,8 +125,13 @@ const CoursDetails = () => {
           coursId,
           leconId})
       })
+      const data = await response.json()
 
-      getExercices()
+      if(!response.ok){
+        return false
+      }
+
+      getLecons()
       return true
     } catch (error) {
       toast.error("Impossible de créer l'exercice");
@@ -157,7 +160,7 @@ const CoursDetails = () => {
         <FormModal type={ 'un exercice' } fields={ exerciceFields } submitFunction={ addExercice } />
       )}
       {showSuccess && (
-        <SuccessModal type={ 'Exercice' } content = { cours.titre } create={ true } lecon={ true } />
+        <SuccessModal type={ 'Exercice' } content = { selectedLecon.lecon_titre } create={ true } lecon={ true } />
       )}
       {showDelete && (
         <ConfirmModal type={ "l'inscription" } inscriptionEtudiant={ selectedInscription.etudiant } deleteFunction={ () => supprimerInscription(selectedInscription.id) } irreversible={ false } />
