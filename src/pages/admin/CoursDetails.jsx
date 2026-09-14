@@ -91,64 +91,66 @@ const CoursDetails = () => {
     loadEverything()
   }, [])
 
-
-  const selectedCours = cours ? cours.find(
-    (cours) => cours.id === id,
-  ) : ''
-  const selectedLecons = lecons ? lecons.filter(
-    (lecon) => lecon.coursId === Number(id),
-  ) : ''
   
 
   const [searchParams] = useSearchParams()
   const showModal = searchParams.get('create')=== 'true'
   const showSuccess = searchParams.get('success')=== 'true'
   const showDelete = searchParams.get('delete')=== 'true'
-  const etudiantId = searchParams.get('id')
+  const etudiantId = Number(searchParams.get('id'))
 
 
   const leconId = Number(searchParams.get('leconId'))
   const coursId = Number(searchParams.get('coursId'))
-  const selectedLecon = lecons ? lecons.find((lecon) => lecon.coursId === Number(id) && Number(lecon.id) === leconId) : ''
+
+  console.log(typeof(leconId));
+  
 
   
-  const enrolledStudentsNumber = selectedCours && inscriptions.filter(e => e.coursId === Number(selectedCours.id)).length
-  const numberOfExercices = exercices ? exercices.filter(e => e.coursId === Number(id)).length : 0
-  
-  const selectedInscription = inscriptions ? inscriptions.find(i => i.id === etudiantId) : '';
+  const selectedInscription = inscriptions.length > 0 ? inscriptions.find(i => i.id === etudiantId) : '';  
   
   const addExercice = async (submittedExercice) => {
+    let errors = []
+    const nameRegex = /^[A-ZÀ-ÿ][a-zA-ZÀ-ÿ0-9' :\-]*$/
+    if(!submittedExercice.exercice_titre || submittedExercice.exercice_titre.length < 2 || !nameRegex.test(submittedExercice.exercice_titre)){
+      errors.push('Titre invalide')
+    }
+
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           ...submittedExercice,
-          coursId: coursId,
-          leconId: leconId
-        })
+          coursId,
+          leconId})
       })
 
       getExercices()
+      return true
     } catch (error) {
       toast.error("Impossible de créer l'exercice");
+      return false
     }
   }
 
   const supprimerInscription = async (id) => {
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions/${id}`, {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${id}`, {
         method: 'DELETE'
       })
 
       toast.success(`Inscription de ${selectedInscription.etudiant} supprimé`);
       getInscriptions()
+      return true
     } catch (error) {
       toast.error("Impossible de supprimer l'inscription");
+      return false
     }
   }
+  
   return (
     <div  className="flex flex-col justify-center">
       {showModal && (
@@ -168,13 +170,13 @@ const CoursDetails = () => {
         ) : hasErrors ? (
           <FetchError />
         ) : (
-          selectedCours ? (
+          cours ? (
             <div className="w-full">
               <div className="flex justify-between w-full">
                 <StateBox titre={"Formateur"} label={cours.formateur} />
                 <StateBox
                   titre={"Étudiants inscrits"}
-                  label={ enrolledStudentsNumber }
+                  label={ inscriptions ? inscriptions.length : '0' }
                 />
                 <StateBox titre={"Leçons"} label={cours.lecons} />
                 <StateBox titre={"Exercices"} label={cours.exercices} />
@@ -193,8 +195,9 @@ const CoursDetails = () => {
                   ) : lecons.map((lecon) => (
                     <div
                       key={`${lecon.id}-${lecon.cours_id}`}
-                      className={`flex flex-col border-t-${lecon.id === '1' ? '0' : '2'} border-gris-clair p-4 gap-3`}
+                      className={`flex flex-col border-t-${lecon.id === 1 ? 0 : 2} border-gris-clair p-4 gap-3`}
                     >
+                      
                       <div className="flex justify-between">
                         <div className="flex gap-4">
                           <div className="bg-orange-cuivre/30 w-12 h-12 rounded flex items-center justify-center text-orange-cuivre text-2xl font-bold">
@@ -211,7 +214,7 @@ const CoursDetails = () => {
                         </div>
                         <div className="flex gap-1">
                           <p className="text-bleu-secondaire flex text-md">
-                            {lecon.types.join(" · ")}
+                            {lecon.types.length > 0 ? lecon.types.join(" · ") : 'Pas de contenu'}
                           </p>
                         </div>
                       </div>
