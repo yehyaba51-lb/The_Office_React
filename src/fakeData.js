@@ -24,9 +24,9 @@ export const categorieColumns = [
 
 export const etudiantsInscritsColumns = [
   { label: "ÉTUDIANT", key: "etudiant" },
-  { label: "INSCRIT LE", key: "inscritLe" },
+  { label: "INSCRIT LE", key: "inscrit_le" },
   { label: "PROGRESSION", key: "progression" },
-  { label: "NOTE FINALE", key: "noteFinale" },
+  { label: "NOTE FINALE", key: "note_finale" },
 ];
 
 export const mesEtudiantsColumns = [
