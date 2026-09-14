@@ -33,5 +33,5 @@ export const categorieFields = [
 ];
 
 export const exerciceFields = [
-  { label: "Titre", name: "exercice_titre", type: "text" },
+  { label: "Titre", name: "exercice_titre", type: "text", placeholder: "Entrer le titre de l'exercice..." },
 ];
