@@ -13,6 +13,7 @@ import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 
 const CoursDetails = () => {
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const [cours, setCours] = useState([])
   const [lecons, setLecons] = useState([])
   const [inscriptions, setInscriptions] = useState([])
@@ -176,7 +177,7 @@ const CoursDetails = () => {
           cours ? (
             <div className="w-full">
               <div className="flex justify-between w-full">
-                <StateBox titre={"Formateur"} label={cours.formateur} />
+                <StateBox titre={"Formateur"} label={capitalize(cours.formateur)} />
                 <StateBox
                   titre={"Étudiants inscrits"}
                   label={ inscriptions ? inscriptions.length : '0' }
@@ -187,7 +188,7 @@ const CoursDetails = () => {
               <div className="m-5 border-2 border-gris-clair rounded-2xl px-5 py-2 flex flex-col gap-2 items-start justify-between">
                 <h3 className="font-titres text-gris-fonce/80 text-xl">Description</h3>
                 <p className="text-bleu-principal text-md">
-                  {cours.description ? cours.description : 'Pas de description'}
+                  {cours.description ? capitalize(cours.description) : 'Pas de description'}
                 </p>
               </div>
               <div className="flex flex-col gap-3 px-5 py-2 w-full mb-5">
@@ -208,10 +209,10 @@ const CoursDetails = () => {
                           </div>
                           <div className="flex flex-col items-start">
                             <h3 className="font-titres text-bleu-principal font-semibold text-lg">
-                              {lecon.lecon_titre}
+                              {capitalize(lecon.lecon_titre)}
                             </h3>
                             <p className="text-bleu-secondaire text-sm">
-                              {lecon.description ? lecon.description : ''}
+                              {lecon.description ? capitalize(lecon.description) : ''}
                             </p>
                           </div>
                         </div>
