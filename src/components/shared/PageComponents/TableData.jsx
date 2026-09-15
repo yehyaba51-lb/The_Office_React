@@ -8,6 +8,8 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([])
 
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
   const getNums = (row) => {
     const current = row.current
     const total = row.total
@@ -86,14 +88,16 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         </span>
                       ) : col.key === 'description' ? (
                         row[col.key] ? (
-                          <p>{row[col.key].slice(0, 40) + '...'}</p>
+                          <p>{capitalize(row[col.key].slice(0, 40)) + '...'}</p>
                         ) : (
                           <p>Pas de description</p>
                         )
                       ) : col.key === 'lecons' ? (
                           row[col.key] ?? 0 
-                      ) : (
+                      ) : col.key === 'email' ? (
                         row[col.key]
+                      ) : (
+                        typeof row[col.key] === 'string' ? capitalize(row[col.key]) : row[col.key]
                       )}
                     </td>
                   ))}
@@ -165,9 +169,11 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         </span>
                       ) : col.key === 'coursCount' ? (
                         row[col.key] ?? 0 
+                      ) : col.key === 'email' ? (
+                        row[col.key]
                       ) : (
-                        row[col.key] === null ? '—' : row[col.key]
-                      )}
+                        typeof row[col.key] === 'string' ? capitalize(row[col.key]) : row[col.key]
+)}
                     </td>
                   ))}
                   {admin && (
