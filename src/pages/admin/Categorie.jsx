@@ -82,7 +82,6 @@ const Categorie = () => {
     ? categories.find((categorie) => categorie.id === id)
     : "";
 
-    console.log(selectedCategory);
     
   const editCategoty = async (id, initialData) => {
     if(!initialData.categorie_nom || initialData.categorie_nom.length < 2){
@@ -98,12 +97,11 @@ const Categorie = () => {
         body: JSON.stringify(initialData),
       });
       const data = await response.json()
-
       if (!response.ok) {
           toast.error(data.error);
           return false;
       }
-
+      
       toast.success(`${selectedCategory.categorie_nom} modifier`);
       getCategories();
       return true
