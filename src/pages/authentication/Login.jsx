@@ -1,78 +1,47 @@
-import { useEffect, useRef, useState } from "react";
-import { useLocation, useMatches, useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 
 const Login = () => {
-  const [users, setUsers] = useState([]);
-  const [passwords, setPasswords] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const formRef = useRef();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const getUsers = async () => {
+  const handleLogin  = async (email, mot_de_passe) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/users`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth.php`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ email, mot_de_passe })
+      });
       const data = await response.json();
 
-      setUsers(data);
+      if(!response.ok){
+        toast.error(data.error);
+        return false
+      }
+
+      setCurrentUser(data);
+      setIsLoggingIn(false)
       return true;
     } catch (error) {
-      setUsers("");
+      setCurrentUser([]);
+      toast.error('Impossible de se connecter')
       return false;
     }
   };
 
-  const getPasswords = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/testPasswords`);
-      const data = await response.json();
-
-      setPasswords(data);
-      return true;
-    } catch (error) {
-      setPasswords("");
-      return false;
-    }
-  };
-
-  useEffect(() => {
-    const loadEverything = async () => {
-      await Promise.all([getUsers(), getPasswords()]);
-    };
-
-    loadEverything();
-  }, []);
-
-
-  const getuserInfo = (email) => {
-    const matchedUser = users ? users.find((u) => u.email === email) : "";
-
-    const password = matchedUser
-      ? passwords.find((p) => p.email === matchedUser.email)?.password
-      : "";
-    return { matchedUser, password };
-  };
-
-  const handleLogin = () => {
-    setIsLoggingIn(true)
+  const submitLogin = () => {
     const formData = new FormData(formRef.current);
     const emailInput = formData.get("email");
     const passwordInput = formData.get("mot_de_passe");
-    const { matchedUser, password } = getuserInfo(emailInput);
-
-    if (matchedUser && password === passwordInput) {
-      localStorage.setItem("user", JSON.stringify(matchedUser));
-      setTimeout(() => {
-        navigate(
-          `${location.pathname}/${matchedUser.role === "Étudiant" ? "etudiant" : matchedUser.role === "Formateur" ? "formateur" : matchedUser.role === "Administrateur" && "admin"}`,
-        );
-      }, 400)
-    } else {
-      toast.error("Email ou mot de passe incorrect");
-      setIsLoggingIn(false)
-    }
+    setIsLoggingIn(true);
+    handleLogin(emailInput, passwordInput);
   };
 
   return (
@@ -82,11 +51,11 @@ const Login = () => {
       className="flex flex-col gap-8"
       ref={formRef}
       onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          handleLogin();
-        }
-      }}
+      if (e.key === "Enter") {
+        e.preventDefault()
+        submitLogin()
+      }
+    }}
     >
       <h3 className="font-titres font-bold text-bleu-secondaire text-2xl">
         Connection
@@ -118,8 +87,10 @@ const Login = () => {
         </div>
       </div>
       <button
-      type="button"
-        onClick={handleLogin}
+        type="button"
+        onClick={() => {
+          submitLogin()
+        }}
         disabled={isLoggingIn}
         className="w-2/6 bg-orange-cuivre rounded-lg p-1 flex items-center justify-center cursor-pointer text-white font-semibold self-end hover:bg-orange-cuivre/90 transition duration-300 ease-in-out"
       >
