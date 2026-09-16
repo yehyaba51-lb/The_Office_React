@@ -12,7 +12,8 @@ const ChangerMotDePasse = () => {
   const passerPassword = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth.php?action=passer`, {
-        method: 'PUT'
+        method: 'PUT',
+        credentials: 'include',
       })
       const data = await response.json()
 
