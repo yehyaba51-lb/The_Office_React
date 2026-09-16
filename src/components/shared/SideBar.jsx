@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../assets/logo.png";
 import logoLampe from "../../assets/logo-lampe.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -6,8 +6,10 @@ import { LogOut } from "lucide-react";
 import { ChevronsRightLeft } from "lucide-react";
 import { ChevronsLeftRight } from "lucide-react";
 import { adminNav, formateurNav, etudiantNav } from "../../roleLinks";
+import { toast } from "react-toastify";
 
 const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
+  const [hasError, setHasError] = useState(false)
   const navigate = useNavigate()
   const navRole =
     role === "admin"
@@ -16,6 +18,25 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
         ? formateurNav
         : etudiantNav;
 
+  const disconnect = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth.php`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
+      return true
+    } catch (error) {
+      toast.error('Impossible de se déconnecter')
+      return false
+    }
+  }
   const [isCollapsed, setIsCollaped] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [showLogoutMenu, setShowLogoutMenu] = useState(false);
@@ -66,7 +87,13 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
                 <p className="text-gris-clair text-xs">{currentUser.email}</p>
               </div>
               <button
-                onClick={(e) => {e.preventDefault(); localStorage.removeItem('user'); navigate('/');}}
+                onClick={async (e) => 
+                  {e.preventDefault();
+                    const success = await disconnect();
+                    if(success){
+                      navigate('/');
+                    }
+                  }}
                 className="cursor-pointer flex justify-center items-center  border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
                 
               >
@@ -159,7 +186,13 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
             </div>
           </div>
           <button
-            onClick={(e) => {e.preventDefault(); localStorage.removeItem('user'); navigate('/');}}
+            onClick={async (e) => 
+              {e.preventDefault();
+                const success = await disconnect();
+                if(success){
+                  navigate('/');
+                }
+              }}
             className="cursor-pointer flex justify-center items-center  border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
           >
             <LogOut color="currentColor" size="20" /> Se déconnecter
