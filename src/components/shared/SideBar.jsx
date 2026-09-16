@@ -99,7 +99,7 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
                       if(success){
                         navigate('/');
                       }
-                    }, 1000)
+                    }, 400)
                   }}
                 className="cursor-pointer flex justify-center items-center  border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
                 
@@ -204,7 +204,7 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
                   if(success){
                     navigate('/');
                   }
-                }, 1000)
+                }, 400)
               }}
             className="cursor-pointer flex justify-center items-center  border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
           >
