@@ -7,9 +7,11 @@ import { ChevronsRightLeft } from "lucide-react";
 import { ChevronsLeftRight } from "lucide-react";
 import { adminNav, formateurNav, etudiantNav } from "../../roleLinks";
 import { toast } from "react-toastify";
+import Spinner from "./Spinner";
 
 const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
   const [hasError, setHasError] = useState(false)
+  const [isDisconnecting, setIsDisconnecting] = useState(false)
   const navigate = useNavigate()
   const navRole =
     role === "admin"
@@ -31,9 +33,11 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
         return false
       }
 
+      setIsDisconnecting(false)
       return true
     } catch (error) {
       toast.error('Impossible de se déconnecter')
+      setIsDisconnecting(false)
       return false
     }
   }
@@ -87,17 +91,23 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
                 <p className="text-gris-clair text-xs">{currentUser.email}</p>
               </div>
               <button
-                onClick={async (e) => 
+                onClick={(e) => 
                   {e.preventDefault();
-                    const success = await disconnect();
-                    if(success){
-                      navigate('/');
-                    }
+                    setIsDisconnecting(true)
+                    setTimeout(async () => {
+                      const success = await disconnect();
+                      if(success){
+                        navigate('/');
+                      }
+                    }, 1000)
                   }}
                 className="cursor-pointer flex justify-center items-center  border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
                 
               >
-                <LogOut color="currentColor" size="20" /> Se déconnecter
+                {isDisconnecting
+                  ? <Spinner login={true} />
+                  : <LogOut color="currentColor" size="20" />}
+                Se déconnecter
               </button>
             </div>
           </>
@@ -186,16 +196,22 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
             </div>
           </div>
           <button
-            onClick={async (e) => 
+            onClick={(e) => 
               {e.preventDefault();
-                const success = await disconnect();
-                if(success){
-                  navigate('/');
-                }
+                setIsDisconnecting(true)
+                setTimeout(async () => {
+                  const success = await disconnect();
+                  if(success){
+                    navigate('/');
+                  }
+                }, 1000)
               }}
             className="cursor-pointer flex justify-center items-center  border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
           >
-            <LogOut color="currentColor" size="20" /> Se déconnecter
+            {isDisconnecting
+              ? <Spinner login={true} />
+              : <LogOut color="currentColor" size="20" />}
+            Se déconnecter
           </button>
         </div>
       </div>
