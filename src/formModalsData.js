@@ -6,7 +6,10 @@ export const userFields = [
     label: "Rôle", 
     name: "role", 
     type: "select", 
-    options: ["Formateur", "Étudiant"],
+    options: [
+      { value: "Formateur", label: "Formateur" },
+      { value: "Étudiant", label: "Étudiant" }
+    ],
     lockedOn: true,
     placeholder: "Choisir un rôle..."
   },
