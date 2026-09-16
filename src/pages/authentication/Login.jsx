@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 
 const Login = () => {
-  const [currentUser, setCurrentUser] = useState([]);
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const formRef = useRef();
   const navigate = useNavigate();
@@ -23,15 +22,26 @@ const Login = () => {
 
       if(!response.ok){
         toast.error(data.error);
+        setIsLoggingIn(false)
         return false
       }
 
-      setCurrentUser(data);
       setIsLoggingIn(false)
+      if(data.premiere_connexion){
+        navigate('/changer-mot-de-passe')
+      } else {
+        if(data.role === 'Administrateur'){
+          navigate('/admin')
+        } else if(data.role === 'Formateur') {
+          navigate('/formateur')
+        } else {
+          navigate('/etudiant')
+        }
+      }
       return true;
     } catch (error) {
-      setCurrentUser([]);
       toast.error('Impossible de se connecter')
+      setIsLoggingIn(false)
       return false;
     }
   };
