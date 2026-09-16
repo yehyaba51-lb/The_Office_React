@@ -16,6 +16,7 @@ const Utilisateurs = () => {
   const [filter, setFilter] = useState("all");
   const [users, setUsers] = useState([]);
   const [newUserName, setNewUserName] = useState("");
+  const [newDeletedUserName, setNewDeletedUserName] = useState("");
   const [generatedPassword, setGeneratedPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('')
@@ -52,16 +53,18 @@ const Utilisateurs = () => {
       })
     : "";
 
+    
+    
   const id = searchParams.get("id");
   const selectedUser = filteredUsers
     ? filteredUsers.find((user) => user.id === id)
     : "";
 
-  
+  console.log('selectedUser', selectedUser);
 
   const addUser = async (submittedUser) => {
     let errors = []
-    const nameRegex = /^[A-Z][A-Za-z ]*$/
+    const nameRegex = /^[a-zA-Z' -]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if(!submittedUser.prenom || submittedUser.prenom.length < 2 || !nameRegex.test(submittedUser.prenom)){
       errors.push("Prenom invalide")
@@ -112,8 +115,8 @@ const Utilisateurs = () => {
 
   const editUser = async (id, submittedUser) => {
     let errors = []
-    const nameRegex = /^[A-Z][A-Za-z ]*$/
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const nameRegex = /^[a-zA-Z' -]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     if(!submittedUser.prenom || submittedUser.prenom.length < 2 || !nameRegex.test(submittedUser.prenom)){
       errors.push("Prenom invalide")
     }
@@ -154,15 +157,26 @@ const Utilisateurs = () => {
   }
 
   const removeUser = async (id) => {
+    setNewDeletedUserName(`${selectedUser.prenom + " " + selectedUser.nom}`)
+    console.log('newDeletedUserName', newDeletedUserName);
+    
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}`, {
         method: 'DELETE'
       })
+      const data = await response.json()
 
-      toast.success(`${selectedUser.prenom + " " + selectedUser.nom} à été supprimer`);
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+
+      }
+      toast.success(`${newDeletedUserName} à été supprimer`);
       getUsers()
+      return true
     } catch (error) {
       toast.error("Impossible de supprimer le compte");
+      return false
     }
   }
 
@@ -187,7 +201,7 @@ const Utilisateurs = () => {
       return false;
     }
   }
-
+  
   const searchUsers = filteredUsers ? filteredUsers.filter(u => `${u.nom} ${u.prenom}`.toLowerCase().includes(search.toLowerCase())) : ''
   return (
     <div>
