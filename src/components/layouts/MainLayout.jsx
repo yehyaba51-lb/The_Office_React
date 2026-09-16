@@ -1,19 +1,69 @@
-import { useState } from 'react'
+import { useEffect, useState } from "react";
 import SideBar from '../shared/SideBar'
 import TopBar from '../shared/TopBar'
+import PasDeSession from '../shared/PasDeSession'
 import { Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../shared/Spinner";
 
 const MainLayout = ({ role }) => {
+  const [currentUser, setCurrentUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  const navigate = useNavigate();
+
+  const verifierSession = async () => {
+    try {
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+      await sleep(2000)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth.php`, {
+        credentials: 'include'
+      })
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        setLoading(false)
+        return false
+      }
+
+      setCurrentUser(data)
+      setLoading(false)
+      return 
+    } catch (error) {
+      toast.error('Impossible de charger les données')
+      setLoading(false)
+      return false
+    }
+  }
+
+  useEffect(() => {
+    verifierSession()
+  }, [])
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   return (
     <div className='flex w-full h-screen'>
-      <SideBar role={role} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
-      <div className="flex flex-col flex-1 overflow-y-auto h-screen">
-        <TopBar mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
-        <Outlet />
-      </div>
-      <ToastContainer />
+      {loading
+        ? 
+        <div className="flex flex-col w-full items-center pt-50 gap-3 text-center py-10">
+          <Spinner />
+        
+        </div>
+        :currentUser === null
+        ? <PasDeSession />
+        : <>
+            <SideBar role={role} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+            <div className="flex flex-col flex-1 overflow-y-auto h-screen">
+              <TopBar mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+              <Outlet />
+            </div>
+            <ToastContainer />
+          </>
+      }
     </div>
   )
 }
