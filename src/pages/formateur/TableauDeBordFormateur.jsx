@@ -5,34 +5,44 @@ import QuickAccess from '../../components/shared/PageComponents/QuickAccess'
 import { GraduationCap, ChartSpline, Book , NotebookPen} from 'lucide-react'
 import Spinner from '../../components/shared/Spinner'
 import FetchError from '../../components/shared/FetchError'
+import { useOutletContext } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const TableauDeBordFormateur = () => {
     const [showAll, setshowAll] = useState(false)
     const [soumissions, setSoumissions] = useState([])
-    const [cours, setCours] = useState([])
+    const [statistics, setStatistics] = useState([])
     const [inscriptions, setInscriptions] = useState([])
     const [hasError, setHasError] = useState(false)
     const [loading, setLoading] = useState(true)
-    const [currentUser, setCurrentUser] = useState(null)
     const [activities, setActivities] = useState([])
-
-
-    const getCours = async () => {
+    const currentUser = useOutletContext()
+    
+    const getStatistics = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`)
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateur=true`)
         const data = await response.json()
+        
+        if(!response.ok){
+          toast.error(data.error)
+          return false
+        }
 
-        setCours(data)
+        setStatistics(data)
         return true
       } catch (error) {
-        setCours([])
+        setStatistics([])
+        toast.error('fetching failed')
         return false
       }
     }
 
+    
+    
+
     const getInscriptions = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`)
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${currentUser.utilisateur_id}&formateur=true`)
         const data = await response.json()
 
         setInscriptions(data)
@@ -45,7 +55,7 @@ const TableauDeBordFormateur = () => {
 
     const getSoumissions = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions`)
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${currentUser.utilisateur_id}&formateur=true`)
         const data = await response.json()
 
         setSoumissions(data)
@@ -58,28 +68,28 @@ const TableauDeBordFormateur = () => {
 
     useEffect(() => {
       const loadEverything = async () => {
-        const results = await Promise.all([getInscriptions(), getSoumissions(), getCours()])
+        const results = await Promise.all([getInscriptions(), getSoumissions(), getStatistics()])
         setHasError(results.includes(false))
 
         setLoading(false)
       }
 
       loadEverything()
-      setCurrentUser(JSON.parse(localStorage.getItem('user')))
     }, [])
+    console.log(soumissions);
 
     useEffect(() => {
       const inscriptionActivities = inscriptions ? inscriptions.map(i => ({
         badge: `admin`,
-        text: `Nouvel étudiant inscrit : ${i.etudiant} — « ${i.cours} »`,
-        date: i.inscritLe,
+        text: `Nouvel étudiant inscrit : ${i.etudiant} — « ${i.cours_titre} »`,
+        date: i.inscrit_le,
         to: `/formateur/etudiants`
       })) : ''
 
       const soumissionsActivities = soumissions ? soumissions.map(s => ({
         badge: 'admin',
-        text: `Nouvelle soumission de ${s.etudiant} — « ${s.exercice} »`,
-        date: s.soumisLe,
+        text: `Nouvelle soumission de ${s.etudiant} — « ${s.exercice_titre} »`,
+        date: s.soumis_le,
         to: '/formateur/corrections'
       })) : ''
 
@@ -91,57 +101,14 @@ const TableauDeBordFormateur = () => {
       )
     }, [soumissions, inscriptions])
     
-    
-    
-    const formateurCours = cours ? cours.filter(c => currentUser ? c.formateur.toLowerCase() === currentUser.prenom.toLowerCase() + ' ' + currentUser.nom.toLowerCase() : []) : ''
-    
-    const etudiantInscriptions = inscriptions ? inscriptions.filter(i => formateurCours.some(c => c.titre.toLowerCase() === i.cours.toLowerCase())) : ''
-    
+
     const filteredActivitesFormateur = showAll ? activities : activities.slice(0, 5)
 
-    const numberOfCours = formateurCours.length
+    const percentage = statistics?.completion
+      ? statistics.completion.map(i => (i.current * 100) / i.total)
+      : []
 
-    const enrolledStudents = etudiantInscriptions.length
-
-    const formateurSoumissions = soumissions ? soumissions.filter(s => formateurCours.some(c => c.titre.toLowerCase() === s.cours.toLowerCase())) : ''
-
-    const numberOfsoumission = formateurSoumissions.length
-
-    const percentage = etudiantInscriptions ? etudiantInscriptions.map(i => {
-      const [current, total] = i.progression.split('/').map(Number)
-      return (current * 100) / total
-    }) : ''
-
-    const completionMoyenne = percentage.length > 0 ? Math.round(percentage.reduce((sum, p) => sum + p, 0)/ percentage.length) : ''
-    
-    const now = new Date();
-
-    const studetsnThisMonth = etudiantInscriptions ? etudiantInscriptions.filter(s => {
-      const d = new Date(s.inscritLe)
-      return (
-        d.getMonth() === now.getMonth() && 
-        d.getFullYear() === now.getFullYear()
-      )
-    }).length : ''
-
-    const coursThisMonth = formateurCours ? formateurCours.filter(c => {
-      const d = new Date(c.creeLe)
-
-      return (
-        d.getMonth() === now.getMonth() &&
-        d.getFullYear() === now.getFullYear()
-      )
-    }).length : ''
-
-    const soumissionsThisMonth = formateurSoumissions ? formateurSoumissions.filter(s => {
-      const d = new Date(s.soumisLe)
-
-      return(
-        d.getMonth() === now.getMonth() &&
-        d.getFullYear() === now.getFullYear()
-      )
-    }).length : ''
-
+     const completionMoyenne = percentage.length > 0 ? Math.round(percentage.reduce((sum, p) => sum + p, 0)/ percentage.length) : ''
 
   return (
     <div className={`flex flex-col justify-center items-center ${loading && "mt-25"}`}>
@@ -152,10 +119,10 @@ const TableauDeBordFormateur = () => {
       ) : (
         <div className='w-full'>
           <div className="flex justify-between p-2 mx-5">
-            <StateBox icon={GraduationCap} titre={ enrolledStudents } label={'Étudiants'} footer={`+${studetsnThisMonth} ce mois-ci`} />
-            <StateBox icon={Book} titre={ numberOfCours } label={'Cours'} footer={`+${coursThisMonth} ce mois-ci`} />
+            <StateBox icon={GraduationCap} titre={ statistics.etudiants.total } label={'Étudiants'} footer={`+${statistics.etudiants.ce_mois} ce mois-ci`} />
+            <StateBox icon={Book} titre={ statistics.cours.total } label={'Cours'} footer={`+${statistics.cours.ce_mois} ce mois-ci`} />
             <StateBox icon={ChartSpline} titre={ `${completionMoyenne}%` } label={'Complétion moyen'} />
-            <StateBox icon={NotebookPen} titre={ numberOfsoumission } label={'Soumissions à corriger'} footer={`+${soumissionsThisMonth} ce mois-ci`} />
+            <StateBox icon={NotebookPen} titre={ statistics.soumissions.total } label={'Soumissions à corriger'} footer={`+${statistics.soumissions.ce_mois} ce mois-ci`} />
           </div>
           <div className='flex gap-1 mx-6'>
             <div className='w-4/5'>
