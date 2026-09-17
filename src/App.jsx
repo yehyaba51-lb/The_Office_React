@@ -52,10 +52,10 @@ const App = () => {
         </Route>
         
         <Route path='/' element={<MainLayout role={'Formateur'} />}>
-          <Route path='/formateur' element={<TableauDeBordFormateur />} handle={{ titre: 'Tableau de bord', sousTitre: "Belkacem Nadia" }} />
-          <Route path="/formateur/cours" element={<MesCours />} handle={{ titre: 'Mes cours', sousTitre: "Belkacem Nadia" }} />
-          <Route path="/formateur/etudiants" element={<MesEtudiants />} handle={{ titre: 'Mes étudiants', sousTitre: "Belkacem Nadia" }} />
-          <Route path="/formateur/corrections" element={<Corrections />} handle={{ titre: 'Corrections', sousTitre: "Belkacem Nadia" }} />
+          <Route path='/formateur' element={<TableauDeBordFormateur />} handle={{ titre: 'Tableau de bord' }} />
+          <Route path="/formateur/cours" element={<MesCours />} handle={{ titre: 'Mes cours' }} />
+          <Route path="/formateur/etudiants" element={<MesEtudiants />} handle={{ titre: 'Mes étudiants' }} />
+          <Route path="/formateur/corrections" element={<Corrections />} handle={{ titre: 'Corrections' }} />
           <Route path="/formateur/cours/:id" element={<CoursDetailsFormateur />} handle={{ titre:'Cours introuvable', sousTitre: "Retour aux cours", backLink: '/formateur/cours', addButton:'Ajouter leçon' }} />
           <Route path="/formateur/cours/:id/exercices/:exerciceId" element={<ExercicePage />} handle={{ sousTitre: "Retour aux cours", backLink: '/formateur/cours/:id', addButton:'Ajouter question' }} />
           <Route path="/formateur/cours/:id/lecons/:leconId" element={<LessonDetailsPageFormateur />} handle={{ sousTitre: "Retour aux cours", backLink: '/formateur/cours/:id' }} />
