@@ -1,4 +1,4 @@
-import { Children, useState } from 'react'
+import { useState } from 'react'
 import logo from "../../assets/logo.png";
 import { Outlet, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'
@@ -20,10 +20,8 @@ const AuthLayout = () => {
             </div>
         </nav>
       </header>
-      <main className='flex-1 p-12'>
-        <div className='border-2 border-gris-clair rounded-xl flex flex-col w-2/5 mx-auto px-10 py-4 m-10 shadow-md'>
-          <Outlet />
-        </div>
+      <main className='flex-1 p-5 w-full'>
+        <Outlet />
       </main>
       <footer className='bg-bleu-principal flex justify-center items-center p-5'>
         <p className='font-semibold text-gris-clair'>© 2026 The Office. Tous droits réservés.</p>
