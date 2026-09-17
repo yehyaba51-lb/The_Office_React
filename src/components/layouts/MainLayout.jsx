@@ -35,6 +35,7 @@ const MainLayout = ({ role }) => {
         } else {
           navigate('/etudiant')
         }
+        
         return false
       }
       setCurrentUser(data)
@@ -49,7 +50,7 @@ const MainLayout = ({ role }) => {
 
   useEffect(() => {
     verifierSession()
-  }, [])
+  }, [role])
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   return (
@@ -65,8 +66,8 @@ const MainLayout = ({ role }) => {
         : <>
             <SideBar role={role} currentUser={currentUser} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
             <div className="flex flex-col flex-1 overflow-y-auto h-screen">
-              <TopBar mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
-              <Outlet />
+              <TopBar currentUser={currentUser} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+              <Outlet context={ currentUser } />
             </div>
             <ToastContainer />
           </>
