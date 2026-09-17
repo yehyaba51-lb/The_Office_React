@@ -21,7 +21,6 @@ const ChangerMotDePasse = () => {
       const data = await response.json()
     
       if(!response.ok){
-        setLoading(false)
         navigate('/')
         return false
       }
