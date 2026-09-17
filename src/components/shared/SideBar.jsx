@@ -9,14 +9,13 @@ import { adminNav, formateurNav, etudiantNav } from "../../roleLinks";
 import { toast } from "react-toastify";
 import Spinner from "./Spinner";
 
-const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
-  const [hasError, setHasError] = useState(false)
+const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
   const [isDisconnecting, setIsDisconnecting] = useState(false)
   const navigate = useNavigate()
   const navRole =
-    role === "admin"
+    role === "Administrateur"
       ? adminNav
-      : role === "formateur"
+      : role === "Formateur"
         ? formateurNav
         : etudiantNav;
 
@@ -51,8 +50,6 @@ const SideBar = ({ role, mobileMenuOpen, setMobileMenuOpen }) => {
   const widthClasses = isCollapsed
     ? "md:w-15 md:px-1 md:py-20 md:items-center md:justify-between"
     : "md:w-15 md:px-1 md:py-20 md:items-center md:justify-between lg:w-1/5 lg:px-8 lg:py-8 lg:items-stretch";
-
-  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   return (
     <>
