@@ -41,7 +41,7 @@ const App = () => {
           <Route path='*' element={<NotFoundPage />} handle={{ titre: 'Page introuvable' }} />
         </Route>
 
-        <Route path='/' element={<MainLayout role={'admin'} />}>
+        <Route path='/' element={<MainLayout role={'Administrateur'} />}>
           <Route path='/admin' element={<TableauDeBord />} handle={{ titre: 'Tableau de bord', sousTitre: "L'état de l'école en un coup d'œil" }} />
           <Route path="/admin/utilisateurs" element={<Utilisateurs />} handle={{ titre: 'Utilisateurs', sousTitre: "Comptes étudiants, formateurs et administrateurs", addButton:'Créer un compte'}} />
           <Route path="/admin/cours" element={<Cours />} handle={{ titre: 'Cours', sousTitre: "Catalogue complet", addButton:'Créer un cours' }} />
@@ -51,7 +51,7 @@ const App = () => {
           <Route path='/admin/*' element={<NotFoundPage />} handle={{ titre: 'Page introuvable', homeLink: '/admin' }} />
         </Route>
         
-        <Route path='/' element={<MainLayout role={'formateur'} />}>
+        <Route path='/' element={<MainLayout role={'Formateur'} />}>
           <Route path='/formateur' element={<TableauDeBordFormateur />} handle={{ titre: 'Tableau de bord', sousTitre: "Belkacem Nadia" }} />
           <Route path="/formateur/cours" element={<MesCours />} handle={{ titre: 'Mes cours', sousTitre: "Belkacem Nadia" }} />
           <Route path="/formateur/etudiants" element={<MesEtudiants />} handle={{ titre: 'Mes étudiants', sousTitre: "Belkacem Nadia" }} />
@@ -62,7 +62,7 @@ const App = () => {
           <Route path='/formateur/*' element={<NotFoundPage />} handle={{ titre: 'Page introuvable', homeLink: '/formateur' }} />
         </Route>
 
-        <Route path='/' element={<MainLayout role={'etudiant'} />}>
+        <Route path='/' element={<MainLayout role={'Étudiant'} />}>
           <Route path='/etudiant' element={<TableauDeBordEtudiant />} handle={{ titre: 'Tableau de bord', sousTitre: "Bonjour User1" }} />
           <Route path="/etudiant/cours" element={<MesCoursEtudiant />} handle={{ titre: 'Mes cours', sousTitre: "User1" }} />
           <Route path="/etudiant/exercices" element={<MesExercices />} handle={{ titre: 'Mes exercices', sousTitre: "User1" }} />
