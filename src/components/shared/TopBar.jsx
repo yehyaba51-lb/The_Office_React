@@ -2,7 +2,7 @@ import{ useEffect, useState } from 'react'
 import { Link, useLocation, useMatches, useNavigate, useParams } from 'react-router-dom'
 import { MoveLeft, Plus, Menu } from 'lucide-react'
 
-const TopBar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
+const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
   const [lang, setLang] = useState('fr')
   const activeClass = ( isActive ) => `${ isActive ? 'w-8 bg-orange-cuivre text-sm rounded p-0.5 flex justify-center items-center text-white font-semibold' : 'w-10 flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre'}`
   const matches = useMatches()
@@ -71,7 +71,13 @@ const TopBar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
           )}
             <h1 className='font-titres text-bleu-secondaire font-semibold text-lg md:text-2xl'>{displayTitre}</h1>
             {!backLink && (
-              <p className='text-gris-fonce text-xs md:text-sm'>{sousTitre}</p>
+              sousTitre ? (
+                <p className='text-gris-fonce text-xs md:text-sm'>{sousTitre}</p>
+              ) : (
+                <p className='text-gris-fonce text-xs md:text-sm'>{`${currentUser.prenom} ${currentUser.nom}`}</p>
+                
+              )
+              
             )}
           </div>
         </div>
