@@ -2,17 +2,15 @@ import { useEffect, useState } from "react";
 import SideBar from '../shared/SideBar'
 import TopBar from '../shared/TopBar'
 import PasDeSession from '../shared/PasDeSession'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import Spinner from "../shared/Spinner";
 
 const MainLayout = ({ role }) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [loading, setLoading] = useState(true)
-
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const verifierSession = async () => {
     try {
@@ -25,11 +23,20 @@ const MainLayout = ({ role }) => {
       const data = await response.json()
 
       if(!response.ok){
-        toast.error(data.error)
         setLoading(false)
         return false
       }
 
+      if(role !== data.role){
+        if(data.role === 'Administrateur'){
+          navigate('/admin')
+        } else if(data.role === 'Formateur') {
+          navigate('/formateur')
+        } else {
+          navigate('/etudiant')
+        }
+        return false
+      }
       setCurrentUser(data)
       setLoading(false)
       return 
@@ -51,12 +58,12 @@ const MainLayout = ({ role }) => {
         ? 
         <div className="flex flex-col w-full items-center pt-50 gap-3 text-center py-10">
           <Spinner />
-        
+          <p className="text-bleu-principal font-semibold">Veuillez patientez</p>
         </div>
         :currentUser === null
         ? <PasDeSession />
         : <>
-            <SideBar role={role} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+            <SideBar role={role} currentUser={currentUser} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
             <div className="flex flex-col flex-1 overflow-y-auto h-screen">
               <TopBar mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
               <Outlet />
