@@ -31,10 +31,10 @@ export const etudiantsInscritsColumns = [
 
 export const mesEtudiantsColumns = [
   { label: "ÉTUDIANT", key: "etudiant" },
-  { label: "COURS", key: "cours" },
-  { label: "INSCRIT LE", key: "inscritLe" },
+  { label: "COURS", key: "cours_titre" },
+  { label: "INSCRIT LE", key: "inscrit_le" },
   { label: "PROGRESSION", key: "progression" },
-  { label: "NOTE FINALE", key: "noteFinale" },
+  { label: "NOTE FINALE", key: "note_finale" },
 ];
 
 export const correctionsColumns = [
