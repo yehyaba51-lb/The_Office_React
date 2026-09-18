@@ -4,41 +4,52 @@ import TableData from "../../components/shared/PageComponents/TableData";
 import { mesEtudiantsColumns } from "../../fakeData";
 import FetchError from "../../components/shared/FetchError";
 import Spinner from "../../components/shared/Spinner";
+import { useOutletContext } from "react-router-dom";
 
 const MesEtudiants = () => {
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const [cours, setCours] = useState([]);
   const [inscriptions, setInscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState(null);
+  const currentUser = useOutletContext()
   const [hasError, setHasError] = useState(false);
   const [filter, setFilter] = useState("tous");
   const [search, setSearch] = useState("");
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateurcours=true`)
       const data = await response.json();
 
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
       setCours(data);
       return true;
     } catch (error) {
-      setCours("");
+      setCours([]);
       return false;
     }
   };
 
   const getInscriptions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`);
-      const data = await response.json();
-
-      setInscriptions(data);
-      return true;
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${currentUser.utilisateur_id}&formateur=true`)
+      const data = await response.json()
+  
+      if(!response.ok){
+        toast.error(data.error)
+      }
+        
+      setInscriptions(data)
+        
+      return true
     } catch (error) {
-      setInscriptions("");
-      return false;
+      setInscriptions([])
+      return false
     }
-  };
+  }
 
   useEffect(() => {
     const loadEverything = async () => {
@@ -49,41 +60,20 @@ const MesEtudiants = () => {
     };
 
     loadEverything();
-    setCurrentUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  const coursSelected = cours
-    ? cours.filter((c) =>
-        currentUser
-          ? c.formateur.toLowerCase() ===
-            currentUser.prenom.toLowerCase() +
-              " " +
-              currentUser.nom.toLowerCase()
-          : "",
-      )
-    : "";
-  const studentsList = inscriptions
-    ? inscriptions.filter((i) =>
-        coursSelected
-          ? coursSelected.some(
-              (c) => c.titre.toLowerCase() === i.cours.toLowerCase(),
-            )
-          : "",
-      )
-    : "";
+  console.log(inscriptions);
+  
 
-  const studentsCours = studentsList ? studentsList.map((c) => c.cours) : ''
-  const filteredArray = [...new Set(studentsCours)];
-
-  const filteredEtudiants = studentsList ? studentsList.filter((s) => {
+  const filteredEtudiants = inscriptions ? inscriptions.filter((s) => {
     if (filter === "tous") return true;
-    return s.cours === filter;
+    return s.cours_titre === filter;
   }) : ''
 
   const finalizedFilteredEtudiants = filteredEtudiants ? filteredEtudiants.filter(
     (e) =>
       `${e.etudiant}`.toLowerCase().includes(search.toLowerCase()) ||
-      `${e.cours}`.toLowerCase().includes(search.toLowerCase()),
+      `${e.cours_titre}`.toLowerCase().includes(search.toLowerCase()),
   ) : ''
 
   
@@ -109,9 +99,9 @@ const MesEtudiants = () => {
               <option className="" value="tous">
                 Tous les cours
               </option>
-              {filteredArray.map((c) => (
-                <option key={c} className="" value={c}>
-                  {c}
+              {cours.map((c) => (
+                <option key={c.cours_id} className="" value={c.cours_titre}>
+                  {capitalize(c.cours_titre)}
                 </option>
               ))}
             </select>
