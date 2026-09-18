@@ -9,6 +9,7 @@ import { useOutletContext } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const TableauDeBordFormateur = () => {
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
     const [showAll, setshowAll] = useState(false)
     const [soumissions, setSoumissions] = useState([])
     const [statistics, setStatistics] = useState([])
@@ -17,6 +18,7 @@ const TableauDeBordFormateur = () => {
     const [loading, setLoading] = useState(true)
     const [activities, setActivities] = useState([])
     const currentUser = useOutletContext()
+    
     
     const getStatistics = async () => {
       try {
@@ -76,19 +78,18 @@ const TableauDeBordFormateur = () => {
 
       loadEverything()
     }, [])
-    console.log(soumissions);
 
     useEffect(() => {
       const inscriptionActivities = inscriptions ? inscriptions.map(i => ({
         badge: `admin`,
-        text: `Nouvel étudiant inscrit : ${i.etudiant} — « ${i.cours_titre} »`,
+        text: `Nouvel étudiant inscrit : ${capitalize(i.etudiant)} — « ${capitalize(i.cours_titre)} »`,
         date: i.inscrit_le,
         to: `/formateur/etudiants`
       })) : ''
-
+      
       const soumissionsActivities = soumissions ? soumissions.map(s => ({
         badge: 'admin',
-        text: `Nouvelle soumission de ${s.etudiant} — « ${s.exercice_titre} »`,
+        text: `Nouvelle soumission de ${capitalize(s.etudiant)} — « ${capitalize(s.exercice_titre)} »`,
         date: s.soumis_le,
         to: '/formateur/corrections'
       })) : ''
