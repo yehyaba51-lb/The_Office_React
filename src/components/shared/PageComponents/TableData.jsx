@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProgressBar from '../../shared/ProgressBar'
 import { Pencil, Trash2 } from "lucide-react";
+import { toast } from "react-toastify";
 
 const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true, deleting=true }) => {
   const location = useLocation();
@@ -10,17 +11,15 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
 
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-  const getNums = (row) => {
-    const current = row.current
-    const total = row.total
-    return [current, total]
-  }
-
   const getQuestions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php`)
       const data = await response.json()
 
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
       setQuestions(data)
     } catch (error) {
       setQuestions([])
@@ -67,15 +66,14 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                     <td key={col.key} className="px-4 py-2">
                       {col.key === 'progression' ? (
                         (() => {
-                          getNums(row);
                           return <ProgressBar current={ row.current } total={ row.total } />
                         })()
                       ) : col.key === 'statut' ? (
-                        <span className={row.corrigeLe === null 
+                        <span className={row.corrige_le  === null 
                           ? 'bg-orange-cuivre/20 text-orange-cuivre px-3 py-1 rounded-full text-xs font-semibold' 
                           : 'bg-bleu-secondaire/20 text-bleu-secondaire px-3 py-1 rounded-full text-xs font-semibold'
                         }>
-                          {row.corrigeLe === null ? 'À corriger' : 'Corrigée'}
+                          {row.corrige_le  === null ? 'À corriger' : 'Corrigée'}
                         </span>
                       ) : col.key === 'question' ? (
                         trimQuestion(row)
@@ -156,11 +154,11 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                           return <ProgressBar current={ row.current } total={ row.total } />
                         })()
                       ) : col.key === 'statut' ? (
-                        <span className={row.corrigeLe === null 
+                        <span className={row.corrige_le  === null 
                           ? 'bg-orange-cuivre/20 text-orange-cuivre px-3 py-1 rounded-full text-xs font-semibold' 
                           : 'bg-bleu-secondaire/20 text-bleu-secondaire px-3 py-1 rounded-full text-xs font-semibold'
                         }>
-                          {row.corrigeLe === null ? 'À corriger' : 'Corrigée'}
+                          {row.corrige_le  === null ? 'À corriger' : 'Corrigée'}
                         </span>
                       ) : col.key === 'note' ? (
                         <span className={row.note >= 10 
