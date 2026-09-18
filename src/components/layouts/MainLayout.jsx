@@ -14,9 +14,6 @@ const MainLayout = ({ role }) => {
 
   const verifierSession = async () => {
     try {
-      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-
-      await sleep(2000)
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/auth.php`, {
         credentials: 'include'
       })
