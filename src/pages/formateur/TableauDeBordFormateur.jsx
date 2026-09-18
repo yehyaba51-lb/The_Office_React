@@ -77,7 +77,7 @@ const TableauDeBordFormateur = () => {
       }
 
       loadEverything()
-    }, [])
+    }, [currentUser])
 
     useEffect(() => {
       const inscriptionActivities = inscriptions ? inscriptions.map(i => ({
