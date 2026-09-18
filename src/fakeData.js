@@ -41,7 +41,7 @@ export const correctionsColumns = [
   { label: "ÉTUDIANT", key: "etudiant" },
   { label: "COURS", key: "cours" },
   { label: "QUESTION", key: "exercice" },
-  { label: "SOUMIS LE", key: "soumisLe" },
+  { label: "SOUMIS LE", key: "soumis_le" },
   { label: "TYPE", key: "type" },
   { label: "STATUT", key: "statut" },
 ];
@@ -49,7 +49,7 @@ export const correctionsColumns = [
 export const mesNotesColumns = [
   { label: "EXERCICE", key: "exercice" },
   { label: "COURS", key: "cours" },
-  { label: "SOUMIS LE", key: "soumisLe" },
+  { label: "SOUMIS LE", key: "soumis_le" },
   { label: "NOTE", key: "note" },
 ];
 
