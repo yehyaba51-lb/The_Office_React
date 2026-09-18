@@ -3,109 +3,57 @@ import SearchBar from "../../components/shared/SearchBar";
 import CourseCardFormateur from "../../components/formateur/CourseCardFormateur";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { useOutletContext } from "react-router-dom";
 
 const MesCours = () => {
   const [cours, setCours] = useState([]);
-  const [inscriptions, setInscriptions] = useState([]);
-  const [exercices, setExercices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState(null);
   const [hasError, setHasError] = useState(false);
   const [search, setSearch] = useState("");
+  const currentUser = useOutletContext()
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateurcours=true`)
       const data = await response.json();
 
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
       setCours(data);
       return true;
     } catch (error) {
-      setCours("");
+      setCours([]);
       return false;
     }
   };
 
-  const getInscriptions = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions`);
-      const data = await response.json();
-
-      setInscriptions(data);
-      return true;
-    } catch (error) {
-      setInscriptions("");
-      return false;
-    }
-  };
-
-  const getExercices = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices`);
-      const data = await response.json();
-
-      setExercices(data);
-      return true;
-    } catch (error) {
-      setExercices("");
-      return false;
-    }
-  };
 
   useEffect(() => {
     const loadEverything = async () => {
       const results = await Promise.all([
-        getInscriptions(),
-        getCours(),
-        getExercices(),
+        getCours()
       ]);
       setHasError(results.includes(false));
 
       setLoading(false);
     };
 
+    if(currentUser === null) {
+      return false
+    }
+    
     loadEverything();
-    setCurrentUser(JSON.parse(localStorage.getItem("user")));
-  }, []);
+  }, [currentUser]);
 
-  const coursSelected = cours
-    ? cours.filter(
-        (c) =>
-          c.formateur.toLowerCase() ===
-          `${currentUser && currentUser.prenom.toLowerCase()} ${currentUser && currentUser.nom.toLowerCase()}`,
-      )
-    : "";
+  console.log(cours);
+  
 
-  const searchCours = coursSelected ? coursSelected.filter(
+  const searchCours = cours ? cours.filter(
     (c) =>
-      `${c.titre}`.toLowerCase().includes(search.toLowerCase())
+      `${c.cours_titre}`.toLowerCase().includes(search.toLowerCase())
   ) : ''
-
-  const numberOfExercises = searchCours
-    ? searchCours.map(
-        (c) => exercices.filter((e) => e.coursId === Number(c.id)).length,
-      )
-    : "";
-
-  const enrolledStudents = searchCours
-    ? searchCours.map(
-        (c) =>
-          inscriptions.filter(
-            (i) => i.cours.toLowerCase() === c.titre.toLowerCase(),
-          ).length,
-      )
-    : "";
-
-  const progression = searchCours
-    ? searchCours.map(
-        (c) =>
-          inscriptions.filter(
-            (i) =>
-              i.cours.toLowerCase() === c.titre.toLowerCase() &&
-              i.noteFinale !== null,
-          ).length,
-      )
-    : "";
 
   return (
     <div
@@ -123,10 +71,6 @@ const MesCours = () => {
           />
           <CourseCardFormateur
             cours={searchCours}
-            enrolled={enrolledStudents}
-            lecons={searchCours.map((c) => c.lecons)}
-            exercices={numberOfExercises}
-            progression={progression}
           />
         </>
       )}
