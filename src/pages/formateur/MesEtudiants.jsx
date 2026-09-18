@@ -5,6 +5,7 @@ import { mesEtudiantsColumns } from "../../fakeData";
 import FetchError from "../../components/shared/FetchError";
 import Spinner from "../../components/shared/Spinner";
 import { useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const MesEtudiants = () => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
@@ -60,7 +61,7 @@ const MesEtudiants = () => {
     };
 
     loadEverything();
-  }, []);
+  }, [currentUser]);
 
   console.log(inscriptions);
   
