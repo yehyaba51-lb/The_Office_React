@@ -3,6 +3,7 @@ import { Link, useLocation, useMatches, useNavigate, useParams } from 'react-rou
 import { MoveLeft, Plus, Menu } from 'lucide-react'
 
 const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const [lang, setLang] = useState('fr')
   const activeClass = ( isActive ) => `${ isActive ? 'w-8 bg-orange-cuivre text-sm rounded p-0.5 flex justify-center items-center text-white font-semibold' : 'w-10 flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre'}`
   const matches = useMatches()
@@ -69,12 +70,12 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
               <MoveLeft size='15' /> {sousTitre}
             </Link>
           )}
-            <h1 className='font-titres text-bleu-secondaire font-semibold text-lg md:text-2xl'>{displayTitre}</h1>
+            <h1 className='font-titres text-bleu-secondaire font-semibold text-lg md:text-2xl'>{capitalize(displayTitre)}</h1>
             {!backLink && (
               sousTitre ? (
                 <p className='text-gris-fonce text-xs md:text-sm'>{sousTitre}</p>
               ) : (
-                <p className='text-gris-fonce text-xs md:text-sm'>{`${currentUser.prenom} ${currentUser.nom}`}</p>
+                <p className='text-gris-fonce text-xs md:text-sm'>{`${capitalize(currentUser.prenom)} ${capitalize(currentUser.nom)}`}</p>
                 
               )
               
