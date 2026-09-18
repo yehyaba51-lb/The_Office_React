@@ -1,6 +1,7 @@
 import{ useEffect, useState } from 'react'
 import { Link, useLocation, useMatches, useNavigate, useParams } from 'react-router-dom'
 import { MoveLeft, Plus, Menu } from 'lucide-react'
+import { toast } from 'react-toastify'
 
 const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
@@ -18,6 +19,11 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`)
       const data = await response.json()
 
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
       setCours(data)
     } catch (error) {
       setCours([])
@@ -28,6 +34,11 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php`)
       const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
 
       setLecons(data)
     } catch (error) {
@@ -47,12 +58,12 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
   const { id, leconId } = useParams()
 
   const isNotePage = location.pathname.startsWith('/etudiant/notes');
-  const selectedCours = !isNotePage ? cours ? cours.find(cours => cours.id === id) : [] : null
+  const selectedCours = !isNotePage ? cours ? cours.find(cours => cours.id === Number(id)) : [] : null
 
   
-  const selectedLessons = lecons ? lecons.filter(l => l.coursId === Number(id)) : []
+  const selectedLessons = lecons ? lecons.filter(l => l.cours_id === Number(id)) : []
   const selectedLesson = selectedLessons.filter(l => l.id === Number(leconId))
-  const selectedLeconTitre = selectedLesson.map(l => l.titre)
+  const selectedLeconTitre = selectedLesson.map(l => l.lecon_titre)
 
   const finalBackLink = leconId ? backLink.replace(':id', id).replace(':leconId', leconId) : id ? backLink.replace(':id', id) : backLink
   const displayTitre = selectedLeconTitre.length !== 0 ? selectedLeconTitre : selectedCours ? selectedCours.titre : titre
