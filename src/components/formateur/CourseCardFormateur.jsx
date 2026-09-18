@@ -78,8 +78,10 @@ const CourseCardFormateur = ({ cours, enrolled, etudiant = false }) => {
                 <div className="w-full">
                   {c.etudiants > 0 ? (
                     <ProgressBar current={c.number_of_completion} total={c.etudiants} className="w-full" />
-                  ) : c.lecons > 0 && (
+                  ) : c.lecons > 0 ? (
                     <ProgressBar current={c.number_of_completion} total={c.lecons} className="w-full" />
+                  ) : (
+                    <ProgressBar current={0} total={1} className="w-full" />
                   )}
                 </div>
               </div>
