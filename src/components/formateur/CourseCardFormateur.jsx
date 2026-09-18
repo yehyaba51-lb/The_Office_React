@@ -2,8 +2,8 @@ import ProgressBar from "../shared/ProgressBar";
 import { Link } from "react-router-dom";
 import NoImageFound from "../../assets/no-image-found.png";
 
-const CourseCardFormateur = ({ cours, enrolled, etudiant = false, lecons, exercices, progression }) => {
-
+const CourseCardFormateur = ({ cours, enrolled, etudiant = false }) => {
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const descriptionSlice = (description) => {
     return description.slice(0, 150) + "...";
   };
@@ -16,27 +16,27 @@ const CourseCardFormateur = ({ cours, enrolled, etudiant = false, lecons, exerci
         {cours.map((c, i) => (
           <Link
             key={i}
-            to={`${c.id}`}
+            to={`${c.cours_id}`}
             className="w-full flex flex-col gap-2 border-2 border-gris-clair rounded-2xl"
           >
             <div className="relative w-full">
               <div className="rounded-xl bg-bleu-principal py-1 px-3 absolute inset-2 w-fit flex items-center justify-center h-10">
                 <p className="text-white text-sm font-semibold">
-                  {c.categorie}
+                  {capitalize(c.categorie_nom)}
                 </p>
               </div>
               <img
-                src={c.imageUrl ? c.imageUrl : NoImageFound}
+                src={c.url_image ? c.url_image : NoImageFound}
                 alt="cours_image"
                 className="rounded-t-2xl w-full object-cover h-60"
               />
             </div>
             <div className="flex flex-col gap-1 px-3 py-2">
               <h3 className="font-titres text-xl font-semibold text-bleu-principal">
-                {c.titre}
+                {capitalize(c.cours_titre)}
               </h3>
               <p className="text-md text-bleu-secondaire">
-                {descriptionSlice(c.description)}
+                {c.description ? descriptionSlice(capitalize(c.description)) : "Pas de description"}
               </p>
               <div className="flex justify-between items-center">
                 {etudiant ? (
@@ -49,14 +49,19 @@ const CourseCardFormateur = ({ cours, enrolled, etudiant = false, lecons, exerci
                     </p>
                   </div>
                 ) : (
-                  enrolled && (
+                  c.etudiants > 0 ? (
                     <p className="text-gris-fonce text-md">
-                      {enrolled[i]} étudiants inscrits
+                      {c.etudiants} étudiants inscrits
                     </p>
+                  ) : (
+                    <p className="text-gris-fonce text-md">
+                      0 étudiants inscrits
+                    </p>
+
                   )
                 )}
                   <p key={i} className="text-gris-fonce text-md">
-                    {lecons[i]} leçons · {exercices[i]} exercices
+                    {c.lecons} leçons · {c.exercices} exercices
                   </p>
               </div>
               <div className="flex flex-col gap-2 my-3">
@@ -64,17 +69,17 @@ const CourseCardFormateur = ({ cours, enrolled, etudiant = false, lecons, exerci
                   <h3 className="font-titres text-md font-semibold text-bleu-principal">
                     Complétion
                   </h3>
-                  {enrolled ? (
-                    <p className="text-orange-cuivre font-semibold">{progression[i]}/{enrolled[i]}</p>
+                  {c.etudiants > 0 ? (
+                    <p className="text-orange-cuivre font-semibold">{c.number_of_completion}/{c.etudiants}</p>
                   ) : (
-                    <p className="text-orange-cuivre font-semibold">{progression[i]}/{lecons[i]}</p>
+                    <p className="text-orange-cuivre font-semibold">{c.number_of_completion}/{c.lecons}</p>
                   )}
                 </div>
                 <div className="w-full">
-                  {enrolled ? (
-                    <ProgressBar current={progression[i]} total={enrolled[i]} className="w-full" />
+                  {c.etudiants > 0 ? (
+                    <ProgressBar current={c.number_of_completion} total={c.etudiants} className="w-full" />
                   ) : (
-                    <ProgressBar current={progression[i]} total={lecons[i]} className="w-full" />
+                    <ProgressBar current={c.number_of_completion} total={c.lecons} className="w-full" />
                   )}
                 </div>
               </div>
