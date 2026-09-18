@@ -14,7 +14,7 @@ import FetchError from "../../components/shared/FetchError";
 
 const CoursDetails = () => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
-  const [cours, setCours] = useState([])
+  const [cours, setCours] = useState(null)
   const [lecons, setLecons] = useState([])
   const [inscriptions, setInscriptions] = useState([])
   const [hasErrors, setHasErrors] = useState(false)
@@ -35,7 +35,7 @@ const CoursDetails = () => {
       setCours(data)
       return true
     } catch (error) {
-      setCours([])
+      setCours(null)
       return false
     }
   }
@@ -54,8 +54,6 @@ const CoursDetails = () => {
       
       return true
     } catch (error) {
-      console.log(error);
-      
       setLecons([])
       return false
     }
@@ -104,7 +102,7 @@ const CoursDetails = () => {
   const coursId = Number(searchParams.get('coursId'))
 
   
-  const selectedLecon = lecons ? lecons.find(l => l.id === leconId && l.cours_id === coursId) : ''
+  const selectedLecon = lecons ? lecons.find(l => l.id === Number(leconId) && l.cours_id === coursId) : ''
   
   const selectedInscription = inscriptions.length > 0 ? inscriptions.find(i => i.id === etudiantId) : '';  
   
