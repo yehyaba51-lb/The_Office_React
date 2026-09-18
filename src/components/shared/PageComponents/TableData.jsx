@@ -86,6 +86,8 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         }>
                           {row.note}
                         </span>
+                      ) : col.key === 'note_finale' ? (
+                        row.note_finale === null ? '—' : row.note_finale
                       ) : col.key === 'description' ? (
                         row[col.key] ? (
                           <p>{capitalize(row[col.key].slice(0, 40)) + '...'}</p>
@@ -167,6 +169,8 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         }>
                           {row.note}
                         </span>
+                      ) : col.key === 'note_finale' ? (
+                        row.note_finale === null ? '—' : row.note_finale
                       ) : col.key === 'coursCount' ? (
                         row[col.key] ?? 0 
                       ) : col.key === 'email' ? (
