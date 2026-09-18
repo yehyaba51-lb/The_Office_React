@@ -4,6 +4,7 @@ import CourseCardFormateur from "../../components/formateur/CourseCardFormateur"
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import { useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const MesCours = () => {
   const [cours, setCours] = useState([]);
@@ -47,7 +48,6 @@ const MesCours = () => {
     loadEverything();
   }, [currentUser]);
 
-  console.log(cours);
   
 
   const searchCours = cours ? cours.filter(
