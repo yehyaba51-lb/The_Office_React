@@ -39,10 +39,10 @@ export const mesEtudiantsColumns = [
 
 export const correctionsColumns = [
   { label: "ÉTUDIANT", key: "etudiant" },
-  { label: "COURS", key: "cours" },
-  { label: "QUESTION", key: "exercice" },
+  { label: "COURS", key: "cours_titre" },
+  { label: "QUESTION", key: "texte_question" },
   { label: "SOUMIS LE", key: "soumis_le" },
-  { label: "TYPE", key: "type" },
+  { label: "TYPE", key: "question_type" },
   { label: "STATUT", key: "statut" },
 ];
 
