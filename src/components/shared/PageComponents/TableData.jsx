@@ -96,6 +96,8 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                           row[col.key] ?? 0 
                       ) : col.key === 'email' ? (
                         row[col.key]
+                      ) : col.key === 'texte_question'? (
+                        <p>{row[col.key].slice(0, 35) + '...'}</p>
                       ) : (
                         typeof row[col.key] === 'string' ? capitalize(row[col.key]) : row[col.key]
                       )}
