@@ -11,7 +11,6 @@ import FetchError from "../../components/shared/FetchError";
 const Corrections = () => {
   const [searchParams] = useSearchParams();
   const [soumissions, setSoumissions] = useState([]);
-  const [cours, setCours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const currentUser = useOutletContext()
@@ -48,28 +47,12 @@ const Corrections = () => {
     };
 
     loadEverything();
-  }, []);
+  }, [currentUser]);
 
 
-  
-  const selectedCours = cours
-    ? cours.filter((c) =>
-        currentUser
-          ? c.formateur.toLowerCase() ===
-            currentUser.prenom.toLowerCase() +
-              " " +
-              currentUser.nom.toLowerCase()
-          : "",
-      )
-    : "";
-
-  const selectedSoumissions = soumissions
-    ? soumissions.filter((s) =>
-        selectedCours
-          ? selectedCours.some((c) => Number(c.id) === s.coursId)
-          : "",
-      )
-    : "";
+  const selectedSoumission = soumissions
+    ? soumissions.filter((s) => s.id === Number(id))
+    : [];
 
   const activeClass = (isActive) =>
     `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre"}`;
@@ -79,25 +62,38 @@ const Corrections = () => {
     return (s.corrige_le === null ? "pending" : "corrige") === filter;
   }) : ''
 
-  const soumisFunction = async (id, data) => {
+  const soumisFunction = async (id, updatedSoumission) => {
+    const numberRegex = /^(\d+(\.\d+)?|\.\d+)$/
+    if(updatedSoumission.note && (!numberRegex.test(updatedSoumission.note) || updatedSoumission.note < 0 || updatedSoumission.note > 20)){
+      toast.error('Note invalide')
+      return false;
+    }
+
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(updatedSoumission)
       })
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
       toast.success("Soumission corrigé");
+
+      await getSoumissions()
+      return true
     } catch (error) {
       toast.error("Soumission ne peut pas etre modifier");
+      return false
     }
-
-    getSoumissions()
   };
-  const telechargerFunction = () => {
-    toast.success("Fichier téléchargé");
-  };
+  
 
   const allFilteredSearch = filteredSoumissions
     ? filteredSoumissions.filter(
@@ -106,7 +102,7 @@ const Corrections = () => {
           `${s.texte_question}`.toLowerCase().includes(search.toLowerCase()) ||
           `${s.cours_titre}`.toLowerCase().includes(search.toLowerCase()),
       )
-    : "";
+    : [];
 
   return (
     <div
@@ -121,8 +117,8 @@ const Corrections = () => {
           <div className="flex px-5 mt-5 gap-4 items-center w-full">
             {showCorrecting && (
               <CorrectionModal
+                initialData={selectedSoumission}
                 submitFunction={(data) => soumisFunction(id, data)}
-                downloadFunction={telechargerFunction}
               />
             )}
             <SearchBar
