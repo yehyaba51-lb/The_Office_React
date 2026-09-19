@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { CircleX, Check, Download, File, FileX } from "lucide-react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
 import BreadCrumb from "../shared/BreadCrumb";
 import Spinner from "../shared/Spinner";
 import FetchError from "../shared/FetchError";
@@ -11,14 +11,14 @@ const CorrectionModal = ({ submitFunction, downloadFunction }) => {
   const [cours, setCours] = useState([]);
   const [loading, setLoading] = useState(true)
   const [hasErrors, setHasErrors] = useState(false)
-  const [currentUser, setCurrentUser] = useState(null)
+  const currentUser = useOutletContext()
   const [searchParams] = useSearchParams();
-  const exerciceId = searchParams.get("id");
+  const questionId = searchParams.get("id");
   const formRef = useRef(null);
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`);
       const data = await response.json();
 
       setCours(data);
@@ -30,21 +30,26 @@ const CorrectionModal = ({ submitFunction, downloadFunction }) => {
   };
 
   const getSoumissions = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions`)
-      const data = await response.json()
-
-      setSoumissions(data)
-      return true
-    } catch (error) {
-      setSoumissions([])
-      return false
-    }
-  }
+      try {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${currentUser.utilisateur_id}`)
+        const data = await response.json();
+  
+        if(!response.ok){
+          toast.error(data.error)
+          return false
+        }
+  
+        setSoumissions(data);
+        return true;
+      } catch (error) {
+        setSoumissions([]);
+        return false;
+      }
+    };
 
   const getQuestions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php`)
       const data = await response.json()
 
       setQuestions(data)
@@ -57,14 +62,13 @@ const CorrectionModal = ({ submitFunction, downloadFunction }) => {
 
   useEffect(() => {
     const loadEverything = async () => {
-      const results = await Promise.all([getSoumissions(), getQuestions(), getCours()])
+      const results = await Promise.all([getSoumissions()])
       setHasErrors(results.includes(false))
 
       setLoading(false)
     }
 
     loadEverything()
-    setCurrentUser(JSON.parse(localStorage.getItem('user')))
   }, [])
 
 
@@ -79,16 +83,10 @@ const CorrectionModal = ({ submitFunction, downloadFunction }) => {
       )
     : "";
 
-  const selectedSoumissions = soumissions
-    ? soumissions.filter((s) =>
-        selectedCours
-          ? selectedCours.some((c) => Number(c.id) === s.coursId)
-          : "",
-      )
-    : "";
+  
 
-  const selectedsoumission = selectedSoumissions.filter(
-    (s) => s.id === exerciceId,
+  const selectedsoumission = soumissions.filter(
+    (s) => s.id === Number(questionId)
   );
 
   const answersSelected =
@@ -99,6 +97,8 @@ const CorrectionModal = ({ submitFunction, downloadFunction }) => {
       console.log(answersSelected);
       
 
+    console.log(soumissions);
+    
   const location = useLocation();
   const navigate = useNavigate();
   return (
@@ -114,7 +114,7 @@ const CorrectionModal = ({ submitFunction, downloadFunction }) => {
           >
           {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
             <>
-              {selectedsoumission.length === 0 ? (
+              {soumissions.length === 0 ? (
                 <div className="p-12 flex flex-col items-center gap-3 text-center m-5">
                   <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
                     <FileX className="text-gris-fonce" size={26} />
@@ -148,8 +148,8 @@ const CorrectionModal = ({ submitFunction, downloadFunction }) => {
                     </button>
                   </div>
                   <BreadCrumb
-                    cours={selectedsoumission[0].cours}
-                    exo={selectedsoumission[0].exercice}
+                    cours={selectedsoumission.cours_titre}
+                    exo={selectedsoumission.texte_question}
                   />
                   <form
                     action=""
@@ -162,7 +162,7 @@ const CorrectionModal = ({ submitFunction, downloadFunction }) => {
                         Texte de la question
                       </label>
                       <div className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition">
-                        {answersSelected.texte}
+                        {selectedsoumission.texte_question}
                       </div>
                     </div>
                     <div className="flex flex-col gap-2 mb-2">
