@@ -9,6 +9,7 @@ import FetchError from "../../components/shared/FetchError";
 import SearchBar from "../../components/shared/SearchBar";
 
 const AccesPage = () => {
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const [access, setAccess] = useState([]);
   const [users, setUsers] = useState([]);
   const [cours, setCours] = useState([]);
@@ -189,7 +190,7 @@ const AccesPage = () => {
                   >
                     {filtersEtudiants.map((e) => (
                       <option value={Number(e.id)} key={e.id}>
-                        {e.prenom + " " + e.nom}
+                        {capitalize(e.prenom) + " " + capitalize(e.nom)}
                       </option>
                     ))}
                   </select>
@@ -207,7 +208,7 @@ const AccesPage = () => {
                   >
                     {appliableCours.map((cours) => (
                       <option value={Number(cours.id)} key={cours.id}>
-                        {cours.titre}
+                        {capitalize(cours.titre)}
                       </option>
                     ))}
                   </select>
