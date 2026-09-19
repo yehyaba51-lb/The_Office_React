@@ -7,7 +7,7 @@ import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 
 const TableauDeBord = () => {
-  const [soumissions, setSoumissions] = useState([]);
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const [cours, setCours] = useState([]);
   const [users, setUsers] = useState([]);
   const [inscriptions, setInscriptions] = useState([]);
@@ -75,7 +75,7 @@ const TableauDeBord = () => {
     const inscriptionActivities = inscriptions
       ? inscriptions.map((i) => ({
           badge: "admin",
-          text: `Accès à « ${i.cours} » accordé à ${i.etudiant}`,
+          text: `Accès à « ${capitalize(i.cours)} » accordé à ${capitalize(i.etudiant)}`,
           date: i.inscrit_le,
           to: `/admin/acces`,
         }))
@@ -84,7 +84,7 @@ const TableauDeBord = () => {
     const userActivities = users
       ? users.map((c) => ({
           badge: "admin",
-          text: `Compte ${c.role.toLowerCase()} créé pour ${c.nom + " " + c.prenom}`,
+          text: `Compte ${c.role.toLowerCase()} créé pour ${capitalize(c.nom) + " " + capitalize(c.prenom)}`,
           date: c.cree_le,
           to: `/admin/utilisateurs`,
         }))
