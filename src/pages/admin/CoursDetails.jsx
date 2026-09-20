@@ -237,7 +237,10 @@ const CoursDetails = () => {
               </div>
               <div className="flex flex-col gap-3 px-5 py-2 mb-3">
                 <h3 className="font-titres text-bleu-principal font-semibold text-xl">Étudiants inscrits</h3>
-                <TableData columns={ etudiantsInscritsColumns } rows={ inscriptions }  edit={false} />
+                <TableData
+                  columns={ etudiantsInscritsColumns }
+                  rows={ inscriptions }
+                  edit={false} />
               </div>
             </div>
           ) : (
