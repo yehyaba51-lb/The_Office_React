@@ -8,31 +8,34 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
   const [lang, setLang] = useState('fr')
   const activeClass = ( isActive ) => `${ isActive ? 'w-8 bg-orange-cuivre text-sm rounded p-0.5 flex justify-center items-center text-white font-semibold' : 'w-10 flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre'}`
   const matches = useMatches()
-  const { titre, sousTitre, backLink, addButton } = matches[matches.length - 1].handle || {}
+  const { sousTitre, backLink, addButton } = matches[matches.length - 1].handle || {}
   const location = useLocation()
   const navigate = useNavigate()
   const [cours, setCours] = useState([])
-  const [lecons, setLecons] = useState([])
+  const [lecon, setLecon] = useState([])
+  const { id, leconId } = useParams()
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`)
-      const data = await response.json()
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`);
+      const data = await response.json();
 
       if(!response.ok){
         toast.error(data.error)
         return false
       }
 
-      setCours(data)
+      setCours(data);
+      return true;
     } catch (error) {
-      setCours([])
+      setCours([]);
+      return false;
     }
-  }
+  };
 
-  const getLecons = async () => {
+  const getLecon = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&leconId=${leconId}&one=true`)
       const data = await response.json()
 
       if(!response.ok){
@@ -40,33 +43,27 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
         return false
       }
 
-      setLecons(data)
+      setLecon(data)
+      return true
     } catch (error) {
-      setLecons([])
+      setLecon([])
+      return false
     }
   }
 
   useEffect(() => {
     const loadEverything = async () => {
-      await Promise.all([getCours(), getLecons()])
+      await Promise.all([
+        getCours(),
+        getLecon()
+      ])
     }
     
     loadEverything()
-  }, [])
+  }, [id, leconId])
   
-
-  const { id, leconId } = useParams()
-
-  const isNotePage = location.pathname.startsWith('/etudiant/notes');
-  const selectedCours = !isNotePage ? cours ? cours.find(cours => cours.id === Number(id)) : [] : null
-
-  
-  const selectedLessons = lecons ? lecons.filter(l => l.cours_id === Number(id)) : []
-  const selectedLesson = selectedLessons.filter(l => l.id === Number(leconId))
-  const selectedLeconTitre = selectedLesson.map(l => l.lecon_titre)
-
   const finalBackLink = leconId ? backLink.replace(':id', id).replace(':leconId', leconId) : id ? backLink.replace(':id', id) : backLink
-  const displayTitre = selectedLeconTitre.length !== 0 ? selectedLeconTitre : selectedCours ? selectedCours.titre : titre
+  const displayTitre = lecon ? lecon.lecon_titre : cours ? cours.cours_titre : 'Cours introuvable'
 
   return (
     <>
@@ -81,7 +78,7 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
               <MoveLeft size='15' /> {sousTitre}
             </Link>
           )}
-            <h1 className='font-titres text-bleu-secondaire font-semibold text-lg md:text-2xl'>{capitalize(displayTitre)}</h1>
+            {displayTitre && <h1 className='font-titres text-bleu-secondaire font-semibold text-lg md:text-2xl'>{capitalize(displayTitre)}</h1>}
             {!backLink && (
               sousTitre ? (
                 <p className='text-gris-fonce text-xs md:text-sm'>{sousTitre}</p>
