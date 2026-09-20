@@ -56,7 +56,7 @@ const App = () => {
           <Route path="/formateur/cours" element={<MesCours />} handle={{ titre: 'Mes cours' }} />
           <Route path="/formateur/etudiants" element={<MesEtudiants />} handle={{ titre: 'Mes étudiants' }} />
           <Route path="/formateur/corrections" element={<Corrections />} handle={{ titre: 'Corrections' }} />
-          <Route path="/formateur/cours/:id" element={<CoursDetailsFormateur />} handle={{ titre:'Cours introuvable', sousTitre: "Retour aux cours", backLink: '/formateur/cours', addButton:'Ajouter leçon' }} />
+          <Route path="/formateur/cours/:id" element={<CoursDetailsFormateur />} handle={{ titre:'', sousTitre: "Retour aux cours", backLink: '/formateur/cours', addButton:'Ajouter leçon' }} />
           <Route path="/formateur/cours/:id/exercices/:exerciceId" element={<ExercicePage />} handle={{ sousTitre: "Retour aux cours", backLink: '/formateur/cours/:id', addButton:'Ajouter question' }} />
           <Route path="/formateur/cours/:id/lecons/:leconId" element={<LessonDetailsPageFormateur />} handle={{ sousTitre: "Retour aux cours", backLink: '/formateur/cours/:id' }} />
           <Route path='/formateur/*' element={<NotFoundPage />} handle={{ titre: 'Page introuvable', homeLink: '/formateur' }} />
