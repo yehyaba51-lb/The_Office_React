@@ -1,5 +1,5 @@
 import{ useEffect, useState } from 'react'
-import { Link, useLocation, useMatches, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useMatches, useNavigate } from 'react-router-dom'
 import { MoveLeft, Plus, Menu } from 'lucide-react'
 import { toast } from 'react-toastify'
 
@@ -8,12 +8,12 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
   const [lang, setLang] = useState('fr')
   const activeClass = ( isActive ) => `${ isActive ? 'w-8 bg-orange-cuivre text-sm rounded p-0.5 flex justify-center items-center text-white font-semibold' : 'w-10 flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre'}`
   const matches = useMatches()
-  const { sousTitre, backLink, addButton } = matches[matches.length - 1].handle || {}
+  const { titre, sousTitre, backLink, addButton } = matches[matches.length - 1].handle || {}
   const location = useLocation()
   const navigate = useNavigate()
-  const [cours, setCours] = useState([])
-  const [lecon, setLecon] = useState([])
-  const { id, leconId } = useParams()
+  const [cours, setCours] = useState(null)
+  const [lecon, setLecon] = useState(null)
+  const { id, leconId } = matches[matches.length - 1].params
 
   const getCours = async () => {
     try {
@@ -34,8 +34,12 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
   };
 
   const getLecon = async () => {
+    if(!leconId) {
+      setLecon(null)
+      return
+    }
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&leconId=${leconId}&one=true`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&lecon=${leconId}&one=true`)
       const data = await response.json()
 
       if(!response.ok){
@@ -63,8 +67,7 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
   }, [id, leconId])
   
   const finalBackLink = leconId ? backLink.replace(':id', id).replace(':leconId', leconId) : id ? backLink.replace(':id', id) : backLink
-  const displayTitre = lecon ? lecon.lecon_titre : cours ? cours.cours_titre : 'Cours introuvable'
-
+  const displayTitre = lecon?.lecon_titre || cours?.cours_titre || titre || ''
   return (
     <>
       <div className='flex justify-between w-full p-3 md:p-5 gap-3'>
