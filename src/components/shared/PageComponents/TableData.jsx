@@ -27,6 +27,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
   }
 
   useEffect(() => {
+    if(!columns.some(col => col.key === 'question')) return
     getQuestions()
   }, [])
   const trimQuestion = (row) => {
