@@ -108,7 +108,7 @@ const CoursDetails = () => {
   
   const addExercice = async (submittedExercice) => {
     let errors = []
-    const nameRegex = /^[a-zA-ZÀ-ÿ' :\-]*$/
+    const nameRegex = /^[a-zA-ZÀ-ÿ0-9' :\-,.!?;()\n]*$/
     if(!submittedExercice.exercice_titre || submittedExercice.exercice_titre.length < 2 || !nameRegex.test(submittedExercice.exercice_titre)){
       errors.push('Titre invalide')
     }
