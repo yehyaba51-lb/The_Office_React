@@ -110,7 +110,7 @@ const TableauDeBordFormateur = () => {
       : []
 
      const completionMoyenne = percentage.length > 0 ? Math.round(percentage.reduce((sum, p) => sum + p, 0)/ percentage.length) : ''
-
+     
   return (
     <div className={`flex flex-col justify-center items-center ${loading && "mt-25"}`}>
       {loading ? (
@@ -120,10 +120,10 @@ const TableauDeBordFormateur = () => {
       ) : (
         <div className='w-full'>
           <div className="flex justify-between p-2 mx-5">
-            <StateBox icon={GraduationCap} titre={ statistics.etudiants.total } label={'Étudiants'} footer={`+${statistics.etudiants.ce_mois} ce mois-ci`} />
-            <StateBox icon={Book} titre={ statistics.cours.total } label={'Cours'} footer={`+${statistics.cours.ce_mois} ce mois-ci`} />
-            <StateBox icon={ChartSpline} titre={ `${completionMoyenne}%` } label={'Complétion moyen'} />
-            <StateBox icon={NotebookPen} titre={ statistics.soumissions.total } label={'Soumissions à corriger'} footer={`+${statistics.soumissions.ce_mois} ce mois-ci`} />
+            <StateBox icon={GraduationCap} titre={ statistics.etudiants.total } label={'Étudiants'} footer={statistics.etudiants.ce_mois ? `+${statistics.etudiants.ce_mois} ce mois-ci` : '0 ce mois-ci'} />
+            <StateBox icon={Book} titre={ statistics.cours.total } label={'Cours'} footer={statistics.cours.ce_mois ? `+${statistics.cours.ce_mois} ce mois-ci` : '0 ce mois-ci'} />
+            <StateBox icon={ChartSpline} titre={ completionMoyenne !== '' ? `${completionMoyenne}%` : '0%' } label={'Complétion moyen'} />
+            <StateBox icon={NotebookPen} titre={ statistics.soumissions.total } label={'Soumissions à corriger'} footer={statistics.soumissions.ce_mois ? `+${statistics.soumissions.ce_mois} ce mois-ci`: '0 ce mois-ci'} />
           </div>
           <div className='flex gap-1 mx-6'>
             <div className='w-4/5'>
