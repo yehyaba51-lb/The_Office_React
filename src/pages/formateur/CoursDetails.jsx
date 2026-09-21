@@ -205,6 +205,7 @@ const CoursDetails = () => {
       }
 
       toast.success("Image uploadé");
+      getCours()
       return data.url;
     } catch (error) {
       toast.error("Impossible de uploader l'image");
@@ -212,6 +213,7 @@ const CoursDetails = () => {
       return false;
     }
   };
+  
   return (
     <div
       className={`flex flex-col gap-4 justify-center items-center ${loading && "mt-25"}`}
@@ -247,7 +249,7 @@ const CoursDetails = () => {
               <form action="" method="post" ref={formRef}>
                 <div className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2 mx-5">
                   <p className="text-sm text-bleu-secondaire">
-                    {file ? file.name : "Aucun fichier sélectionné"}
+                    {cours ? cours.url_image.split('thumbnails/')[1] : file ? file : file.name && "Aucun fichier sélectionné"}
                   </p>
                   <input
                     name="image"
