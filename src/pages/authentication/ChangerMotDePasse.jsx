@@ -91,6 +91,7 @@ const ChangerMotDePasse = () => {
 
     if(errors.length > 0){
       errors.forEach(error => toast.error(error))
+      setIsLoggingInChanger(false)
       return false;
     }
 
@@ -150,6 +151,7 @@ const ChangerMotDePasse = () => {
                 <div className='flex flex-col gap-1'>
                   <label htmlFor='Password' className='text-gris-fonce text-md'>Nouveau mot de passe</label>
                   <input type="password" name="password" id='Password' className='border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition' placeholder='Nouveau mot de passe'  />
+                  <p className='text-bleu-secondaire text-xs'>Les symbols acceptés: '@ $ ! % * ? &'</p>
                 </div>
                 <div className='flex flex-col gap-1'>
                   <label htmlFor='ConfirmPassword' className='text-gris-fonce text-md'>Confirmer le nouveau mot de passe</label>
