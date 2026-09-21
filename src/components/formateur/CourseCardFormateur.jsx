@@ -26,7 +26,7 @@ const CourseCardFormateur = ({ cours, enrolled, etudiant = false }) => {
                 </p>
               </div>
               <img
-                src={c.url_image ? c.url_image : NoImageFound}
+                src={c.url_image ? `${import.meta.env.VITE_UPLOADS_URL}${c.url_image}` : NoImageFound}
                 alt="cours_image"
                 className="rounded-t-2xl w-full object-cover h-60"
               />
