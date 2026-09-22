@@ -1,26 +1,32 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CircleX } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const LessonBuilderModal = ({ lecon }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const formRef = useRef()
   const [steps, setSteps] = useState(1);
-  const [pdfs, setPdfs] = useState([{ filename: "", ordre: "" }]);
-  const [videos, setVideos] = useState([{ filename: "", ordre: "" }]);
+  const [pdfs, setPdfs] = useState([{ file: null, ordre: "" }]);
+  const [videos, setVideos] = useState([{ file: null, ordre: "" }]);
   const [titre, setTitre] = useState("");
   const [ordre, setOrdre] = useState("");
   const [contenu, setContenu] = useState("");
+  const [leconId, setLeconId] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const { id } = useParams()
+
   const canProceed =
     steps === 1
       ? titre !== "" && ordre !== ""
       : steps === 2
         ? contenu !== ""
         : steps === 3
-          ? pdfs.every((pdf) => pdf.filename !== "" && pdf.ordre !== "")
+          ? pdfs.every((pdf) => pdf.file !== null && pdf.ordre !== "")
           : steps === 4
             ? videos.every(
-                (video) => video.filename !== "" && video.ordre !== "",
+                (video) => video.file !== null && video.ordre !== "",
               )
             : true;
   const usedOrdersPdf = pdfs.map((pdf) => pdf.ordre).filter((o) => o !== "");
@@ -29,6 +35,167 @@ const LessonBuilderModal = ({ lecon }) => {
     .filter((o) => o !== "");
 
 
+  const createLecon = async (newLecon) => {
+    const errors = []
+    const titleRegex = /^[a-zA-ZÀ-ÿ0-9' :\-]+$/
+    if(!newLecon.titre || !titleRegex.test(newLecon.titre)) {
+      errors.push('Nom de leçon invalide')
+    }
+
+    if(!newLecon.ordre || newLecon.ordre === ''){
+      errors.push('Ordre de leçon pas séléctioné')
+    }
+
+    if(errors.length > 0){
+      errors.forEach(er => {
+        toast.error(er)
+        setLoading(false)
+        return false
+      })
+    }
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newLecon)
+      })
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        setLoading(false)
+        return false
+      }
+
+      setLeconId(data)
+      setLoading(false)
+      return true
+    } catch (error) {
+      setLeconId(null)
+      setLoading(false)
+      return false
+    }
+  }
+
+  const addContenu = async (newContenu) => {
+    if(!newContenu.contenu || newContenu.contenu.trim() === '') {
+      toast.error('Contenu de leçon invalide')
+      return false
+    }
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecon_textes.php?id=${id}&leconId=${leconId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newContenu)
+      })
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        setLoading(false)
+        return false
+      }
+
+      return true
+    } catch (error) {
+      setLoading(false)
+      return false
+    }
+  }
+
+  const addPdfs = async (pdfs) => {
+    const allowedTypes = ["application/pdf"];
+
+    for(const pdf of pdfs){
+      if(!pdf.file){
+        toast.error("Pas de pdf uploadé");
+        return false;
+      }
+
+      if(!allowedTypes.includes(pdf.file.type)){
+        toast.error("Type de fichier invalide");
+        return false;
+      }
+
+      const formData = new FormData()
+      formData.append('pdf', pdf.file)
+      formData.append('ordre', pdf.ordre)
+      
+      try {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecon_pdfs.php?id=${id}&leconId=${leconId}`, {
+          method: 'POST',
+          body: formData
+        })
+        const data = await response.json()
+
+        if(!response.ok){
+          toast.error(data.error)
+          setLoading(false)
+          return false
+        }
+
+        return true
+      } catch (error) {
+        setLoading(false)
+        return false
+      }
+    }
+  }
+  const addVideos = async (videos) => {
+    const allowedVideoTypes = ["video/mp4", "video/webm"];
+
+    for(const video of videos){
+      if(!video.file){
+        toast.error("Pas de video uploadé");
+        return false;
+      }
+
+      if(!allowedVideoTypes.includes(video.file.type)){
+        toast.error("Type de fichier invalide");
+        return false;
+      }
+
+      const formData = new FormData()
+      formData.append('video', video.file)
+      formData.append('video_ordre', video.ordre)
+      formData.append('duree', video.duree)
+
+      try {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecon_videos.php?id=${id}&leconId=${leconId}`, {
+          method: 'POST',
+          body: formData
+        })
+        const data = await response.json()
+
+        if(!response.ok){
+          toast.error(data.error)
+          setLoading(false)
+          return false
+        }
+
+        return true
+      } catch (error) {
+        setLoading(false)
+        return false
+      }
+    }
+  }
+
+  const getVideoDuration = (file) => {
+    return new Promise((resolve) => {
+      const video = document.createElement('video')
+      video.src = URL.createObjectURL(file)
+      video.onloadedmetadata = () => {
+        resolve(video.duration)
+      }
+    })
+  }
   return (
     <>
       <div className="fixed bg-bleu-secondaire/20 backdrop-blur-xs inset-0"></div>
@@ -58,7 +225,7 @@ const LessonBuilderModal = ({ lecon }) => {
               <CircleX size={22} />
             </button>
           </div>
-          <form action="" method="post" className="flex flex-col">
+          <form action="" method="post" className="flex flex-col" ref={formRef}>
             {steps === 1 && (
               <>
                 <div className="flex flex-col gap-1 mb-2">
@@ -88,7 +255,7 @@ const LessonBuilderModal = ({ lecon }) => {
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
                     placeholder={`Entrez titre de la leçon...`}
                   >
-                    <option value=""></option>
+                    <option value="">Choisissez un ordre</option>
                     {[...Array(lecon.length + 1)].map((_, i) => (
                       <option
                         key={i + 1}
@@ -170,14 +337,14 @@ const LessonBuilderModal = ({ lecon }) => {
                         className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2"
                       >
                         <p className="text-sm text-bleu-secondaire">
-                          {pdf.filename || "Choisir un fichier PDF"}
+                          {pdf.file ? pdf.file.name : "Choisir un fichier PDF"}
                         </p>
                         <input
                           type="file"
                           onChange={(e) => {
                             const updated = [...pdfs];
-                            updated[index].filename =
-                              e.target.files[0]?.name || "";
+                            updated[index].file =
+                              e.target.files[0] || "";
                             setPdfs(updated);
                           }}
                           className="hidden"
@@ -195,7 +362,7 @@ const LessonBuilderModal = ({ lecon }) => {
                 })}
                 <input
                   onClick={() =>
-                    setPdfs([...pdfs, { filename: "", ordre: "" }])
+                    setPdfs([...pdfs, { file: null, ordre: "" }])
                   }
                   type="button"
                   className="text-orange-cuivre text-end cursor-pointer hover:text-orange-cuivre/55 transition duration-500 ease-in-out"
@@ -222,7 +389,7 @@ const LessonBuilderModal = ({ lecon }) => {
                           value={video.ordre}
                           onChange={(e) => {
                             const updated = [...videos];
-                            updated[index].ordre = e.target.value;
+                            updated[index].ordre = e.target.value || null
                             setVideos(updated);
                           }}
                           className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
@@ -251,14 +418,15 @@ const LessonBuilderModal = ({ lecon }) => {
                         className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2"
                       >
                         <p className="text-sm text-bleu-secondaire">
-                          {video.filename || "Choisir un video"}
+                          {video.file ? video.file.name : "Choisir un video"}
                         </p>
                         <input
                           type="file"
-                          onChange={(e) => {
+                          onChange={async(e) => {
                             const updated = [...videos];
-                            updated[index].filename =
-                              e.target.files[0]?.name || "";
+                            updated[index].file =
+                              e.target.files[0] || null;
+                            updated[index].duree = await getVideoDuration(e.target.files[0])
                             setVideos(updated);
                           }}
                           className="hidden"
@@ -276,7 +444,7 @@ const LessonBuilderModal = ({ lecon }) => {
                 })}
                 <input
                   onClick={() =>
-                    setVideos([...videos, { filename: "", ordre: "" }])
+                    setVideos([...videos, { file: null, ordre: "" }])
                   }
                   type="button"
                   className="text-orange-cuivre text-end cursor-pointer hover:text-orange-cuivre/55 transition duration-500 ease-in-out"
@@ -309,9 +477,30 @@ const LessonBuilderModal = ({ lecon }) => {
                 <input
                   type="button"
                   onClick={
-                    steps !== 4
-                      ? () => setSteps((prev) => prev + 1)
-                      : () => navigate(`${location.pathname}?success=true`)
+                    steps === 1 ? (
+                      async () => {
+                        const success = await createLecon({titre, ordre})
+                        if(success) setSteps((prev) => prev + 1)
+                      }
+                    ) : steps === 2 ? (
+                      async () => {
+                        const success = await addContenu({contenu})
+                        if(success) setSteps((prev) => prev + 1)
+                      }
+                    ) : steps === 3 ? (
+                      async () => {
+                        const success = await addPdfs(pdfs)
+                        if(success) setSteps((prev) => prev + 1)
+                      }
+                    ) : (
+                      async () => {
+                        const success = await addVideos(videos)
+                        if(success) {
+                          setSteps((prev) => prev + 1)
+                          navigate(`${location.pathname}?success=true`)
+                        }
+                      }
+                    )
                   }
                   value={steps === 4 ? `Terminer` : "Suivant"}
                   className={`text-sm w-5/6 ${canProceed ? "bg-orange-cuivre" : "bg-orange-cuivre/20"} rounded-xl p-2 text-white font-semibold ${canProceed ? "cursor-pointer hover:bg-orange-cuivre/90 transition duration-300 ease-in-out" : "cursor-not-allowed"} `}
