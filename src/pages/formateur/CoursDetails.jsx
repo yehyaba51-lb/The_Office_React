@@ -17,6 +17,7 @@ import FetchError from "../../components/shared/FetchError";
 import { toast } from "react-toastify";
 
 const CoursDetails = () => {
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const [file, setFile] = useState(null);
   const [cours, setCours] = useState([]);
   const [lecons, setLecons] = useState([]);
@@ -127,7 +128,7 @@ const CoursDetails = () => {
     };
 
     loadEverything();
-  }, [id]);
+  }, [id, showSuccess]);
 
   useEffect(() => {
     setDescription(cours ? cours.description : "");
@@ -212,7 +213,8 @@ const CoursDetails = () => {
       setFile(null)
       return false;
     }
-  };
+  }
+  
   
   return (
     <div
@@ -249,7 +251,7 @@ const CoursDetails = () => {
               <form action="" method="post" ref={formRef}>
                 <div className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2 mx-5">
                   <p className="text-sm text-bleu-secondaire">
-                    {cours ? cours.url_image.split('thumbnails/')[1] : file ? file : file.name && "Aucun fichier sélectionné"}
+                    {cours && cours.url_image ? cours.url_image.split('thumbnails/')[1] : "Aucun fichier sélectionné"}
                   </p>
                   <input
                     name="image"
@@ -291,7 +293,7 @@ const CoursDetails = () => {
                       className="w-full whitespace-pre-line text-bleu-principal text-md hover:text-bleu-principal/90 cursor-pointer"
                       title="Modifier"
                     >
-                      {description}
+                      {capitalize(description)}
                     </p>
                   )}
                 </div>
@@ -323,7 +325,7 @@ const CoursDetails = () => {
                   Leçons
                 </h3>
                 <div className="w-full border-2 border-gris-clair rounded-2xl p-1 flex flex-col gap-2 justify-between">
-                  {lecons.map((lecon) => {
+                  {lecons.map((lecon, i) => {
                     const exosForThisLecon = exercices.filter(
                       (ex) => ex.lecon_id === lecon.id,
                     );
@@ -334,7 +336,7 @@ const CoursDetails = () => {
                         onClick={() =>
                           navigate(`${location.pathname}/lecons/${lecon.id}`)
                         }
-                        className={`flex flex-col  border-t-${lecon.id === 1 ? "0" : "2"} border-gris-clair p-4 gap-3 items-center cursor-pointer`}
+                        className={`flex flex-col  border-t-${i=== 0 ? "0" : "2"} border-gris-clair p-4 gap-3 items-center cursor-pointer`}
                       >
                         <div className="flex justify-between w-full">
                           <div className="flex gap-4">
@@ -343,7 +345,7 @@ const CoursDetails = () => {
                             </div>
                             <div className="flex flex-col items-start">
                               <h3 className="font-titres text-bleu-principal font-semibold text-lg">
-                                {lecon.lecon_titre}
+                                {capitalize(lecon.lecon_titre)}
                               </h3>
                               <p className="text-bleu-secondaire text-sm">
                                 {`Leçon ${lecon.lecon_ordre}`}
@@ -395,25 +397,33 @@ const CoursDetails = () => {
                 <StateBox titre={"Leçons"} label={cours.lecons} />
                 <StateBox titre={"Exercices"} label={cours.exercices} />
               </div>
-              <div className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2 mx-5">
-                <p className="text-sm text-bleu-secondaire">
-                  {file ? file.name : "Aucun fichier sélectionné"}
-                </p>
-                <input
-                  name="image"
-                  type="file"
-                  onChange={(e) => setFile(e.target.files[0] || null)}
-                  className="hidden"
-                  id="thumbnail-upload"
-                />
-                <label
-                  htmlFor="thumbnail-upload"
-                  className="bg-bleu-secondaire text-white rounded-xl px-6 py-2 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
-                >
-                  Parcourir
-                </label>
-              </div>
-              <form action="" method="post">
+              <h3 className="px-4 text-bleu-principal text-sm mb-1">
+                Importer une image
+              </h3>
+              <form action="" method="post" ref={formRef}>
+                <div className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2 mx-5">
+                  <p className="text-sm text-bleu-secondaire">
+                    {cours && cours.url_image ? cours.url_image.split('thumbnails/')[1] : "Aucun fichier sélectionné"}
+                  </p>
+                  <input
+                    name="image"
+                    type="file"
+                    accept="image/png, image/jpeg, .jpg, .jpeg"
+                    onChange={(e) => {
+                      const selected = e.target.files[0] || null
+                      setFile(selected)
+                      if(selected) uploadImage(selected);
+                    }}
+                    className="hidden"
+                    id="thumbnail-upload"
+                  />
+                  <label
+                    htmlFor="thumbnail-upload"
+                    className="bg-bleu-secondaire text-white rounded-xl px-6 py-2 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
+                  >
+                    Parcourir
+                  </label>
+                </div>
                 <div className="m-5 border-2 border-gris-clair rounded-2xl px-5 py-2 flex flex-col gap-2 items-start justify-between">
                   <h3 className="font-titres text-gris-fonce/80 text-xl">
                     Description
@@ -433,29 +443,31 @@ const CoursDetails = () => {
                       className="w-full whitespace-pre-line text-bleu-principal text-md hover:text-bleu-principal/90 cursor-pointer"
                       title="Modifier"
                     >
-                      Pas de description
+                      {description !== '' && description !== null ? description : 'Pas de description'}
                     </p>
                   )}
                 </div>
                 {isEditSpec && (
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      const formData = new FormData(formRef.current);
-                      const descriptionInput = formData.get("description");
+                  <div className="w-full flex justify-end">
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        const formData = new FormData(formRef.current);
+                        const descriptionInput = formData.get("description");
 
-                      const success = await updateDescriptions({
-                        description: descriptionInput,
-                      });
+                        const success = await updateDescriptions({
+                          description: descriptionInput,
+                        });
 
-                      if (success) {
-                        setIsEditSpec(false);
-                      }
-                    }}
-                    className="mx-5 bg-bleu-secondaire px-4 py-2 text-white font-semibold text-center rounded-lg hover:bg-bleu-secondaire/95 transition duration-300 ease-in-out cursor-pointer"
-                  >
-                    Enregistrer
-                  </button>
+                        if (success) {
+                          setIsEditSpec(false);
+                        }
+                      }}
+                      className="mx-5 bg-bleu-secondaire px-4 py-2 text-white font-semibold text-center rounded-lg hover:bg-bleu-secondaire/95 transition duration-300 ease-in-out cursor-pointer"
+                    >
+                      Enregistrer
+                    </button>
+                  </div>
                 )}
               </form>
               <div className="flex flex-col gap-3 px-5 py-2">
