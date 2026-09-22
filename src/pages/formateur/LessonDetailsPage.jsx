@@ -10,6 +10,7 @@ import Spinner from '../../components/shared/Spinner'
 import FetchError from '../../components/shared/FetchError'
 
 const LessonDetailsPage = () => {
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const [content, setContent] = useState({})
   const [notFound, setNotFound] = useState(false)
   const [hasErrors, setHasErrors] = useState(false)
@@ -104,7 +105,7 @@ const LessonDetailsPage = () => {
                 </h3>
                 <p className="text-bleu-principal text-md mb-6">
                   {content.textes.length
-                    ? content.textes[0].contenu_texte
+                    ? capitalize(content.textes[0].contenu_texte)
                     : "Pas de contenu"}
                 </p>
                 <div className="mt-auto flex flex-col gap-2">
@@ -115,7 +116,7 @@ const LessonDetailsPage = () => {
                         >
                           <div className="flex gap-1 items-center">
                             <File size={18} />
-                            {content.pdfs[0].url_pdf}
+                            {content.pdfs[0].url_pdf.split('/').pop()}
                           </div>
                           <Download size={18} />
                         </div>
@@ -138,7 +139,7 @@ const LessonDetailsPage = () => {
                   <video
                     ref={videoRef}
                     className={`w-full h-80 object-cover rounded-r-2xl ${showNext ? "opacity-20" : ""}`}
-                    src={content.videos[0].url_video}
+                    src={`${import.meta.env.VITE_UPLOADS_URL}${content.videos[0].url_video}`}
                     controls={isPlaying ? true : false}
                   ></video>
                 </div>
