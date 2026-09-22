@@ -193,7 +193,7 @@ const CoursDetails = () => {
     formData.append('fichier', image)
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/upload.php?id=${id}&image=true`, {
+        `${import.meta.env.VITE_SERVER_URL}/image_uploader.php?id=${id}&image=true`, {
           method: 'POST',
           body: formData
         }
