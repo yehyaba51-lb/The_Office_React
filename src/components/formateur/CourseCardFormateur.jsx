@@ -2,7 +2,7 @@ import ProgressBar from "../shared/ProgressBar";
 import { Link } from "react-router-dom";
 import NoImageFound from "../../assets/no-image-found.png";
 
-const CourseCardFormateur = ({ cours, enrolled, etudiant = false }) => {
+const CourseCardFormateur = ({ cours, etudiant = false }) => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const descriptionSlice = (description) => {
     return description.slice(0, 150) + "...";
