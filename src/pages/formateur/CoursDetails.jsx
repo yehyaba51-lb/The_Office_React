@@ -37,7 +37,9 @@ const CoursDetails = () => {
   const getCours = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`,
+        `${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
+          credentials: 'include',
+        }
       );
       const data = await response.json();
 
@@ -57,7 +59,9 @@ const CoursDetails = () => {
   const getLecons = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}`,
+        `${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}`, {
+          credentials: 'include',
+        }
       );
       const data = await response.json();
 
@@ -77,7 +81,9 @@ const CoursDetails = () => {
   const getExercices = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/exercices.php?id=${id}`,
+        `${import.meta.env.VITE_SERVER_URL}/exercices.php?id=${id}`, {
+          credentials: 'include',
+        }
       );
       const data = await response.json();
 
@@ -97,7 +103,9 @@ const CoursDetails = () => {
   const getInscriptions = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${id}`,
+        `${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${id}`, {
+          credentials: 'include',
+        }
       );
       const data = await response.json();
 
@@ -146,6 +154,7 @@ const CoursDetails = () => {
         `${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}&description=true`,
         {
           method: "PUT",
+          credentials: 'include',
           headers: {
             "Content-Type": "application/json",
           },
@@ -195,6 +204,7 @@ const CoursDetails = () => {
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_URL}/image_uploader.php?id=${id}&image=true`, {
           method: 'POST',
+          credentials: 'include',
           body: formData
         }
       );
@@ -293,7 +303,7 @@ const CoursDetails = () => {
                       className="w-full whitespace-pre-line text-bleu-principal text-md hover:text-bleu-principal/90 cursor-pointer"
                       title="Modifier"
                     >
-                      {capitalize(description)}
+                      {description ? capitalize(description) : 'Pas de description'}
                     </p>
                   )}
                 </div>
