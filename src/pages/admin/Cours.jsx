@@ -29,7 +29,9 @@ const Cours = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`, {
+        credentials: 'include',
+      });
       const data = await response.json();
 
       setCours(data);
@@ -42,7 +44,9 @@ const Cours = () => {
 
   const getFormateurs = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?formateur=true`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?formateur=true`, {
+        credentials: 'include',
+      });
       const data = await response.json();
 
       setFormateurs(data);
@@ -55,7 +59,9 @@ const Cours = () => {
 
   const getCategories = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php`, {
+        credentials: 'include',
+      });
       const data = await response.json();
 
       setCategories(data);
@@ -116,6 +122,7 @@ const Cours = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -169,6 +176,7 @@ const Cours = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -191,7 +199,8 @@ const Cours = () => {
   const removeCours = async(id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include',
       })
       const data = response.json()
 
