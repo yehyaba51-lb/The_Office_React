@@ -131,6 +131,7 @@ const CoursDetails = () => {
       }
 
       getLecons()
+      getSelectedCours()
       return true
     } catch (error) {
       toast.error("Impossible de créer l'exercice");
@@ -194,10 +195,10 @@ const CoursDetails = () => {
                 <div className="border-2 border-gris-clair rounded-2xl p-1 flex flex-col gap-2 justify-between">
                   {cours && lecons.length === 0 ? (
                       <p className="text-bleu-secondaire self-center p-4">Pas de leçons</p>
-                  ) : lecons.map((lecon) => (
+                  ) : lecons.map((lecon, i) => (
                     <div
                       key={`${lecon.id}-${lecon.cours_id}`}
-                      className={`flex flex-col border-t-${lecon.id === 1 ? 0 : 2} border-gris-clair p-4 gap-3`}
+                      className={`flex flex-col border-t-${i === 0 ? 0 : 2} border-gris-clair p-4 gap-3`}
                     >
                       
                       <div className="flex justify-between">
