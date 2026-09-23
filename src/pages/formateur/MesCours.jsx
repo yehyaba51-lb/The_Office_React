@@ -11,16 +11,20 @@ const MesCours = () => {
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [search, setSearch] = useState("");
-  const currentUser = useOutletContext()
+  const currentUser = useOutletContext();
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateurcours=true`)
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateurcours=true`, {
+          credentials: 'include'
+        }
+      );
       const data = await response.json();
 
-      if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
       setCours(data);
       return true;
@@ -30,30 +34,26 @@ const MesCours = () => {
     }
   };
 
-
   useEffect(() => {
     const loadEverything = async () => {
-      const results = await Promise.all([
-        getCours()
-      ]);
+      const results = await Promise.all([getCours()]);
       setHasError(results.includes(false));
 
       setLoading(false);
     };
 
-    if(currentUser === null) {
-      return false
+    if (currentUser === null) {
+      return false;
     }
-    
+
     loadEverything();
   }, [currentUser]);
 
-  
-
-  const searchCours = cours ? cours.filter(
-    (c) =>
-      `${c.cours_titre}`.toLowerCase().includes(search.toLowerCase())
-  ) : ''
+  const searchCours = cours
+    ? cours.filter((c) =>
+        `${c.cours_titre}`.toLowerCase().includes(search.toLowerCase()),
+      )
+    : "";
 
   return (
     <div
@@ -69,9 +69,7 @@ const MesCours = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <CourseCardFormateur
-            cours={searchCours}
-          />
+          <CourseCardFormateur cours={searchCours} />
         </>
       )}
     </div>
