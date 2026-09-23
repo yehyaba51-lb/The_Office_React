@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { CircleX } from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import Spinner from "../shared/Spinner";
 
 const LessonBuilderModal = ({ lecon }) => {
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ const LessonBuilderModal = ({ lecon }) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -89,6 +91,7 @@ const LessonBuilderModal = ({ lecon }) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecon_textes.php?id=${id}&leconId=${leconId}`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -123,6 +126,11 @@ const LessonBuilderModal = ({ lecon }) => {
         return false;
       }
 
+      if(pdf.file.size > 20 * 1024 * 1024){
+        toast.error("Taille de fichier trop grande");
+        return false;
+      }
+
       const formData = new FormData()
       formData.append('pdf', pdf.file)
       formData.append('ordre', pdf.ordre)
@@ -130,6 +138,7 @@ const LessonBuilderModal = ({ lecon }) => {
       try {
         const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecon_pdfs.php?id=${id}&leconId=${leconId}`, {
           method: 'POST',
+          credentials: 'include',
           body: formData
         })
         const data = await response.json()
@@ -169,6 +178,7 @@ const LessonBuilderModal = ({ lecon }) => {
       try {
         const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecon_videos.php?id=${id}&leconId=${leconId}`, {
           method: 'POST',
+          credentials: 'include',
           body: formData
         })
         const data = await response.json()
@@ -479,21 +489,25 @@ const LessonBuilderModal = ({ lecon }) => {
                   onClick={
                     steps === 1 ? (
                       async () => {
+                        setLoading(true)
                         const success = await createLecon({titre, ordre})
                         if(success) setSteps((prev) => prev + 1)
                       }
                     ) : steps === 2 ? (
                       async () => {
+                        setLoading(true)
                         const success = await addContenu({contenu})
                         if(success) setSteps((prev) => prev + 1)
                       }
                     ) : steps === 3 ? (
                       async () => {
+                        setLoading(true)
                         const success = await addPdfs(pdfs)
                         if(success) setSteps((prev) => prev + 1)
                       }
                     ) : (
                       async () => {
+                        setLoading(true)
                         const success = await addVideos(videos)
                         if(success) {
                           setSteps((prev) => prev + 1)
