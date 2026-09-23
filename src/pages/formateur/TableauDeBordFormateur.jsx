@@ -22,7 +22,9 @@ const TableauDeBordFormateur = () => {
     
     const getStatistics = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateur=true`)
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateur=true`, {
+          credentials: 'include',
+        })
         const data = await response.json()
         
         if(!response.ok){
@@ -44,7 +46,9 @@ const TableauDeBordFormateur = () => {
 
     const getInscriptions = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${currentUser.utilisateur_id}&formateur=true`)
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${currentUser.utilisateur_id}&formateur=true`, {
+          credentials: 'include',
+        })
         const data = await response.json()
 
         setInscriptions(data)
@@ -57,7 +61,9 @@ const TableauDeBordFormateur = () => {
 
     const getSoumissions = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${currentUser.utilisateur_id}&formateur=true`)
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${currentUser.utilisateur_id}&formateur=true`, {
+          credentials: 'include',
+        })
         const data = await response.json()
 
         setSoumissions(data)

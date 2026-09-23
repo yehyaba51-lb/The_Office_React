@@ -31,7 +31,9 @@ const ExercicePage = () => {
 
   const getQuestions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php?id=${exerciceId}&allQuestion=true`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php?id=${exerciceId}&allQuestion=true`, {
+        credentials: 'include',
+      })
       const data = await response.json();
 
       if(!response.ok){
@@ -51,7 +53,9 @@ const ExercicePage = () => {
 
   const getChoix = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/choix.php?id=${exerciceId}&exercice=true`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/choix.php?id=${exerciceId}&exercice=true`, {
+        credentials: 'include',
+      })
       const data = await response.json();
 
       if(!response.ok){
@@ -109,6 +113,7 @@ const ExercicePage = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -152,6 +157,7 @@ const ExercicePage = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php?id=${id}`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json' 
         },
@@ -177,6 +183,7 @@ const ExercicePage = () => {
   const supprimerQuestion = async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php?id=${id}`, {
+        credentials: 'include',
         method: 'DELETE'
       })
       const data = await response.json()

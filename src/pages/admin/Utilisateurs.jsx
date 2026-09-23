@@ -31,7 +31,9 @@ const Utilisateurs = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`, {
+        credentials: 'include',
+      });
       const data = await response.json();
 
       setUsers(data);
@@ -90,6 +92,7 @@ const Utilisateurs = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -141,6 +144,7 @@ const Utilisateurs = () => {
     try {
       await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -162,6 +166,7 @@ const Utilisateurs = () => {
     
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}`, {
+        credentials: 'include',
         method: 'DELETE'
       })
       const data = await response.json()
@@ -183,6 +188,7 @@ const Utilisateurs = () => {
   const resetPassword = async (id) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}&action=reset`, {
+        credentials: 'include',
         method: 'PUT'
       })
       const data = await response.json()

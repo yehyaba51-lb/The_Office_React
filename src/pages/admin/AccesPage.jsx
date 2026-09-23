@@ -28,7 +28,9 @@ const AccesPage = () => {
 
   const getInscription = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`, {
+        credentials: 'include'
+      });
       const data = await response.json();
 
       setAccess(data);
@@ -41,7 +43,9 @@ const AccesPage = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`, {
+        credentials: 'include'
+      });
       const data = await response.json();
 
       setUsers(data);
@@ -54,7 +58,9 @@ const AccesPage = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`, {
+        credentials: 'include'
+      });
       const data = await response.json();
 
       setCours(data);
@@ -91,6 +97,7 @@ const AccesPage = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${id}`, {
         method: "DELETE",
+        credentials: 'include'
       });
 
       if(!response.ok){
@@ -110,6 +117,7 @@ const AccesPage = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },

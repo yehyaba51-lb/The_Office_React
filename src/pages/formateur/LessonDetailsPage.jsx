@@ -25,7 +25,9 @@ const LessonDetailsPage = () => {
   const getLeconContent = async () => {
     setNotFound(false)
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&lecon=${leconId}&allContent=true`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&lecon=${leconId}&allContent=true`, {
+        credentials: 'include',
+      })
       const data = await response.json()
       
       if(response.status === 404){

@@ -13,7 +13,9 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
 
   const getQuestions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php`, {
+        credentials: 'include',
+      })
       const data = await response.json()
 
       if(!response.ok){

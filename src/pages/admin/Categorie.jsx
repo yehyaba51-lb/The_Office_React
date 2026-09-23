@@ -23,7 +23,9 @@ const Categorie = () => {
   const getCategories = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/categories.php`,
+        `${import.meta.env.VITE_SERVER_URL}/categories.php`, {
+          credentials: 'include'
+        }
       );
       const data = await response.json();
 
@@ -56,6 +58,7 @@ const Categorie = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php`, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -91,6 +94,7 @@ const Categorie = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php?id=${id}`, {
         method: "PUT",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -115,6 +119,7 @@ const Categorie = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php?id=${id}`, {
         method: "DELETE",
+        credentials: 'include',
       });
       const data = await response.json()
 

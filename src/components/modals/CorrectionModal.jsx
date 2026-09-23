@@ -15,7 +15,9 @@ const CorrectionModal = ({ submitFunction, initialData, }) => {
 
   const getChoix = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/choix.php?id=${initialData[0].question_id}`)
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/choix.php?id=${initialData[0].question_id}`, {
+          credentials: 'include',
+        })
         const data = await response.json();
         
         if(!response.ok){

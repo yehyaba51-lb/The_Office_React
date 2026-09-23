@@ -18,7 +18,9 @@ const TableauDeBord = () => {
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php`, {
+        credentials: 'include',
+      });
       const data = await response.json();
 
       setCours(data);
@@ -31,7 +33,9 @@ const TableauDeBord = () => {
 
   const getInscriptions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`, {
+        credentials: 'include',
+      });
       const data = await response.json();
 
       setInscriptions(data);
@@ -45,7 +49,9 @@ const TableauDeBord = () => {
 
   const getUsers = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`);
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php`, {
+        credentials: 'include',
+      });
       const data = await response.json();
 
       setUsers(data);
