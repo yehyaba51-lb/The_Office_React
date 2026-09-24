@@ -51,6 +51,11 @@ const TableauDeBordFormateur = () => {
         })
         const data = await response.json()
 
+        if(!response.ok){
+          toast.error(data.error)
+          return false
+        }
+
         setInscriptions(data)
         return true
       } catch (error) {
@@ -66,6 +71,11 @@ const TableauDeBordFormateur = () => {
         })
         const data = await response.json()
 
+        if(!response.ok){
+          toast.error(data.error)
+          return false
+        }
+        
         setSoumissions(data)
         return true
       } catch (error) {
