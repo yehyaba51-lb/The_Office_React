@@ -33,7 +33,9 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
     getQuestions()
   }, [])
   const trimQuestion = (row) => {
-    const value = questions ? questions.find(q => q.id === row.questionId)?.texte : '' 
+    const value = questions
+      ? questions.find(q => q.question_id === row.question_id)?.texte_question ?? ''
+      : ''
     return value.slice(0, 30) + '...'
   }
   
