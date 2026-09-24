@@ -72,7 +72,7 @@ const Utilisateurs = () => {
 
   const addUser = async (submittedUser) => {
     let errors = []
-    const nameRegex = /^[a-zA-Z' -]+$/;
+    const nameRegex =  /^[A-Za-zÀ-ÿ\'\-\s]+$/
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if(!submittedUser.prenom || submittedUser.prenom.length < 2 || !nameRegex.test(submittedUser.prenom)){
       errors.push("Prenom invalide")
@@ -124,7 +124,7 @@ const Utilisateurs = () => {
 
   const editUser = async (id, submittedUser) => {
     let errors = []
-    const nameRegex = /^[a-zA-Z' -]+$/;
+    const nameRegex =  /^[A-Za-zÀ-ÿ\'\-\s]+$/
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     if(!submittedUser.prenom || submittedUser.prenom.length < 2 || !nameRegex.test(submittedUser.prenom)){
       errors.push("Prenom invalide")
