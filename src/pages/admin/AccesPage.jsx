@@ -33,10 +33,15 @@ const AccesPage = () => {
       });
       const data = await response.json();
 
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
       setAccess(data);
       return true;
     } catch (error) {
-      setAccess("");
+      setAccess([]);
       return false;
     }
   };
@@ -48,10 +53,15 @@ const AccesPage = () => {
       });
       const data = await response.json();
 
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
       setUsers(data);
       return true;
     } catch (error) {
-      setUsers("");
+      setUsers([]);
       return false;
     }
   };
@@ -63,10 +73,15 @@ const AccesPage = () => {
       });
       const data = await response.json();
 
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+      
       setCours(data);
       return true;
     } catch (error) {
-      setCours("");
+      setCours([]);
       return false;
     }
   };

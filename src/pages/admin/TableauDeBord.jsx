@@ -23,10 +23,15 @@ const TableauDeBord = () => {
       });
       const data = await response.json();
 
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
       setCours(data);
       return true;
     } catch (error) {
-      setCours("");
+      setCours([]);
       return false;
     }
   };
@@ -38,11 +43,15 @@ const TableauDeBord = () => {
       });
       const data = await response.json();
 
-      setInscriptions(data);
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
 
+      setInscriptions(data);
       return true;
     } catch (error) {
-      setInscriptions("");
+      setInscriptions([]);
       return false;
     }
   };
@@ -54,10 +63,15 @@ const TableauDeBord = () => {
       });
       const data = await response.json();
 
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
       setUsers(data);
       return true;
     } catch (error) {
-      setUsers("");
+      setUsers([]);
       return false;
     }
   };
