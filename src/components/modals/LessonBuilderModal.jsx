@@ -50,9 +50,9 @@ const LessonBuilderModal = ({ lecon }) => {
     if(errors.length > 0){
       errors.forEach(er => {
         toast.error(er)
-        setLoading(false)
-        return false
       })
+      setLoading(false)
+      return false
     }
 
     try {
