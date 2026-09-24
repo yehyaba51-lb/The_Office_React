@@ -9,8 +9,8 @@ const LessonBuilderModal = ({ lecon }) => {
   const location = useLocation();
   const formRef = useRef()
   const [steps, setSteps] = useState(1);
-  const [pdfs, setPdfs] = useState([{ file: null, ordre: "" }]);
-  const [videos, setVideos] = useState([{ file: null, ordre: "" }]);
+  const [pdf, setPdf] = useState({ file: null, ordre: "1" });
+  const [video, setVideo] = useState({ file: null, ordre: "1", duree: null });
   const [titre, setTitre] = useState("");
   const [ordre, setOrdre] = useState("");
   const [contenu, setContenu] = useState("");
@@ -24,17 +24,10 @@ const LessonBuilderModal = ({ lecon }) => {
       : steps === 2
         ? contenu !== ""
         : steps === 3
-          ? pdfs.every((pdf) => pdf.file !== null && pdf.ordre !== "")
+          ? pdf.file !== null && pdf.ordre !== ""
           : steps === 4
-            ? videos.every(
-                (video) => video.file !== null && video.ordre !== "",
-              )
+            ? video.file !== null && video.ordre !== ""
             : true;
-  const usedOrdersPdf = pdfs.map((pdf) => pdf.ordre).filter((o) => o !== "");
-  const usedOrdersVideo = videos
-    .map((video) => video.ordre)
-    .filter((o) => o !== "");
-
 
   const createLecon = async (newLecon) => {
     const errors = []
@@ -112,88 +105,84 @@ const LessonBuilderModal = ({ lecon }) => {
     }
   }
 
-  const addPdfs = async (pdfs) => {
+  const addPdfs = async (pdf) => {
     const allowedTypes = ["application/pdf"];
 
-    for(const pdf of pdfs){
-      if(!pdf.file){
-        toast.error("Pas de pdf uploadé");
-        return false;
-      }
+    if(!pdf.file){
+      toast.error("Pas de pdf uploadé");
+      return false;
+    }
 
-      if(!allowedTypes.includes(pdf.file.type)){
-        toast.error("Type de fichier invalide");
-        return false;
-      }
+    if(!allowedTypes.includes(pdf.file.type)){
+      toast.error("Type de fichier invalide");
+      return false;
+    }
 
-      if(pdf.file.size > 20 * 1024 * 1024){
-        toast.error("Taille de fichier trop grande");
-        return false;
-      }
+    if(pdf.file.size > 20 * 1024 * 1024){
+      toast.error("Taille de fichier trop grande");
+      return false;
+    }
 
-      const formData = new FormData()
-      formData.append('pdf', pdf.file)
-      formData.append('ordre', pdf.ordre)
-      
-      try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecon_pdfs.php?id=${id}&leconId=${leconId}`, {
-          method: 'POST',
-          credentials: 'include',
-          body: formData
-        })
-        const data = await response.json()
+    const formData = new FormData()
+    formData.append('pdf', pdf.file)
+    formData.append('ordre', pdf.ordre)
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecon_pdfs.php?id=${id}&leconId=${leconId}`, {
+        method: 'POST',
+        credentials: 'include',
+        body: formData
+      })
+      const data = await response.json()
 
-        if(!response.ok){
-          toast.error(data.error)
-          setLoading(false)
-          return false
-        }
-
-        return true
-      } catch (error) {
+      if(!response.ok){
+        toast.error(data.error)
         setLoading(false)
         return false
       }
+
+      return true
+    } catch (error) {
+      setLoading(false)
+      return false
     }
   }
-  const addVideos = async (videos) => {
+  const addVideos = async (video) => {
     const allowedVideoTypes = ["video/mp4", "video/webm"];
 
-    for(const video of videos){
-      if(!video.file){
-        toast.error("Pas de video uploadé");
-        return false;
-      }
+    if(!video.file){
+      toast.error("Pas de video uploadé");
+      return false;
+    }
 
-      if(!allowedVideoTypes.includes(video.file.type)){
-        toast.error("Type de fichier invalide");
-        return false;
-      }
+    if(!allowedVideoTypes.includes(video.file.type)){
+      toast.error("Type de fichier invalide");
+      return false;
+    }
 
-      const formData = new FormData()
-      formData.append('video', video.file)
-      formData.append('video_ordre', video.ordre)
-      formData.append('duree', video.duree)
+    const formData = new FormData()
+    formData.append('video', video.file)
+    formData.append('video_ordre', video.ordre)
+    formData.append('duree', video.duree)
 
-      try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecon_videos.php?id=${id}&leconId=${leconId}`, {
-          method: 'POST',
-          credentials: 'include',
-          body: formData
-        })
-        const data = await response.json()
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecon_videos.php?id=${id}&leconId=${leconId}`, {
+        method: 'POST',
+        credentials: 'include',
+        body: formData
+      })
+      const data = await response.json()
 
-        if(!response.ok){
-          toast.error(data.error)
-          setLoading(false)
-          return false
-        }
-
-        return true
-      } catch (error) {
+      if(!response.ok){
+        toast.error(data.error)
         setLoading(false)
         return false
       }
+
+      return true
+    } catch (error) {
+      setLoading(false)
+      return false
     }
   }
 
@@ -300,131 +289,32 @@ const LessonBuilderModal = ({ lecon }) => {
             )}
             {steps === 3 && (
               <>
-                {pdfs.map((pdf, index) => {
-                  return (
-                    <>
-                      <div className="flex flex-col gap-1 my-2" key={index}>
-                        <label
-                          htmlFor="ordre"
-                          className="text-gris-fonce text-sm"
-                        >
-                          Ordre
-                        </label>
-                        <select
-                          type="text"
-                          name="ordre"
-                          id="ordre"
-                          value={pdf.ordre}
-                          onChange={(e) => {
-                            const updated = [...pdfs];
-                            updated[index].ordre = e.target.value;
-                            setPdfs(updated);
+                    <div
+                      className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2"
+                    >
+                      <p className="text-sm text-bleu-secondaire">
+                        {pdf.file ? pdf.file.name : "Choisir un fichier PDF"}
+                      </p>
+                      <input
+                        type="file"
+                        onChange={(e) => {
+                          setPdf({ ...pdf, file: e.target.files[0] || null });
                           }}
-                          className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                          placeholder={`Entrez titre de la leçon...`}
-                        >
-                          <option value=""></option>
-                          {[...Array(pdfs.length)].map((_, i) => {
-                            const value = String(i + 1);
-                            const isOwnValue = pdf.ordre === value;
-                            return (
-                              (!usedOrdersPdf.includes(value) ||
-                                isOwnValue) && (
-                                <option
-                                  key={i}
-                                  className="text-bleu-principal"
-                                  value={value}
-                                >
-                                  {value}
-                                </option>
-                              )
-                            );
-                          })}
-                        </select>
-                      </div>
-                      <div
-                        key={index}
-                        className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2"
+                        className="hidden"
+                        id="thumbnail-upload-pdf"
+                      />
+                      <label
+                        htmlFor="thumbnail-upload-pdf"
+                        className="bg-bleu-secondaire text-white rounded-xl px-10 py-1.5 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
                       >
-                        <p className="text-sm text-bleu-secondaire">
-                          {pdf.file ? pdf.file.name : "Choisir un fichier PDF"}
-                        </p>
-                        <input
-                          type="file"
-                          onChange={(e) => {
-                            const updated = [...pdfs];
-                            updated[index].file =
-                              e.target.files[0] || "";
-                            setPdfs(updated);
-                          }}
-                          className="hidden"
-                          id={`thumbnail-upload-${index}`}
-                        />
-                        <label
-                          htmlFor={`thumbnail-upload-${index}`}
-                          className="bg-bleu-secondaire text-white rounded-xl px-10 py-1.5 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
-                        >
-                          Parcourir
-                        </label>
-                      </div>
-                    </>
-                  );
-                })}
-                <input
-                  onClick={() =>
-                    setPdfs([...pdfs, { file: null, ordre: "" }])
-                  }
-                  type="button"
-                  className="text-orange-cuivre text-end cursor-pointer hover:text-orange-cuivre/55 transition duration-500 ease-in-out"
-                  value="Ajouter un autre PDF"
-                />
+                        Parcourir
+                      </label>
+                    </div>
               </>
             )}
             {steps === 4 && (
               <>
-                {videos.map((video, index) => {
-                  return (
-                    <>
-                      <div className="flex flex-col gap-1 my-2" key={index}>
-                        <label
-                          htmlFor="ordre"
-                          className="text-gris-fonce text-sm"
-                        >
-                          Ordre
-                        </label>
-                        <select
-                          type="text"
-                          name="ordre"
-                          id="ordre"
-                          value={video.ordre}
-                          onChange={(e) => {
-                            const updated = [...videos];
-                            updated[index].ordre = e.target.value || null
-                            setVideos(updated);
-                          }}
-                          className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                        >
-                          <option value=""></option>
-                          {[...Array(videos.length)].map((_, i) => {
-                            const value = String(i + 1);
-                            const isOwnValue = video.ordre === value;
-                            return (
-                              (!usedOrdersVideo.includes(value) ||
-                                isOwnValue) && (
-                                <option
-                                  key={i}
-                                  className="text-bleu-principal"
-                                  value={value}
-                                >
-                                  {value}
-                                </option>
-                              )
-                            );
-                          })}
-                        </select>
-                      </div>
                       <div
-                        key={index}
                         className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2"
                       >
                         <p className="text-sm text-bleu-secondaire">
@@ -432,34 +322,20 @@ const LessonBuilderModal = ({ lecon }) => {
                         </p>
                         <input
                           type="file"
-                          onChange={async(e) => {
-                            const updated = [...videos];
-                            updated[index].file =
-                              e.target.files[0] || null;
-                            updated[index].duree = await getVideoDuration(e.target.files[0])
-                            setVideos(updated);
+                          onChange={async (e) => {
+                            const duree = await getVideoDuration(e.target.files[0])
+                            setVideo({ ...video, file: e.target.files[0] || null, duree })
                           }}
                           className="hidden"
-                          id={`thumbnail-upload-${index}`}
+                          id="thumbnail-upload-video"
                         />
                         <label
-                          htmlFor={`thumbnail-upload-${index}`}
+                          htmlFor="thumbnail-upload-video"
                           className="bg-bleu-secondaire text-white rounded-xl px-10 py-1.5 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
                         >
                           Parcourir
                         </label>
                       </div>
-                    </>
-                  );
-                })}
-                <input
-                  onClick={() =>
-                    setVideos([...videos, { file: null, ordre: "" }])
-                  }
-                  type="button"
-                  className="text-orange-cuivre text-end cursor-pointer hover:text-orange-cuivre/55 transition duration-500 ease-in-out"
-                  value="Ajouter un autre video"
-                />
               </>
             )}
             <div className="flex items-center justify-between mt-5">
@@ -502,13 +378,13 @@ const LessonBuilderModal = ({ lecon }) => {
                     ) : steps === 3 ? (
                       async () => {
                         setLoading(true)
-                        const success = await addPdfs(pdfs)
+                        const success = await addPdfs(pdf)
                         if(success) setSteps((prev) => prev + 1)
                       }
                     ) : (
                       async () => {
                         setLoading(true)
-                        const success = await addVideos(videos)
+                        const success = await addVideos(video)
                         if(success) {
                           setSteps((prev) => prev + 1)
                           navigate(`${location.pathname}?success=true`)
