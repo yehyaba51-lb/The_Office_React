@@ -16,6 +16,11 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
   const { id, leconId } = matches[matches.length - 1].params
 
   const getCours = async () => {
+    if(!id) {
+      setCours(null)
+      return
+    }
+    
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
         credentials: 'include',
@@ -80,7 +85,7 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
             <Menu size={24} />
           </button>
           <div className="flex flex-col gap-1">
-          {backLink && (
+          {backLink && sousTitre && (
             <Link to={ finalBackLink } className='text-gris-fonce text-xs md:text-sm flex items-center gap-1'>
               <MoveLeft size='15' /> {sousTitre}
             </Link>
@@ -93,7 +98,6 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
                 <p className='text-gris-fonce text-xs md:text-sm'>{`${capitalize(currentUser.prenom)} ${capitalize(currentUser.nom)}`}</p>
                 
               )
-              
             )}
           </div>
         </div>
