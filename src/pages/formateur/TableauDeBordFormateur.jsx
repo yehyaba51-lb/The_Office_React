@@ -121,12 +121,10 @@ const TableauDeBordFormateur = () => {
 
     const filteredActivitesFormateur = showAll ? activities : activities.slice(0, 5)
 
-    const percentage = statistics?.completion
-      ? statistics.completion.map(i => (i.current * 100) / i.total)
-      : []
 
-     const completionMoyenne = percentage.length > 0 ? Math.round(percentage.reduce((sum, p) => sum + p, 0)/ percentage.length) : ''
-     
+    const completionMoyenne = statistics?.completion?.total > 0
+      ? Math.round((statistics.completion.termines * 100) / statistics.completion.total)
+      : 0
   return (
     <div className={`flex flex-col justify-center items-center ${loading && "mt-25"}`}>
       {loading ? (
