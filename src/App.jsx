@@ -62,7 +62,7 @@ const App = () => {
           <Route path='/formateur/*' element={<NotFoundPage />} handle={{ titre: 'Page introuvable', homeLink: '/formateur' }} />
         </Route>
 
-        <Route path='/' element={<MainLayout role={'Étudiant'} />}>
+        <Route path='/' element={<MainLayout role={'Etudiant'} />}>
           <Route path='/etudiant' element={<TableauDeBordEtudiant />} handle={{ titre: 'Tableau de bord', sousTitre: "Bonjour User1" }} />
           <Route path="/etudiant/cours" element={<MesCoursEtudiant />} handle={{ titre: 'Mes cours', sousTitre: "User1" }} />
           <Route path="/etudiant/exercices" element={<MesExercices />} handle={{ titre: 'Mes exercices', sousTitre: "User1" }} />
