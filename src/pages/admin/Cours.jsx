@@ -202,7 +202,7 @@ const Cours = () => {
         method: 'DELETE',
         credentials: 'include',
       })
-      const data = response.json()
+      const data = await response.json()
 
       if(!response.ok){
         toast.error(data.error)
