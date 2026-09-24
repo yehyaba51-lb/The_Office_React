@@ -36,10 +36,16 @@ const Utilisateurs = () => {
       });
       const data = await response.json();
 
+      if(!response.ok){
+        toast.error(data.error)
+        setLoading(false)
+        return false
+      }
+
       setUsers(data);
       setLoading(false);
     } catch (error) {
-      setUsers("");
+      setUsers([]);
       setLoading(false);
     }
   };
@@ -142,7 +148,7 @@ const Utilisateurs = () => {
     }
 
     try {
-      await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
@@ -150,6 +156,12 @@ const Utilisateurs = () => {
         },
         body: JSON.stringify(submittedUser)  
       })
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
       
       toast.success(`${selectedUser.prenom + " " + selectedUser.nom} modifier`);
       getUsers()
