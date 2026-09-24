@@ -100,11 +100,18 @@ const ExercicePage = () => {
     }
 
     if(question.question_type === 'QCM'){
-      const hasCorrect = question.choix.some(c => c.correct)
-      if(!hasCorrect){
-        errors.push('Choix pas selectionner')
+      const toutesRemplies = question.choix.every(c => c.texte && c.texte.trim() !== '')
+
+      if (!toutesRemplies) {
+        errors.push('Tous les choix doivent être remplis')
+      }
+
+      const nbCorrects = question.choix.filter(c => c.correct).length
+      if (nbCorrects !== 1) {
+        errors.push('Une seule bonne réponse doit être sélectionnée')
       }
     }
+    
 
     if(errors.length > 0){
       errors.forEach(error => toast.error(error))
@@ -144,9 +151,15 @@ const ExercicePage = () => {
     }
 
     if(data.question_type === 'QCM'){
-      const hasCorrect = data.choix.some(c => c.correct)
-      if(!hasCorrect){
-        errors.push('Choix pas selectionner')
+      const toutesRemplies = data.choix.every(c => c.texte && c.texte.trim() !== '')
+
+      if (!toutesRemplies) {
+        errors.push('Tous les choix doivent être remplis')
+      }
+
+      const nbCorrects = data.choix.filter(c => c.correct).length
+      if (nbCorrects !== 1) {
+        errors.push('Une seule bonne réponse doit être sélectionnée')
       }
     }
 
