@@ -25,7 +25,9 @@ const CoursDetails = () => {
   const { id } = useParams();
   const getSelectedCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
+        credentials: 'include'
+      })
       const data = await response.json()
 
       if(!response.ok){
@@ -43,7 +45,9 @@ const CoursDetails = () => {
 
   const getLecons = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}`, {
+        credentials: 'include'
+      })
       const data = await response.json()
 
       if(!response.ok){
@@ -60,7 +64,9 @@ const CoursDetails = () => {
   }
   const getInscriptions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${id}`)
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${id}`, {
+        credentials: 'include'
+      })
       const data = await response.json()
 
       if(!response.ok){
@@ -116,6 +122,7 @@ const CoursDetails = () => {
     try {
       const response  = await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices.php`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -142,6 +149,7 @@ const CoursDetails = () => {
   const supprimerInscription = async (id) => {
     try {
       await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${id}`, {
+        credentials: 'include',
         method: 'DELETE'
       })
 
