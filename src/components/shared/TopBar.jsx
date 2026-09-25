@@ -20,6 +20,13 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
       setCours(null)
       return
     }
+
+    const isCoursDetail = location.pathname.includes('cours/')
+
+    if(!isCoursDetail){
+      setCours(null)
+      return
+    }
     
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${id}`, {
