@@ -9,8 +9,10 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const TableauDeBordEtudiant = () => {
-  const [statistics, setStatistics] = useState([]);
-  const [inscriptions, setInscriptions] = useState([]);
+  const [statistics, setStatistics] = useState(null);
+  const [coursTermine, setCoursTermine] = useState([]);
+  const [soumissionCorrige, setSoumissionCorrige] = useState([]);
+  const [newInscription, setNewInscription] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false);
   const currentUser = useOutletContext()
@@ -34,21 +36,72 @@ const TableauDeBordEtudiant = () => {
       setStatistics(data);
       return true;
     } catch (error) {
-      setStatistics([]);
+      setStatistics(null);
       return false;
     }
   };
-  const getInscriptions = async () => {
+
+  const getCoursTermine = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/inscriptions`,
+        `${import.meta.env.VITE_SERVER_URL}/progression.php?id=${currentUser.utilisateur_id}&cours=true`, {
+          credentials: 'include'
+        }
       );
       const data = await response.json();
 
-      setInscriptions(data);
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
+      setCoursTermine(data);
       return true;
     } catch (error) {
-      setInscriptions([]);
+      setCoursTermine([]);
+      return false;
+    }
+  };
+
+  const getSoumissionsCorrige = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${currentUser.utilisateur_id}&corrige=true`, {
+          credentials: 'include'
+        }
+      );
+      const data = await response.json();
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
+      setSoumissionCorrige(data);
+      return true;
+    } catch (error) {
+      setSoumissionCorrige([]);
+      return false;
+    }
+  };
+  const getNouveauInscriptions = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${currentUser.utilisateur_id}&new=true`, {
+          credentials: 'include'
+        }
+      );
+      const data = await response.json();
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
+      setNewInscription(data);
+      return true;
+    } catch (error) {
+      setNewInscription([]);
       return false;
     }
   };
@@ -57,6 +110,9 @@ const TableauDeBordEtudiant = () => {
     const loadEveything = async () => {
       const results = await Promise.all([
         getStatistics(),
+        getCoursTermine(),
+        getSoumissionsCorrige(),
+        getNouveauInscriptions()
       ]);
       setHasErrors(results.includes(false));
 
@@ -66,85 +122,48 @@ const TableauDeBordEtudiant = () => {
     loadEveything();
   }, []);
 
-  console.log("currentUser", currentUser);
 
-  // const selectedInscriptions = inscriptions
-  //   ? inscriptions.filter((i) =>
-  //       currentUser
-  //         ? i.etudiant.toLowerCase() ===
-  //           currentUser.prenom.toLowerCase() +
-  //             " " +
-  //             currentUser.nom.toLowerCase()
-  //         : [],
-  //     )
-  //   : [];
-
-  console.log("statistics", statistics);
-
-  // const selectedSoumissions = soumissions
-  //   ? soumissions.filter((s) =>
-  //       currentUser
-  //         ? s.etudiant.toLowerCase() ===
-  //           currentUser.prenom.toLowerCase() +
-  //             " " +
-  //             currentUser.nom.toLowerCase()
-  //         : [],
-  //     )
-  //   : [];
-
-
-  // const coursEnCours = selectedInscriptions
-  //   ? selectedInscriptions.filter((i) => i.noteFinale === null).length
-  //   : 0;
-
-  // const coursDone = selectedInscriptions
-  //   ? selectedInscriptions.filter((i) => i.noteFinale !== null).length
-  //   : 0;
-
-  // useEffect(() => {
-  //   const inscriptionsActivities = selectedInscriptions
-  //     ? selectedInscriptions.map((i) => ({
-  //         role: "student",
-  //         badge: "cours",
-  //         text: `Inscrit à ${i.cours}`,
-  //         date: i.inscritLe,
-  //         to: "/etudiant/cours",
-  //       }))
-  //     : [];
+  useEffect(() => {
+    const inscriptionsActivities = newInscription
+      ? newInscription.map((i) => ({
+          role: "student",
+          badge: "cours",
+          text: `Inscrit à ${i.cours_titre}`,
+          date: i.inscrit_le,
+          to: "/etudiant/cours",
+        }))
+      : [];
   
-  //   // const correctedSelectedSoumissions = selectedSoumissions.filter(
-  //   //   (s) => s.note !== null,
-  //   // );
-  //   // const soumissionsActivities = correctedSelectedSoumissions
-  //   //   ? correctedSelectedSoumissions.map((s) => ({
-  //   //       role: "student",
-  //   //       badge: "corrige",
-  //   //       text: `Soumission corrigée — "${s.question}"`,
-  //   //       note: s.note,
-  //   //       date: s.corrigeLe,
-  //   //       to: "/etudiant/notes",
-  //   //     }))
-  //   //   : [];
+    const soumissionsActivities = soumissionCorrige
+      ? soumissionCorrige.map((s) => ({
+          role: "student",
+          badge: "corrige",
+          text: `Soumission corrigée — "${s.texte_question}"`,
+          note: s.note,
+          date: s.corrige_le,
+          to: "/etudiant/notes",
+        }))
+      : [];
 
-  //   // const completedInscriptions = selectedInscriptions ? selectedInscriptions.filter(i => i.completeLe !== null) : []
-  //   // const coursActivities = completedInscriptions
-  //   //   ? completedInscriptions.map((c) => ({
-  //   //       role: "student",
-  //   //       badge: "soumission",
-  //   //       text: `Cours terminé — "${c.cours}"`,
-  //   //       date: c.completeLe,
-  //   //       to: "/etudiant/cours",
-  //   //     }))
-  //   //   : []
+
+    const coursTermineActivities = coursTermine
+      ? coursTermine.map((c) => ({
+          role: "student",
+          badge: "soumission",
+          text: `Cours terminé — "${c.cours_titre}"`,
+          date: c.complete_le,
+          to: "/etudiant/cours",
+        }))
+      : [];
       
   
-  //   setActivities(
-  //     [...soumissionsActivities, ...coursActivities, ...inscriptionsActivities].sort(
-  //       (a, b) => new Date(b.date) - new Date(a.date)
-  //     ).slice(0, 10)
-  //   );
+    setActivities(
+      [...soumissionsActivities, ...coursTermineActivities, ...inscriptionsActivities].sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      ).slice(0, 10)
+    );
 
-  // }, [inscriptions, soumissions])
+  }, [coursTermine, soumissionCorrige, newInscription])
 
   const filteredActivities = showAll ? activities : activities.slice(0, 5);
 
@@ -166,14 +185,14 @@ const TableauDeBordEtudiant = () => {
             />
             <StateBox icon={Check} titre={statistics.terminee} label={"Cours terminés"} />
           </div>
-          {/* <div className="flex gap-1 mx-6 w-full px-2">
+          <div className="flex gap-1 mx-6 w-full px-2">
             <div className="w-full flex gap-5">
               <div className="border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col w-full">
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-2">
                   Activité récente
                 </h2>
-                {filteredActivities.map((a) => (
-                  <RecentActivities
+                {filteredActivities.map((a, i) => (
+                  <RecentActivities key={i}
                     role={a.role}
                     badge={a.badge}
                     text={a.text}
@@ -212,7 +231,7 @@ const TableauDeBordEtudiant = () => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
         </>
       )}
     </div>
