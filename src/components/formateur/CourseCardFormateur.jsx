@@ -69,14 +69,14 @@ const CourseCardFormateur = ({ cours, etudiant = false }) => {
                   <h3 className="font-titres text-md font-semibold text-bleu-principal">
                     Complétion
                   </h3>
-                  {c.etudiants > 0 ? (
+                  {c.etudiants && c.etudiants > 0 ? (
                     <p className="text-orange-cuivre font-semibold">{c.number_of_completion}/{c.etudiants}</p>
                   ) : (
                     <p className="text-orange-cuivre font-semibold">{c.number_of_completion}/{c.lecons}</p>
                   )}
                 </div>
                 <div className="w-full">
-                  {c.etudiants > 0 ? (
+                  {c.etudiants && c.etudiants > 0 ? (
                     <ProgressBar current={c.number_of_completion} total={c.etudiants} className="w-full" />
                   ) : c.lecons > 0 ? (
                     <ProgressBar current={c.number_of_completion} total={c.lecons} className="w-full" />
