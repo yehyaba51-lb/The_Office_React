@@ -13,7 +13,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
 
   const getQuestions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php?`, {
         credentials: 'include',
       })
       const data = await response.json()
@@ -83,11 +83,11 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                       ) : col.key === 'question' ? (
                         trimQuestion(row)
                       ) : col.key === 'note' ? (
-                        <span className={row.note >= 10 
-                          ? 'text-vert-reussite bg-vert-reussite/20 px-3 py-1 rounded-full text-xs font-semibold' 
+                        <span className={row.note === null ? 'bg-gris-clair text-orange-cuivre/70 px-3 py-1 rounded-full text-xs font-semibold'
+                          : row.note >= 10 ? 'text-vert-reussite bg-vert-reussite/20 px-3 py-1 rounded-full text-xs font-semibold' 
                           : 'text-rouge-echec bg-rouge-echec/20 px-3 py-1 rounded-full text-xs font-semibold'
                         }>
-                          {row.note}
+                          {row.note === null ? 'En correction' : row.note}
                         </span>
                       ) : col.key === 'note_finale' ? (
                         row.note_finale === null ? '—' : row.note_finale
