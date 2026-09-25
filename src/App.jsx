@@ -63,10 +63,10 @@ const App = () => {
         </Route>
 
         <Route path='/' element={<MainLayout role={'Etudiant'} />}>
-          <Route path='/etudiant' element={<TableauDeBordEtudiant />} handle={{ titre: 'Tableau de bord', sousTitre: "Bonjour User1" }} />
-          <Route path="/etudiant/cours" element={<MesCoursEtudiant />} handle={{ titre: 'Mes cours', sousTitre: "User1" }} />
-          <Route path="/etudiant/exercices" element={<MesExercices />} handle={{ titre: 'Mes exercices', sousTitre: "User1" }} />
-          <Route path="/etudiant/notes" element={<MesNotes />} handle={{ titre: 'Mes Notes', sousTitre: "User1" }} />
+          <Route path='/etudiant' element={<TableauDeBordEtudiant />} handle={{ titre: 'Tableau de bord' }} />
+          <Route path="/etudiant/cours" element={<MesCoursEtudiant />} handle={{ titre: 'Mes cours' }} />
+          <Route path="/etudiant/exercices" element={<MesExercices />} handle={{ titre: 'Mes exercices' }} />
+          <Route path="/etudiant/notes" element={<MesNotes />} handle={{ titre: 'Mes Notes' }} />
           <Route path="/etudiant/cours/:id" element={<CoursDetailsEtudiant />} handle={{ titre: 'Cours introuvable', sousTitre: "Retour aux cours", backLink: '/etudiant/cours' }} />
           <Route path="/etudiant/cours/:id/:leconId" element={<LessonDetailsPage />} handle={{ titre: 'Page introuvable', sousTitre: "Retour aux cours", backLink: '/etudiant/cours/:id' }} />
           <Route path="/etudiant/exercices/:coursId/:leconId" element={<ExerciceDetailsPage />} handle={{ titre: 'Exercice', sousTitre: "Retour aux exercices", backLink: '/etudiant/exercices' }} />
