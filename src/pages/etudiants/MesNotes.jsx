@@ -1,16 +1,56 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import TableData from '../../components/shared/PageComponents/TableData'
 import { mesNotesColumns } from '../../fakeData'
+import { toast } from 'react-toastify'
+import Spinner from '../../components/shared/Spinner'
+import FetchError from '../../components/shared/FetchError'
+import { useOutletContext } from 'react-router-dom'
 
 const MesNotes = () => {
-  const mesNotesRows = [
-  { id: 1, exercice: "Structurer une page HTML", cours: "Fondations du développement web", soumisLe: "2026-07-19", note: 18 },
-  { id: 2, exercice: "Introduction aux bases de données", cours: "Bases de données", soumisLe: "2026-08-05", note: 15 },
-  { id: 3, exercice: "Modéliser un schéma", cours: "Bases de données", soumisLe: "2026-08-10", note: 8 },
-];
+  const [notes, setNotes] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [hasErrors, setHasErrors] = useState(false)
+  const currentUser = useOutletContext()
+
+  const getNotes = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${currentUser.utilisateur_id}&notes=true`, {
+        credentials: 'include'
+      })
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
+      setNotes(data)
+      return true
+    } catch (error) {
+      setNotes([])
+      return false
+    }
+  }
+
+  useEffect(() => {
+    const loadEverything = async () => {
+      const results = await Promise.all([
+        getNotes(),
+      ]);
+      setHasErrors(results.includes(false));
+
+      setLoading(false);
+    };
+
+    loadEverything();
+  }, [])
+
+  console.log(notes)
   return (
-    <div className="px-5 my-5">
-      <TableData columns={ mesNotesColumns } rows={ mesNotesRows } onClickRow={ true } admin={ false } />
+    <div className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}>
+      {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
+        <TableData columns={ mesNotesColumns } rows={ notes } onClickRow={ true } admin={ false } />
+      )}
     </div>
   )
 }
