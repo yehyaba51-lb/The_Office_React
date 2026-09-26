@@ -8,6 +8,7 @@ import FetchError from '../../components/shared/FetchError'
 
 
 const MesExercices = () => {
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const [listOfExercices, setListOfExercices] = useState({ cours: [], lecons: [], exercices: [] });
   const currentUser = useOutletContext()
   const [loading, setLoading] = useState(true);
@@ -87,7 +88,7 @@ const MesExercices = () => {
                 className="mt-5 w-full border-2 border-gris-clair rounded-2xl py-3 flex flex-col gap-2 justify-between"
               >
                 <h3 className="px-5 font-titres text-bleu-principal text-xl">
-                  {cours.cours_titre}
+                  {capitalize(cours.cours_titre)}
                 </h3>
     
                 {listOfExercices.lecons.filter((lecon) => lecon.cours_id === cours.cours_id).map((lecon) => (
@@ -98,11 +99,11 @@ const MesExercices = () => {
                     )}
                     <Link
                       to={
-                        exercice.statut !== null
+                        exercice.statut === 'a_faire'
                           ? `${location.pathname}/${cours.cours_id}/${lecon.id}`
                           : ""
                       }
-                      className={`${exercice.statut === null && "cursor-not-allowed"} flex items-center justify-between mx-5`}
+                      className={`${exercice.statut === null ? "cursor-not-allowed" : exercice.statut === 'a_faire' ? 'cursor-pointer' : 'cursor-default'} flex items-center justify-between mx-5`}
                     >
                       <div className="flex gap-4 items-center">
                         <div className="w-10 h-10 flex items-center justify-center">
@@ -125,7 +126,7 @@ const MesExercices = () => {
                           <p
                             className={`${exercice.statut === null && "text-gris-fonce/40"} text-bleu-secondaire text-lg font-semibold`}
                           >
-                            Leçon 0{lecon.lecon_ordre} - {exercice.exercice_titre}
+                            Leçon 0{lecon.lecon_ordre} - {capitalize(exercice.exercice_titre)}
                           </p>
                         </div>
                       </div>
