@@ -51,7 +51,7 @@ const NotesDetailsPage = () => {
   return (
     <div className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}>
       {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
-        !note || note.note === null ? (
+        !note ? (
           <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
             <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
               <FileX className="text-gris-fonce" size={26} />
@@ -110,9 +110,9 @@ const NotesDetailsPage = () => {
             <div className="border-2 gap-3 border-gris-clair rounded-2xl flex flex-col h-40 w-40 p-5 items-center justify-center">
               <h3 className="font-titres text-xl font-semibold">Note</h3>
               <h1
-                className={`font-titres text-4xl font-semibold ${note.note >= 10 ? "text-vert-reussite" : "text-rouge-echec"}`}
+                className={`font-titres ${note.note ? 'text-4xl' : 'text-xl text-center'} font-semibold ${note.note === null ? 'text-orange-cuivre' : note.note >= 10 ? "text-vert-reussite" : "text-rouge-echec"}`}
               >
-                {note.note}/20
+                {note.note ? `${note.note}/20` : 'En correction'}
               </h1>
             </div>
           </div>
@@ -121,16 +121,16 @@ const NotesDetailsPage = () => {
               <h3 className="text-bleu-principal font-titres font-bold text-xl">
                 CORRIGÉ LE
               </h3>
-              <p className="text-sm text-bleu-secondaire">
-                {note.corrige_le}
+              <p className={`text-sm ${note.corrige_le ? 'text-bleu-secondaire' : 'text-gris-fonce/50'}`}>
+                {note.corrige_le ? note.corrige_le : 'Pas encore corrigé'}
               </p>
             </div>
             <div className="flex flex-col gap-2 justify-start">
               <h3 className="text-bleu-principal font-titres font-bold text-xl">
                 COMMENTAIRE
               </h3>
-              <p className="text-sm text-bleu-secondaire">
-                {note.commentaire}
+              <p className={`text-sm ${note.commentaire ? 'text-bleu-secondaire' : 'text-gris-fonce/50'}`}>
+                {note.commentaire ? note.commentaire : 'Pas de commentaire'}
               </p>
             </div>
           </div>
