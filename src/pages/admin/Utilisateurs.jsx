@@ -68,7 +68,6 @@ const Utilisateurs = () => {
     ? filteredUsers.find((user) => user.id === id)
     : "";
 
-  console.log('selectedUser', selectedUser);
 
   const addUser = async (submittedUser) => {
     let errors = []
