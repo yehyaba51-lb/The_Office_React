@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { CircleX } from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import Spinner from "../shared/Spinner";
 
 const LessonBuilderModal = ({ lecon }) => {
   const navigate = useNavigate();
