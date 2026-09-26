@@ -52,6 +52,13 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
       setLecon(null)
       return
     }
+
+    const isLeconDetail = location.pathname.includes('cours/')
+
+    if(!isLeconDetail){
+      setCours(null)
+      return
+    }
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&lecon=${leconId}&one=true`, {
         credentials: 'include',
