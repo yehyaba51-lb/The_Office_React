@@ -120,7 +120,7 @@ const CoursDetails = () => {
     }
 
     try {
-      const response  = await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices.php`, {
+      const response  = await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices.php?coursId=${id}&leconId=${leconId}`, {
         method: 'POST',
         credentials: 'include',
         headers: {
