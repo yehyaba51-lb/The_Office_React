@@ -16,7 +16,7 @@ import Spinner from "../../components/shared/Spinner";
 import { toast } from "react-toastify";
 
 const CoursDetailsPage = () => {
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const { id } = useParams()
   const location = useLocation();
   const navigate = useNavigate()
@@ -127,7 +127,7 @@ const CoursDetailsPage = () => {
                             <div className="flex flex-col w-full">
                               <div className="flex flex-col">
                                 <h3 className="font-titres text-bleu-principal text-lg font-bold">
-                                  {l.lecon_titre}
+                                  {capitalize(l.lecon_titre)}
                                 </h3>
                                 <p className="text-sm text-gris-fonce">
                                   Leçon 0{i + 1}
