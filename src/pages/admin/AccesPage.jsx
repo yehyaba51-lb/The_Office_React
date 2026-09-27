@@ -276,9 +276,9 @@ const AccesPage = () => {
                     </div>
                     <div className="flex flex-col">
                       <h3 className="text-bleu-secondaire font-semibold">
-                        {access.etudiant}
+                        {capitalize(access.etudiant)}
                       </h3>
-                      <p className="text-gris-fonce text-sm">{access.cours}</p>
+                      <p className="text-gris-fonce text-sm">{capitalize(access.cours)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-5">
