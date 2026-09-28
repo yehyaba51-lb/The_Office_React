@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import Spinner from "./Spinner";
 
 const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [isDisconnecting, setIsDisconnecting] = useState(false)
   const navigate = useNavigate()
   const navRole =
@@ -83,7 +84,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
             <div className="absolute bottom-25 left-full ml-1 bg-bleu-principal border-2 border-gris-clair rounded-lg p-4 w-58 flex flex-col gap-4 shadow-lg">
               <div className="flex flex-col">
                 <h3 className="font-titres text-white text-sm font-semibold">
-                  {currentUser.prenom + " " + currentUser.nom}
+                  {capitalize(currentUser.prenom) + " " + capitalize(currentUser.nom)}
                 </h3>
                 <p className="text-gris-clair text-xs">{currentUser.email}</p>
               </div>
@@ -185,7 +186,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
             </div>
             <div className="flex flex-col text-gris-clair min-w-0">
               <h3 className="font-titres text-gris-clair text-m font-semibold">
-                {currentUser.prenom + ' ' + currentUser.nom}
+                {capitalize(currentUser.prenom) + " " + capitalize(currentUser.nom)}
               </h3>
               <p className="text-gris-clair text-xs truncate">
                 {currentUser.email}
