@@ -56,11 +56,12 @@ const CorrectionModal = ({ submitFunction, initialData, }) => {
   const telechargerFunction = () => {
     const link = document.createElement('a');
     link.href = initialData[0].url_fichier;
-    link.download = initialData && initialData[0].url_fichier.split('files/')[1];
+    link.download = initialData && initialData[0].url_fichier.split('soumissions/')[1];
     link.click();
     toast.success("Fichier téléchargé");
   };
 
+  
   return (
     <div>
       <div className="fixed bg-bleu-secondaire/20 backdrop-blur-xs inset-0"></div>
@@ -201,7 +202,7 @@ const CorrectionModal = ({ submitFunction, initialData, }) => {
                             {initialData[0].url_fichier && (
                               <div className="flex gap-1 items-center">
                                 <File size={18} />
-                                {initialData[0].url_fichier.split('files/')[1]}
+                                {initialData[0].url_fichier.split('soumissions/')[1]}
                               </div>
 
                             )}
