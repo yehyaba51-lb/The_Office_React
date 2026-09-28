@@ -69,7 +69,7 @@ const App = () => {
           <Route path="/etudiant/notes" element={<MesNotes />} handle={{ titre: 'Mes Notes' }} />
           <Route path="/etudiant/cours/:id" element={<CoursDetailsEtudiant />} handle={{ titre: 'Cours introuvable', sousTitre: "Retour aux cours", backLink: '/etudiant/cours' }} />
           <Route path="/etudiant/cours/:id/:leconId" element={<LessonDetailsPage />} handle={{ titre: 'Page introuvable', sousTitre: "Retour aux cours", backLink: '/etudiant/cours/:id' }} />
-          <Route path="/etudiant/exercices/:coursId/:leconId" element={<ExerciceDetailsPage />} handle={{ titre: 'Exercice', sousTitre: "Retour aux exercices", backLink: '/etudiant/exercices' }} />
+          <Route path="/etudiant/exercices/:exerciceId" element={<ExerciceDetailsPage />} handle={{ titre: 'Exercice', sousTitre: "Retour aux exercices", backLink: '/etudiant/exercices' }} />
           <Route path="/etudiant/notes/:id" element={<NotesDetailsPage />} handle={{ titre: 'Note', sousTitre: "Retour aux notes", backLink: '/etudiant/notes' }} />
           <Route path='/etudiant/*' element={<NotFoundPage />} handle={{ titre: 'Page introuvable', homeLink: '/etudiant' }} />
         </Route>
