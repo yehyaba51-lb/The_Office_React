@@ -4,7 +4,7 @@ import { MoveLeft, Plus, Menu } from 'lucide-react'
 import { toast } from 'react-toastify'
 
 const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [lang, setLang] = useState('fr')
   const activeClass = ( isActive ) => `${ isActive ? 'w-8 bg-orange-cuivre text-sm rounded p-0.5 flex justify-center items-center text-white font-semibold' : 'w-10 flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre'}`
   const matches = useMatches()
