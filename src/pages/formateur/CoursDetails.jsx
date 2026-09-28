@@ -377,7 +377,7 @@ const CoursDetails = () => {
                               key={exo.exercice_id}
                               className="font-semibold px-8 py-2 border-2 border-gris-clair rounded-xl text-bleu-secondaire"
                             >
-                              {exo.exercice_titre}
+                              {capitalize(exo.exercice_titre)}
                             </Link>
                           ))}
                         </div>
