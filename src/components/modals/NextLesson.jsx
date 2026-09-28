@@ -1,8 +1,30 @@
 import { BadgeCheck } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const NextLesson = ({ lecon, coursId, leconId }) => {
+const NextLesson = ({ lecon, coursId, leconId, leconsCount, leconOrdre }) => {
   const navigate = useNavigate();
+  const currentUser = useOutletContext()
+
+  const unlockNextLecon = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/progression.php?id=${coursId}&leconId=${leconId}&etudiantId=${currentUser.utilisateur_id}&nextLecon=true`, {
+        credentials: 'include',
+        method: 'POST'
+      })
+      const data = await response.json()
+
+      if(!response.ok){
+        toast.error(data.error)
+        return false
+      }
+
+      return data.has_next ? 'next' : 'last'
+    } catch (error) {
+      toast.error("Can't access next lesson")
+      return 'error'
+    }
+  }
   return (
     <>
       <div className="fixed bg-bleu-secondaire/20 backdrop-blur-xs inset-0"></div>
@@ -21,16 +43,16 @@ const NextLesson = ({ lecon, coursId, leconId }) => {
             />
             <input
               type="button"
-              onClick={() => {
-                {
-                  leconId === ''
-                    ? navigate(`/etudiant/cours`)
-                    : navigate(
-                        `/etudiant/cours/${coursId}/${Number(leconId) + 1}`,
-                      );
+              onClick={async () => {
+                const result = await unlockNextLecon()
+
+                if (result === 'next') {
+                  navigate(`/etudiant/cours/${coursId}/${Number(leconId) + 1}`)
+                } else if(result === 'last'){
+                  navigate('/etudiant/cours')
                 }
               }}
-              value={leconId === '' ? `Cours terminé` : `Leçon suivante`}
+              value={leconOrdre === leconsCount ? `Cours terminé` : `Leçon suivante`}
               className={`text-sm w-5/6 bg-orange-cuivre rounded-xl px-5 py-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}
             />
           </div>
