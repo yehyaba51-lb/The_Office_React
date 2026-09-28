@@ -100,7 +100,7 @@ const MesExercices = () => {
                     <Link
                       to={
                         exercice.statut === 'a_faire'
-                          ? `${location.pathname}/${cours.cours_id}/${lecon.id}`
+                          ? `${location.pathname}/${exercice.exercice_id}`
                           : ""
                       }
                       className={`${exercice.statut === null ? "cursor-not-allowed" : exercice.statut === 'a_faire' ? 'cursor-pointer' : 'cursor-default'} flex items-center justify-between mx-5`}
