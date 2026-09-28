@@ -1,17 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useLocation,
   useNavigate,
+  useOutletContext,
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { File, Download, Check, Play, FileX } from "lucide-react";
-import {
-  fakeLeconTexteCours4,
-  fakeLeconPdfCours4,
-  fakeLeconVideoCours4,
-  fakeLecons,
-} from "../../fakeData";
+import { File, Download, Check, Play, ListChecks } from "lucide-react";
 import { toast } from "react-toastify";
 import NextLesson from "../../components/modals/NextLesson";
 import Spinner from "../../components/shared/Spinner";
@@ -23,7 +18,7 @@ const LessonDetailsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { id, leconId } = useParams();
-  const [content, setContent] = useState({ videos: {}, textes: {}, pdfs: {} })
+  const [content, setContent] = useState({ lecon: {}, lecon_count: {}, progression_lecon: {}, videos: {}, textes: {}, pdfs: {} })
   const [hasErrors, setHasErrors] = useState(false)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
@@ -33,11 +28,12 @@ const LessonDetailsPage = () => {
   const videoRef = useRef(null);
   const [searchParams] = useSearchParams();
   const showNext = searchParams.get("next") === "true";
+  const currentUser = useOutletContext()
 
   const getLeconContent = async () => {
     setNotFound(false)
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&lecon=${leconId}&allContent=true`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&lecon=${leconId}&etudiantId=${currentUser.utilisateur_id}&allContent=true`, {
         credentials: 'include',
       })
       const data = await response.json()
@@ -87,17 +83,19 @@ const LessonDetailsPage = () => {
     setVideoDone(false);
   }, [leconId]);
 
-  console.log();
+  console.log(content.lecon_count.lecons_count);
   
   return (
-    <>
+    <div className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-4"}`}>
       {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
-        <div className="pl-5 flex gap-5 border-2 border-gris-clair rounded-2xl m-5">
+        <div className="w-full pl-5 flex gap-5 border-2 border-gris-clair rounded-2xl m-5">
           {showNext && (
             <NextLesson
               lecon={capitalize(content.lecon.lecon_titre)}
               coursId={id}
               leconId={leconId}
+              leconsCount={content.lecon_count.lecons_count}
+              leconOrdre={content.lecon.lecon_ordre}
             />
           )}
 
@@ -112,7 +110,18 @@ const LessonDetailsPage = () => {
                   : "Pas de contenu"}
               </p>
               <div className="mt-auto flex flex-col gap-2">
-                {content.videos && content.videos.length > 0
+                {content.progression_lecon.complete_le && content.pdfs && content.pdfs.length > 0 ? (
+                  <div
+                    onClick={() => downloadFunction()}
+                    className="w-full mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
+                  >
+                    <div className="flex gap-1 items-center">
+                      <File size={18} />
+                      {content.pdfs[0].url_pdf.split('pdfs/')[1]}
+                    </div>
+                    <Download size={18} />
+                  </div>
+                ) : content.videos && content.videos.length > 0
                   ? content.pdfs && content.pdfs.length > 0 &&
                     videoAlmostDone && (
                       <div
@@ -139,7 +148,15 @@ const LessonDetailsPage = () => {
                       </div>
                     )}
               </div>
-              {content.videos && content.videos.length > 0 ? (
+              {content.progression_lecon.complete_le ? (
+                <button
+                  onClick={() => navigate('/etudiant/exercices')}
+                  className={`w-full flex justify-center items-center gap-2 rounded-lg px-5 py-2 bg-orange-cuivre text-white cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`}
+                >
+                  <ListChecks className={"text-white font-semibold"} />
+                  Voir les exercices
+                </button>
+              ) : content.videos && content.videos.length > 0 ? (
                 <button
                   onClick={() => navigate(`${location.pathname}?next=true`)}
                   className={`w-full flex justify-center items-center gap-2 rounded-lg px-5 py-2 ${videoDone ? "bg-orange-cuivre text-white cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out" : "bg-orange-cuivre/20 text-orange-cuivre/55 cursor-not-allowed"}`}
@@ -193,7 +210,7 @@ const LessonDetailsPage = () => {
           </>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
