@@ -8,7 +8,7 @@ import FetchError from "../../components/shared/FetchError";
 
 const ExerciceDetailsPage = () => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
-  const { coursId, leconId } = useParams();
+  const { exerciceId } = useParams();
   const [questions, setQuestions] = useState([])
   const [choix, setChoix] = useState([])
   const [hasErrors, setHasErrors] = useState([])
@@ -21,7 +21,7 @@ const ExerciceDetailsPage = () => {
 
     const getQuestions = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php?id=${coursId}&leconId=${leconId}&allExercices=true`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php?id=${exerciceId}&allExercices=true`, {
           credentials: 'include',
         })
         const data = await response.json();
@@ -43,7 +43,7 @@ const ExerciceDetailsPage = () => {
   
     const getChoix = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/choix.php?id=${coursId}&leconId=${leconId}&allExercices=true`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/choix.php?id=${exerciceId}&allExercices=true`, {
           credentials: 'include',
         })
         const data = await response.json();
@@ -70,7 +70,7 @@ const ExerciceDetailsPage = () => {
         setLoading(false)
       }
       loadEverything()
-    }, [coursId, leconId]);
+    }, [exerciceId]);
 
 
   const submitFunction = (id) => {
@@ -189,7 +189,6 @@ const ExerciceDetailsPage = () => {
             const selectedQuestions = questions.filter(q => q.exercice_id === e)
             return(
               <div key={i} className="flex flex-col w-full">
-                <h3 className="py-3 w-4/5 mx-auto text-xl text-bleu-secondaire font-semibold">Exercice {i + 1} - {selectedQuestions[0].exercice_titre}</h3>
                 {selectedQuestions.map((q, index) => {
                   const choixForThisQuestion = choix.filter(c => c.question_id === q.question_id)
                   return (
