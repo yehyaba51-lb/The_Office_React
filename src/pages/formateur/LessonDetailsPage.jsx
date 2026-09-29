@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   useNavigate,
+  useOutletContext,
   useParams,
   useSearchParams,
 } from "react-router-dom";
@@ -20,12 +21,13 @@ const LessonDetailsPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
   const [searchParams] = useSearchParams();
+  const currentUser = useOutletContext()
 
 
   const getLeconContent = async () => {
     setNotFound(false)
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&lecon=${leconId}&allContent=true`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&lecon=${leconId}&userId=${currentUser.utilisateur_id}&allContent=true`, {
         credentials: 'include',
       })
       const data = await response.json()
