@@ -52,10 +52,12 @@ const CorrectionModal = ({ submitFunction, initialData, }) => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  console.log(initialData);
+  
 
   const telechargerFunction = () => {
     const link = document.createElement('a');
-    link.href = initialData[0].url_fichier;
+    link.href = initialData && `${import.meta.env.VITE_UPLOADS_URL}${initialData[0].url_fichier}`
     link.download = initialData && initialData[0].url_fichier.split('soumissions/')[1];
     link.click();
     toast.success("Fichier téléchargé");
