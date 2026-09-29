@@ -33,7 +33,7 @@ const LessonDetailsPage = () => {
   const getLeconContent = async () => {
     setNotFound(false)
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&lecon=${leconId}&etudiantId=${currentUser.utilisateur_id}&allContent=true`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/lecons.php?id=${id}&lecon=${leconId}&userId=${currentUser.utilisateur_id}&allContent=true`, {
         credentials: 'include',
       })
       const data = await response.json()
