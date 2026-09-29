@@ -65,15 +65,13 @@ const LessonDetailsPage = () => {
   
   const showNext = searchParams.get("next") === "true";
 
-  const downloadFunction = (url, fileName) => {
+  const telechargerFunction = () => {
     const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
+    link.href = content && `${import.meta.env.VITE_UPLOADS_URL}${content.pdfs[0].url_pdf}`;
+    link.download = content && content.pdfs[0].url_pdf.split('pdfs/')[1];
     link.click();
     toast.success("Fichier téléchargé");
   };
-
-
 
   useEffect(() => {
     setIsPlaying(false);
@@ -115,7 +113,7 @@ const LessonDetailsPage = () => {
                 <div className="mt-auto flex flex-col gap-2">
                   {content.pdfs && content.pdfs.length > 0 && (
                         <div
-                          onClick={() => downloadFunction(content.pdfs[0].url_pdf, content.pdfs[0].url_pdf.split('/').pop())}
+                          onClick={() => telechargerFunction()}
                           className="w-full mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
                         >
                           <div className="flex gap-1 items-center">
