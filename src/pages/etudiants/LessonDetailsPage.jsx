@@ -110,7 +110,7 @@ const LessonDetailsPage = () => {
                   : "Pas de contenu"}
               </p>
               <div className="mt-auto flex flex-col gap-2">
-                {content.progression_lecon.complete_le && content.pdfs && content.pdfs.length > 0 ? (
+                {content.progression_lecon && content.progression_lecon.complete_le && content.pdfs && content.pdfs.length > 0 ? (
                   <div
                     onClick={() => downloadFunction()}
                     className="w-full mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
@@ -148,7 +148,7 @@ const LessonDetailsPage = () => {
                       </div>
                     )}
               </div>
-              {content.progression_lecon.complete_le ? (
+              {content.progression_lecon && content.progression_lecon.complete_le ? (
                 <button
                   onClick={() => navigate('/etudiant/exercices')}
                   className={`w-full flex justify-center items-center gap-2 rounded-lg px-5 py-2 bg-orange-cuivre text-white cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`}
