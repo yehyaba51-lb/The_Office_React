@@ -1,5 +1,5 @@
 import { BadgeCheck } from "lucide-react";
-import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const NextLesson = ({ lecon, coursId, leconId, leconsCount, leconOrdre }) => {
@@ -19,7 +19,8 @@ const NextLesson = ({ lecon, coursId, leconId, leconsCount, leconOrdre }) => {
         return false
       }
 
-      return data.has_next ? 'next' : 'last'
+    
+      return data
     } catch (error) {
       toast.error("Can't access next lesson")
       return 'error'
@@ -46,9 +47,9 @@ const NextLesson = ({ lecon, coursId, leconId, leconsCount, leconOrdre }) => {
               onClick={async () => {
                 const result = await unlockNextLecon()
 
-                if (result === 'next') {
-                  navigate(`/etudiant/cours/${coursId}/${Number(leconId) + 1}`)
-                } else if(result === 'last'){
+                if (result.has_next) {
+                  navigate(`/etudiant/cours/${coursId}/${result.next_lecon_id}`)
+                } else{
                   navigate('/etudiant/cours')
                 }
               }}
