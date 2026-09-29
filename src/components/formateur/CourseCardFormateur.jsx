@@ -5,7 +5,7 @@ import NoImageFound from "../../assets/no-image-found.png";
 const CourseCardFormateur = ({ cours, etudiant = false }) => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
   const descriptionSlice = (description) => {
-    return description.slice(0, 150) + "...";
+    return description.slice(0, 50) + "...";
   };
 
   return (
