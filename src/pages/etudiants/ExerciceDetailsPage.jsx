@@ -16,7 +16,7 @@ const ExerciceDetailsPage = () => {
   const [loading, setLoading] = useState(true)
   const [selectedChoix, setSelectedChoix] = useState({})
   const [inputs, setInputs] = useState({})
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState({});
   const navigate = useNavigate()
   const currentUser = useOutletContext()
 
@@ -133,7 +133,7 @@ const ExerciceDetailsPage = () => {
         for (let [k, v] of formData.entries()) console.log(k, v)
 
         try{
-          const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?file=true`, {
+          const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?questionId=${question_id}&file=true`, {
             credentials: 'include',
             method: 'POST',
             body: formData
@@ -163,7 +163,7 @@ const ExerciceDetailsPage = () => {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?text=true`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?questionId=${soumission_data.question_id}&text=true`, {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -307,11 +307,11 @@ const ExerciceDetailsPage = () => {
                                 htmlFor="file_upload"
                                 className={`${soumission ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-gris-clair/70 transition duration-300 ease-in-out'}    flex items-center justify-center w-full resize-none border-2 border-gris-clair rounded-lg p-3 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 `}
                               >
-                                {file? (
-                                  file.name
-                                  ) : soumission ? (
-                                    soumission.url_fichier.split('soumissions/')[1]
-                                  ) :(
+                                {files[q.question_id] ? (
+                                  files[q.question_id].name
+                                ) : soumission ? (
+                                    soumission.url_fichier ? soumission.url_fichier.split('soumissions/')[1] : 'Fichier soumis'
+                                  ) : (
                                     <>
                                       <Paperclip className="mr-2" size={22} /> Glisser un
                                       fichier ici, ou{" "}
@@ -330,7 +330,7 @@ const ExerciceDetailsPage = () => {
                                 disabled={soumission}
                                 name="file"
                                 onChange={(e) => {
-                                  setFile(e.target.files[0])
+                                  setFiles({ ...files, [q.question_id]: e.target.files[0] })
                                 }}
                                 id="file_upload"
                                 className="hidden"
@@ -353,7 +353,7 @@ const ExerciceDetailsPage = () => {
                                   toast.success(`Question soumis`);
                                 }
                               } else {
-                                const success = await addSoumissionFile(file, currentUser.utilisateur_id, q.question_id)
+                                const success = await addSoumissionFile(files[q.question_id], currentUser.utilisateur_id, q.question_id)
                                 if(success) {
                                   toast.success(`Question soumis`);
                                 }
