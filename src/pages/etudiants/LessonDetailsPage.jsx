@@ -6,7 +6,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { File, Download, Check, Play, ListChecks } from "lucide-react";
+import { File, Download, Check, Play, ListChecks, FileX } from "lucide-react";
 import { toast } from "react-toastify";
 import NextLesson from "../../components/modals/NextLesson";
 import Spinner from "../../components/shared/Spinner";
@@ -68,14 +68,14 @@ const LessonDetailsPage = () => {
     loadEverything()
   }, [id, leconId])
 
-  console.log('content', content);
-  
-
-  
-
-  const downloadFunction = () => {
-    toast.success("Fichier PDF téléchargé");
+  const telechargerFunction = () => {
+    const link = document.createElement('a');
+    link.href = content && `${import.meta.env.VITE_UPLOADS_URL}${content.pdfs[0].url_pdf}`;
+    link.download = content && content.pdfs[0].url_pdf.split('pdfs/')[1];
+    link.click();
+    toast.success("Fichier téléchargé");
   };
+
 
   useEffect(() => {
     setIsPlaying(false);
@@ -88,7 +88,26 @@ const LessonDetailsPage = () => {
   return (
     <div className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-4"}`}>
       {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
-        <div className="w-full pl-5 flex gap-5 border-2 border-gris-clair rounded-2xl m-5">
+        notFound ? (
+          <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
+            <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
+              <FileX className="text-gris-fonce" size={26} />
+            </div>
+            <h3 className="text-bleu-principal font-titres font-semibold text-lg">
+              Leçon introuvable
+            </h3>
+            <p className="text-gris-fonce text-sm max-w-sm">
+              Ce Leçon n'existe pas ou a été supprimé. Vérifiez le lien ou
+              retournez à la liste des cours.
+            </p>
+            <button
+              onClick={() => navigate("/etudiant/cours")}
+              className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
+            >
+              Retour aux cours
+            </button>
+          </div>
+        ) : <div className="w-full pl-5 flex gap-5 border-2 border-gris-clair rounded-2xl m-5">
           {showNext && (
             <NextLesson
               lecon={capitalize(content.lecon.lecon_titre)}
@@ -112,7 +131,7 @@ const LessonDetailsPage = () => {
               <div className="mt-auto flex flex-col gap-2">
                 {content.progression_lecon && content.progression_lecon.complete_le && content.pdfs && content.pdfs.length > 0 ? (
                   <div
-                    onClick={() => downloadFunction()}
+                    onClick={() => telechargerFunction()}
                     className="w-full mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
                   >
                     <div className="flex gap-1 items-center">
@@ -125,7 +144,7 @@ const LessonDetailsPage = () => {
                   ? content.pdfs && content.pdfs.length > 0 &&
                     videoAlmostDone && (
                       <div
-                        onClick={() => downloadFunction()}
+                        onClick={() => telechargerFunction()}
                         className="w-full mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
                       >
                         <div className="flex gap-1 items-center">
@@ -137,7 +156,7 @@ const LessonDetailsPage = () => {
                     )
                   : content.pdfs && content.pdfs.length > 0 && (
                       <div
-                        onClick={() => downloadFunction()}
+                        onClick={() => telechargerFunction()}
                         className="w-full mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
                       >
                         <div className="flex gap-1 items-center">
