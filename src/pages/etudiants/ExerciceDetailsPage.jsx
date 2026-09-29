@@ -156,8 +156,7 @@ const ExerciceDetailsPage = () => {
   }
 
   const addSoumission = async (soumission_data) => {
-    const textRegex = /^[a-zA-ZÀ-ÿ0-9' :\-]+$/
-    if(!soumission_data.soumission || soumission_data.soumission === "" || !textRegex.test(soumission_data.soumission)){
+    if(!soumission_data.soumission || soumission_data.soumission === ""){
       toast.error('Soumission invalide ou pas rempli')
       return false
     }
@@ -360,6 +359,7 @@ const ExerciceDetailsPage = () => {
                               }
                             }}
                             type="button"
+                            disabled={soumission}
                             value={soumission ? 'Deja soumis' : 'Soumis'}
                             className={`${soumission ? 'w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire' : 'w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white'} font-semibold px-5 py-1 rounded-xl self-end mt-4`}
                           /> 
