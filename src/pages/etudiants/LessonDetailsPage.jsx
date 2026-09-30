@@ -20,6 +20,7 @@ const LessonDetailsPage = () => {
   const { id, leconId } = useParams();
   const [content, setContent] = useState({ lecon: {}, lecon_count: {}, progression_lecon: {}, videos: {}, textes: {}, pdfs: {} })
   const [hasErrors, setHasErrors] = useState(false)
+  const [accessDenied, setAccessDenied] = useState(false)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [videoAlmostDone, setVideoAlmostDone] = useState(false);
@@ -43,10 +44,13 @@ const LessonDetailsPage = () => {
         return true
       }
 
-      if(!response.ok){
-        toast.error(data.error)
-        return false
-      }
+      if(response.status === 403){
+          setAccessDenied(true)
+          return 
+        } else if(!response.ok){
+          toast.error(data.error)
+          return false
+        }
 
       setContent(data)
       return true
@@ -87,7 +91,7 @@ const LessonDetailsPage = () => {
   
   return (
     <div className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-4"}`}>
-      {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
         notFound ? (
           <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
             <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
