@@ -13,6 +13,7 @@ const ExerciceDetailsPage = () => {
   const [choix, setChoix] = useState([])
   const [soumissions, setSoumissions] = useState([])
   const [hasErrors, setHasErrors] = useState([])
+  const [accessDenied, setAccessDenied] = useState(false)
   const [loading, setLoading] = useState(true)
   const [selectedChoix, setSelectedChoix] = useState({})
   const [inputs, setInputs] = useState({})
@@ -27,7 +28,10 @@ const ExerciceDetailsPage = () => {
         })
         const data = await response.json();
   
-        if(!response.ok){
+        if(response.status === 403){
+          setAccessDenied(true)
+          return 
+        } else if(!response.ok){
           toast.error(data.error)
           return false
         }
@@ -49,7 +53,10 @@ const ExerciceDetailsPage = () => {
         })
         const data = await response.json();
   
-        if(!response.ok){
+        if(response.status === 403){
+          setAccessDenied(true)
+          return 
+        } else if(!response.ok){
           toast.error(data.error)
           return false
         }
@@ -69,6 +76,14 @@ const ExerciceDetailsPage = () => {
           credentials: 'include'
         })
         const data = await response.json()
+
+        if(response.status === 403){
+          setAccessDenied(true)
+          return 
+        } else if(!response.ok){
+          toast.error(data.error)
+          return false
+        }
         
         const obj = {}
         const inputObj = {}
@@ -186,7 +201,7 @@ const ExerciceDetailsPage = () => {
   
   return (
     <div className={`px-5 py-3 flex flex-col gap-5 my-3 items-center ${loading ? "mt-25" : "my-8"}`}>
-      {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
         !questions ? (
           <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
             <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
