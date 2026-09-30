@@ -10,7 +10,7 @@ const NotesDetailsPage = () => {
   const [note, setNote] = useState([])
   const [loading, setLoading] = useState(true)
   const [hasErrors, setHasErrors] = useState(false)
-  const currentUser = useOutletContext()
+  const [accessDenied, setAccessDenied] = useState(false)
   const { id } = useParams();
   const navigate = useNavigate()
 
@@ -21,7 +21,10 @@ const NotesDetailsPage = () => {
       })
       const data = await response.json()
 
-      if(!response.ok){
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
         toast.error(data.error)
         return false
       }
@@ -50,7 +53,7 @@ const NotesDetailsPage = () => {
 
   return (
     <div className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}>
-      {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
         !note ? (
           <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
             <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
