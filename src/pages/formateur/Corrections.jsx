@@ -13,6 +13,7 @@ const Corrections = () => {
   const [soumissions, setSoumissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false)
   const currentUser = useOutletContext()
   const showCorrecting = searchParams.get("correct") === "true";
   const id = searchParams.get("id");
@@ -27,7 +28,10 @@ const Corrections = () => {
       })
       const data = await response.json();
 
-      if(!response.ok){
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
         toast.error(data.error)
         return false
       }
@@ -111,11 +115,7 @@ const Corrections = () => {
     <div
       className={`flex flex-col justify-center items-center ${loading && "mt-25"}`}
     >
-      {loading ? (
-        <Spinner />
-      ) : hasError ? (
-        <FetchError />
-      ) : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : (
         <>
           <div className="flex px-5 mt-5 gap-4 items-center w-full">
             {showCorrecting && (
