@@ -5,7 +5,7 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Inbox } from "lucide-react";
 import AddQuestionModal from "../../components/modals/AddQuestionModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import ConfirmModal from "../../components/modals/ConfirmModal";
@@ -242,7 +242,14 @@ const ExercicePage = () => {
         name={"la question"}
         />
       )}
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : questions.length === 0 ? (
+        <div className="mt-10 flex flex-col items-center justify-center gap-4">
+          <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
+            <Inbox size={28} className="text-bleu-secondaire" />
+          </div>
+          <p className="text-bleu-principal font-semibold">Aucune Question créée</p>
+        </div>
+      ) : (
         <div className={`flex flex-col px-5 gap-5 mt-5 w-full`}>
           {questions.map((question) => {
             const choixForThisQuestion = choix ? choix.filter(c => c.question_id === question.question_id) : []
