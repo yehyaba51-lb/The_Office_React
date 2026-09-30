@@ -18,6 +18,7 @@ const ExercicePage = () => {
   const [choix, setChoix] = useState([]);
   const [loading, setLoading] = useState(true)
   const [hasErrors, setHasErrors] = useState(false)
+  const [accessDenied, setAccessDenied] = useState(false)
   const navigate = useNavigate();
   const location = useLocation();
   const { id, exerciceId } = useParams();
@@ -36,7 +37,10 @@ const ExercicePage = () => {
       })
       const data = await response.json();
 
-      if(!response.ok){
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
         toast.error(data.error)
         return false
       }
@@ -58,7 +62,10 @@ const ExercicePage = () => {
       })
       const data = await response.json();
 
-      if(!response.ok){
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
         toast.error(data.error)
         return false
       }
@@ -235,7 +242,7 @@ const ExercicePage = () => {
         name={"la question"}
         />
       )}
-      {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
         <div className={`flex flex-col px-5 gap-5 mt-5 w-full`}>
           {questions.map((question) => {
             const choixForThisQuestion = choix ? choix.filter(c => c.question_id === question.question_id) : []
