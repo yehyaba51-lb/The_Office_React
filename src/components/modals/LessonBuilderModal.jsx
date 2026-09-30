@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { CircleX } from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import Spinner from "../shared/Spinner";
 
 const LessonBuilderModal = ({ lecon }) => {
   const navigate = useNavigate();
@@ -97,6 +98,7 @@ const LessonBuilderModal = ({ lecon }) => {
         return false
       }
 
+      setLoading(false)
       return true
     } catch (error) {
       setLoading(false)
@@ -140,6 +142,7 @@ const LessonBuilderModal = ({ lecon }) => {
         return false
       }
 
+      setLoading(false)
       return true
     } catch (error) {
       setLoading(false)
@@ -156,6 +159,11 @@ const LessonBuilderModal = ({ lecon }) => {
 
     if(!allowedVideoTypes.includes(video.file.type)){
       toast.error("Type de fichier invalide");
+      return false;
+    }
+
+    if(video.size > 500 * 1024 * 1024){
+      toast.error("Taille de fichier trop grande");
       return false;
     }
 
@@ -178,6 +186,7 @@ const LessonBuilderModal = ({ lecon }) => {
         return false
       }
 
+      setLoading(false)
       return true
     } catch (error) {
       setLoading(false)
@@ -359,13 +368,14 @@ const LessonBuilderModal = ({ lecon }) => {
                   value={steps === 1 ? "Annule" : `Passer`}
                   className="text-sm w-5/6 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
                 />
-                <input
+                <button
                   type="button"
                   onClick={
                     steps === 1 ? (
                       async () => {
                         setLoading(true)
                         const success = await createLecon({titre, ordre})
+                        
                         if(success) setSteps((prev) => prev + 1)
                       }
                     ) : steps === 2 ? (
@@ -391,10 +401,11 @@ const LessonBuilderModal = ({ lecon }) => {
                       }
                     )
                   }
-                  value={steps === 4 ? `Terminer` : "Suivant"}
                   className={`text-sm w-5/6 ${canProceed ? "bg-orange-cuivre" : "bg-orange-cuivre/20"} rounded-xl p-2 text-white font-semibold ${canProceed ? "cursor-pointer hover:bg-orange-cuivre/90 transition duration-300 ease-in-out" : "cursor-not-allowed"} `}
                   disabled={!canProceed}
-                />
+                >
+                  {loading ? <Spinner login={true} /> : steps === 4 ? `Terminer` : "Suivant"}
+                </button>
               </div>
             </div>
           </form>
