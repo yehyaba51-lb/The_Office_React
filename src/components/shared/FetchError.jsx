@@ -1,16 +1,20 @@
-import { WifiOff } from "lucide-react";
+import { WifiOff, LockKeyhole } from "lucide-react";
 
-const FetchError = () => {
+const FetchError = ({ accessDenied }) => {
   return (
     <div className="flex flex-col items-center gap-3 text-center py-10">
       <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
-        <WifiOff size={28} className="text-bleu-secondaire" />
+        {accessDenied ? (
+            <LockKeyhole size={28} className="text-bleu-secondaire" />
+          ) : (
+            <WifiOff size={28} className="text-bleu-secondaire" />
+          )}
       </div>
       <h3 className="font-titres text-bleu-principal font-semibold text-lg">
-        Impossible de charger les données
+        {accessDenied ? 'Accès refusé' : 'Impossible de charger les données.'}
       </h3>
       <p className="text-gris-fonce text-sm">
-        Vérifiez votre connexion et réessayez.
+        {accessDenied ? "Vous n'avez pas la permission d'accéder à cette page" : 'Vérifiez votre connexion et réessayez.'}
       </p>
     </div>
   );
