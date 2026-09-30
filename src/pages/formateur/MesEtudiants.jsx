@@ -14,6 +14,7 @@ const MesEtudiants = () => {
   const [loading, setLoading] = useState(true);
   const currentUser = useOutletContext()
   const [hasError, setHasError] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false)
   const [filter, setFilter] = useState("tous");
   const [search, setSearch] = useState("");
 
@@ -24,10 +25,14 @@ const MesEtudiants = () => {
       })
       const data = await response.json();
 
-      if(!response.ok){
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
         toast.error(data.error)
         return false
       }
+
       setCours(data);
       return true;
     } catch (error) {
@@ -43,8 +48,12 @@ const MesEtudiants = () => {
       })
       const data = await response.json()
   
-      if(!response.ok){
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
         toast.error(data.error)
+        return false
       }
         
       setInscriptions(data)
@@ -66,8 +75,6 @@ const MesEtudiants = () => {
 
     loadEverything();
   }, [currentUser]);
-
-  console.log(inscriptions);
   
 
   const filteredEtudiants = inscriptions ? inscriptions.filter((s) => {
@@ -86,11 +93,7 @@ const MesEtudiants = () => {
     <div
       className={`flex flex-col gap-4 justify-center items-center ${loading && "mt-25"}`}
     >
-      {loading ? (
-        <Spinner />
-      ) : hasError ? (
-        <FetchError />
-      ) : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : (
         <>
           <div className="flex px-5 mt-5 gap-4 items-center w-full">
             <SearchBar
