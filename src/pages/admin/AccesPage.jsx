@@ -9,7 +9,7 @@ import FetchError from "../../components/shared/FetchError";
 import SearchBar from "../../components/shared/SearchBar";
 
 const AccesPage = () => {
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [access, setAccess] = useState([]);
   const [users, setUsers] = useState([]);
   const [cours, setCours] = useState([]);
