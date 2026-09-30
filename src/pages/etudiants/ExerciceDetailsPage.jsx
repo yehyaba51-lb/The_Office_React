@@ -130,8 +130,6 @@ const ExerciceDetailsPage = () => {
         formData.append('question_id', question_id)
         formData.append('file', file)
 
-        for (let [k, v] of formData.entries()) console.log(k, v)
-
         try{
           const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?questionId=${question_id}&file=true`, {
             credentials: 'include',
@@ -185,7 +183,6 @@ const ExerciceDetailsPage = () => {
     }
   }
   
-  console.log(soumissions);
   
   return (
     <div className={`px-5 py-3 flex flex-col gap-5 my-3 items-center ${loading ? "mt-25" : "my-8"}`}>
@@ -217,6 +214,7 @@ const ExerciceDetailsPage = () => {
                 {selectedQuestions.map((q, index) => {
                   const choixForThisQuestion = choix && choix.filter(c => c.question_id === q.question_id)
                   const soumission = soumissions.find(s => s.question_id === q.question_id)
+                  const isEditable = !soumission || (soumission.note !== null && soumission.note < 10)
                   return (
                     <div
                       key={index}
@@ -241,14 +239,14 @@ const ExerciceDetailsPage = () => {
                                 <label
                                   key={c.choix_id}
                                   htmlFor={`choix-${c.choix_id}`}
-                                  className={`border-2 border-gris-clair rounded-lg py-2 px-4 ${c.ordre === selectedChoix[q.question_id] ? "bg-bleu-secondaire/30 cursor-default" : soumission ? 'cursor-not-allowed' : "text-bleu-principal cursor-pointer hover:bg-gris-clair/70"} transition duration-300 ease-in-out`}
+                                  className={`border-2 border-gris-clair rounded-lg py-2 px-4 ${c.ordre === selectedChoix[q.question_id] ? "bg-bleu-secondaire/30 cursor-default" : !isEditable ? 'cursor-not-allowed' : "text-bleu-principal cursor-pointer hover:bg-gris-clair/70"} transition duration-300 ease-in-out`}
                                 >
                                   <input
                                     type="radio"
                                     id={`choix-${c.choix_id}`}
                                     name={`question-${q.question_id}`}
                                     className="hidden"
-                                    disabled={soumission}
+                                    disabled={!isEditable}
                                     checked={selectedChoix[q.question_id] === c.ordre}
                                     onChange={() => setSelectedChoix({ ...selectedChoix, [q.question_id]: c.ordre })}
                                   />
@@ -280,9 +278,9 @@ const ExerciceDetailsPage = () => {
                                   toast.success(`Question soumis`);
                                 }
                               }}
-                              disabled={soumission}
-                              value={soumission ? 'Deja soumis' : 'Soumis'}
-                              className={`${soumission ? 'w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire' : 'w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white'} font-semibold px-5 py-1.5  rounded-xl mt-4`}
+                              disabled={!isEditable}
+                              value={!isEditable ? 'Deja soumis' : soumission ? 'Soumettre à nouveau' : 'Soumettre'}
+                              className={`${!isEditable ? 'w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire' : soumission ? 'w-50 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white' : 'w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white'} font-semibold px-5 py-1 rounded-xl self-end mt-4`}
                             />
                           </form>
                         </>
@@ -290,7 +288,7 @@ const ExerciceDetailsPage = () => {
                         <form action="" method="post" className="flex flex-col">
                           {q.question_type === "Input" ? (
                             <textarea
-                              readOnly={soumission}
+                              readOnly={!isEditable}
                               type="text"
                               name="commentaire"
                               id="commentaire"
@@ -304,7 +302,7 @@ const ExerciceDetailsPage = () => {
                             <>
                               <label
                                 htmlFor="file_upload"
-                                className={`${soumission ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-gris-clair/70 transition duration-300 ease-in-out'}    flex items-center justify-center w-full resize-none border-2 border-gris-clair rounded-lg p-3 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 `}
+                                className={`${!isEditable ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-gris-clair/70 transition duration-300 ease-in-out'}    flex items-center justify-center w-full resize-none border-2 border-gris-clair rounded-lg p-3 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 `}
                               >
                                 {files[q.question_id] ? (
                                   files[q.question_id].name
@@ -326,7 +324,7 @@ const ExerciceDetailsPage = () => {
                               </label>
                               <input
                                 type="file"
-                                disabled={soumission}
+                                disabled={!isEditable}
                                 name="file"
                                 onChange={(e) => {
                                   setFiles({ ...files, [q.question_id]: e.target.files[0] })
@@ -359,9 +357,9 @@ const ExerciceDetailsPage = () => {
                               }
                             }}
                             type="button"
-                            disabled={soumission}
-                            value={soumission ? 'Deja soumis' : 'Soumis'}
-                            className={`${soumission ? 'w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire' : 'w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white'} font-semibold px-5 py-1 rounded-xl self-end mt-4`}
+                            disabled={!isEditable}
+                            value={!isEditable ? 'Déjà soumis' : soumission ? 'Soumettre à nouveau' : 'Soumettre'}
+                            className={`${!isEditable ? 'w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire' : soumission ? 'w-50 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white' : 'w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white'} font-semibold px-5 py-1 rounded-xl self-end mt-4`}
                           /> 
                         </form>
                       )}
