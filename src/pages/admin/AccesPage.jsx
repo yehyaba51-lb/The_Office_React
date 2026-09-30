@@ -157,7 +157,7 @@ const AccesPage = () => {
   };
 
   const filtersEtudiants = etudiants ? etudiants.filter(e => `${e.nom} ${e.prenom}`.toLowerCase().includes(search.toLowerCase())) : ""
-  const appliableCours = cours ? cours.filter(c => c.lecons > 0) : ''
+  const appliableCours = cours ? cours.filter(c => c.lecons > 0) : []
   
   return (
     <div className="flex flex-col justify-start">
@@ -234,7 +234,7 @@ const AccesPage = () => {
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
                     placeholder="Entrer votre email"
                   >
-                    {appliableCours.lecons > 0 ? appliableCours.map((cours) => (
+                    {appliableCours.length > 0 ? appliableCours.map((cours) => (
                       <option value={Number(cours.id)} key={cours.id}>
                         {capitalize(cours.titre)}
                       </option>
@@ -254,7 +254,6 @@ const AccesPage = () => {
 
                   const etudiant = filtersEtudiants ? filtersEtudiants.find(e => Number(e.id) === Number(etudiantInput)) : ''
                   const cours = appliableCours ? appliableCours.find(c => Number(c.id) === Number(coursInput)) : ''
-                  console.log(cours);
                   
                   cours && setNewAccessCours(capitalize(cours.titre));
                   etudiant && setNewAccessEtudiant(`${capitalize(etudiant.prenom)} ${capitalize(etudiant.nom)}`);
