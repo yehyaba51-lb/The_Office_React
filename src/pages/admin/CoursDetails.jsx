@@ -13,7 +13,7 @@ import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 
 const CoursDetails = () => {
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [cours, setCours] = useState(null)
   const [lecons, setLecons] = useState([])
   const [inscriptions, setInscriptions] = useState([])
