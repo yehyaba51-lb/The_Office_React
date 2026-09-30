@@ -10,6 +10,7 @@ const CorrectionModal = ({ submitFunction, initialData, }) => {
   const [choix, setChoix] = useState([])
   const [loading, setLoading] = useState(true)
   const [hasErrors, setHasErrors] = useState(false)
+  const [accessDenied, setAccessDenied] = useState(false)
   const formRef = useRef(null);
   const currentUser = useOutletContext()
 
@@ -20,7 +21,10 @@ const CorrectionModal = ({ submitFunction, initialData, }) => {
         })
         const data = await response.json();
         
-        if(!response.ok){
+        if(response.status === 403){
+          setAccessDenied(true)
+          return 
+        } else if(!response.ok){
           toast.error(data.error)
           return false
         }
@@ -52,8 +56,6 @@ const CorrectionModal = ({ submitFunction, initialData, }) => {
 
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(initialData);
-  
 
   const telechargerFunction = () => {
     const link = document.createElement('a');
@@ -75,7 +77,7 @@ const CorrectionModal = ({ submitFunction, initialData, }) => {
           className={`bg-white rounded-2xl px-12 py-8 w-160 flex flex-col gap-2 ${loading && "mt-25 items-center justify-center"}`}
           onClick={(e) => e.stopPropagation()}
           >
-          {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
+          {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
             <>
               {initialData.length === 0 ? (
                 <div className="p-12 flex flex-col items-center gap-3 text-center m-5">
