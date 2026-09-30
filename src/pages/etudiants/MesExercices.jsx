@@ -13,6 +13,7 @@ const MesExercices = () => {
   const currentUser = useOutletContext()
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false)
   const location = useLocation();
   const [filter, setFilter] = useState("all");
 
@@ -23,7 +24,10 @@ const MesExercices = () => {
       })
       const data = await response.json()
 
-      if(!response.ok){
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
         toast.error(data.error)
         return false
       }
@@ -57,7 +61,7 @@ const MesExercices = () => {
 
   return (
     <div className={`flex flex-col px-5 gap-4 mb-5 items-center ${loading ? "mt-25" : "my-2"}`}>
-      {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
         <>
           <div className="w-full flex mt-5 gap-4 items-center">
             <SearchBar />
