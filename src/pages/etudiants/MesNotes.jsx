@@ -10,6 +10,7 @@ const MesNotes = () => {
   const [notes, setNotes] = useState([])
   const [loading, setLoading] = useState(true)
   const [hasErrors, setHasErrors] = useState(false)
+  const [accessDenied, setAccessDenied] = useState(false)
   const currentUser = useOutletContext()
 
   const getNotes = async () => {
@@ -19,7 +20,10 @@ const MesNotes = () => {
       })
       const data = await response.json()
 
-      if(!response.ok){
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
         toast.error(data.error)
         return false
       }
@@ -45,10 +49,9 @@ const MesNotes = () => {
     loadEverything();
   }, [])
 
-  console.log(notes)
   return (
     <div className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}>
-      {loading ? <Spinner /> : hasErrors ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
         <TableData columns={ mesNotesColumns } rows={ notes } onClickRow={ true } admin={ false } />
       )}
     </div>
