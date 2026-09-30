@@ -10,6 +10,7 @@ const MesCoursEtudiant = () => {
   const [cours, setCours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false)
   const currentUser = useOutletContext()
 
   const getCours = async () => {
@@ -19,7 +20,10 @@ const MesCoursEtudiant = () => {
       });
       const data = await response.json();
 
-      if(!response.ok){
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
         toast.error(data.error)
         return false
       }
@@ -49,11 +53,7 @@ const MesCoursEtudiant = () => {
     <div
       className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}
     >
-      {loading ? (
-        <Spinner />
-      ) : hasErrors ? (
-        <FetchError />
-      ) : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
         <>
           <SearchBar />
           <CourseCardFormateur
