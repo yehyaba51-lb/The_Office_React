@@ -168,10 +168,10 @@ const CoursDetails = () => {
         <FormModal type={ 'un exercice' } fields={ exerciceFields } submitFunction={ addExercice } />
       )}
       {showSuccess && (
-        <SuccessModal type={ 'Exercice' } content = { selectedLecon.lecon_titre } create={ true } lecon={ true } />
+        <SuccessModal type={ 'Exercice' } content = { capitalize(selectedLecon.lecon_titre) } create={ true } lecon={ true } />
       )}
       {showDelete && (
-        <ConfirmModal type={ "l'inscription" } inscriptionEtudiant={ selectedInscription.etudiant } deleteFunction={ () => supprimerInscription(selectedInscription.id) } irreversible={ false } />
+        <ConfirmModal type={ "l'inscription" } inscriptionEtudiant={ capitalize(selectedInscription.etudiant) } deleteFunction={ () => supprimerInscription(selectedInscription.id) } irreversible={ false } />
       )}
       <div
         className={`flex flex-col items-center justify-center p-2 mx-5 ${loading && "mt-25"}`}
