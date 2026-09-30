@@ -8,7 +8,7 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const MesEtudiants = () => {
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [cours, setCours] = useState([]);
   const [inscriptions, setInscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
