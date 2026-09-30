@@ -25,6 +25,7 @@ const CoursDetails = () => {
   const [inscriptions, setInscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false)
   const [isEditSpec, setIsEditSpec] = useState(false);
   const [description, setDescription] = useState("");
   const location = useLocation();
@@ -43,9 +44,12 @@ const CoursDetails = () => {
       );
       const data = await response.json();
 
-      if (!response.ok) {
-        toast.error(data.error);
-        return false;
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
+        toast.error(data.error)
+        return false
       }
 
       setCours(data);
@@ -65,9 +69,12 @@ const CoursDetails = () => {
       );
       const data = await response.json();
 
-      if (!response.ok) {
-        toast.error(data.error);
-        return false;
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
+        toast.error(data.error)
+        return false
       }
 
       setLecons(data);
@@ -87,9 +94,12 @@ const CoursDetails = () => {
       );
       const data = await response.json();
 
-      if (!response.ok) {
-        toast.error(data.error);
-        return false;
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
+        toast.error(data.error)
+        return false
       }
 
       setExercices(data);
@@ -109,9 +119,12 @@ const CoursDetails = () => {
       );
       const data = await response.json();
 
-      if (!response.ok) {
-        toast.error(data.error);
-        return false;
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
+        toast.error(data.error)
+        return false
       }
 
       setInscriptions(data);
@@ -239,11 +252,7 @@ const CoursDetails = () => {
           lecon={true}
         />
       )}
-      {loading ? (
-        <Spinner />
-      ) : hasErrors ? (
-        <FetchError />
-      ) : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
         <div className="w-full">
           {cours && cours.lecons > 0 ? (
             <>
