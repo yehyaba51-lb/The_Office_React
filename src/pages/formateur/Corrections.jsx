@@ -7,6 +7,7 @@ import CorrectionModal from "../../components/modals/CorrectionModal";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { Inbox } from "lucide-react";
 
 const Corrections = () => {
   const [searchParams] = useSearchParams();
@@ -115,7 +116,14 @@ const Corrections = () => {
     <div
       className={`flex flex-col justify-center items-center ${loading && "mt-25"}`}
     >
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : soumissions.length === 0 ? (
+        <>
+          <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
+            <Inbox size={28} className="text-bleu-secondaire" />
+          </div>
+          <p className="mt-2 text-bleu-principal font-semibold">Aucune Soumission soumis</p>
+        </>
+      ) : (
         <>
           <div className="flex px-5 mt-5 gap-4 items-center w-full">
             {showCorrecting && (
