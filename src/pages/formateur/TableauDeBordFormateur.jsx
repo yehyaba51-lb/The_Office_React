@@ -143,11 +143,18 @@ const TableauDeBordFormateur = () => {
             <div className='w-4/5'>
               <div className='border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col'>
                 <h2 className='font-titres font-semibold text-bleu-principal text-xl px-3 mb-1'>Activité récente</h2>
-                {filteredActivitesFormateur.map((activity, i) => (
-                  <RecentActivities key={i} badge={ activity.badge } text={ activity.text } date={ activity.date } to={ activity.to }  />
-                ))}
-                <button className='font-semibold text-orange-cuivre text-lg cursor-pointer hover:text-orange-cuivre/75 hover:underline transition duration-300 ease-in-out' onClick={() => setshowAll(activity => !activity)}>{showAll ? 'Voir moins' : 'Voir plus'}</button>
-              </div>
+                {filteredActivitesFormateur.length > 0 ? (
+                  <>
+                    {filteredActivitesFormateur.map((activity, i) => (
+                      <RecentActivities key={i} badge={ activity.badge } text={ activity.text } date={ activity.date } to={ activity.to }  />
+                    ))}
+                  <button className='font-semibold text-orange-cuivre text-lg cursor-pointer hover:text-orange-cuivre/75 hover:underline transition duration-300 ease-in-out' onClick={() => setshowAll(activity => !activity)}>{showAll ? 'Voir moins' : 'Voir plus'}</button>
+
+                  </>
+                ) : (
+                  <p className="text-center text-bleu-secondaire">Aucune activités récentes</p>
+                )}
+                </div>
             </div>
             <div className='w-1/3'>
               <div className='border-2 border-gris-clair rounded-xl p-3 mx-5 my-1 flex flex-col gap-2'>
