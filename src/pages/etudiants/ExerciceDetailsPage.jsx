@@ -13,6 +13,7 @@ const ExerciceDetailsPage = () => {
   const [choix, setChoix] = useState([])
   const [soumissions, setSoumissions] = useState([])
   const [hasErrors, setHasErrors] = useState([])
+  const [notFound, setNotFound] = useState(false)
   const [accessDenied, setAccessDenied] = useState(false)
   const [loading, setLoading] = useState(true)
   const [selectedChoix, setSelectedChoix] = useState({})
@@ -27,6 +28,11 @@ const ExerciceDetailsPage = () => {
           credentials: 'include',
         })
         const data = await response.json();
+
+        if(response.status === 404){
+          setNotFound(true)
+          return true
+        }
   
         if(response.status === 403){
           setAccessDenied(true)
@@ -52,6 +58,11 @@ const ExerciceDetailsPage = () => {
           credentials: 'include',
         })
         const data = await response.json();
+
+        if(response.status === 404){
+          setNotFound(true)
+          return true
+        }
   
         if(response.status === 403){
           setAccessDenied(true)
@@ -76,6 +87,11 @@ const ExerciceDetailsPage = () => {
           credentials: 'include'
         })
         const data = await response.json()
+
+        if(response.status === 404){
+          setNotFound(true)
+          return true
+        }
 
         if(response.status === 403){
           setAccessDenied(true)
@@ -201,7 +217,26 @@ const ExerciceDetailsPage = () => {
   
   return (
     <div className={`px-5 py-3 flex flex-col gap-5 my-3 items-center ${loading ? "mt-25" : "my-8"}`}>
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : notFound ? (
+        <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
+          <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
+            <FileX className="text-gris-fonce" size={26} />
+          </div>
+          <h3 className="text-bleu-principal font-titres font-semibold text-lg">
+            Exercice introuvable
+          </h3>
+          <p className="text-gris-fonce text-sm max-w-sm">
+            Cet Exercice n'existe pas ou a été supprimé. Vérifiez le lien ou
+            retournez à la liste des cours.
+          </p>
+          <button       
+           onClick={() => navigate("/etudiant/cours")}
+            className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
+          >
+            Retour aux cours
+          </button>
+        </div>
+      ) : (
         !questions ? (
           <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
             <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
@@ -240,7 +275,7 @@ const ExerciceDetailsPage = () => {
                         {q.question_type === "Input"
                           ? "Réponse libre"
                           : q.question_type === "File Upload"
-                            ? "Fichier"
+                            ? "Fichier [pdf / docx]"
                             : "QCM"}
                       </h4>
                       <h3 className="font-titres text-bleu-principal text-md font-semibold">
