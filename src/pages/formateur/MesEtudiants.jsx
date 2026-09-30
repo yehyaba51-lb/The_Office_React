@@ -6,6 +6,7 @@ import FetchError from "../../components/shared/FetchError";
 import Spinner from "../../components/shared/Spinner";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Inbox } from "lucide-react";
 
 const MesEtudiants = () => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -93,7 +94,14 @@ const MesEtudiants = () => {
     <div
       className={`flex flex-col gap-4 justify-center items-center ${loading && "mt-25"}`}
     >
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : inscriptions.length === 0 ? (
+        <>
+            <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
+              <Inbox size={28} className="text-bleu-secondaire" />
+            </div>
+            <p className="text-bleu-principal font-semibold">Aucun étudiant inscrit</p>
+          </>
+      ) : (
         <>
           <div className="flex px-5 mt-5 gap-4 items-center w-full">
             <SearchBar
