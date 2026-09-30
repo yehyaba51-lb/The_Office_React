@@ -9,11 +9,13 @@ import ConfirmModal from "../../components/modals/ConfirmModal";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { Inbox } from "lucide-react";
 
 const Categorie = () => {
   const [categories, setCategories] = useState([]);
   const [newCategoryName, setNewCategoryName] = useState("");
   const [loading, setLoading] = useState(true);
+  const [hasErrors, setHasErrors] = useState(false)
   const [searchParams] = useSearchParams();
   const showModal = searchParams.get("create") === "true";
   const showEdit = searchParams.get("edit") === "true";
@@ -35,16 +37,19 @@ const Categorie = () => {
       }
 
       setCategories(data);
-      setLoading(false);
+      return true
     } catch (error) {
       setCategories([]);
-      setLoading(false);
+      return false
     }
   };
 
   useEffect(() => {
     const loadFunction = async () => {
-      await getCategories();
+      const results = await Promise.all([getCategories()])
+   
+      setHasErrors(results.includes(false));
+      setLoading(false)
     }
 
     loadFunction()
@@ -173,8 +178,15 @@ const Categorie = () => {
       >
         {loading ? (
           <Spinner />
-        ) : categories === "" ? (
+        ) : hasErrors ? (
           <FetchError />
+        ) : categories.length === 0 ? (
+          <>
+            <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
+              <Inbox size={28} className="text-bleu-secondaire" />
+            </div>
+            <p className="mt-4 text-bleu-principal font-semibold">Aucune Catégorie créée</p>
+          </>
         ) : (
           <TableData columns={categorieColumns} rows={categories} />
         )}
