@@ -176,7 +176,7 @@ const TableauDeBordEtudiant = () => {
       ) : hasErrors ? (
         <FetchError />
       ) : (
-        <>
+        <div className="w-full">
           <div className="flex justify-between p-2 mx-5 w-full">
             <StateBox
               icon={Book}
@@ -185,28 +185,34 @@ const TableauDeBordEtudiant = () => {
             />
             <StateBox icon={Check} titre={statistics.terminee} label={"Cours terminés"} />
           </div>
-          <div className="flex gap-1 mx-6 w-full px-2">
-            <div className="w-full flex gap-5">
-              <div className="border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col w-full">
+          <div className='flex gap-1 mx-6'>
+            <div className='w-4/5'>
+              <div className='border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col'>
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-2">
                   Activité récente
                 </h2>
-                {filteredActivities.map((a, i) => (
-                  <RecentActivities key={i}
-                    role={a.role}
-                    badge={a.badge}
-                    text={a.text}
-                    note={a.note}
-                    date={a.date}
-                    to={a.to}
-                  />
-                ))}
-                <button
-                  className="mt-4 font-semibold text-orange-cuivre text-lg cursor-pointer hover:text-orange-cuivre/75 hover:underline transition duration-300 ease-in-out"
-                  onClick={() => setShowAll((activity) => !activity)}
-                >
-                  {showAll ? "Voir moins" : "Voir plus"}
-                </button>
+                {filteredActivities.length > 0 ? (
+                  <>
+                    {filteredActivities.map((a, i) => (
+                    <RecentActivities key={i}
+                      role={a.role}
+                      badge={a.badge}
+                      text={a.text}
+                      note={a.note}
+                      date={a.date}
+                      to={a.to}
+                    />
+                    ))}
+                    <button
+                      className="mt-4 font-semibold text-orange-cuivre text-lg cursor-pointer hover:text-orange-cuivre/75 hover:underline transition duration-300 ease-in-out"
+                      onClick={() => setShowAll((activity) => !activity)}
+                    >
+                      {showAll ? "Voir moins" : "Voir plus"}
+                    </button>
+                  </>
+                ) : (
+                  <p className="text-center text-bleu-secondaire">Aucune activités récentes</p>
+                )}
               </div>
             </div>
             <div className="w-1/3">
@@ -232,7 +238,7 @@ const TableauDeBordEtudiant = () => {
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
