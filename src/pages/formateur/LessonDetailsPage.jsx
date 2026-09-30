@@ -15,6 +15,7 @@ const LessonDetailsPage = () => {
   const [content, setContent] = useState({})
   const [notFound, setNotFound] = useState(false)
   const [hasErrors, setHasErrors] = useState(false)
+  const [accessDenied, setAccessDenied] = useState(false)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate();
   const { id, leconId } = useParams();
@@ -37,7 +38,10 @@ const LessonDetailsPage = () => {
         return true
       }
 
-      if(!response.ok){
+      if(response.status === 403){
+        setAccessDenied(true)
+        return 
+      } else if(!response.ok){
         toast.error(data.error)
         return false
       }
@@ -79,7 +83,7 @@ const LessonDetailsPage = () => {
 
   return (
     <div className={`flex flex-col w-full gap-4 justify-center items-center p-5 ${loading && "mt-25"}`}>
-      {loading ? <Spinner /> : notFound ? (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : notFound ? (
           <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
             <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
               <FileX className="text-gris-fonce" size={26} />
