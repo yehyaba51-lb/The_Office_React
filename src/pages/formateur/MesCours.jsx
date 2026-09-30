@@ -5,6 +5,7 @@ import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Inbox } from "lucide-react";
 
 const MesCours = () => {
   const [cours, setCours] = useState([]);
@@ -64,7 +65,14 @@ const MesCours = () => {
     <div
       className={`flex flex-col px-5 mt-8 gap-4 items-center ${loading && "mt-25"}`}
     >
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : cours.length === 0 ? (
+        <>
+          <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
+            <Inbox size={28} className="text-bleu-secondaire" />
+          </div>
+          <p className="text-bleu-principal font-semibold">Aucun Cours ajouté</p>
+        </>
+      ) : (
         <>
           <SearchBar
             value={search}
