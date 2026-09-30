@@ -9,8 +9,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([])
 
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const getQuestions = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php?`, {
