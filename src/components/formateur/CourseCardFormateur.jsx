@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import NoImageFound from "../../assets/no-image-found.png";
 
 const CourseCardFormateur = ({ cours, etudiant = false }) => {
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const descriptionSlice = (description) => {
     return description.slice(0, 50) + "...";
   };
@@ -42,10 +42,10 @@ const CourseCardFormateur = ({ cours, etudiant = false }) => {
                 {etudiant ? (
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gris-clair flex items-center justify-center text-bleu-secondaire font-semibold">
-                      {cours[i].formateur[0]}
+                      {capitalize(cours[i].formateur[0])}
                     </div>
                     <p className="font-semibold text-bleu-principal">
-                      {cours[i].formateur}
+                      {capitalize(cours[i].formateur)}
                     </p>
                   </div>
                 ) : (
