@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { coursColumns } from "../../fakeData";
-import { coursFields, userFields } from "../../formModalsData";
+import { coursFields } from "../../formModalsData";
 import FormModal from "../../components/modals/FormModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import ConfirmModal from "../../components/modals/ConfirmModal";
@@ -10,9 +10,11 @@ import SearchBar from "../../components/shared/SearchBar";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { Inbox } from "lucide-react";
 
 
 const Cours = () => {
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [filter, setFilter] = useState("tous");
   const [cours, setCours] = useState([]);
   const [formateurs, setFormateurs] = useState([]);
@@ -73,7 +75,11 @@ const Cours = () => {
   };
   useEffect(() => {
     const loadEverything = async () => {
-      const results = await Promise.all([getCours(), getFormateurs(), getCategories()])
+      const results = await Promise.all([
+        getCours(),
+        getFormateurs(),
+        getCategories()]
+      )
       setHasErrors(results.includes(false))
 
       setLoading(false)
@@ -92,9 +98,9 @@ const Cours = () => {
 
     const dynamicCoursFields = coursFields.map(field=> {
       if(field.name === 'formateur_id'){
-        return {...field, options: formateurs.map(f => ({value: f.id, label: `${f.prenom} ${f.nom}`}))}
+        return {...field, options: formateurs.map(f => ({value: f.id, label: `${capitalize(f.prenom)} ${capitalize(f.nom)}`}))}
       } else if(field.name === 'categorie_id'){
-        return {...field, options: categories.map(c => ({value: c.id, label: c.categorie_nom}))}
+        return {...field, options: categories.map(c => ({value: c.id, label: capitalize(c.categorie_nom)}))}
       }
       return field
     })
@@ -136,7 +142,8 @@ const Cours = () => {
       }
 
       const formateur = formateurs.find(f => Number(f.id) === Number(insertedCours.formateur_id));
-      setNewFormateur(formateur ? `${formateur.prenom} ${formateur.nom}` : '');
+      setNewFormateur(formateur ? `${capitalize(formateur.prenom)} ${capitalize(formateur.nom)}` : '');
+
       getCours()
       return true
     } catch (error) {
@@ -149,8 +156,6 @@ const Cours = () => {
   const selectedCours = filteredCours
     ? filteredCours.find((cours) => Number(cours.id) === Number(id))
     : "";
-
-  console.log(selectedCours);
   
 
   const editCours = async(id, initialData) => {
@@ -265,8 +270,15 @@ const Cours = () => {
       >
         {loading ? (
           <Spinner />
-        ) : cours === "" ? (
+        ) : hasErrors ? (
           <FetchError />
+        ) : cours.length === 0 ? (
+          <>
+            <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
+              <Inbox size={28} className="text-bleu-secondaire" />
+            </div>
+            <p className="mt-4 text-bleu-principal font-semibold">Aucun Cours créé</p>
+          </>
         ) : (
           <TableData
             columns={coursColumns}
