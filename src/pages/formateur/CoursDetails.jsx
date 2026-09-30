@@ -17,7 +17,7 @@ import FetchError from "../../components/shared/FetchError";
 import { toast } from "react-toastify";
 
 const CoursDetails = () => {
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [file, setFile] = useState(null);
   const [cours, setCours] = useState([]);
   const [lecons, setLecons] = useState([]);
@@ -247,7 +247,7 @@ const CoursDetails = () => {
       {showSuccess && (
         <SuccessModal
           type={"Leçon"}
-          content={cours?.cours_titre}
+          content={capitalize(cours?.cours_titre)}
           create={true}
           lecon={true}
         />
