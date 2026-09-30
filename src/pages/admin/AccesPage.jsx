@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import SearchBar from "../../components/shared/SearchBar";
+import { Inbox } from "lucide-react";
 
 const AccesPage = () => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -129,6 +130,10 @@ const AccesPage = () => {
   };
 
   const addAccess = async (a) => {
+    if(a.cours_id === '' || a.cours_id.length === 0){
+      toast.error('Aucun cours séléctionner')
+      return false
+    }
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`, {
         method: "POST",
@@ -229,11 +234,15 @@ const AccesPage = () => {
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
                     placeholder="Entrer votre email"
                   >
-                    {appliableCours.map((cours) => (
+                    {appliableCours.lecons > 0 ? appliableCours.map((cours) => (
                       <option value={Number(cours.id)} key={cours.id}>
                         {capitalize(cours.titre)}
                       </option>
-                    ))}
+                    )) : (
+                      <option value="">
+                        Aucun cours avec leçons
+                      </option>
+                    )}
                   </select>
                 </div>
               </form>
@@ -247,8 +256,8 @@ const AccesPage = () => {
                   const cours = appliableCours ? appliableCours.find(c => Number(c.id) === Number(coursInput)) : ''
                   console.log(cours);
                   
-                  setNewAccessCours(cours.titre);
-                  setNewAccessEtudiant(`${etudiant.prenom} ${etudiant.nom}`);
+                  cours && setNewAccessCours(capitalize(cours.titre));
+                  etudiant && setNewAccessEtudiant(`${capitalize(etudiant.prenom)} ${capitalize(etudiant.nom)}`);
                   
                   const success = await addAccess({
                     etudiant_id: etudiantInput,
@@ -265,38 +274,51 @@ const AccesPage = () => {
               <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-2">
                 Accès déjà accordés
               </h2>
-              {access.map((access) => (
-                <div
-                  key={access.id}
-                  className="w-full text-bleu-secondaire text-md flex px-2 py-1 justify-between items-center border-2 border-gris-clair rounded-xl"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="bg-gris-clair w-10 h-10 rounded-full flex justify-center items-center font-semibold text-bleu-principal">
-                      {access.etudiant[0]}
-                    </div>
-                    <div className="flex flex-col">
-                      <h3 className="text-bleu-secondaire font-semibold">
-                        {capitalize(access.etudiant)}
-                      </h3>
-                      <p className="text-gris-fonce text-sm">{capitalize(access.cours)}</p>
-                    </div>
+              {access.length === 0 ? (
+                <div className="self-center">
+                  <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mx-auto">
+                    <Inbox size={28} className="text-bleu-secondaire" />
                   </div>
-                  <div className="flex items-center gap-5">
-                    <h4 className="font-titres text-md text-gris-fonce">
-                      {access.inscrit_le.split(' ')[0]}
-                    </h4>
-                    <CircleX
-                      size={18}
-                      className="cursor-pointer hover:text-gris-fonce/40 transition duration-300 ease-in-out"
-                      onClick={() =>
-                        navigate(
-                          `${location.pathname}?delete=true&id=${access.id}`,
-                        )
-                      }
-                    />
-                  </div>
+                  <p className="mt-4 text-bleu-principal font-semibold">Aucune Inscription créé</p>
                 </div>
-              ))}
+              ) : (
+                <>
+                  {access.map((access) => (
+                    <div
+                      key={access.id}
+                      className="w-full text-bleu-secondaire text-md flex px-2 py-1 justify-between items-center border-2 border-gris-clair rounded-xl"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="bg-gris-clair w-10 h-10 rounded-full flex justify-center items-center font-semibold text-bleu-principal">
+                          {access.etudiant[0]}
+                        </div>
+                        <div className="flex flex-col">
+                          <h3 className="text-bleu-secondaire font-semibold">
+                            {capitalize(access.etudiant)}
+                          </h3>
+                          <p className="text-gris-fonce text-sm">{capitalize(access.cours)}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-5">
+                        <h4 className="font-titres text-md text-gris-fonce">
+                          {access.inscrit_le.split(' ')[0]}
+                        </h4>
+                        <CircleX
+                          size={18}
+                          className="cursor-pointer hover:text-gris-fonce/40 transition duration-300 ease-in-out"
+                          onClick={() =>
+                            navigate(
+                              `${location.pathname}?delete=true&id=${access.id}`,
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                  ))}
+                
+                </>
+
+              )}
             </div>
           </>
         )}
