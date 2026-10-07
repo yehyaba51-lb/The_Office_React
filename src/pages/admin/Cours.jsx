@@ -107,7 +107,7 @@ const Cours = () => {
     
   const addCours = async (insertedCours) => {
     let errors = []
-    const nameRegex = /[a-zA-ZÀ-ÿ0-9' :\-]*$/
+    const nameRegex = /^[a-zA-ZÀ-ÿ0-9' :\-]*$/
     if(!insertedCours.cours_titre || insertedCours.cours_titre.length < 5 || !nameRegex.test(insertedCours.cours_titre)){
       errors.push('Titre invalide')
     }
@@ -160,7 +160,7 @@ const Cours = () => {
 
   const editCours = async(id, initialData) => {
     let errors = []
-    const nameRegex = /[a-zA-ZÀ-ÿ0-9' :\-]*$/
+    const nameRegex = /^[a-zA-ZÀ-ÿ0-9' :\-]*$/
     if(!initialData.cours_titre || initialData.cours_titre.length < 5 || !nameRegex.test(initialData.cours_titre)){
       errors.push('Titre invalide')
     }
