@@ -150,7 +150,7 @@ const LessonBuilderModal = ({ lecon }) => {
     }
   }
   const addVideos = async (video) => {
-    const allowedVideoTypes = ["video/mp4", "video/webm"];
+    const allowedVideoTypes = ["video/mp4", "video/webm", "video/quicktime", "video/x-m4v"];
 
     if(!video.file){
       toast.error("Pas de video uploadé");
@@ -162,7 +162,7 @@ const LessonBuilderModal = ({ lecon }) => {
       return false;
     }
 
-    if(video.size > 500 * 1024 * 1024){
+    if(video.file.size > 500 * 1024 * 1024){
       toast.error("Taille de fichier trop grande");
       return false;
     }
