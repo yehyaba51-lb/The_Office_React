@@ -34,9 +34,11 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
       });
       const data = await response.json();
 
-      if(!response.ok){
-        toast.error(data.error)
+      if(response.status === 404){
         return false
+      } else if(!response.ok){
+        toast.error(data.error)
+      return false
       }
 
       setCours(data);
