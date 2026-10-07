@@ -4,7 +4,7 @@ import { mesNotesColumns } from '../../fakeData'
 import { toast } from 'react-toastify'
 import Spinner from '../../components/shared/Spinner'
 import FetchError from '../../components/shared/FetchError'
-import { useOutletContext } from 'react-router-dom'
+import { useOutletContext, useNavigate } from 'react-router-dom'
 
 const MesNotes = () => {
   const [notes, setNotes] = useState([])
@@ -13,6 +13,7 @@ const MesNotes = () => {
   const [accessDenied, setAccessDenied] = useState(false)
   const [notFound, setNotFound] = useState(false)
   const currentUser = useOutletContext()
+  const navigate = useNavigate()
 
   const getNotes = async () => {
     try {
