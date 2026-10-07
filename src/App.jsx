@@ -38,7 +38,7 @@ const App = () => {
         <Route path='/' element={<AuthLayout />}>
           <Route index element={<Login />} />
           <Route path='/changer-mot-de-passe' element={<ChangerMotDePasse />} />
-          <Route path='*' element={<NotFoundPage />} handle={{ titre: 'Page introuvable' }} />
+          <Route path='*' element={<NotFoundPage />} handle={{ titre: 'Page introuvable', homeLink: '/' }} />
         </Route>
 
         <Route path='/' element={<MainLayout role={'Administrateur'} />}>
