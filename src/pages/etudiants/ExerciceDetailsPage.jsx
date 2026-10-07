@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { fakeExercices, fakeQuestions } from "../../fakeData";
 import { Paperclip, FileX } from "lucide-react";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";

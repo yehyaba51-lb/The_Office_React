@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { fakeSoumissions } from "../../fakeData";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FileX } from "lucide-react";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
