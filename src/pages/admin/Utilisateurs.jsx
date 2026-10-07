@@ -19,6 +19,7 @@ const Utilisateurs = () => {
   const [newDeletedUserName, setNewDeletedUserName] = useState("");
   const [generatedPassword, setGeneratedPassword] = useState("");
   const [loading, setLoading] = useState(true);
+  const [hasErrors, setHasErrors] = useState(false)
   const [search, setSearch] = useState('')
   const activeClass = (isActive) =>
     `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre"}`;
@@ -44,14 +45,21 @@ const Utilisateurs = () => {
 
       setUsers(data);
       setLoading(false);
+      return true
     } catch (error) {
       setUsers([]);
       setLoading(false);
+      return false
     }
   };
 
   useEffect(() => {
-    getUsers();
+    const loadEverything = async () => {
+      const result = await Promise.all([getUsers()])
+      setHasErrors(result.includes(false))
+    }
+
+    loadEverything()
   }, []);
 
   const filteredUsers = users
@@ -282,7 +290,7 @@ const Utilisateurs = () => {
       >
         {loading ? (
           <Spinner size={125} />
-        ) : filteredUsers === "" ? (
+        ) : hasErrors ? (
           <FetchError />
         ) : (
           <TableData columns={userColumns} rows={searchUsers} admin={true} />
