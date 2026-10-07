@@ -8,7 +8,7 @@ import FetchError from '../../components/shared/FetchError'
 
 
 const MesExercices = () => {
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [listOfExercices, setListOfExercices] = useState({ cours: [], lecons: [], exercices: [] });
   const currentUser = useOutletContext()
   const [loading, setLoading] = useState(true);
@@ -122,15 +122,10 @@ const MesExercices = () => {
                           )}
                         </div>
                         <div className="flex flex-col items-start gap-1">
-                          <h3
-                            className={`${exercice.statut === null && "text-gris-fonce/40"} font-titres text-bleu-principal font-semibold text-md`}
-                          >
-                            {lecon.titre}
-                          </h3>
                           <p
                             className={`${exercice.statut === null && "text-gris-fonce/40"} text-bleu-secondaire text-lg font-semibold`}
                           >
-                            Leçon 0{lecon.lecon_ordre} - {capitalize(exercice.exercice_titre)}
+                            Leçon 0{lecon.lecon_ordre} - {capitalize(lecon.lecon_titre)} - {capitalize(exercice.exercice_titre)}
                           </p>
                         </div>
                       </div>
