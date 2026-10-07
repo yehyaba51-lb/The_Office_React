@@ -56,7 +56,7 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
     const isLeconDetail = location.pathname.includes('cours/')
 
     if(!isLeconDetail){
-      setCours(null)
+      setLecon(null)
       return
     }
     try {
