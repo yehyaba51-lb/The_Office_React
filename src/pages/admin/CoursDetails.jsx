@@ -32,6 +32,7 @@ const CoursDetails = () => {
 
       if(!response.ok){
         toast.error(data.error)
+        return false
       }
 
       setCours(data)
@@ -52,6 +53,7 @@ const CoursDetails = () => {
 
       if(!response.ok){
         toast.error(data.error)
+        return false
       }
 
       setLecons(data)
@@ -71,6 +73,7 @@ const CoursDetails = () => {
 
       if(!response.ok){
         toast.error(data.error)
+        return false
       }
       
       setInscriptions(data)
