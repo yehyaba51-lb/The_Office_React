@@ -102,7 +102,8 @@ const ExercicePage = () => {
 
   const ajouterQuestion = async (question) => {
     const errors = []
-    if(!question.texte_question || question.texte_question === ''){
+    const questionsRegex = /^[a-zA-ZÀ-ÿ0-9\'’“”«» :;.,!?()+="\-]*$/u
+    if(!question.texte_question || question.texte_question === '' || !questionsRegex.test(question.texte_question)){
       errors.push('Texte de la question invalide')
     }
 
@@ -153,7 +154,8 @@ const ExercicePage = () => {
 
   const modifierQuestion = async (id, data) => {
     const errors = []
-    if(!data.texte_question || data.texte_question === ''){
+    const questionsRegex = /^[a-zA-ZÀ-ÿ0-9\'’“”«» :;.,!?()+="\-]*$/u
+    if(!data.texte_question || data.texte_question === '' || !questionsRegex.test(data.texte_question)){
       errors.push('Texte de la question invalide')
     }
 
