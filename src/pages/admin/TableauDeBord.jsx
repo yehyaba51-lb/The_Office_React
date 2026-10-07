@@ -5,6 +5,7 @@ import QuickAccess from "../../components/shared/PageComponents/QuickAccess";
 import { GraduationCap, Presentation, Book, KeyRound } from "lucide-react";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { toast } from "react-toastify";
 
 const TableauDeBord = () => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
