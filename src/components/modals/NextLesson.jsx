@@ -47,6 +47,8 @@ const NextLesson = ({ lecon, coursId, leconId, leconsCount, leconOrdre }) => {
               onClick={async () => {
                 const result = await unlockNextLecon()
 
+                if (!result || result === 'error') return
+
                 if (result.has_next) {
                   navigate(`/etudiant/cours/${coursId}/${result.next_lecon_id}`)
                 } else{
