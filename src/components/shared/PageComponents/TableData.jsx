@@ -1,42 +1,12 @@
-import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProgressBar from '../../shared/ProgressBar'
 import { Pencil, Trash2 } from "lucide-react";
-import { toast } from "react-toastify";
 
 const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true, deleting=true }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [questions, setQuestions] = useState([])
 
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-  const getQuestions = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/questions.php?`, {
-        credentials: 'include',
-      })
-      const data = await response.json()
-
-      if(!response.ok){
-        toast.error(data.error)
-        return false
-      }
-      setQuestions(data)
-    } catch (error) {
-      setQuestions([])
-    }
-  }
-
-  useEffect(() => {
-    if(!columns.some(col => col.key === 'question')) return
-    getQuestions()
-  }, [])
-  const trimQuestion = (row) => {
-    const value = questions
-      ? questions.find(q => q.question_id === row.question_id)?.texte_question ?? ''
-      : ''
-    return value.slice(0, 30) + '...'
-  }
   
   return (
     <div className="border-2 border-gris-clair rounded-2xl px-2 py-1">
@@ -79,8 +49,8 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         }>
                           {row.corrige_le  === null ? 'À corriger' : 'Corrigée'}
                         </span>
-                      ) : col.key === 'question' ? (
-                        trimQuestion(row)
+                      ) : col.key === 'texte_question' ? (
+                        row[col.key].slice(0, 20) + '...'
                       ) : col.key === 'note' ? (
                         <span className={row.note === null ? 'bg-gris-clair text-orange-cuivre/70 px-3 py-1 rounded-full text-xs font-semibold'
                           : row.note >= 10 ? 'text-vert-reussite bg-vert-reussite/20 px-3 py-1 rounded-full text-xs font-semibold' 
