@@ -173,7 +173,6 @@ const Utilisateurs = () => {
 
   const removeUser = async (id) => {
     setNewDeletedUserName(`${selectedUser.prenom + " " + selectedUser.nom}`)
-    console.log('newDeletedUserName', newDeletedUserName);
     
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/utilisateurs.php?id=${id}`, {

@@ -111,8 +111,6 @@ const TableauDeBord = () => {
         }))
       : "";
 
-    console.log('userActivities', userActivities);
-    console.log('inscriptionActivities', inscriptionActivities);
     
     setActivities(
       [...inscriptionActivities, ...userActivities].sort(

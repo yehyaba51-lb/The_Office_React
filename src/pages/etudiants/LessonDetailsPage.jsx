@@ -87,7 +87,6 @@ const LessonDetailsPage = () => {
     setVideoDone(false);
   }, [leconId]);
 
-  console.log(content.lecon_count.lecons_count);
   
   return (
     <div className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-4"}`}>
