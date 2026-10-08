@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { Paperclip, FileX } from "lucide-react";
+import { Paperclip, FileX, LockKeyhole } from "lucide-react";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
@@ -13,6 +13,7 @@ const ExerciceDetailsPage = () => {
   const [soumissions, setSoumissions] = useState([])
   const [hasErrors, setHasErrors] = useState([])
   const [notFound, setNotFound] = useState(false)
+  const [locked, setLocked] = useState(false)
   const [accessDenied, setAccessDenied] = useState(false)
   const [loading, setLoading] = useState(true)
   const [selectedChoix, setSelectedChoix] = useState({})
@@ -36,6 +37,9 @@ const ExerciceDetailsPage = () => {
         if(response.status === 403){
           setAccessDenied(true)
           return 
+        } else if(response.status === 423){
+          setLocked(true)
+          return
         } else if(!response.ok){
           toast.error(data.error)
           return false
@@ -45,7 +49,6 @@ const ExerciceDetailsPage = () => {
         return true
       } catch (error) {
         setQuestions([]);
-        setHasErrors(true)
         return false
       }
     };
@@ -75,7 +78,6 @@ const ExerciceDetailsPage = () => {
         return true
       } catch (error) {
         setChoix([]);
-        setHasErrors(true)
         return false
       }
     }
@@ -126,6 +128,7 @@ const ExerciceDetailsPage = () => {
   
         setLoading(false)
       }
+
       loadEverything()
     }, [exerciceId]);
 
@@ -233,6 +236,25 @@ const ExerciceDetailsPage = () => {
             className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
           >
             Retour aux cours
+          </button>
+        </div>
+      ) : locked ? (
+        <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
+          <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
+            <LockKeyhole className="text-gris-fonce" size={26} />
+          </div>
+          <h3 className="text-bleu-principal font-titres font-semibold text-lg">
+            Exercice verrouillé
+          </h3>
+          <p className="text-gris-fonce text-sm max-w-sm">
+            Vous devez d'abord terminer la leçon associée à cet exercice pour
+            y accéder.
+          </p>
+          <button
+            onClick={() => navigate("/etudiant/exercices")}
+            className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
+          >
+            Retour aux exercices
           </button>
         </div>
       ) : (
