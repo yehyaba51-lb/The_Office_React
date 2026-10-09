@@ -214,13 +214,14 @@ const AccesPage = () => {
                     name="etudiant"
                     id="etudiant"
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                    placeholder="Entrer votre email"
                   >
-                    {filtersEtudiants.map((e) => (
+                    {filtersEtudiants.length > 0 ? filtersEtudiants.map((e) => (
                       <option value={Number(e.id)} key={e.id}>
                         {capitalize(e.prenom) + " " + capitalize(e.nom)}
                       </option>
-                    ))}
+                    )) : (
+                      <option value="">Aucun étudiant crée</option>
+                    )}
                   </select>
                 </div>
                 <div className="flex flex-col gap-1 mt-3 w-full">
