@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import Spinner from '../../components/shared/Spinner'
 import FetchError from '../../components/shared/FetchError'
 import { useOutletContext, useNavigate } from 'react-router-dom'
+import { Inbox } from 'lucide-react'
 
 const MesNotes = () => {
   const [notes, setNotes] = useState([])
@@ -77,6 +78,13 @@ const MesNotes = () => {
             Retour aux cours
           </button>
         </div>
+      ) : notes.length === 0 ? (
+        <>
+          <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
+            <Inbox size={28} className="text-bleu-secondaire" />
+          </div>
+          <p className="text-bleu-principal font-semibold">Aucune Soumission ajoutée</p>
+        </>
       ) : (
         <TableData columns={ mesNotesColumns } rows={ notes } onClickRow={ true } admin={ false } />
       )}
