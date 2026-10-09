@@ -61,7 +61,7 @@ const MesExercices = () => {
 
   return (
     <div className={`flex flex-col px-5 gap-4 mb-5 items-center ${loading ? "mt-25" : "my-2"}`}>
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : listOfExercices.cours.length === 0 ? (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : listOfExercices.exercices.length === 0 ? (
         <>
           <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-15">
             <Inbox size={28} className="text-bleu-secondaire" />
