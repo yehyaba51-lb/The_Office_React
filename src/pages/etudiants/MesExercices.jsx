@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SearchBar from "../../components/shared/SearchBar";
-import { Check, LockKeyhole } from "lucide-react";
+import { Check, LockKeyhole, Inbox } from "lucide-react";
 import { useLocation, Link, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from '../../components/shared/Spinner'
@@ -61,7 +61,16 @@ const MesExercices = () => {
 
   return (
     <div className={`flex flex-col px-5 gap-4 mb-5 items-center ${loading ? "mt-25" : "my-2"}`}>
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : listOfExercices.cours.length === 0 ? (
+        <>
+          <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-15">
+            <Inbox size={28} className="text-bleu-secondaire" />
+          </div>
+          <p className="text-bleu-principal font-semibold text-center">Aucun exercice n'est disponible <br />
+            pour le moment
+          </p>
+        </>
+      ) : (
         <>
           <div className="w-full flex mt-5 gap-4 items-center">
             <SearchBar />
