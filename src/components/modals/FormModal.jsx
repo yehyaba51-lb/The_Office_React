@@ -62,10 +62,10 @@ const FormModal = ({
                     className={`border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition ${isEditMode && field.lockedOn ? "cursor-not-allowed" : ""}`}
                     disabled={isEditMode && field.lockedOn}
                   >
-                    <option value="" selected>{field.placeholder}</option>
+                    <option value="">{field.placeholder}</option>
                     {field.options.map((option) => (
                       <option
-                        key={option}
+                        key={option.value}
                         value={`${option.value}`}
                       >{`${option.label}`}</option>
                     ))}
