@@ -258,11 +258,16 @@ const Cours = () => {
           onChange={(e) => setFilter(e.target.value)}
           className="w-75 p-2 border-2 border-gris-clair outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 rounded-xl flex text-bleu-secondaire text-md justify-center gap-5"
         >
-          <option value="tous">Toutes les catégories</option>
-          <option value="informatique">Informatique</option>
-          <option value="soft skills">Soft skills</option>
-          <option value="architecture">Architecture</option>
-          <option value="management">Management</option>
+          {categories.length > 0 ? (
+            <>
+              <option value="tous">Toutes les catégories</option>
+              {categories.map(c => (
+                <option key={c.categorie_id} value={c.categorie_nom}>{capitalize(c.categorie_nom)}</option>
+               ))}
+            </>
+          ) : (
+            <option value="">Aucune catégorie crée</option>
+          )}
         </select>
       </div>
       <div
