@@ -81,12 +81,22 @@ const Utilisateurs = () => {
     let errors = []
     const nameRegex =  /^[A-Za-zÀ-ÿ\'\-\s]+$/
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if(!submittedUser.prenom || submittedUser.prenom.length < 2 || !nameRegex.test(submittedUser.prenom)){
-      errors.push("Prenom invalide")
-    }
 
-    if(!submittedUser.nom || submittedUser.nom.length < 2 || !nameRegex.test(submittedUser.nom)){
+    if(!submittedUser.prenom){
+      errors.push("Aucun prenom insérer")
+    } else if(submittedUser.prenom.length < 2){
+      errors.push("Prenom trop court")
+    } else if(!nameRegex.test(submittedUser.prenom)){
+      errors.push("Prenom doit être que des lettre")
+    }
+  
+
+    if(!submittedUser.nom){
       errors.push("Nom invalide")
+    } else if(submittedUser.nom.length < 2){
+      errors.push("Nom trop court")
+    } else if(!nameRegex.test(submittedUser.nom)){
+      errors.push("Nom doit être que des lettre")
     }
 
     if(!submittedUser.email || !emailRegex.test(submittedUser.email)){
