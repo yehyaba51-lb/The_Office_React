@@ -92,9 +92,9 @@ const Cours = () => {
   const filteredCours = cours
     ? cours.filter((c) => {
         if (filter === "tous") return true;
-        return c.categorie.toLowerCase() === filter;
+        return c.categorie && c.categorie.toLowerCase() === filter;
       })
-    : "";
+    : [];
 
     const dynamicCoursFields = coursFields.map(field=> {
       if(field.name === 'formateur_id'){
@@ -223,7 +223,7 @@ const Cours = () => {
     }
   }
 
-  const searchCours = filteredCours ? filteredCours.filter(c => `${c.titre}`.toLowerCase().includes(search.toLowerCase())) : ''
+  const searchCours = filteredCours ? filteredCours.filter(c => `${c.cours_titre}`.toLowerCase().includes(search.toLowerCase())) : ''
 
   return (
     <div>
@@ -252,24 +252,7 @@ const Cours = () => {
           editFunction={(data) => editCours(id, data)}
         />
       )}
-      <div className="flex px-5 mt-5 gap-4 items-center">
-        <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
-        <select
-          onChange={(e) => setFilter(e.target.value)}
-          className="w-75 p-2 border-2 border-gris-clair outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 rounded-xl flex text-bleu-secondaire text-md justify-center gap-5"
-        >
-          {categories.length > 0 ? (
-            <>
-              <option value="tous">Toutes les catégories</option>
-              {categories.map(c => (
-                <option key={c.categorie_id} value={c.categorie_nom}>{capitalize(c.categorie_nom)}</option>
-               ))}
-            </>
-          ) : (
-            <option value="">Aucune catégorie crée</option>
-          )}
-        </select>
-      </div>
+      
       <div
         className={`px-5 py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
       >
@@ -285,12 +268,32 @@ const Cours = () => {
             <p className="mt-4 text-bleu-principal font-semibold">Aucun Cours créé</p>
           </>
         ) : (
-          <TableData
-            columns={coursColumns}
-            rows={searchCours}
-            onClickRow={true}
-            admin={true}
-          />
+          <>
+            <div className="w-full flex mt-5 gap-4 items-center mb-3">
+              <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
+              <select
+                onChange={(e) => setFilter(e.target.value)}
+                className="w-75 p-2 border-2 border-gris-clair outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 rounded-xl flex text-bleu-secondaire text-md justify-center gap-5"
+              >
+                {categories.length > 0 ? (
+                  <>
+                    <option value="tous">Toutes les catégories</option>
+                    {categories && categories.map(c => (
+                      <option key={c.categorie_nom} value={c.categorie_nom}>{capitalize(c.categorie_nom)}</option>
+                    ))}
+                  </>
+                ) : (
+                  <option value="">Aucune catégorie crée</option>
+                )}
+              </select>
+            </div>
+            <TableData
+              columns={coursColumns}
+              rows={searchCours}
+              onClickRow={true}
+              admin={true}
+            />
+          </>
         )}
       </div>
     </div>
