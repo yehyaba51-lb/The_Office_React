@@ -66,6 +66,12 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         ) : (
                           <p>Pas de description</p>
                         )
+                      ) : col.key === 'categorie' ? (
+                        row[col.key] ? (
+                          <p>{capitalize(row[col.key].slice(0, 40)) + '...'}</p>
+                        ) : (
+                          <p>Pas de catégorie</p>
+                        )
                       ) : col.key === 'lecons' ? (
                           row[col.key] ?? 0 
                       ) : col.key === 'email' ? (
@@ -117,8 +123,9 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                 </tr>
                 
               )
-            )
-            : rows.length === 0 ? '' : rows.map((row) => (
+            ) : rows.length === 0 ? (
+              null
+            ) : rows.map((row) => (
                 <tr
                   key={row.id}
                   className="text-bleu-principal text-md border-t-2 border-gris-clair"
@@ -151,7 +158,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         row[col.key]
                       ) : (
                         typeof row[col.key] === 'string' ? capitalize(row[col.key]) : row[col.key]
-)}
+                      )}
                     </td>
                   ))}
                   {admin && (
