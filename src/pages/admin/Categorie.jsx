@@ -56,10 +56,14 @@ const Categorie = () => {
   }, []);
 
   const addCategorie = async (newCategory) => {
-    if(!newCategory.categorie_nom || newCategory.categorie_nom.length < 2){
-      toast.error("Nom invalide")
+    if(!newCategory.categorie_nom){
+      toast.error("Nom de catégorie invalide")
+      return false
+    } else if(newCategory.categorie_nom.length < 2) {
+      toast.error("Nom de catégorie trop court")
       return false
     }
+
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/categories.php`, {
         method: "POST",
