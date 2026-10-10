@@ -14,7 +14,7 @@ import FetchError from "../../components/shared/FetchError";
 
 const LessonDetailsPage = () => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-  const capitalize2 = (str) => str.charAt(0).toUpperCase() + str.slice(1)  
+  const capitalizeAllFirstLetters = (str) => str.charAt(0).toUpperCase() + str.slice(1)  
   const location = useLocation();
   const navigate = useNavigate();
   const { id, leconId } = useParams();
@@ -152,7 +152,7 @@ const LessonDetailsPage = () => {
                 </h3>
                 <p className="text-bleu-principal text-md mb-6">
                   {content.textes && content.textes.length > 0
-                    ? capitalize2(content.textes[0].contenu_texte)
+                    ? capitalizeAllFirstLetters(content.textes[0].contenu_texte)
                     : "Pas de contenu"}
                 </p>
                 <div className="mt-auto flex flex-col gap-2">
