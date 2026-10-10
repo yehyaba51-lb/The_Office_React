@@ -22,7 +22,7 @@ const CourseCardFormateur = ({ cours, etudiant = false }) => {
             <div className="relative w-full">
               <div className="rounded-xl bg-bleu-principal py-1 px-3 absolute inset-2 w-fit flex items-center justify-center h-10">
                 <p className="text-white text-sm font-semibold">
-                  {capitalize(c.categorie_nom)}
+                  {c.categorie_nom ? capitalize(c.categorie_nom) : 'Aucune categorie'}
                 </p>
               </div>
               <img
