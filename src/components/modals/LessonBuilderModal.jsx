@@ -78,6 +78,7 @@ const LessonBuilderModal = ({ lecon }) => {
   const addContenu = async (newContenu) => {
     if(!newContenu.contenu || newContenu.contenu.trim() === '') {
       toast.error('Contenu de leçon invalide')
+      setLoading(false)
       return false
     }
 
@@ -111,16 +112,19 @@ const LessonBuilderModal = ({ lecon }) => {
 
     if(!pdf.file){
       toast.error("Pas de pdf uploadé");
+      setLoading(false)
       return false;
     }
 
     if(!allowedTypes.includes(pdf.file.type)){
       toast.error("Type de fichier invalide");
+      setLoading(false)
       return false;
     }
 
     if(pdf.file.size > 20 * 1024 * 1024){
       toast.error("Taille de fichier trop grande");
+      setLoading(false)
       return false;
     }
 
@@ -154,16 +158,19 @@ const LessonBuilderModal = ({ lecon }) => {
 
     if(!video.file){
       toast.error("Pas de video uploadé");
+      setLoading(false)
       return false;
     }
 
     if(!allowedVideoTypes.includes(video.file.type)){
       toast.error("Type de fichier invalide");
+      setLoading(false)
       return false;
     }
 
     if(video.file.size > 500 * 1024 * 1024){
       toast.error("Taille de fichier trop grande");
+      setLoading(false)
       return false;
     }
 
