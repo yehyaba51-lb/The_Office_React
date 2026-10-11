@@ -204,7 +204,7 @@ const Utilisateurs = () => {
         return false
 
       }
-      toast.success(`${newDeletedUserName} à été supprimer`);
+      toast.success(newDeletedUserName ? `${newDeletedUserName} à été supprimer` : 'Utilisateur à été supprimer');
       getUsers()
       return true
     } catch (error) {
