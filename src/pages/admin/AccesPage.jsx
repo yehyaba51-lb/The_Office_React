@@ -115,8 +115,10 @@ const AccesPage = () => {
         method: "DELETE",
         credentials: 'include'
       });
+      const data = await response.json()
 
       if(!response.ok){
+        toast.error(data.error)
         return false
       }
       
@@ -134,6 +136,7 @@ const AccesPage = () => {
       toast.error('Aucun cours séléctionner')
       return false
     }
+
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php`, {
         method: "POST",
@@ -143,8 +146,10 @@ const AccesPage = () => {
         },
         body: JSON.stringify(a),
       });
+      const data = await response.json()
 
       if(!response.ok){
+        toast.error(data.error)
         return false
       }
 
@@ -290,7 +295,7 @@ const AccesPage = () => {
                     >
                       <div className="flex items-center gap-3">
                         <div className="bg-gris-clair w-10 h-10 rounded-full flex justify-center items-center font-semibold text-bleu-principal">
-                          {access.etudiant[0]}
+                          {capitalize(access.etudiant[0])}
                         </div>
                         <div className="flex flex-col">
                           <h3 className="text-bleu-secondaire font-semibold">
