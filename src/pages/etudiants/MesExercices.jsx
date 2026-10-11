@@ -16,6 +16,7 @@ const MesExercices = () => {
   const [accessDenied, setAccessDenied] = useState(false)
   const location = useLocation();
   const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState('')
 
   const getListOfExercices = async () => {
     try {
@@ -59,6 +60,7 @@ const MesExercices = () => {
   const activeClass = (isActive) =>
     `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre"}`;
 
+  const searchExercices = filteredExercices ? filteredExercices.filter(c => `${c.exercice_titre}`.toLowerCase().includes(search.toLowerCase())) : ''
   return (
     <div className={`flex flex-col px-5 gap-4 mb-5 items-center ${loading ? "mt-25" : "my-2"}`}>
       {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : listOfExercices.exercices.length === 0 ? (
@@ -73,7 +75,10 @@ const MesExercices = () => {
       ) : (
         <>
           <div className="w-full flex mt-5 gap-4 items-center">
-            <SearchBar />
+            <SearchBar
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
             <div className="w-80 p-1 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
               <button
                 className={activeClass(filter === "all")}
@@ -105,7 +110,7 @@ const MesExercices = () => {
                 </h3>
     
                 {listOfExercices.lecons.filter((lecon) => lecon.cours_id === cours.cours_id).map((lecon) => (
-                  filteredExercices.filter((exercice) => exercice.lecon_id === lecon.id && exercice.cours_id === cours.cours_id).map(exercice => (
+                  searchExercices.filter((exercice) => exercice.lecon_id === lecon.id && exercice.cours_id === cours.cours_id).map(exercice => (
                   <div key={exercice.exercice_id}>
                     {lecon.id !== '1' && (
                       <hr className="border-2 border-gris-clair w-full mb-2" />
