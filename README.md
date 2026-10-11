@@ -49,6 +49,10 @@ npm run build
 ```
 This reads `.env.production` instead of `.env` if one exists — useful for pointing a production build at a live backend URL without touching your local development `.env`. Output goes to `dist/`.
 
+## Earlier development
+
+Before the PHP backend existed, this frontend was built against json-server, a fake REST API reading from local JSON files. db.json and db-2.json are that mock data — nothing in the app reads them anymore, they're kept only as a record of how the UI was originally built and tested.
+
 ## What's NOT in this repo, and why
 
 | Missing | Why | How to get it |
