@@ -31,7 +31,7 @@ const LessonBuilderModal = ({ lecon }) => {
 
   const createLecon = async (newLecon) => {
     const errors = []
-    const titleRegex = /^[a-zA-ZÀ-ÿ0-9' :\-]+$/
+    const titleRegex = /^[a-zA-ZÀ-ÿ0-9'.,;!?() :"\-]+$/
     if(!newLecon.titre || !titleRegex.test(newLecon.titre)) {
       errors.push('Nom de leçon invalide')
     }
@@ -202,11 +202,14 @@ const LessonBuilderModal = ({ lecon }) => {
   }
 
   const getVideoDuration = (file) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const video = document.createElement('video')
       video.src = URL.createObjectURL(file)
       video.onloadedmetadata = () => {
         resolve(video.duration)
+      }
+      video.onerror = () => {
+        reject(new Error('Format vidéo invalide'))
       }
     })
   }
@@ -338,8 +341,12 @@ const LessonBuilderModal = ({ lecon }) => {
                         <input
                           type="file"
                           onChange={async (e) => {
-                            const duree = await getVideoDuration(e.target.files[0])
-                            setVideo({ ...video, file: e.target.files[0] || null, duree })
+                            try {
+                              const duree = await getVideoDuration(e.target.files[0])
+                              setVideo({ ...video, file: e.target.files[0] || null, duree })
+                            } catch (error) {
+                              toast.error('Format vidéo invalide')
+                            }
                           }}
                           className="hidden"
                           id="thumbnail-upload-video"
