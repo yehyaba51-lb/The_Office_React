@@ -1,6 +1,7 @@
 import ProgressBar from "../shared/ProgressBar";
 import { Link } from "react-router-dom";
 import NoImageFound from "../../assets/no-image-found.png";
+import { UserX } from "lucide-react";
 
 const CourseCardFormateur = ({ cours, etudiant = false }) => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -42,10 +43,10 @@ const CourseCardFormateur = ({ cours, etudiant = false }) => {
                 {etudiant ? (
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gris-clair flex items-center justify-center text-bleu-secondaire font-semibold">
-                      {capitalize(cours[i].formateur[0])}
+                      {cours[i].formateur ? capitalize(cours[i].formateur[0]) : <UserX size={20} />}
                     </div>
                     <p className="font-semibold text-bleu-principal">
-                      {capitalize(cours[i].formateur)}
+                      {cours[i].formateur ? capitalize(cours[i].formateur) : 'Aucun formateur assigné'}
                     </p>
                   </div>
                 ) : (
