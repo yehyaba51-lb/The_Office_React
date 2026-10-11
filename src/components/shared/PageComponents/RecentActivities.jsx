@@ -13,7 +13,7 @@ const RecentActivities = ({ role='admin', badge, text, note, date, to }) => {
                         <p className="text-md text-bleu-secondaire font-semibold">{text}</p>
                     </div>
                     <div className="flex items-center gap-10">
-                        {note && (
+                        {note !== null && note !== undefined && (
                             <p className={noteCouleurClass(note)}>{note}</p>
                         )}
                         <p className='text-gris-fonce text-xs'>{date}</p>
