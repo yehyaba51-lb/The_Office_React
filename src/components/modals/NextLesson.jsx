@@ -37,7 +37,12 @@ const NextLesson = ({ lecon, coursId, leconId, leconsCount, leconOrdre }) => {
           </h3>
           <div className="flex w-1/2 gap-3 justify-center">
             <input
-              onClick={() => navigate(`/etudiant/exercices`)}
+              onClick={async () => {
+                const result = await unlockNextLecon()
+                if (!result || result === 'error') return
+
+                navigate(`/etudiant/exercices`)}
+              }
               type="button"
               value="Voir les exercices"
               className="text-sm w-5/6 bg-white border-2 border-gris-clair rounded-xl px-3 py-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
