@@ -1,4 +1,4 @@
-# The Office — Frontend (React)
+# The Office, Frontend (React)
 
 React admin, formateur and étudiant portal for The Office e-learning platform. Talks to a plain PHP backend (see [The_Office_PHP](https://github.com/yehyaba51-lb/The_Office_PHP)) over JSON, with session-based authentication.
 
@@ -34,7 +34,7 @@ VITE_UPLOADS_URL=http://localhost/The_Office_PHP/
 Adjust the path if your backend sits somewhere other than `htdocs/The_Office_PHP`.
 
 ### 4. Set up the backend first
-This frontend has nothing to talk to on its own. Follow the setup in [The_Office_PHP](https://github.com/yehyaba51-lb/The_Office_PHP) first — XAMPP, the database, the backend's own `.env` — then come back here.
+This frontend has nothing to talk to on its own. Follow the setup in [The_Office_PHP](https://github.com/yehyaba51-lb/The_Office_PHP) first, XAMPP, the database, the backend's own `.env`, then come back here.
 
 ### 5. Run it
 ```
@@ -47,11 +47,11 @@ Open the URL Vite prints (usually `http://localhost:3000` or `http://localhost:5
 ```
 npm run build
 ```
-This reads `.env.production` instead of `.env` if one exists — useful for pointing a production build at a live backend URL without touching your local development `.env`. Output goes to `dist/`.
+This reads `.env.production` instead of `.env` if one exists, useful for pointing a production build at a live backend URL without touching your local development `.env`. Output goes to `dist/`.
 
 ## Earlier development
 
-Before the PHP backend existed, this frontend was built against json-server, a fake REST API reading from local JSON files. db.json and db-2.json are that mock data — nothing in the app reads them anymore, they're kept only as a record of how the UI was originally built and tested.
+Before the PHP backend existed, this frontend was built against json-server, a fake REST API reading from local JSON files. db.json and db-2.json are that mock data, nothing in the app reads them anymore, they're kept only as a record of how the UI was originally built and tested.
 
 ## What's NOT in this repo, and why
 
