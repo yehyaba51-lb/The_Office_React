@@ -72,6 +72,12 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         ) : (
                           <p>Pas de catégorie</p>
                         )
+                      ) : col.key === 'formateur' ? (
+                        row[col.key] ? (
+                          <p>{capitalize(row[col.key])}</p>
+                        ) : (
+                          <p>Aucun formateur assigné</p>
+                        )
                       ) : col.key === 'lecons' ? (
                           row[col.key] ?? 0 
                       ) : col.key === 'email' ? (
