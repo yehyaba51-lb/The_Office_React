@@ -71,8 +71,18 @@ const Corrections = () => {
 
   const soumisFunction = async (id, updatedSoumission) => {
     const numberRegex = /^(\d+(\.\d+)?|\.\d+)$/
-    if(updatedSoumission.note && (!numberRegex.test(updatedSoumission.note) || updatedSoumission.note < 0 || updatedSoumission.note > 20)){
-      toast.error('Note invalide')
+    if(updatedSoumission.note === null || updatedSoumission.note === undefined || updatedSoumission.note === ''){
+      toast.error('Note pas soumis')
+      return false;
+    }
+
+    if(!numberRegex.test(updatedSoumission.note)){
+      toast.error('Note doit etre que des chiffres et etre que entre 0 et 20')
+      return false;
+    }
+
+    if(updatedSoumission.note < 0 || updatedSoumission.note > 20){
+      toast.error('Note doit etre que entre 0 et 20')
       return false;
     }
 
