@@ -9,6 +9,7 @@ import { Inbox } from "lucide-react";
 
 const MesCoursEtudiant = () => {
   const [cours, setCours] = useState([]);
+  const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false);
   const [accessDenied, setAccessDenied] = useState(false)
@@ -50,6 +51,7 @@ const MesCoursEtudiant = () => {
     loadEverything();
   }, []);
   
+  const searchCours = cours ? cours.filter(c => `${c.cours_titre}`.toLowerCase().includes(search.toLowerCase())) : ''
   return (
     <div
       className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}
@@ -63,9 +65,12 @@ const MesCoursEtudiant = () => {
         </>
       ) : (
         <>
-          <SearchBar />
+          <SearchBar
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
           <CourseCardFormateur
-            cours={cours}
+            cours={searchCours}
             etudiant={true}
           />
         </>
