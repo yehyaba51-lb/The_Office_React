@@ -168,7 +168,7 @@ const LessonBuilderModal = ({ lecon }) => {
       return false;
     }
 
-    if(video.file.size > 500 * 1024 * 1024){
+    if(video.file.size > 20 * 1024 * 1024){
       toast.error("Taille de fichier trop grande");
       setLoading(false)
       return false;
