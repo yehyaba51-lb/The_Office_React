@@ -1,23 +1,23 @@
 import { LayoutDashboard, UsersRound, NotebookText, LayoutList, KeyRound, ClipboardList, NotebookPen, FileBadge } from "lucide-react";
 
 export const adminNav = [
-  { to: "/admin", label: "Tableau de bord", icon: LayoutDashboard, end: true },
-  { to: "/admin/utilisateurs", label: "Utilisateurs", icon: UsersRound },
-  { to: "/admin/cours", label: "Cours", icon: NotebookText, end: true },
-  { to: "/admin/categorie", label: "Catégories", icon: LayoutList },
-  { to: "/admin/acces", label: "Accès aux cours", icon: KeyRound },
+  { to: "/admin", labelKey: "tableauDeBord", icon: LayoutDashboard, end: true },
+  { to: "/admin/utilisateurs", labelKey: "utilisateurs", icon: UsersRound },
+  { to: "/admin/cours", labelKey: "cours", icon: NotebookText, end: true },
+  { to: "/admin/categorie", labelKey: "categories", icon: LayoutList },
+  { to: "/admin/acces", labelKey: "accesAuxCours", icon: KeyRound },
 ];
 
 export const formateurNav = [
-  { to: "/formateur", label: "Tableau de bord", icon: LayoutDashboard, end: true },
-  { to: "/formateur/cours", label: "Mes cours", icon: NotebookText, end: true },
-  { to: "/formateur/etudiants", label: "Mes étudiants", icon: UsersRound },
-  { to: "/formateur/corrections", label: "Corrections", icon: ClipboardList },
+  { to: "/formateur", labelKey: "tableauDeBord", icon: LayoutDashboard, end: true },
+  { to: "/formateur/cours", labelKey: "mesCours", icon: NotebookText, end: true },
+  { to: "/formateur/etudiants", labelKey: "mesEtudiants", icon: UsersRound },
+  { to: "/formateur/corrections", labelKey: "corrections", icon: ClipboardList },
 ];
 
 export const etudiantNav = [
-  { to: "/etudiant", label: "Tableau de bord", icon: LayoutDashboard, end: true },
-  { to: "/etudiant/cours", label: "Mes cours", icon: NotebookText, end: true },
-  { to: "/etudiant/exercices", label: "Mes exercices", icon: NotebookPen, end: true },
-  { to: "/etudiant/notes", label: "Mes notes", icon: FileBadge, end: true },
+  { to: "/etudiant", labelKey: "tableauDeBord", icon: LayoutDashboard, end: true },
+  { to: "/etudiant/cours", labelKey: "mesCours", icon: NotebookText, end: true },
+  { to: "/etudiant/exercices", labelKey: "mesExercices", icon: NotebookPen, end: true },
+  { to: "/etudiant/notes", labelKey: "mesNotes", icon: FileBadge, end: true },
 ];
