@@ -8,8 +8,9 @@ import { ChevronsLeftRight } from "lucide-react";
 import { adminNav, formateurNav, etudiantNav } from "../../roleLinks";
 import { toast } from "react-toastify";
 import Spinner from "./Spinner";
+import { translations } from "../../translations";
 
-const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
+const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, language }) => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [isDisconnecting, setIsDisconnecting] = useState(false)
   const navigate = useNavigate()
@@ -153,7 +154,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
                         isCollapsed ? "hidden" : "inline md:hidden lg:inline"
                       }
                     >
-                      {item.label}
+                      {translations[language][item.labelKey]}
                     </span>
                   </>
                 )}
