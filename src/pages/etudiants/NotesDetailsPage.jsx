@@ -6,6 +6,7 @@ import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 
 const NotesDetailsPage = () => {
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [note, setNote] = useState([])
   const [loading, setLoading] = useState(true)
   const [hasErrors, setHasErrors] = useState(false)
@@ -106,7 +107,7 @@ const NotesDetailsPage = () => {
                   COURS
                 </h3>
                 <p className="text-sm text-bleu-secondaire">
-                  {note.cours}
+                  {capitalize(note.cours)}
                 </p>
               </div>
               <div className="flex flex-col gap-2 justify-start">
@@ -114,7 +115,7 @@ const NotesDetailsPage = () => {
                   EXERCICE
                 </h3>
                 <p className="text-sm text-bleu-secondaire">
-                  {note.exercice}
+                  {capitalize(note.exercice)}
                 </p>
               </div>
               <div className="flex flex-col gap-2 justify-start">
@@ -122,7 +123,7 @@ const NotesDetailsPage = () => {
                   QUESTION
                 </h3>
                 <p className="text-sm text-bleu-secondaire">
-                  {note.question}
+                  {capitalize(note.question)}
                 </p>
               </div>
               <div className="flex flex-col gap-2 justify-start">
@@ -157,7 +158,7 @@ const NotesDetailsPage = () => {
                 COMMENTAIRE
               </h3>
               <p className={`text-sm ${note.commentaire ? 'text-bleu-secondaire' : 'text-gris-fonce/50'}`}>
-                {note.commentaire ? note.commentaire : 'Pas de commentaire'}
+                {note.commentaire ? capitalize(note.commentaire) : 'Pas de commentaire'}
               </p>
             </div>
           </div>
