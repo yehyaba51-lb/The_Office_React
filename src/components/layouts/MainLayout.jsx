@@ -10,6 +10,7 @@ import Spinner from "../shared/Spinner";
 const MainLayout = ({ role }) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [lang, setLang] = useState('fr')
   const navigate = useNavigate()
 
   const verifierSession = async () => {
@@ -61,9 +62,9 @@ const MainLayout = ({ role }) => {
         :currentUser === null
         ? <PasDeSession />
         : <>
-            <SideBar role={role} currentUser={currentUser} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+            <SideBar role={role} currentUser={currentUser} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} language={lang} />
             <div className="flex flex-col flex-1 overflow-y-auto h-screen">
-              <TopBar currentUser={currentUser} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+              <TopBar currentUser={currentUser} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} language={lang} setLanguage={setLang} />
               <Outlet context={ currentUser } />
             </div>
             <ToastContainer />
