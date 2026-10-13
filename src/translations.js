@@ -16,11 +16,18 @@ export const translations = {
     ajouterCompte: "Créer un compte",
     sousTitreCours: "Catalogue complet",
     ajouterCours: "Créer un cours",
+    ajouterLecon: "Ajouter un leçon",
+    ajouterQuestion: "Ajouter une question",
     sousTitreCategories: "Organiser les cours par domaine",
     ajouterCategorie: "Créer une catégorie",
     sousTitreAcces: "Un étudiant ne voit que les cours qui lui ont été accordés",
     coursIntrouvable: "Cours introuvable",
-    retourAuxCours: "Retour aux cours"
+    retourAuxCours: "Retour aux cours",
+    pageIntrouvable: "Page introuvable",
+    exercice: 'Exercice',
+    retourAuxExercice: "Retour aux exercices",
+    note: "Note",
+    retourAuxNotes: "Retour aux notes"
   },
   en: {
     tableauDeBord: "Dashboard",
@@ -39,10 +46,17 @@ export const translations = {
     ajouterCompte: "Create an account",
     sousTitreCours: "Full catalog",
     ajouterCours: "Create a course",
+    ajouterLecon: "Add a lesson",
+    ajouterQuestion: "Add a question",
     sousTitreCategories: "Organize courses by domain",
     ajouterCategorie: "Create a category",
     sousTitreAcces: "A student only sees courses they've been granted",
     coursIntrouvable: "Course not found",
-    retourAuxCours: "Back to courses"
+    retourAuxCours: "Back to courses",
+    pageIntrouvable: "Page not found",
+    exercice: 'Exercise',
+    retourAuxExercice: "Back to exercises",
+    note: "Note",
+    retourAuxNotes: "Back to notes"
   }
 };
