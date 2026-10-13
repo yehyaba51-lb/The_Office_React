@@ -2,6 +2,7 @@ import{ useEffect, useState } from 'react'
 import { Link, useLocation, useMatches, useNavigate } from 'react-router-dom'
 import { MoveLeft, Plus, Menu } from 'lucide-react'
 import { toast } from 'react-toastify'
+import { translations } from "../../translations";
 
 const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen, language, setLanguage }) => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -91,7 +92,7 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen, language, setL
   }, [id, leconId])
   
   const finalBackLink = leconId ? backLink.replace(':id', id).replace(':leconId', leconId) : id ? backLink.replace(':id', id) : backLink
-  const displayTitre = lecon?.lecon_titre || cours?.cours_titre || titre || ''
+  const displayTitre = lecon?.lecon_titre || cours?.cours_titre || translations[language][titre] || ''
   return (
     <>
       <div className='flex justify-between w-full p-3 md:p-5 gap-3'>
@@ -102,13 +103,13 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen, language, setL
           <div className="flex flex-col gap-1">
           {backLink && sousTitre && (
             <Link to={ finalBackLink } className='text-gris-fonce text-xs md:text-sm flex items-center gap-1'>
-              <MoveLeft size='15' /> {sousTitre}
+              <MoveLeft size='15' /> {translations[language][sousTitre]}
             </Link>
           )}
             {displayTitre && <h1 className='font-titres text-bleu-secondaire font-semibold text-lg md:text-2xl'>{capitalize(displayTitre)}</h1>}
             {!backLink && (
               sousTitre ? (
-                <p className='text-gris-fonce text-xs md:text-sm'>{sousTitre}</p>
+                <p className='text-gris-fonce text-xs md:text-sm'>{translations[language][sousTitre]}</p>
               ) : (
                 <p className='text-gris-fonce text-xs md:text-sm'>{`${capitalize(currentUser.prenom)} ${capitalize(currentUser.nom)}`}</p>
                 
@@ -120,7 +121,9 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen, language, setL
           {addButton ? (
             <div onClick={() => navigate(`${location.pathname}?create=true`)} className='flex items-center rounded bg-orange-cuivre px-2 md:px-4 py-1 gap-1 hover:bg-orange-cuivre/90 transition duration-300 ease-in-out cursor-pointer'>
               <Plus className='text-white' size={15} />
-              <button className='text-white text-xs md:text-sm font-semibold cursor-pointer hidden sm:block'>{addButton}</button>
+              <button className='text-white text-xs md:text-sm font-semibold cursor-pointer hidden sm:block'>
+                {translations[language][addButton]}
+              </button>
             </div>
           ) : ''}
           <div className="border-2 border-gris-clair h-8 flex items-center px-1 rounded-lg">
