@@ -3,9 +3,8 @@ import { Link, useLocation, useMatches, useNavigate } from 'react-router-dom'
 import { MoveLeft, Plus, Menu } from 'lucide-react'
 import { toast } from 'react-toastify'
 
-const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
+const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen, language, setLanguage }) => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-  const [lang, setLang] = useState('fr')
   const activeClass = ( isActive ) => `${ isActive ? 'w-8 bg-orange-cuivre text-sm rounded p-0.5 flex justify-center items-center text-white font-semibold' : 'w-10 flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre'}`
   const matches = useMatches()
   const { titre, sousTitre, backLink, addButton } = matches[matches.length - 1].handle || {}
@@ -125,8 +124,8 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen }) => {
             </div>
           ) : ''}
           <div className="border-2 border-gris-clair h-8 flex items-center px-1 rounded-lg">
-            <button className={activeClass(lang === 'en')} onClick={() => setLang('en')} >EN</button>
-            <button className={activeClass(lang === 'fr')} onClick={() => setLang('fr')} >FR</button>
+            <button className={activeClass(language === 'en')} onClick={() => setLanguage('en')} >EN</button>
+            <button className={activeClass(language === 'fr')} onClick={() => setLanguage('fr')} >FR</button>
           </div>
         </div>
       </div>
