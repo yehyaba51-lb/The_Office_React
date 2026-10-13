@@ -19,6 +19,7 @@ const LessonDetailsPage = () => {
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate();
   const { id, leconId } = useParams();
+  const [isBuffering, setIsBuffering] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
   const [searchParams] = useSearchParams();
@@ -132,10 +133,14 @@ const LessonDetailsPage = () => {
               </div>
               {content.videos.length !== 0 && (
                 <div className="w-1/2 h-fit relative">
-                  {!isPlaying && (
+                  {isBuffering ? (
+                    <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center`}>
+                      <Spinner size={20} />
+                      <p className="text-center text-sm text-bleu-secondaire">Patientez....</p>
+                    </div>
+                  ) : !isPlaying && (
                     <div
                       onClick={() => {
-                        setIsPlaying(true);
                         videoRef.current.play();
                       }}
                       className={`cursor-pointer absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full flex items-center justify-center bg-orange-cuivre hover:bg-orange-cuivre/90 transition duration-300 ease-in-out ${showNext ? "opacity-20" : ""}`}                    >
@@ -144,6 +149,8 @@ const LessonDetailsPage = () => {
                   )}
                   <video
                     ref={videoRef}
+                    onWaiting={() => setIsBuffering(true)}
+                    onPlaying={() => {setIsBuffering(false); setIsPlaying(true)}}
                     className={`w-full h-80 object-cover rounded-r-2xl ${showNext ? "opacity-20" : ""}`}
                     src={`${import.meta.env.VITE_UPLOADS_URL}${content.videos[0].url_video}`}
                     controls={isPlaying ? true : false}
