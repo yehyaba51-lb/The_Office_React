@@ -35,7 +35,6 @@ const Login = () => {
         return
       }
     } catch (error) {
-      toast.error('Impossible de charger les données')
       setLoading(false)
       return false
     }
