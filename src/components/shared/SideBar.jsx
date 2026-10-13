@@ -210,7 +210,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, languag
             {isDisconnecting
               ? <Spinner login={true} />
               : <LogOut color="currentColor" size="20" />}
-            Se déconnecter
+            {translations[language]['seDeconnecter']}
           </button>
         </div>
       </div>
