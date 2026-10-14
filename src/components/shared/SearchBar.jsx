@@ -1,11 +1,11 @@
-
-const SearchBar = ({ value, onChange, noPlaceholder=false }) => {
+import { translations } from "../../translations";
+const SearchBar = ({ value, onChange, noPlaceholder=false, lang=false }) => {
   return (
     <div className="flex-1 w-full">
       <input
         value={value}
         onChange={onChange}
-        placeholder={noPlaceholder ? '' : `Rechercher`}
+        placeholder={noPlaceholder ? '' : translations[lang]['rechercher']}
         type="text"
         name="search"
         id="/"
