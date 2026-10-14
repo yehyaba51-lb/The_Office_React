@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Spinner from '../../components/shared/Spinner'
+import { translations } from '../../translations'
 
 const ChangerMotDePasse = () => {
   const navigate = useNavigate()
   const [isLoggingInPasser, setIsLoggingInPasser] = useState(false)
   const [isLoggingInChanger, setIsLoggingInChanger] = useState(false)
   const [loading, setLoading] = useState(true)
+  const language = useOutletContext()
   const formRef = useRef();
 
   const verifierSession = async () => {
@@ -146,16 +148,16 @@ const ChangerMotDePasse = () => {
           </div>
         : <div className='border-2 border-gris-clair rounded-xl flex flex-col w-2/5 mx-auto px-10 py-4 m-10 shadow-md'>
             <form action="" method="post" className='flex flex-col gap-8' ref={formRef}>
-              <h3 className='font-titres font-bold text-bleu-secondaire text-2xl'>Changer votre Mot de passe</h3>
+              <h3 className='font-titres font-bold text-bleu-secondaire text-2xl'>{translations[language]['changerMotDePasse']}</h3>
               <div className='flex flex-col gap-6'>
                 <div className='flex flex-col gap-1'>
-                  <label htmlFor='Password' className='text-gris-fonce text-md'>Nouveau mot de passe</label>
-                  <input type="password" name="password" id='Password' className='border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition' placeholder='Nouveau mot de passe'  />
-                  <p className='text-bleu-secondaire text-xs'>Les symbols acceptés: '@ $ ! % * ? &'</p>
+                  <label htmlFor='Password' className='text-gris-fonce text-md'>{translations[language]['nouveauMotDePasse']}</label>
+                  <input type="password" name="password" id='Password' className='border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition' placeholder={translations[language]['nouveauMotDePasse']}  />
+                  <p className='text-bleu-secondaire text-xs'>{translations[language]['symbolesAcceptes']}</p>
                 </div>
                 <div className='flex flex-col gap-1'>
-                  <label htmlFor='ConfirmPassword' className='text-gris-fonce text-md'>Confirmer le nouveau mot de passe</label>
-                  <input type="password" name="confirmPassword" id='ConfirmPassword' className='border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 transition' placeholder='Confirmer votre nouveau mot de passe' />
+                  <label htmlFor='ConfirmPassword' className='text-gris-fonce text-md'>{translations[language]['confirmerNouveauMotDePasse']}</label>
+                  <input type="password" name="confirmPassword" id='ConfirmPassword' className='border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 transition' placeholder={translations[language]['confirmerVotreNouveauMotDePasse']} />
                 </div>
               </div>
               <div className="flex w-full gap-3 justify-end">
@@ -168,7 +170,7 @@ const ChangerMotDePasse = () => {
                   disabled={isLoggingInPasser}
                   className="text-sm flex items-center justify-center w-1/6 bg-white border-2 border-gris-clair rounded-xl p-1 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
                 >
-                  {isLoggingInPasser ? <Spinner login={true} /> : 'Passer'}
+                  {isLoggingInPasser ? <Spinner login={true} /> : translations[language]['passer']}
                 </button>
                 <button
                   type='button'
@@ -178,14 +180,12 @@ const ChangerMotDePasse = () => {
                   }}
                   disabled={isLoggingInChanger}
                   className='w-2/7 flex items-center justify-center bg-orange-cuivre rounded-lg p-1 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out'              >
-                  {isLoggingInChanger ? <Spinner login={true} /> : 'Changer'}
+                  {isLoggingInChanger ? <Spinner login={true} /> : translations[language]['changer']}
                 </button>
               </div>
             </form>        
             <div className="w-6/7 text-bleu-principal mt-8 border border-orange-cuivre/75 rounded-xl p-4 mx-auto m-4 justify-center items-center text-center">
-              ⚠️ Vous ne pourrez pas revenir à cet écran. Notez bien
-              votre nouveau mot de passe : en cas d'oubli, seul un
-              administrateur pourra le réinitialiser.
+              {translations[language]['avertissementMotDePasse']}
             </div>
           </div>
       }
