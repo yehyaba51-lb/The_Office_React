@@ -66,7 +66,7 @@ const MainLayout = ({ role }) => {
             <SideBar role={role} currentUser={currentUser} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} language={lang} />
             <div className="flex flex-col flex-1 overflow-y-auto h-screen">
               <TopBar currentUser={currentUser} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} language={lang} setLanguage={setLang} />
-              <Outlet context={ currentUser } />
+              <Outlet context={ {currentUser, lang} } />
             </div>
             <ToastContainer />
           </>
