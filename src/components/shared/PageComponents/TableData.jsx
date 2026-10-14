@@ -1,10 +1,13 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import ProgressBar from '../../shared/ProgressBar'
 import { Pencil, Trash2 } from "lucide-react";
+import { translations } from "../../../translations";
 
 const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true, deleting=true }) => {
   const location = useLocation();
   const navigate = useNavigate();
+    const { currentUser, lang } = useOutletContext()
+
 
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   
@@ -15,7 +18,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
           <tr className="font-titres text-bleu-secondaire font-semibold text-xs">
             {columns.map((col) => (
               <th className="px-4 py-2 text-left" key={col.key}>
-                {col.label}
+                {translations[lang][col.label]}
               </th>
             ))}
             <th className="w-12"></th>
