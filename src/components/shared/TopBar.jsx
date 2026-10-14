@@ -127,8 +127,8 @@ const TopBar = ({ currentUser, mobileMenuOpen, setMobileMenuOpen, language, setL
             </div>
           ) : ''}
           <div className="border-2 border-gris-clair h-8 flex items-center px-1 rounded-lg">
-            <button className={activeClass(language === 'en')} onClick={() => setLanguage('en')} >EN</button>
-            <button className={activeClass(language === 'fr')} onClick={() => setLanguage('fr')} >FR</button>
+            <button className={activeClass(language === 'en')} onClick={() => {setLanguage('en'); localStorage.setItem('language', 'en')}} >EN</button>
+            <button className={activeClass(language === 'fr')} onClick={() => {setLanguage('fr'); localStorage.setItem('language', 'fr')}} >FR</button>
           </div>
         </div>
       </div>
