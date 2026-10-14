@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { categorieColumns } from "../../fakeData";
 import { categorieFields } from "../../formModalsData";
@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import { Inbox } from "lucide-react";
+import { translations } from "../../translations";
 
 const Categorie = () => {
   const [categories, setCategories] = useState([]);
@@ -21,6 +22,7 @@ const Categorie = () => {
   const showEdit = searchParams.get("edit") === "true";
   const showDelete = searchParams.get("delete") === "true";
   const showSuccess = searchParams.get("success") === "true";
+  const { currentUser, lang } = useOutletContext()
 
   const getCategories = async () => {
     try {
@@ -189,7 +191,7 @@ const Categorie = () => {
             <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
               <Inbox size={28} className="text-bleu-secondaire" />
             </div>
-            <p className="mt-4 text-bleu-principal font-semibold">Aucune Catégorie créée</p>
+            <p className="mt-4 text-bleu-principal font-semibold">{translations[lang]['aucuneCategorie']}</p>
           </>
         ) : (
           <TableData columns={categorieColumns} rows={categories} />
