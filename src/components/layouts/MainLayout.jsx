@@ -10,7 +10,8 @@ import Spinner from "../shared/Spinner";
 const MainLayout = ({ role }) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [lang, setLang] = useState('fr')
+  const localStorageLanguage = localStorage.getItem('language')
+  const [lang, setLang] = useState(localStorageLanguage ? localStorageLanguage : 'fr')  
   const navigate = useNavigate()
 
   const verifierSession = async () => {
