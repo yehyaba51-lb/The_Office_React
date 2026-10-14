@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext, useParams, useSearchParams } from "react-router-dom";
 import StateBox from "../../components/shared/PageComponents/StateBox";
 import FormModal from "../../components/modals/FormModal";
 import SuccessModal from "../../components/modals/SuccessModal";
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 import { FileX } from "lucide-react";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { translations } from "../../translations";
 
 const CoursDetails = () => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -21,6 +22,8 @@ const CoursDetails = () => {
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
   const location = useLocation()
+  const [notFound, setNotFound] = useState(false);
+  const { currentUser, lang } = useOutletContext()
 
   const { id } = useParams();
   const getSelectedCours = async () => {
@@ -30,6 +33,10 @@ const CoursDetails = () => {
       })
       const data = await response.json()
 
+      if(response.status === 404){
+        setNotFound(true);
+        return true;
+      }
       if(!response.ok){
         toast.error(data.error)
         return false
@@ -183,29 +190,42 @@ const CoursDetails = () => {
           <Spinner />
         ) : hasErrors ? (
           <FetchError />
+        ) : notFound ? (
+          <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
+              <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
+                <FileX className="text-gris-fonce" size={26} />
+              </div>
+              <h3 className="text-bleu-principal font-titres font-semibold text-lg">{translations[lang]['coursIntrouvable']}</h3>
+              <p className="text-gris-fonce text-sm max-w-sm">{translations[lang]['coursIntrouvableTexte']}</p>
+              <button 
+                onClick={() => navigate('/admin/cours')} 
+                className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
+              >
+                {translations[lang]['retourAuxCours']}
+              </button>
+            </div>
         ) : (
-          cours ? (
             <div className="w-full">
               <div className="flex justify-between w-full">
-                <StateBox titre={"Formateur"} label={capitalize(cours.formateur)} />
+                <StateBox titre={translations[lang]['formateurLabel']} label={capitalize(cours.formateur)} />
                 <StateBox
-                  titre={"Étudiants inscrits"}
+                  titre={translations[lang]['etudiantsInscrits']}
                   label={ inscriptions ? inscriptions.length : '0' }
                 />
-                <StateBox titre={"Leçons"} label={cours.lecons} />
-                <StateBox titre={"Exercices"} label={cours.exercices} />
+                <StateBox titre={translations[lang]['formateurLabel']} label={cours.lecons} />
+                <StateBox titre={translations[lang]['exercices']} label={cours.exercices} />
               </div>
               <div className="m-5 border-2 border-gris-clair rounded-2xl px-5 py-2 flex flex-col gap-2 items-start justify-between">
                 <h3 className="font-titres text-gris-fonce/80 text-xl">Description</h3>
                 <p className="text-bleu-principal text-md">
-                  {cours.description ? capitalize(cours.description) : 'Pas de description'}
+                  {cours.description ? capitalize(cours.description) : translations[lang]['pasDeDescription']}
                 </p>
               </div>
               <div className="flex flex-col gap-3 px-5 py-2 w-full mb-5">
                 <h3 className="font-titres text-bleu-principal font-semibold text-xl">Leçons</h3>
                 <div className="border-2 border-gris-clair rounded-2xl p-1 flex flex-col gap-2 justify-between">
                   {cours && lecons.length === 0 ? (
-                      <p className="text-bleu-secondaire self-center p-4">Pas de leçons</p>
+                      <p className="text-bleu-secondaire self-center p-4">{translations[lang]['pasDeLecons']}</p>
                   ) : lecons.map((lecon, i) => (
                     <div
                       key={`${lecon.id}-${lecon.cours_id}`}
@@ -234,11 +254,11 @@ const CoursDetails = () => {
                       </div>
                       <div className="flex justify-between items-center">
                         <p className="text-sm text-bleu-secondaire">
-                          Exercices: {lecon.exercices}
+                          {translations[lang]['exercices']}: {lecon.exercices}
                         </p>
                         <input
                           type="submit"
-                          value="Ajouter Exercice"
+                          value={translations[lang]['addExercice']}
                           className="text-orange-cuivre text-md font-semibold cursor-pointer hover:text-orange-cuivre/75 transition duration-300 ease-in-out"
                           onClick={() => navigate(`${location.pathname}?create=true&coursId=${lecon.cours_id}&leconId=${lecon.id}`)}
                         />
@@ -248,28 +268,15 @@ const CoursDetails = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-3 px-5 py-2 mb-3">
-                <h3 className="font-titres text-bleu-principal font-semibold text-xl">Étudiants inscrits</h3>
+                <h3 className="font-titres text-bleu-principal font-semibold text-xl">
+                  {translations[lang]['etudiantsInscrits']}
+                </h3>
                 <TableData
                   columns={ etudiantsInscritsColumns }
                   rows={ inscriptions }
                   edit={false} />
               </div>
             </div>
-          ) : (
-            <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
-              <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
-                <FileX className="text-gris-fonce" size={26} />
-              </div>
-              <h3 className="text-bleu-principal font-titres font-semibold text-lg">Cours introuvable</h3>
-              <p className="text-gris-fonce text-sm max-w-sm">Ce cours n'existe pas ou a été supprimé. Vérifiez le lien ou retournez à la liste des cours.</p>
-              <button 
-                onClick={() => navigate('/admin/cours')} 
-                className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
-              >
-                Retour aux cours
-              </button>
-            </div>
-          )
         )}
 
       </div>
