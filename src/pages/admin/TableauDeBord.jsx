@@ -6,6 +6,8 @@ import { GraduationCap, Presentation, Book, KeyRound } from "lucide-react";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import { toast } from "react-toastify";
+import { translations } from "../../translations";
+import { useOutletContext } from "react-router-dom";
 
 const TableauDeBord = () => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
@@ -16,6 +18,7 @@ const TableauDeBord = () => {
   const [loading, setLoading] = useState(true);
   const [activities, setActivities] = useState([]);
   const [showAll, setShowAll] = useState(false);
+  const { currentUser, lang } = useOutletContext()
 
   const getCours = async () => {
     try {
@@ -96,7 +99,7 @@ const TableauDeBord = () => {
     const inscriptionActivities = inscriptions
       ? inscriptions.map((i) => ({
           badge: "admin",
-          text: `Accès à « ${capitalize(i.cours)} » accordé à ${capitalize(i.etudiant)}`,
+          text: `${translations[lang]['accesA']} « ${capitalize(i.cours)} » ${translations[lang]['accordeA']} ${capitalize(i.etudiant)}`,
           date: i.inscrit_le,
           to: `/admin/acces`,
         }))
@@ -105,7 +108,7 @@ const TableauDeBord = () => {
     const userActivities = users
       ? users.map((c) => ({
           badge: "admin",
-          text: `Compte ${c.role.toLowerCase()} créé pour ${capitalize(c.nom) + " " + capitalize(c.prenom)}`,
+          text: `${translations[lang]['compteCree']} ${c.role.toLowerCase()} ${translations[lang]['creePour']} ${capitalize(c.nom)} ${capitalize(c.prenom)}`,
           date: c.cree_le,
           to: `/admin/utilisateurs`,
         }))
@@ -117,7 +120,7 @@ const TableauDeBord = () => {
         (a, b) => new Date(b.date) - new Date(a.date)
       ).slice(0, 10))
 
-  }, [users, inscriptions])
+  }, [users, inscriptions, lang])
       
 
     const filteredActivities = showAll ? activities : activities.slice(0, 5)
@@ -191,33 +194,33 @@ const TableauDeBord = () => {
             <StateBox
               icon={GraduationCap}
               titre={numberOfStudents}
-              label={"Étudiants"}
-              footer={`+${studentsThisMonth} ce mois-ci`}
+              label={translations[lang]['etudiants']}
+              footer={`+${studentsThisMonth} ${translations[lang]['ceMoisCi']}`}
             />
             <StateBox
               icon={Presentation}
               titre={numberOfFormateur}
-              label={"Formateur"}
-              footer={`+${formateurThisMonth} ce mois-ci`}
+              label={translations[lang]['formateurLabel']}
+              footer={`+${formateurThisMonth} ${translations[lang]['ceMoisCi']}`}
             />
             <StateBox
               icon={Book}
               titre={numberOfCours}
-              label={"Cours"}
-              footer={`+${coursThisMonth} ce mois-ci`}
+              label={translations[lang]['cours']}
+              footer={`+${coursThisMonth} ${translations[lang]['ceMoisCi']}`}
             />
             <StateBox
               icon={KeyRound}
               titre={numberOfAccess}
-              label={"Accès aux cours"}
-              footer={`+${accessThisMonth} ce mois-ci`}
+              label={translations[lang]['accesAuxCours']}
+              footer={`+${accessThisMonth} ${translations[lang]['ceMoisCi']}`}
             />
           </div>
           <div className="flex gap-1 mx-6">
             <div className="w-4/5">
               <div className="border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col">
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-1">
-                  Activité récente
+                  {translations[lang]['activiteRecente']}
                 </h2>
                 {filteredActivities.map((activity, i) => (
                   <div key={i}>
@@ -233,32 +236,32 @@ const TableauDeBord = () => {
                   className="font-semibold text-orange-cuivre text-lg cursor-pointer hover:text-orange-cuivre/75 hover:underline transition duration-300 ease-in-out"
                   onClick={() => setShowAll((activity) => !activity)}
                 >
-                  {showAll ? "Voir moins" : "Voir plus"}
+                  {showAll ? translations[lang]['voirMoins'] : translations[lang]['voirPlus']}
                 </button>
               </div>
             </div>
             <div className="w-1/3">
               <div className="border-2 border-gris-clair rounded-2xl p-3 mx-5 my-1 flex flex-col gap-2">
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl">
-                  Accès rapide
+                  {translations[lang]['accesRapide']}
                 </h2>
                 <QuickAccess
-                  link={"Gérer les utilisateurs"}
+                  link={translations[lang]['gererUtilisateurs']}
                   portail={"admin"}
                   direction={"utilisateurs"}
                 />
                 <QuickAccess
-                  link={"Gérer les cours"}
+                  link={translations[lang]['gererCours']}
                   portail={"admin"}
                   direction={"cours"}
                 />
                 <QuickAccess
-                  link={"Gérer les catégories"}
+                  link={translations[lang]['gererCategories']}
                   portail={"admin"}
                   direction={"categorie"}
                 />
                 <QuickAccess
-                  link={"Accorder un accès"}
+                  link={translations[lang]['accorderUnAcces']}
                   portail={"admin"}
                   direction={"acces"}
                 />
