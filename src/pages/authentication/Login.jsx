@@ -1,12 +1,14 @@
 import { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
+import { translations } from "../../translations";
 
 const Login = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const [loading, setLoading] = useState(true)
   const formRef = useRef();
+  const language = useOutletContext()
   const navigate = useNavigate();
 
   const verifierSession = async () => {
@@ -90,7 +92,7 @@ const Login = () => {
     setIsLoggingIn(true);
     handleLogin(emailInput, passwordInput);
   };
-
+  
   return (
     <>
       {loading
@@ -111,31 +113,31 @@ const Login = () => {
               }}
               >
                 <h3 className="font-titres font-bold text-bleu-secondaire text-2xl">
-                  Connection
+                  {translations[language]['connexion']}
                 </h3>
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col gap-1">
                     <label htmlFor="Email" className="text-gris-fonce text-md">
-                      Email
+                      {translations[language]['email']}
                     </label>
                     <input
                       type="text"
                       name="email"
                       id="Email"
                       className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                      placeholder="Entrer votre email"
+                      placeholder={translations[language]['entrerEmail']}
                     />
                   </div>
                   <div className="flex flex-col gap-1">
                     <label htmlFor="Mot_de_passe" className="text-gris-fonce text-md">
-                      Mot de passe
+                      {translations[language]['motDePasse']}
                     </label>
                     <input
                       type="password"
                       name="mot_de_passe"
                       id="Mot_de_passe"
                       className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                      placeholder="Entrer votre mot de passe"
+                      placeholder={translations[language]['entrerMotDePasse']}
                     />
                   </div>
                 </div>
@@ -147,7 +149,7 @@ const Login = () => {
                   disabled={isLoggingIn}
                   className="w-2/6 bg-orange-cuivre rounded-lg p-1 flex items-center justify-center cursor-pointer text-white font-semibold self-end hover:bg-orange-cuivre/90 transition duration-300 ease-in-out"
                 >
-                  {isLoggingIn ? <Spinner login={true} /> : 'Connecter'}
+                  {isLoggingIn ? <Spinner login={true} /> : translations[language]['seConnecter']}
                 </button>
             </form>
           </div>
