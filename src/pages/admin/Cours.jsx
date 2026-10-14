@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { coursColumns } from "../../fakeData";
 import { coursFields } from "../../formModalsData";
@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import { Inbox } from "lucide-react";
+import { translations } from "../../translations";
 
 
 const Cours = () => {
@@ -28,6 +29,7 @@ const Cours = () => {
   const showDelete = searchParams.get("delete") === "true";
   const showSuccess = searchParams.get("success") === "true";
   const [search, setSearch] = useState('')
+  const { currentUser, lang } = useOutletContext()
 
   const getCours = async () => {
     try {
@@ -265,25 +267,25 @@ const Cours = () => {
             <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
               <Inbox size={28} className="text-bleu-secondaire" />
             </div>
-            <p className="mt-4 text-bleu-principal font-semibold">Aucun Cours créé</p>
+            <p className="mt-4 text-bleu-principal font-semibold">{translations[lang]['aucunCours']}</p>
           </>
         ) : (
           <>
             <div className="w-full flex mt-5 gap-4 items-center mb-3">
-              <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
+              <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} lang={lang} />
               <select
                 onChange={(e) => setFilter(e.target.value)}
                 className="w-75 p-2 border-2 border-gris-clair outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 rounded-xl flex text-bleu-secondaire text-md justify-center gap-5"
               >
                 {categories.length > 0 ? (
                   <>
-                    <option value="tous">Toutes les catégories</option>
+                    <option value="tous">{translations[lang]['tousLesCategories']}</option>
                     {categories && categories.map(c => (
                       <option key={c.categorie_nom} value={c.categorie_nom}>{capitalize(c.categorie_nom)}</option>
                     ))}
                   </>
                 ) : (
-                  <option value="">Aucune catégorie crée</option>
+                  <option value="">{translations[lang]['aucuneCategorie']}</option>
                 )}
               </select>
             </div>
