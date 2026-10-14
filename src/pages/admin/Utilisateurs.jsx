@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import TableData from "../../components/shared/PageComponents/TableData";
 import { userColumns } from "../../fakeData";
 import FormModal from "../../components/modals/FormModal";
@@ -10,6 +10,7 @@ import { userFields } from "../../formModalsData";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { translations } from "../../translations";
 
 
 const Utilisateurs = () => {
@@ -21,6 +22,7 @@ const Utilisateurs = () => {
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false)
   const [search, setSearch] = useState('')
+  const { currentUser, lang } = useOutletContext()
   const activeClass = (isActive) =>
     `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre"}`;
   const [searchParams] = useSearchParams();
@@ -273,25 +275,25 @@ const Utilisateurs = () => {
         />
       )}
       <div className="flex px-5 mt-5 gap-4 items-center">
-        <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} />
+        <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} lang={lang} />
         <div className="w-75 p-1 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
           <button
             className={activeClass(filter === "all")}
             onClick={() => setFilter("all")}
           >
-            Tous les rôles
+            {translations[lang]['tousLesRoles']}
           </button>
           <button
             className={activeClass(filter === "formateur")}
             onClick={() => setFilter("formateur")}
           >
-            Formateur
+            {translations[lang]['formateurLabel']}
           </button>
           <button
             className={activeClass(filter === "etudiant")}
             onClick={() => setFilter("etudiant")}
           >
-            Etudiant
+            {translations[lang]['etudiant']}
           </button>
         </div>
       </div>
