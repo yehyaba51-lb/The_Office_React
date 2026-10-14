@@ -3,11 +3,12 @@ import { CircleX, KeyRound } from "lucide-react";
 import ConfirmModal from "../../components/modals/ConfirmModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import { toast } from "react-toastify";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import SearchBar from "../../components/shared/SearchBar";
 import { Inbox } from "lucide-react";
+import { translations } from "../../translations";
 
 const AccesPage = () => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -22,6 +23,7 @@ const AccesPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+  const { currentUser, lang } = useOutletContext()
   const formRef = useRef();
 
   const showModal = searchParams.get("success") === "true";
@@ -193,7 +195,7 @@ const AccesPage = () => {
           <>
             <div className="h-fit gap-2 border-2 justify-start border-gris-clair w-2/5 rounded-2xl py-6 px-4 mt-5 flex flex-col items-start">
               <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-1">
-                Accorder un accès
+                {translations[lang]['accorderUnAcces']}
               </h2>
               <form
                 action=""
@@ -206,13 +208,13 @@ const AccesPage = () => {
                     htmlFor="rechercher"
                     className="text-gris-fonce text-md"
                   >
-                    Rechercher
+                    {translations[lang]['rechercher']}
                   </label>
                   <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} noPlaceholder={true} />
                 </div>
                 <div className="flex flex-col gap-1 mt-3 w-full">
                   <label htmlFor="etudiant" className="text-gris-fonce text-md">
-                    Étudiant
+                    {translations[lang]['etudiant']}
                   </label>
                   <select
                     type="text"
@@ -225,13 +227,15 @@ const AccesPage = () => {
                         {capitalize(e.prenom) + " " + capitalize(e.nom)}
                       </option>
                     )) : (
-                      <option value="">Aucun étudiant crée</option>
+                      <option value="">
+                        {translations[lang]['aucunEtudiantCree']}
+                      </option>
                     )}
                   </select>
                 </div>
                 <div className="flex flex-col gap-1 mt-3 w-full">
                   <label htmlFor="cours" className="text-gris-fonce text-md">
-                    Cours
+                    {translations[lang]['cours']}
                   </label>
                   <select
                     type="text"
@@ -246,7 +250,7 @@ const AccesPage = () => {
                       </option>
                     )) : (
                       <option value="">
-                        Aucun cours avec leçons
+                        {translations[lang]['aucunCoursAvecLecons']}
                       </option>
                     )}
                   </select>
@@ -272,12 +276,12 @@ const AccesPage = () => {
                 }}
                 className="text-white font-semibold mt-3 flex items-center rounded bg-orange-cuivre px-4 py-1 gap-1 hover:bg-orange-cuivre/90 transition duration-300 ease-in-out cursor-pointer"
               >
-                <KeyRound className="text-white" size={16} /> Donner l'accès
+                <KeyRound className="text-white" size={16} /> {translations[lang]['donnerAcces']}
               </button>
             </div>
             <div className="border-2 border-gris-clair w-3/5 rounded-2xl py-6 px-4 mt-5 flex flex-col gap-3 justify-center items-start">
               <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-2">
-                Accès déjà accordés
+                {translations[lang]['accesDejaAccordes']}
               </h2>
               {access.length === 0 ? (
                 <div className="self-center">
