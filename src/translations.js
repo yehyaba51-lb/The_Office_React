@@ -27,7 +27,22 @@ export const translations = {
     exercice: 'Exercice',
     retourAuxExercice: "Retour aux exercices",
     note: "Note",
-    retourAuxNotes: "Retour aux notes"
+    retourAuxNotes: "Retour aux notes",
+    connexion: "Connexion",
+    email: "Email",
+    motDePasse: "Mot de passe",
+    entrerEmail: "Entrer votre email",
+    entrerMotDePasse: "Entrer votre mot de passe",
+    seConnecter: "Se connecter",
+    droitsReserves: "Tous droits réservés.",
+    changerMotDePasse: "Changer votre Mot de passe",
+    nouveauMotDePasse: "Nouveau mot de passe",
+    symbolesAcceptes: "Les symbols acceptés: '@ $ ! % * ? &'",
+    confirmerNouveauMotDePasse: "Confirmer le nouveau mot de passe",
+    confirmerVotreNouveauMotDePasse: "Confirmer votre nouveau mot de passe",
+    passer: "Passer",
+    changer: "Changer",
+    avertissementMotDePasse: "⚠️ Vous ne pourrez pas revenir à cet écran. Notez bien votre nouveau mot de passe : en cas d'oubli, seul un administrateur pourra le réinitialiser."
   },
   en: {
     tableauDeBord: "Dashboard",
@@ -57,6 +72,21 @@ export const translations = {
     exercice: 'Exercise',
     retourAuxExercice: "Back to exercises",
     note: "Note",
-    retourAuxNotes: "Back to notes"
+    retourAuxNotes: "Back to notes",
+    connexion: "Login",
+    email: "Email",
+    motDePasse: "Password",
+    entrerEmail: "Enter your email",
+    entrerMotDePasse: "Enter your password",
+    seConnecter: "Log in",
+    droitsReserves: "All rights reserved.",
+    changerMotDePasse: "Change your password",
+    nouveauMotDePasse: "New password",
+    symbolesAcceptes: "Accepted symbols: '@ $ ! % * ? &'",
+    confirmerNouveauMotDePasse: "Confirm the new password",
+    confirmerVotreNouveauMotDePasse: "Confirm your new password",
+    passer: "Skip",
+    changer: "Change",
+    avertissementMotDePasse: "⚠️ You won't be able to return to this screen. Save your new password carefully — if you forget it, only an admin can reset it."
   }
 };
