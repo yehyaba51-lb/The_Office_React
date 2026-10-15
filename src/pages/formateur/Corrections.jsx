@@ -14,27 +14,29 @@ const Corrections = () => {
   const [soumissions, setSoumissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  const [accessDenied, setAccessDenied] = useState(false)
-  const currentUser = useOutletContext()
+  const [accessDenied, setAccessDenied] = useState(false);
+  const { currentUser, lang } = useOutletContext();
   const showCorrecting = searchParams.get("correct") === "true";
   const id = searchParams.get("id");
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
-  
 
   const getSoumissions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${currentUser.utilisateur_id}`, {
-        credentials: 'include',
-      })
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${currentUser.utilisateur_id}`,
+        {
+          credentials: "include",
+        },
+      );
       const data = await response.json();
 
-      if(response.status === 403){
-        setAccessDenied(true)
-        return 
-      } else if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (response.status === 403) {
+        setAccessDenied(true);
+        return;
+      } else if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
 
       setSoumissions(data);
@@ -56,7 +58,6 @@ const Corrections = () => {
     loadEverything();
   }, [currentUser]);
 
-
   const selectedSoumission = soumissions
     ? soumissions.filter((s) => s.id === Number(id))
     : [];
@@ -64,54 +65,62 @@ const Corrections = () => {
   const activeClass = (isActive) =>
     `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre"}`;
 
-  const filteredSoumissions = soumissions ? soumissions.filter((s) => {
-    if (filter === "all") return true;
-    return (s.corrige_le === null ? "pending" : "corrige") === filter;
-  }) : ''
+  const filteredSoumissions = soumissions
+    ? soumissions.filter((s) => {
+        if (filter === "all") return true;
+        return (s.corrige_le === null ? "pending" : "corrige") === filter;
+      })
+    : "";
 
   const soumisFunction = async (id, updatedSoumission) => {
-    const numberRegex = /^(\d+(\.\d+)?|\.\d+)$/
-    if(updatedSoumission.note === null || updatedSoumission.note === undefined || updatedSoumission.note === ''){
-      toast.error('Note pas soumis')
+    const numberRegex = /^(\d+(\.\d+)?|\.\d+)$/;
+    if (
+      updatedSoumission.note === null ||
+      updatedSoumission.note === undefined ||
+      updatedSoumission.note === ""
+    ) {
+      toast.error("Note pas soumis");
       return false;
     }
 
-    if(!numberRegex.test(updatedSoumission.note)){
-      toast.error('Note doit etre que des chiffres et etre que entre 0 et 20')
+    if (!numberRegex.test(updatedSoumission.note)) {
+      toast.error("Note doit etre que des chiffres et etre que entre 0 et 20");
       return false;
     }
 
-    if(updatedSoumission.note < 0 || updatedSoumission.note > 20){
-      toast.error('Note doit etre que entre 0 et 20')
+    if (updatedSoumission.note < 0 || updatedSoumission.note > 20) {
+      toast.error("Note doit etre que entre 0 et 20");
       return false;
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${id}`, {
-        method: 'PUT',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedSoumission),
         },
-        body: JSON.stringify(updatedSoumission)
-      })
-      const data = await response.json()
+      );
+      const data = await response.json();
 
-      if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
 
       toast.success("Soumission corrigé");
 
-      await getSoumissions()
-      return true
+      await getSoumissions();
+      return true;
     } catch (error) {
       toast.error("Soumission ne peut pas etre modifier");
-      return false
+      return false;
     }
   };
-  
 
   const allFilteredSearch = filteredSoumissions
     ? filteredSoumissions.filter(
@@ -126,12 +135,20 @@ const Corrections = () => {
     <div
       className={`flex flex-col justify-center items-center ${loading && "mt-25"}`}
     >
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : soumissions.length === 0 ? (
+      {loading ? (
+        <Spinner />
+      ) : accessDenied ? (
+        <FetchError accessDenied={true} />
+      ) : hasError ? (
+        <FetchError />
+      ) : soumissions.length === 0 ? (
         <>
           <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
-          <p className="mt-2 text-bleu-principal font-semibold">Aucune Soumission soumis</p>
+          <p className="mt-2 text-bleu-principal font-semibold">
+            Aucune Soumission soumis
+          </p>
         </>
       ) : (
         <>
@@ -145,6 +162,7 @@ const Corrections = () => {
             <SearchBar
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              lang={lang}
             />
             <div className="w-92 p-1 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
               <button
