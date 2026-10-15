@@ -9,29 +9,36 @@ import { toast } from "react-toastify";
 import { Inbox } from "lucide-react";
 
 const MesEtudiants = () => {
-  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+  const capitalize = (str) =>
+    str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   const [cours, setCours] = useState([]);
   const [inscriptions, setInscriptions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const currentUser = useOutletContext()
+  const { currentUser, lang } = useOutletContext();
   const [hasError, setHasError] = useState(false);
-  const [accessDenied, setAccessDenied] = useState(false)
+  const [accessDenied, setAccessDenied] = useState(false);
   const [filter, setFilter] = useState("tous");
   const [search, setSearch] = useState("");
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateurcours=true`, {
-        credentials: 'include',
-      })
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateurcours=true`,
+        {
+          credentials: "include",
+        },
+      );
       const data = await response.json();
 
-      if(response.status === 403){
-        setAccessDenied(true)
-        return 
-      } else if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (response.status === 403) {
+        setAccessDenied(true);
+        return;
+      } else if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
 
       setCours(data);
@@ -44,27 +51,30 @@ const MesEtudiants = () => {
 
   const getInscriptions = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${currentUser.utilisateur_id}&formateur=true`, {
-        credentials: 'include',
-      })
-      const data = await response.json()
-  
-      if(response.status === 403){
-        setAccessDenied(true)
-        return 
-      } else if(!response.ok){
-        toast.error(data.error)
-        return false
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${currentUser.utilisateur_id}&formateur=true`,
+        {
+          credentials: "include",
+        },
+      );
+      const data = await response.json();
+
+      if (response.status === 403) {
+        setAccessDenied(true);
+        return;
+      } else if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
-        
-      setInscriptions(data)
-        
-      return true
+
+      setInscriptions(data);
+
+      return true;
     } catch (error) {
-      setInscriptions([])
-      return false
+      setInscriptions([]);
+      return false;
     }
-  }
+  };
 
   useEffect(() => {
     const loadEverything = async () => {
@@ -76,37 +86,48 @@ const MesEtudiants = () => {
 
     loadEverything();
   }, [currentUser]);
-  
 
-  const filteredEtudiants = inscriptions ? inscriptions.filter((s) => {
-    if (filter === "tous") return true;
-    return s.cours_titre === filter;
-  }) : ''
+  const filteredEtudiants = inscriptions
+    ? inscriptions.filter((s) => {
+        if (filter === "tous") return true;
+        return s.cours_titre === filter;
+      })
+    : "";
 
-  const finalizedFilteredEtudiants = filteredEtudiants ? filteredEtudiants.filter(
-    (e) =>
-      `${e.etudiant}`.toLowerCase().includes(search.toLowerCase()) ||
-      `${e.cours_titre}`.toLowerCase().includes(search.toLowerCase()),
-  ) : ''
+  const finalizedFilteredEtudiants = filteredEtudiants
+    ? filteredEtudiants.filter(
+        (e) =>
+          `${e.etudiant}`.toLowerCase().includes(search.toLowerCase()) ||
+          `${e.cours_titre}`.toLowerCase().includes(search.toLowerCase()),
+      )
+    : "";
 
-  
   return (
     <div
       className={`flex flex-col gap-4 justify-center items-center ${loading && "mt-25"}`}
     >
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : inscriptions.length === 0 ? (
+      {loading ? (
+        <Spinner />
+      ) : accessDenied ? (
+        <FetchError accessDenied={true} />
+      ) : hasError ? (
+        <FetchError />
+      ) : inscriptions.length === 0 ? (
         <>
-            <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
-              <Inbox size={28} className="text-bleu-secondaire" />
-            </div>
-            <p className="text-bleu-principal font-semibold">Aucun étudiant inscrit</p>
-          </>
+          <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
+            <Inbox size={28} className="text-bleu-secondaire" />
+          </div>
+          <p className="text-bleu-principal font-semibold">
+            Aucun étudiant inscrit
+          </p>
+        </>
       ) : (
         <>
           <div className="flex px-5 mt-5 gap-4 items-center w-full">
             <SearchBar
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              lang={lang}
             />
             <select
               onChange={(e) => setFilter(e.target.value)}
