@@ -15,22 +15,23 @@ const TableauDeBordEtudiant = () => {
   const [newInscription, setNewInscription] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false);
-  const currentUser = useOutletContext()
+  const { currentUser, lang } = useOutletContext();
   const [activities, setActivities] = useState([]);
   const [showAll, setShowAll] = useState(false);
 
   const getStatistics = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/progression.php?id=${currentUser.utilisateur_id}`, {
-          credentials: 'include'
-        }
+        `${import.meta.env.VITE_SERVER_URL}/progression.php?id=${currentUser.utilisateur_id}`,
+        {
+          credentials: "include",
+        },
       );
       const data = await response.json();
 
-      if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
 
       setStatistics(data);
@@ -44,15 +45,16 @@ const TableauDeBordEtudiant = () => {
   const getCoursTermine = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/progression.php?id=${currentUser.utilisateur_id}&cours=true`, {
-          credentials: 'include'
-        }
+        `${import.meta.env.VITE_SERVER_URL}/progression.php?id=${currentUser.utilisateur_id}&cours=true`,
+        {
+          credentials: "include",
+        },
       );
       const data = await response.json();
 
-      if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
 
       setCoursTermine(data);
@@ -66,15 +68,16 @@ const TableauDeBordEtudiant = () => {
   const getSoumissionsCorrige = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${currentUser.utilisateur_id}&corrige=true`, {
-          credentials: 'include'
-        }
+        `${import.meta.env.VITE_SERVER_URL}/soumissions.php?id=${currentUser.utilisateur_id}&corrige=true`,
+        {
+          credentials: "include",
+        },
       );
       const data = await response.json();
 
-      if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
 
       setSoumissionCorrige(data);
@@ -87,15 +90,16 @@ const TableauDeBordEtudiant = () => {
   const getNouveauInscriptions = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${currentUser.utilisateur_id}&new=true`, {
-          credentials: 'include'
-        }
+        `${import.meta.env.VITE_SERVER_URL}/inscriptions.php?id=${currentUser.utilisateur_id}&new=true`,
+        {
+          credentials: "include",
+        },
       );
       const data = await response.json();
 
-      if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
 
       setNewInscription(data);
@@ -112,7 +116,7 @@ const TableauDeBordEtudiant = () => {
         getStatistics(),
         getCoursTermine(),
         getSoumissionsCorrige(),
-        getNouveauInscriptions()
+        getNouveauInscriptions(),
       ]);
       setHasErrors(results.includes(false));
 
@@ -121,7 +125,6 @@ const TableauDeBordEtudiant = () => {
 
     loadEveything();
   }, []);
-
 
   useEffect(() => {
     const inscriptionsActivities = newInscription
@@ -133,7 +136,7 @@ const TableauDeBordEtudiant = () => {
           to: "/etudiant/cours",
         }))
       : [];
-  
+
     const soumissionsActivities = soumissionCorrige
       ? soumissionCorrige.map((s) => ({
           role: "student",
@@ -145,7 +148,6 @@ const TableauDeBordEtudiant = () => {
         }))
       : [];
 
-
     const coursTermineActivities = coursTermine
       ? coursTermine.map((c) => ({
           role: "student",
@@ -155,15 +157,17 @@ const TableauDeBordEtudiant = () => {
           to: "/etudiant/cours",
         }))
       : [];
-      
-  
-    setActivities(
-      [...soumissionsActivities, ...coursTermineActivities, ...inscriptionsActivities].sort(
-        (a, b) => new Date(b.date) - new Date(a.date)
-      ).slice(0, 10)
-    );
 
-  }, [coursTermine, soumissionCorrige, newInscription])
+    setActivities(
+      [
+        ...soumissionsActivities,
+        ...coursTermineActivities,
+        ...inscriptionsActivities,
+      ]
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 10),
+    );
+  }, [coursTermine, soumissionCorrige, newInscription]);
 
   const filteredActivities = showAll ? activities : activities.slice(0, 5);
 
@@ -183,25 +187,30 @@ const TableauDeBordEtudiant = () => {
               titre={statistics.en_cours}
               label={"Cours en cours"}
             />
-            <StateBox icon={Check} titre={statistics.terminee} label={"Cours terminés"} />
+            <StateBox
+              icon={Check}
+              titre={statistics.terminee}
+              label={"Cours terminés"}
+            />
           </div>
-          <div className='flex gap-1 mx-6'>
-            <div className='w-4/5'>
-              <div className='border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col'>
+          <div className="flex gap-1 mx-6">
+            <div className="w-4/5">
+              <div className="border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col">
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-2">
                   Activité récente
                 </h2>
                 {filteredActivities.length > 0 ? (
                   <>
                     {filteredActivities.map((a, i) => (
-                    <RecentActivities key={i}
-                      role={a.role}
-                      badge={a.badge}
-                      text={a.text}
-                      note={a.note}
-                      date={a.date}
-                      to={a.to}
-                    />
+                      <RecentActivities
+                        key={i}
+                        role={a.role}
+                        badge={a.badge}
+                        text={a.text}
+                        note={a.note}
+                        date={a.date}
+                        to={a.to}
+                      />
                     ))}
                     <button
                       className="mt-4 font-semibold text-orange-cuivre text-lg cursor-pointer hover:text-orange-cuivre/75 hover:underline transition duration-300 ease-in-out"
@@ -211,7 +220,9 @@ const TableauDeBordEtudiant = () => {
                     </button>
                   </>
                 ) : (
-                  <p className="text-center text-bleu-secondaire">Aucune activités récentes</p>
+                  <p className="text-center text-bleu-secondaire">
+                    Aucune activités récentes
+                  </p>
                 )}
               </div>
             </div>
