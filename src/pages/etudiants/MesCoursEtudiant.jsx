@@ -9,25 +9,28 @@ import { Inbox } from "lucide-react";
 
 const MesCoursEtudiant = () => {
   const [cours, setCours] = useState([]);
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false);
-  const [accessDenied, setAccessDenied] = useState(false)
-  const currentUser = useOutletContext()
+  const [accessDenied, setAccessDenied] = useState(false);
+  const { currentUser, lang } = useOutletContext();
 
   const getCours = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&allCoursEtudiant=true`, {
-        credentials: 'include'
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&allCoursEtudiant=true`,
+        {
+          credentials: "include",
+        },
+      );
       const data = await response.json();
 
-      if(response.status === 403){
-        setAccessDenied(true)
-        return 
-      } else if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (response.status === 403) {
+        setAccessDenied(true);
+        return;
+      } else if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
 
       setCours(data);
@@ -40,9 +43,7 @@ const MesCoursEtudiant = () => {
 
   useEffect(() => {
     const loadEverything = async () => {
-      const results = await Promise.all([
-        getCours(),
-      ]);
+      const results = await Promise.all([getCours()]);
       setHasErrors(results.includes(false));
 
       setLoading(false);
@@ -50,29 +51,39 @@ const MesCoursEtudiant = () => {
 
     loadEverything();
   }, []);
-  
-  const searchCours = cours ? cours.filter(c => `${c.cours_titre}`.toLowerCase().includes(search.toLowerCase())) : ''
+
+  const searchCours = cours
+    ? cours.filter((c) =>
+        `${c.cours_titre}`.toLowerCase().includes(search.toLowerCase()),
+      )
+    : "";
   return (
     <div
       className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}
     >
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : cours.length === 0 ? (
+      {loading ? (
+        <Spinner />
+      ) : accessDenied ? (
+        <FetchError accessDenied={true} />
+      ) : hasErrors ? (
+        <FetchError />
+      ) : cours.length === 0 ? (
         <>
           <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
-          <p className="text-bleu-principal font-semibold">Aucune Inscription ajoutée</p>
+          <p className="text-bleu-principal font-semibold">
+            Aucune Inscription ajoutée
+          </p>
         </>
       ) : (
         <>
           <SearchBar
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            lang={lang}
           />
-          <CourseCardFormateur
-            cours={searchCours}
-            etudiant={true}
-          />
+          <CourseCardFormateur cours={searchCours} etudiant={true} />
         </>
       )}
     </div>
