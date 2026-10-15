@@ -11,25 +11,26 @@ const MesCours = () => {
   const [cours, setCours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  const [accessDenied, setAccessDenied] = useState(false)
+  const [accessDenied, setAccessDenied] = useState(false);
   const [search, setSearch] = useState("");
-  const currentUser = useOutletContext();
+  const { currentUser, lang } = useOutletContext();
 
   const getCours = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateurcours=true`, {
-          credentials: 'include'
-        }
+        `${import.meta.env.VITE_SERVER_URL}/cours.php?id=${currentUser.utilisateur_id}&formateurcours=true`,
+        {
+          credentials: "include",
+        },
       );
       const data = await response.json();
 
-      if(response.status === 403){
-        setAccessDenied(true)
-        return 
-      } else if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (response.status === 403) {
+        setAccessDenied(true);
+        return;
+      } else if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
 
       setCours(data);
@@ -65,18 +66,27 @@ const MesCours = () => {
     <div
       className={`flex flex-col px-5 mt-8 gap-4 items-center ${loading && "mt-25"}`}
     >
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasError ? <FetchError /> : cours.length === 0 ? (
+      {loading ? (
+        <Spinner />
+      ) : accessDenied ? (
+        <FetchError accessDenied={true} />
+      ) : hasError ? (
+        <FetchError />
+      ) : cours.length === 0 ? (
         <>
           <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
-          <p className="text-bleu-principal font-semibold">Aucun Cours ajouté</p>
+          <p className="text-bleu-principal font-semibold">
+            Aucun Cours ajouté
+          </p>
         </>
       ) : (
         <>
           <SearchBar
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            lang={lang}
           />
           <CourseCardFormateur cours={searchCours} />
         </>
