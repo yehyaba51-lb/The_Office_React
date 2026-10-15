@@ -3,72 +3,97 @@ import SearchBar from "../../components/shared/SearchBar";
 import { Check, LockKeyhole, Inbox } from "lucide-react";
 import { useLocation, Link, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
-import Spinner from '../../components/shared/Spinner'
-import FetchError from '../../components/shared/FetchError'
-
+import Spinner from "../../components/shared/Spinner";
+import FetchError from "../../components/shared/FetchError";
 
 const MesExercices = () => {
-  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-  const [listOfExercices, setListOfExercices] = useState({ cours: [], lecons: [], exercices: [] });
-  const currentUser = useOutletContext()
+  const capitalize = (str) =>
+    str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  const [listOfExercices, setListOfExercices] = useState({
+    cours: [],
+    lecons: [],
+    exercices: [],
+  });
+  const { currentUser, lang } = useOutletContext();
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false);
-  const [accessDenied, setAccessDenied] = useState(false)
+  const [accessDenied, setAccessDenied] = useState(false);
   const location = useLocation();
   const [filter, setFilter] = useState("all");
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("");
 
   const getListOfExercices = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/exercices.php?id=${currentUser.utilisateur_id}&exosEtudiant=true`, {
-        credentials: 'include'
-      })
-      const data = await response.json()
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/exercices.php?id=${currentUser.utilisateur_id}&exosEtudiant=true`,
+        {
+          credentials: "include",
+        },
+      );
+      const data = await response.json();
 
-      if(response.status === 403){
-        setAccessDenied(true)
-        return 
-      } else if(!response.ok){
-        toast.error(data.error)
-        return false
+      if (response.status === 403) {
+        setAccessDenied(true);
+        return;
+      } else if (!response.ok) {
+        toast.error(data.error);
+        return false;
       }
 
-      setListOfExercices(data)
-      return true
+      setListOfExercices(data);
+      return true;
     } catch (error) {
-      setListOfExercices({ cours: [], lecons: [], exercices: [] })
-      return false
+      setListOfExercices({ cours: [], lecons: [], exercices: [] });
+      return false;
     }
-  }
+  };
 
   useEffect(() => {
     const loadEverything = async () => {
-      const results = await Promise.all([getListOfExercices()])
-      setHasErrors(results.includes(false))
+      const results = await Promise.all([getListOfExercices()]);
+      setHasErrors(results.includes(false));
 
-      setLoading(false)
-    }
-    
-    loadEverything()
+      setLoading(false);
+    };
+
+    loadEverything();
   }, []);
-  
-  const filteredExercices = listOfExercices.exercices ? listOfExercices.exercices.filter(e => {
-    if (filter === "all") return true;
-      return e.statut === filter;
-  }) : []
+
+  const filteredExercices = listOfExercices.exercices
+    ? listOfExercices.exercices.filter((e) => {
+        if (filter === "all") return true;
+        return e.statut === filter;
+      })
+    : [];
 
   const activeClass = (isActive) =>
     `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre"}`;
 
-  const searchExercices = filteredExercices ? filteredExercices.filter(c => `${c.exercice_titre}`.toLowerCase().includes(search.toLowerCase())) : ''
+  const searchExercices = filteredExercices
+    ? filteredExercices.filter((c) =>
+        `${c.exercice_titre}`.toLowerCase().includes(search.toLowerCase()),
+      )
+    : "";
   return (
-    <div className={`flex flex-col px-5 gap-4 mb-5 items-center ${loading ? "mt-25" : "my-2"}`}>
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : listOfExercices.exercices.length === 0 ? (
+    <div
+      className={`flex flex-col px-5 gap-4 mb-5 items-center ${loading ? "mt-25" : "my-2"}`}
+    >
+      {loading ? (
+        <Spinner />
+      ) : accessDenied ? (
+        <FetchError accessDenied={true} />
+      ) : hasErrors ? (
+        <FetchError />
+      ) : listOfExercices.exercices.length === 0 ? (
         <>
           <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-15">
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
-          <p className="text-bleu-principal font-semibold text-center">Aucun exercice n'est disponible <br />
+          <p className="text-bleu-principal font-semibold text-center">
+            Aucun exercice n'est disponible <br />
             pour le moment
           </p>
         </>
@@ -78,6 +103,7 @@ const MesExercices = () => {
             <SearchBar
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              lang={lang}
             />
             <div className="w-80 p-1 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
               <button
@@ -101,75 +127,90 @@ const MesExercices = () => {
             </div>
           </div>
           {listOfExercices.cours.map((cours) => (
-              <div
-                key={cours.cours_id}
-                className="mt-5 w-full border-2 border-gris-clair rounded-2xl py-3 flex flex-col gap-2 justify-between"
-              >
-                <h3 className="px-5 font-titres text-bleu-principal text-xl">
-                  {capitalize(cours.cours_titre)}
-                </h3>
-    
-                {listOfExercices.lecons.filter((lecon) => lecon.cours_id === cours.cours_id).map((lecon) => (
-                  searchExercices.filter((exercice) => exercice.lecon_id === lecon.id && exercice.cours_id === cours.cours_id).map(exercice => (
-                  <div key={exercice.exercice_id}>
-                    {lecon.id !== '1' && (
-                      <hr className="border-2 border-gris-clair w-full mb-2" />
-                    )}
-                    <Link
-                      to={
-                        exercice.statut === 'a_faire'
-                          ? `${location.pathname}/${exercice.exercice_id}`
-                          : ""
-                      }
-                      className={`${exercice.statut === null ? "cursor-not-allowed" : exercice.statut === 'a_faire' ? 'cursor-pointer' : 'cursor-default'} flex items-center justify-between mx-5`}
-                    >
-                      <div className="flex gap-4 items-center">
-                        <div className="w-10 h-10 flex items-center justify-center">
-                          {exercice.statut === "termine" ? (
-                            <Check className="text-vert-reussite" size={30} />
-                          ) : exercice.statut === null ? (
-                            <LockKeyhole className="text-gris-fonce/30" size={30} />
-                          ) : (
-                            <p className="bg-orange-cuivre/20 p-2 rounded-lg font-semibold text-orange-cuivre">
-                              {String(lecon.lecon_ordre).padStart(2, "0")}
-                            </p>
-                          )}
-                        </div>
-                        <div className="flex flex-col items-start gap-1">
-                          <p
-                            className={`${exercice.statut === null && "text-gris-fonce/40"} text-bleu-secondaire text-lg font-semibold`}
-                          >
-                            Leçon 0{lecon.lecon_ordre} - {capitalize(lecon.lecon_titre)} - {capitalize(exercice.exercice_titre)}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex justify-center w-1/12">
-                        {exercice.statut === "termine" ? (
-                          <p className="text-vert-reussite font-medium text-md bg-vert-reussite/20 py-1 px-5 rounded-xl">
-                            {exercice.note}
-                          </p>
-                        ) : exercice.statut === "soumis" ? (
-                          <p className="text-bleu-secondaire font-medium text-md bg-bleu-secondaire/20 py-1 px-5 rounded-xl">
-                            Soumis
-                          </p>
-                        ) : exercice.statut === null ? (
-                          <p className="text-gris-fonce/40 font-medium text-md bg-gris-clair py-1 px-5 rounded-xl">
-                            Verrouillé
-                          </p>
-                        ) : (
-                          <p className="text-orange-cuivre font-medium text-md bg-orange-cuivre/20 py-1 px-5 rounded-xl">
-                            À faire
-                          </p>
-                        )}
-                      </div>
-                    </Link>
-                  </div>
-                ))))}
-              </div>
-            ))
-          }
-        </>
+            <div
+              key={cours.cours_id}
+              className="mt-5 w-full border-2 border-gris-clair rounded-2xl py-3 flex flex-col gap-2 justify-between"
+            >
+              <h3 className="px-5 font-titres text-bleu-principal text-xl">
+                {capitalize(cours.cours_titre)}
+              </h3>
 
+              {listOfExercices.lecons
+                .filter((lecon) => lecon.cours_id === cours.cours_id)
+                .map((lecon) =>
+                  searchExercices
+                    .filter(
+                      (exercice) =>
+                        exercice.lecon_id === lecon.id &&
+                        exercice.cours_id === cours.cours_id,
+                    )
+                    .map((exercice) => (
+                      <div key={exercice.exercice_id}>
+                        {lecon.id !== "1" && (
+                          <hr className="border-2 border-gris-clair w-full mb-2" />
+                        )}
+                        <Link
+                          to={
+                            exercice.statut === "a_faire"
+                              ? `${location.pathname}/${exercice.exercice_id}`
+                              : ""
+                          }
+                          className={`${exercice.statut === null ? "cursor-not-allowed" : exercice.statut === "a_faire" ? "cursor-pointer" : "cursor-default"} flex items-center justify-between mx-5`}
+                        >
+                          <div className="flex gap-4 items-center">
+                            <div className="w-10 h-10 flex items-center justify-center">
+                              {exercice.statut === "termine" ? (
+                                <Check
+                                  className="text-vert-reussite"
+                                  size={30}
+                                />
+                              ) : exercice.statut === null ? (
+                                <LockKeyhole
+                                  className="text-gris-fonce/30"
+                                  size={30}
+                                />
+                              ) : (
+                                <p className="bg-orange-cuivre/20 p-2 rounded-lg font-semibold text-orange-cuivre">
+                                  {String(lecon.lecon_ordre).padStart(2, "0")}
+                                </p>
+                              )}
+                            </div>
+                            <div className="flex flex-col items-start gap-1">
+                              <p
+                                className={`${exercice.statut === null && "text-gris-fonce/40"} text-bleu-secondaire text-lg font-semibold`}
+                              >
+                                Leçon 0{lecon.lecon_ordre} -{" "}
+                                {capitalize(lecon.lecon_titre)} -{" "}
+                                {capitalize(exercice.exercice_titre)}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex justify-center w-1/12">
+                            {exercice.statut === "termine" ? (
+                              <p className="text-vert-reussite font-medium text-md bg-vert-reussite/20 py-1 px-5 rounded-xl">
+                                {exercice.note}
+                              </p>
+                            ) : exercice.statut === "soumis" ? (
+                              <p className="text-bleu-secondaire font-medium text-md bg-bleu-secondaire/20 py-1 px-5 rounded-xl">
+                                Soumis
+                              </p>
+                            ) : exercice.statut === null ? (
+                              <p className="text-gris-fonce/40 font-medium text-md bg-gris-clair py-1 px-5 rounded-xl">
+                                Verrouillé
+                              </p>
+                            ) : (
+                              <p className="text-orange-cuivre font-medium text-md bg-orange-cuivre/20 py-1 px-5 rounded-xl">
+                                À faire
+                              </p>
+                            )}
+                          </div>
+                        </Link>
+                      </div>
+                    )),
+                )}
+            </div>
+          ))}
+        </>
       )}
     </div>
   );
