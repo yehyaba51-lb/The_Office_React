@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import { Inbox } from "lucide-react";
+import { translations } from "../../translations";
 
 const Corrections = () => {
   const [searchParams] = useSearchParams();
@@ -147,7 +148,7 @@ const Corrections = () => {
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
           <p className="mt-2 text-bleu-principal font-semibold">
-            Aucune Soumission soumis
+            {translations[lang]['aucuneSoumissionSoumise']}
           </p>
         </>
       ) : (
@@ -164,24 +165,24 @@ const Corrections = () => {
               onChange={(e) => setSearch(e.target.value)}
               lang={lang}
             />
-            <div className="w-92 p-1 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
+            <div className="w-fit py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
               <button
                 className={activeClass(filter === "all")}
                 onClick={() => setFilter("all")}
               >
-                Toutes les corrections
+                {translations[lang]['toutesLesCorrections']}
               </button>
               <button
                 className={activeClass(filter === "pending")}
                 onClick={() => setFilter("pending")}
               >
-                À corriger
+                {translations[lang]['aCorriger']}
               </button>
               <button
                 className={activeClass(filter === "corrige")}
                 onClick={() => setFilter("corrige")}
               >
-                Corrigées
+                {translations[lang]['corrigees']}
               </button>
             </div>
           </div>
