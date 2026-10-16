@@ -5,6 +5,7 @@ import {
   useParams,
   useSearchParams,
   useNavigate,
+  useOutletContext,
 } from "react-router-dom";
 import StateBox from "../../components/shared/PageComponents/StateBox";
 import LessonBuilderModal from "../../components/modals/LessonBuilderModal";
@@ -15,6 +16,7 @@ import { FileX } from "lucide-react";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import { toast } from "react-toastify";
+import { translations } from "../../translations";
 
 const CoursDetails = () => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -30,6 +32,7 @@ const CoursDetails = () => {
   const [description, setDescription] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  const { currentUser, lang } = useOutletContext()
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const showModal = searchParams.get("create") === "true";
@@ -258,19 +261,19 @@ const CoursDetails = () => {
             <>
               <div className="flex justify-between">
                 <StateBox
-                  titre={"Étudiants inscrits"}
+                  titre={translations[lang]['etudiantsInscrits']}
                   label={inscriptions.length}
                 />
-                <StateBox titre={"Leçons"} label={cours.lecons} />
-                <StateBox titre={"Exercices"} label={cours.exercices} />
+                <StateBox titre={translations[lang]['lecons']} label={cours.lecons} />
+                <StateBox titre={translations[lang]['exercices']} label={cours.exercices} />
               </div>
               <h3 className="px-4 text-bleu-principal text-sm mb-1">
-                Importer une image
+                {translations[lang]['importerImage']}
               </h3>
               <form action="" method="post" ref={formRef}>
                 <div className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2 mx-5">
                   <p className="text-sm text-bleu-secondaire">
-                    {cours && cours.url_image ? cours.url_image.split('thumbnails/')[1] : "Aucun fichier sélectionné"}
+                    {cours && cours.url_image ? cours.url_image.split('thumbnails/')[1] : translations[lang]['aucunFichierSelectionne']}
                   </p>
                   <input
                     name="image"
@@ -288,7 +291,7 @@ const CoursDetails = () => {
                     htmlFor="thumbnail-upload"
                     className="bg-bleu-secondaire text-white rounded-xl px-6 py-2 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
                   >
-                    Parcourir
+                    {translations[lang]['parcourir']}
                   </label>
                 </div>
                 <div className="m-5 border-2 border-gris-clair rounded-2xl px-5 py-2 flex flex-col gap-2 items-start justify-between">
@@ -310,9 +313,9 @@ const CoursDetails = () => {
                     <p
                       onClick={() => setIsEditSpec(true)}
                       className="w-full whitespace-pre-line text-bleu-principal text-md hover:text-bleu-principal/90 cursor-pointer"
-                      title="Modifier"
+                      title={translations[lang]['modifier']}
                     >
-                      {description ? capitalize(description) : 'Pas de description'}
+                      {description ? capitalize(description) : translations[lang]['pasDeDescription']}
                     </p>
                   )}
                 </div>
@@ -334,14 +337,14 @@ const CoursDetails = () => {
                       }}
                       className="mx-5 bg-bleu-secondaire px-4 py-2 text-white font-semibold text-center rounded-lg hover:bg-bleu-secondaire/95 transition duration-300 ease-in-out cursor-pointer"
                     >
-                      Enregistrer
+                      {translations[lang]['enregistrer']}
                     </button>
                   </div>
                 )}
               </form>
               <div className="flex flex-col gap-3 px-5 py-2">
                 <h3 className="font-titres text-bleu-principal font-semibold text-xl">
-                  Leçons
+                  {translations[lang]['lecons']}
                 </h3>
                 <div className="w-full border-2 border-gris-clair rounded-2xl p-1 flex flex-col gap-2 justify-between">
                   {lecons.map((lecon, i) => {
@@ -367,7 +370,7 @@ const CoursDetails = () => {
                                 {capitalize(lecon.lecon_titre)}
                               </h3>
                               <p className="text-bleu-secondaire text-sm">
-                                {`Leçon ${lecon.lecon_ordre}`}
+                                {`${translations[lang]['lecon']} ${lecon.lecon_ordre}`}
                               </p>
                             </div>
                           </div>
@@ -397,7 +400,7 @@ const CoursDetails = () => {
               </div>
               <div className="flex flex-col gap-3 px-5 py-2 mb-3">
                 <h3 className="font-titres text-bleu-principal font-semibold text-xl">
-                  Étudiants inscrits
+                  {translations[lang]['etudiantsInscrits']}
                 </h3>
                 <TableData
                   columns={etudiantsInscritsColumns}
