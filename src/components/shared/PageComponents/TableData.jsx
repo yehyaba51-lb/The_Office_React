@@ -50,7 +50,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                           ? 'bg-orange-cuivre/20 text-orange-cuivre px-3 py-1 rounded-full text-xs font-semibold' 
                           : 'bg-bleu-secondaire/20 text-bleu-secondaire px-3 py-1 rounded-full text-xs font-semibold'
                         }>
-                          {row.corrige_le  === null ? 'À corriger' : 'Corrigée'}
+                          {row.corrige_le  === null ? translations[lang]['aCorriger'] : translations[lang]['corrigee']}
                         </span>
                       ) : col.key === 'texte_question' ? (
                         row[col.key].slice(0, 20) + '...'
@@ -59,7 +59,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                           : row.note >= 10 ? 'text-vert-reussite bg-vert-reussite/20 px-3 py-1 rounded-full text-xs font-semibold' 
                           : 'text-rouge-echec bg-rouge-echec/20 px-3 py-1 rounded-full text-xs font-semibold'
                         }>
-                          {row.note === null ? 'En correction' : row.note}
+                          {row.note === null ? translations[lang]['enCorrection'] : row.note}
                         </span>
                       ) : col.key === 'note_finale' ? (
                         row.note_finale === null ? '—' : row.note_finale
@@ -67,19 +67,19 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         row[col.key] ? (
                           <p>{capitalize(row[col.key].slice(0, 40)) + '...'}</p>
                         ) : (
-                          <p>Pas de description</p>
+                          <p>{translations[lang]['pasDeDescription']}</p>
                         )
                       ) : col.key === 'categorie' ? (
                         row[col.key] ? (
                           <p>{capitalize(row[col.key].slice(0, 40)) + '...'}</p>
                         ) : (
-                          <p>Pas de catégorie</p>
+                          <p>{translations[lang]['pasDeCategorie']}</p>
                         )
                       ) : col.key === 'formateur' ? (
                         row[col.key] ? (
                           <p>{capitalize(row[col.key])}</p>
                         ) : (
-                          <p>Aucun formateur assigné</p>
+                          <p>{translations[lang]['aucunFormateurAssigne']}</p>
                         )
                       ) : col.key === 'lecons' ? (
                           row[col.key] ?? 0 
@@ -104,7 +104,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                           }
                           }
                           className="cursor-pointer text-gris-fonce/50 hover:text-orange-cuivre/80 transition duration-300 ease-in-out"
-                          title="Modifier"
+                          title={translations[lang]['modifier']}
                         >
                           {<Pencil size={18} />}
                         </button>
@@ -122,7 +122,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                             }
                             }
                             className="cursor-pointer text-gris-fonce/50 hover:text-orange-cuivre/80 transition duration-300 ease-in-out"
-                            title="Supprimer"
+                            title={translations[lang]['supprimer']}
                           >
                             {<Trash2 size={18} />}
                           </button>
@@ -150,7 +150,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                           ? 'bg-orange-cuivre/20 text-orange-cuivre px-3 py-1 rounded-full text-xs font-semibold' 
                           : 'bg-bleu-secondaire/20 text-bleu-secondaire px-3 py-1 rounded-full text-xs font-semibold'
                         }>
-                          {row.corrige_le  === null ? 'À corriger' : 'Corrigée'}
+                          {row.corrige_le  === null ? translations[lang]['aCorriger'] : translations[lang]['corrigee']}
                         </span>
                       ) : col.key === 'note' ? (
                         <span className={row.note >= 10 
@@ -180,7 +180,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                             navigate(`${location.pathname}?edit=true&id=${row.id}`)
                           }
                           className="cursor-pointer text-gris-fonce/50 hover:text-orange-cuivre/80 transition duration-300 ease-in-out"
-                          title="Modifier"
+                          title={translations[lang]['modifier']}
                         >
                           {<Pencil size={18} />}
                         </button>
@@ -196,7 +196,7 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                               navigate(`${location.pathname}?delete=true&id=${row.id}`)
                             }
                             className="cursor-pointer text-gris-fonce/50 hover:text-orange-cuivre/80 transition duration-300 ease-in-out"
-                            title="Supprimer"
+                            title={translations[lang]['supprimer']}
                           >
                             {<Trash2 size={18} />}
                           </button>
