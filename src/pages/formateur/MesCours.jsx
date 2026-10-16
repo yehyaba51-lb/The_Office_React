@@ -6,6 +6,7 @@ import FetchError from "../../components/shared/FetchError";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Inbox } from "lucide-react";
+import { translations } from "../../translations";
 
 const MesCours = () => {
   const [cours, setCours] = useState([]);
@@ -78,7 +79,7 @@ const MesCours = () => {
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
           <p className="text-bleu-principal font-semibold">
-            Aucun Cours ajouté
+            {translations[lang]['aucunCoursAjoute']}
           </p>
         </>
       ) : (
