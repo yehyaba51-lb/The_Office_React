@@ -7,6 +7,7 @@ import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
+import { translations } from "../../translations";
 
 const TableauDeBordFormateur = () => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -108,7 +109,7 @@ const TableauDeBordFormateur = () => {
     const inscriptionActivities = inscriptions
       ? inscriptions.map((i) => ({
           badge: `admin`,
-          text: `Nouvel étudiant inscrit : ${capitalize(i.etudiant)} — « ${capitalize(i.cours_titre)} »`,
+          text: `${translations[lang]['nouvelEtudiantInscrit']} : ${capitalize(i.etudiant)} — « ${capitalize(i.cours_titre)} »`,
           date: i.inscrit_le,
           to: `/formateur/etudiants`,
         }))
@@ -117,7 +118,7 @@ const TableauDeBordFormateur = () => {
     const soumissionsActivities = soumissions
       ? soumissions.map((s) => ({
           badge: "admin",
-          text: `Nouvelle soumission de ${capitalize(s.etudiant)} — « ${capitalize(s.exercice_titre)} »`,
+          text: `${translations[lang]['nouvelleSoumissionDe']} ${capitalize(s.etudiant)} — « ${capitalize(s.exercice_titre)} »`,
           date: s.soumis_le,
           to: "/formateur/corrections",
         }))
@@ -128,7 +129,7 @@ const TableauDeBordFormateur = () => {
         .sort((a, b) => new Date(b.date) - new Date(a.date))
         .slice(0, 10),
     );
-  }, [soumissions, inscriptions]);
+  }, [soumissions, inscriptions, lang]);
 
   const filteredActivitesFormateur = showAll
     ? activities
@@ -154,36 +155,36 @@ const TableauDeBordFormateur = () => {
             <StateBox
               icon={GraduationCap}
               titre={statistics.etudiants.total}
-              label={"Étudiants"}
+              label={translations[lang]['etudiants']}
               footer={
                 statistics.etudiants.ce_mois
-                  ? `+${statistics.etudiants.ce_mois} ce mois-ci`
-                  : "0 ce mois-ci"
+                  ? `+${statistics.etudiants.ce_mois} ${translations[lang]['ceMoisCi']}`
+                  : `0  ${translations[lang]['ceMoisCi']}`
               }
             />
             <StateBox
               icon={Book}
               titre={statistics.cours.total}
-              label={"Cours"}
+              label={translations[lang]['cours']}
               footer={
                 statistics.cours.ce_mois
-                  ? `+${statistics.cours.ce_mois} ce mois-ci`
-                  : "0 ce mois-ci"
+                  ? `+${statistics.cours.ce_mois} ${translations[lang]['ceMoisCi']}`
+                  : `0  ${translations[lang]['ceMoisCi']}`
               }
             />
             <StateBox
               icon={ChartSpline}
               titre={completionMoyenne !== "" ? `${completionMoyenne}%` : "0%"}
-              label={"Complétion moyen"}
+              label={translations[lang]['completionMoyen']}
             />
             <StateBox
               icon={NotebookPen}
               titre={statistics.soumissions.total}
-              label={"Soumissions à corriger"}
+              label={translations[lang]['soumissionsACorriger']}
               footer={
                 statistics.soumissions.ce_mois
-                  ? `+${statistics.soumissions.ce_mois} ce mois-ci`
-                  : "0 ce mois-ci"
+                  ? `+${statistics.soumissions.ce_mois} ${translations[lang]['ceMoisCi']}`
+                  : `0  ${translations[lang]['ceMoisCi']}`
               }
             />
           </div>
@@ -191,7 +192,7 @@ const TableauDeBordFormateur = () => {
             <div className="w-4/5">
               <div className="border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col">
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-1">
-                  Activité récente
+                  {translations[lang]['activiteRecente']}
                 </h2>
                 {filteredActivitesFormateur.length > 0 ? (
                   <>
@@ -208,12 +209,12 @@ const TableauDeBordFormateur = () => {
                       className="font-semibold text-orange-cuivre text-lg cursor-pointer hover:text-orange-cuivre/75 hover:underline transition duration-300 ease-in-out"
                       onClick={() => setshowAll((activity) => !activity)}
                     >
-                      {showAll ? "Voir moins" : "Voir plus"}
+                      {showAll ? translations[lang]['voirMoins'] : translations[lang]['voirPlus']}
                     </button>
                   </>
                 ) : (
                   <p className="text-center text-bleu-secondaire">
-                    Aucune activités récentes
+                    {translations[lang]['aucuneActiviteRecente']}
                   </p>
                 )}
               </div>
@@ -221,23 +222,24 @@ const TableauDeBordFormateur = () => {
             <div className="w-1/3">
               <div className="border-2 border-gris-clair rounded-xl p-3 mx-5 my-1 flex flex-col gap-2">
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl">
-                  Accès rapide
+                  {translations[lang]['accesRapide']}
                 </h2>
                 <QuickAccess
-                  link={"Gérer mes cours"}
+                  link={translations[lang]['gererMesCours']}
                   portail={"formateur"}
                   direction={"cours"}
                 />
                 <QuickAccess
-                  link={"Corriger les exercices"}
-                  portail={"formateur"}
-                  direction={"corrections"}
-                />
-                <QuickAccess
-                  link={"Voir mes étudiants"}
+                  link={translations[lang]['voirMesEtudiants']}
                   portail={"formateur"}
                   direction={"etudiants"}
                 />
+                <QuickAccess
+                  link={translations[lang]['corrigerLesExercices']}
+                  portail={"formateur"}
+                  direction={"corrections"}
+                />
+                
               </div>
             </div>
           </div>
