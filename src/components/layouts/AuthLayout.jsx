@@ -15,7 +15,7 @@ const AuthLayout = () => {
       <header>
         <nav className='bg-bleu-principal flex justify-between items-center p-2'>
           <Link className='w-full' to='/'>
-            <img src={logo} alt="logo" className='w-1/9' />        
+            <img src={logo} alt="logo" className='w-32'  />        
           </Link>
           <div className="border-2 border-gris-clair h-full p-1 flex items-center px-1 rounded-lg">
               <button className={activeClass(lang === 'en')} onClick={() => {setLang('en'); localStorage.setItem('language', 'en')}} >EN</button>
