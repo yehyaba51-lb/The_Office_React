@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import {
   useLocation,
   useNavigate,
+  useOutletContext,
   useParams,
   useSearchParams,
 } from "react-router-dom";
@@ -12,6 +13,7 @@ import ConfirmModal from "../../components/modals/ConfirmModal";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { translations } from "../../translations";
 
 const ExercicePage = () => {
   const [questions, setQuestions] = useState([]);
@@ -28,6 +30,7 @@ const ExercicePage = () => {
   const showEdit = searchParams.get("edit") === "true";
   const showDelete = searchParams.get("delete") === "true";
   const questionId = searchParams.get("id");
+  const { currentUser, lang } = useOutletContext()
   
 
   const getQuestions = async () => {
@@ -249,7 +252,7 @@ const ExercicePage = () => {
           <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
-          <p className="text-bleu-principal font-semibold">Aucune Question créée</p>
+          <p className="text-bleu-principal font-semibold">{translations[lang]['aucuneQuestionCreee']}</p>
         </div>
       ) : (
         <div className={`flex flex-col px-5 gap-5 mt-5 w-full`}>
