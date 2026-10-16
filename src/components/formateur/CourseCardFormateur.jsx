@@ -1,10 +1,12 @@
 import ProgressBar from "../shared/ProgressBar";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import NoImageFound from "../../assets/no-image-found.png";
 import { UserX } from "lucide-react";
+import { translations } from "../../translations";
 
 const CourseCardFormateur = ({ cours, etudiant = false }) => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+  const { currentUser, lang } = useOutletContext()
   const descriptionSlice = (description) => {
     return description.slice(0, 50) + "...";
   };
@@ -23,7 +25,7 @@ const CourseCardFormateur = ({ cours, etudiant = false }) => {
             <div className="relative w-full">
               <div className="rounded-xl bg-bleu-principal py-1 px-3 absolute inset-2 w-fit flex items-center justify-center h-10">
                 <p className="text-white text-sm font-semibold">
-                  {c.categorie_nom ? capitalize(c.categorie_nom) : 'Aucune categorie'}
+                  {c.categorie_nom ? capitalize(c.categorie_nom) : translations[lang]['aucuneCategorie']}
                 </p>
               </div>
               <img
@@ -37,7 +39,7 @@ const CourseCardFormateur = ({ cours, etudiant = false }) => {
                 {capitalize(c.cours_titre)}
               </h3>
               <p className="text-md text-bleu-secondaire">
-                {c.description ? descriptionSlice(capitalize(c.description)) : "Pas de description"}
+                {c.description ? descriptionSlice(capitalize(c.description)) : translations[lang]['pasDeDescription']}
               </p>
               <div className="flex justify-between items-center">
                 {etudiant ? (
@@ -46,29 +48,29 @@ const CourseCardFormateur = ({ cours, etudiant = false }) => {
                       {cours[i].formateur ? capitalize(cours[i].formateur[0]) : <UserX size={20} />}
                     </div>
                     <p className="font-semibold text-bleu-principal">
-                      {cours[i].formateur ? capitalize(cours[i].formateur) : 'Aucun formateur assigné'}
+                      {cours[i].formateur ? capitalize(cours[i].formateur) : translations[lang]['aucunFormateurAssigne']}
                     </p>
                   </div>
                 ) : (
                   c.etudiants > 0 ? (
                     <p className="text-gris-fonce text-md">
-                      {c.etudiants} étudiants inscrits
+                      {c.etudiants} {translations[lang]['etudiantsInscrits']}
                     </p>
                   ) : (
                     <p className="text-gris-fonce text-md">
-                      0 étudiants inscrits
+                      0 {translations[lang]['etudiantsInscrits']}
                     </p>
 
                   )
                 )}
                   <p key={i} className="text-gris-fonce text-md">
-                    {c.lecons} leçons · {c.exercices} exercices
+                    {c.lecons} {translations[lang]['lecons']} · {c.exercices} {translations[lang]['exercices']}
                   </p>
               </div>
               <div className="flex flex-col gap-2 my-3">
                 <div className="flex justify-between items-center">
                   <h3 className="font-titres text-md font-semibold text-bleu-principal">
-                    Complétion
+                    {translations[lang]['completion']}
                   </h3>
                   {c.etudiants && c.etudiants > 0 ? (
                     <p className="text-orange-cuivre font-semibold">{c.number_of_completion}/{c.etudiants}</p>
