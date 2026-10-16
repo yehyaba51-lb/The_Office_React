@@ -276,7 +276,7 @@ const Utilisateurs = () => {
       )}
       <div className="flex px-5 mt-5 gap-4 items-center">
         <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} lang={lang} />
-        <div className="w-75 p-1 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
+        <div className="w-fit py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
           <button
             className={activeClass(filter === "all")}
             onClick={() => setFilter("all")}
