@@ -9,6 +9,7 @@ import { File, Download, Play, FileX } from "lucide-react";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { translations } from "../../translations";
 
 const LessonDetailsPage = () => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -98,17 +99,16 @@ const LessonDetailsPage = () => {
             <FileX className="text-gris-fonce" size={26} />
           </div>
           <h3 className="text-bleu-principal font-titres font-semibold text-lg">
-            Cours introuvable
+            {translations[lang]['coursIntrouvable']}
           </h3>
           <p className="text-gris-fonce text-sm max-w-sm">
-            Ce cours n'existe pas ou a été supprimé. Vérifiez le lien ou
-            retournez à la liste des cours.
+            {translations[lang]['coursIntrouvableTexte']}
           </p>
           <button
-            onClick={() => navigate(`/etudiant/cours/${id}`)}
+            onClick={() => navigate(`/formateur/cours/${id}`)}
             className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
           >
-            Retour aux leçon
+            {translations[lang]['retourAuxLecons']}
           </button>
         </div>
       ) : hasErrors ? (
@@ -118,12 +118,12 @@ const LessonDetailsPage = () => {
           <>
             <div className="w-1/2 p-3 flex flex-col justify-between">
               <h3 className="font-titres text-bleu-secondaire text-sm mb-2">
-                Notes de la leçon
+                {translations[lang]['notesDeLaLecon']}
               </h3>
               <p className="text-bleu-principal text-md mb-6">
                 {content.textes.length
                   ? capitalize(content.textes[0].contenu_texte)
-                  : "Pas de contenu"}
+                  : translations[lang]['pasDeContenu']}
               </p>
               <div className="mt-auto flex flex-col gap-2">
                 {content.pdfs && content.pdfs.length > 0 && (
@@ -148,7 +148,7 @@ const LessonDetailsPage = () => {
                   >
                     <Spinner size={20} />
                     <p className="text-center text-sm text-bleu-secondaire">
-                      Patientez....
+                      {translations[lang]['patientez']}
                     </p>
                   </div>
                 ) : (
