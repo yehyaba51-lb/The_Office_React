@@ -146,7 +146,7 @@ const ChangerMotDePasse = () => {
         ? <div className="flex items-center justify-center p-20">
             <Spinner />
           </div>
-        : <div className='border-2 border-gris-clair rounded-xl flex flex-col w-2/5 mx-auto px-10 py-4 m-10 shadow-md'>
+        : <div className='border-2 border-gris-clair rounded-xl flex flex-col w-full max-w-xl mx-auto px-10 py-4 m-12 shadow-md'>
             <form action="" method="post" className='flex flex-col gap-8' ref={formRef}>
               <h3 className='font-titres font-bold text-bleu-secondaire text-2xl'>{translations[language]['changerMotDePasse']}</h3>
               <div className='flex flex-col gap-6'>
