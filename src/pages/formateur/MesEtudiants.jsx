@@ -7,6 +7,7 @@ import Spinner from "../../components/shared/Spinner";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Inbox } from "lucide-react";
+import { translations } from "../../translations";
 
 const MesEtudiants = () => {
   const capitalize = (str) =>
@@ -134,7 +135,7 @@ const MesEtudiants = () => {
               className="w-75 p-2 border-2 border-gris-clair outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 rounded-xl flex text-bleu-secondaire text-md justify-center gap-5"
             >
               <option className="" value="tous">
-                Tous les cours
+                {translations[lang]['tousLesCours']}
               </option>
               {cours.map((c) => (
                 <option key={c.cours_id} className="" value={c.cours_titre}>
