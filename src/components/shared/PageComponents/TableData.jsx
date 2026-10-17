@@ -12,8 +12,8 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   
   return (
-    <div className="border-2 border-gris-clair rounded-2xl px-2 py-1">
-      <table className="w-full table-fixed">
+    <div className="border-2 border-gris-clair rounded-2xl px-2 py-1 overflow-x-auto">
+      <table className="w-full table-fixed min-w-160">
         <thead>
           <tr className="font-titres text-bleu-secondaire font-semibold text-xs">
             {columns.map((col) => (
