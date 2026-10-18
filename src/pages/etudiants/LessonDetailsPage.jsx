@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import NextLesson from "../../components/modals/NextLesson";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { translations } from "../../translations";
 
 const LessonDetailsPage = () => {
   const capitalize = (str) =>
@@ -131,17 +132,16 @@ const LessonDetailsPage = () => {
             <FileX className="text-gris-fonce" size={26} />
           </div>
           <h3 className="text-bleu-principal font-titres font-semibold text-lg">
-            Leçon introuvable
+            {translations[lang]['leconIntrouvable']}
           </h3>
           <p className="text-gris-fonce text-sm max-w-sm">
-            Ce Leçon n'existe pas ou a été supprimé. Vérifiez le lien ou
-            retournez à la liste des cours.
+            {translations[lang]['leconIntrouvableTexte']}
           </p>
           <button
             onClick={() => navigate("/etudiant/cours")}
             className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
           >
-            Retour aux cours
+            {translations[lang]['retourAuxCours']}
           </button>
         </div>
       ) : locked ? (
@@ -150,17 +150,16 @@ const LessonDetailsPage = () => {
             <LockKeyhole className="text-gris-fonce" size={26} />
           </div>
           <h3 className="text-bleu-principal font-titres font-semibold text-lg">
-            Leçon verrouillée
+            {translations[lang]['leconVerrouillee']}
           </h3>
           <p className="text-gris-fonce text-sm max-w-sm">
-            Vous devez d'abord terminer la leçon précédente pour accéder à
-            celle-ci.
+            {translations[lang]['leconVerrouilleeTexte']}
           </p>
           <button
             onClick={() => navigate("/etudiant/cours")}
             className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
           >
-            Retour aux cours
+            {translations[lang]['retourAuxCours']}
           </button>
         </div>
       ) : (
@@ -178,12 +177,12 @@ const LessonDetailsPage = () => {
           <>
             <div className="w-1/2 p-3 flex flex-col justify-between">
               <h3 className="font-titres text-bleu-secondaire text-sm mb-2">
-                Notes de la leçon
+                {translations[lang]['notesDeLaLecon']}
               </h3>
               <p className="text-bleu-principal text-md mb-6">
                 {content.textes && content.textes.length > 0
                   ? capitalizeAllFirstLetters(content.textes[0].contenu_texte)
-                  : "Pas de contenu"}
+                  : translations[lang]['pasDeContenu']}
               </p>
               <div className="mt-auto flex flex-col gap-2">
                 {content.progression_lecon &&
@@ -238,7 +237,7 @@ const LessonDetailsPage = () => {
                   className={`w-full flex justify-center items-center gap-2 rounded-lg px-5 py-2 bg-orange-cuivre text-white cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`}
                 >
                   <ListChecks className={"text-white font-semibold"} />
-                  Voir les exercices
+                  {translations[lang]['voirLesExercices']}
                 </button>
               ) : content.videos && content.videos.length > 0 ? (
                 <button
@@ -253,7 +252,7 @@ const LessonDetailsPage = () => {
                         : "text-orange-cuivre/55 font-semibold"
                     }
                   />{" "}
-                  Leçon terminée
+                  {translations[lang]['leconTerminee']}
                 </button>
               ) : (
                 <button
@@ -261,7 +260,7 @@ const LessonDetailsPage = () => {
                   className={`w-full flex justify-center items-center gap-2 rounded-lg px-5 py-2 bg-orange-cuivre text-white cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`}
                 >
                   <Check className={"text-white font-semibold"} />
-                  Leçon terminée
+                  {translations[lang]['leconTerminee']}
                 </button>
               )}
             </div>
@@ -273,7 +272,7 @@ const LessonDetailsPage = () => {
                   >
                     <Spinner size={20} />
                     <p className="text-center text-sm text-bleu-secondaire">
-                      Patientez....
+                      {translations[lang]['patientez']}
                     </p>
                   </div>
                 ) : (
