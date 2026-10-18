@@ -20,6 +20,7 @@ import {
 import FetchError from "../../components/shared/FetchError";
 import Spinner from "../../components/shared/Spinner";
 import { toast } from "react-toastify";
+import { translations } from "../../translations";
 
 const CoursDetailsPage = () => {
   const capitalize = (str) =>
@@ -106,23 +107,22 @@ const CoursDetailsPage = () => {
             <FileX className="text-gris-fonce" size={26} />
           </div>
           <h3 className="text-bleu-principal font-titres font-semibold text-lg">
-            Cours introuvable
+            {translations[lang]['coursIntrouvable']}
           </h3>
           <p className="text-gris-fonce text-sm max-w-sm">
-            Ce cours n'existe pas ou a été supprimé. Vérifiez le lien ou
-            retournez à la liste des cours.
+            {translations[lang]['coursIntrouvableTexte']}
           </p>
           <button
             onClick={() => navigate("/etudiant/cours")}
             className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
           >
-            Retour aux cours
+            {translations[lang]['retourAuxCours']}
           </button>
         </div>
       ) : (
         <>
           <h3 className="w-full font-titres text-bleu-principal font-semibold text-xl">
-            Leçons
+            {translations[lang]['lecons']}
           </h3>
           <div className="w-full flex gap-3">
             <div className="px-4 py-2 w-5/8 border-2 border-gris-clair rounded-2xl flex flex-col h-fit">
@@ -159,7 +159,7 @@ const CoursDetailsPage = () => {
                           ) : thisProgresion &&
                             thisProgresion.statut === "en_cours" ? (
                             <h3 className="text-orange-cuivre font-semibold text-2xl">
-                              {String(l.lecon_ordre).padStart(2, "0")}
+                              {l.lecon_ordre < 10 ? String(l.lecon_ordre).padStart(2, "0") : l.lecon_ordre}
                             </h3>
                           ) : (
                             <LockKeyhole
@@ -174,28 +174,28 @@ const CoursDetailsPage = () => {
                               {capitalize(l.lecon_titre)}
                             </h3>
                             <p className="text-sm text-gris-fonce">
-                              Leçon 0{i + 1}
+                              {`${translations[lang]['lecon']} 0${i + 1}`}
                             </p>
                           </div>
                           <div className="flex items-center justify-between">
                             <div className="flex gap-1 mt-2">
                               {l.has_video ? (
                                 <div className="mr-5 text-gris-fonce text-sm flex items-center justify-center gap-1">
-                                  <Film className="text-gris-fonce" /> Vidéo
+                                  <Film className="text-gris-fonce" /> {translations[lang]['video']}
                                 </div>
                               ) : (
                                 ""
                               )}
                               {l.has_pdf ? (
                                 <div className="mr-5 text-gris-fonce text-sm flex items-center justify-center gap-1">
-                                  <FileCode className="text-gris-fonce" /> PDF
+                                  <FileCode className="text-gris-fonce" /> {translations[lang]['pdf']}
                                 </div>
                               ) : (
                                 ""
                               )}
                               {l.has_texte ? (
                                 <div className="mr-5 text-gris-fonce text-sm flex items-center justify-center gap-1">
-                                  <FileText className="text-gris-fonce" /> Texte
+                                  <FileText className="text-gris-fonce" /> {translations[lang]['texte']}
                                 </div>
                               ) : (
                                 ""
@@ -225,11 +225,11 @@ const CoursDetailsPage = () => {
                               <p>
                                 {thisProgresion &&
                                 thisProgresion.statut === "terminee"
-                                  ? "Complété"
+                                  ? translations[lang]['complete']
                                   : thisProgresion &&
                                       thisProgresion.statut === "en_cours"
-                                    ? "En cours"
-                                    : "Verrouillé"}
+                                    ? translations[lang]['enCours']
+                                    : translations[lang]['verrouille']}
                               </p>
                             </div>
                           </div>
@@ -257,7 +257,7 @@ const CoursDetailsPage = () => {
                 <div className="flex flex-col gap-2 mt-3">
                   <div className="flex justify-between items-center">
                     <h3 className="font-titres text-md font-semibold text-bleu-principal">
-                      Complétion
+                      {translations[lang]['completion']}
                     </h3>
                     <p className="text-orange-cuivre font-semibold">
                       {percentageCalcule(progression, numberOfLecons)}%
@@ -270,7 +270,7 @@ const CoursDetailsPage = () => {
                       className="w-full"
                     />
                   </div>
-                  <p className="text-bleu-secondaire text-sm">{`${progression}/${numberOfLecons} leçons terminées`}</p>
+                  <p className="text-bleu-secondaire text-sm">{`${progression}/${numberOfLecons} ${translations[lang]['leconsTerminees']}`}</p>
                   <p className="text-md text-bleu-secondaire">
                     {capitalize(cours.cours.description)}
                   </p>
@@ -287,7 +287,7 @@ const CoursDetailsPage = () => {
               </div>
               <div className="px-4 py-2 flex flex-col gap-2 items-center justify-center border-2 border-gris-clair rounded-2xl">
                 <h3 className="font-titres text-bleu-principal font-semibold text-md">
-                  NOTE FINALE
+                  {translations[lang]['noteFinale']}
                 </h3>
                 <p
                   className={
@@ -300,8 +300,7 @@ const CoursDetailsPage = () => {
                 >
                   {cours.cours.note_finale
                     ? cours.cours.note_finale
-                    : `Disponible une fois toutes les leçons terminées et tous les
-                      exercices corrigés`}
+                    : translations[lang]['noteFinaleIndisponible']}
                 </p>
               </div>
             </div>
