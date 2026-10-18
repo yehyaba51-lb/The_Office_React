@@ -3,7 +3,7 @@ import { GraduationCap } from 'lucide-react'
 
 const StateBox = ({ icon: Icon, titre, label, footer }) => {
   return (
-        <div className='w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1rem)] my-5 border-2 border-gris-clair rounded-2xl px-5 py-2 flex flex-col gap-2 items-center justify-between'>
+        <div className='w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1rem)] m-5 border-2 border-gris-clair rounded-2xl px-5 py-2 flex flex-col gap-2 items-center justify-between'>
             <div className='flex gap-3 self-start'>
                 {Icon && (
                     <div className="bg-orange-cuivre/50 rounded w-13 h-13 flex justify-center items-center">
