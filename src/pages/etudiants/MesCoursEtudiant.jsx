@@ -6,6 +6,7 @@ import Spinner from "../../components/shared/Spinner";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Inbox } from "lucide-react";
+import { translations } from "../../translations";
 
 const MesCoursEtudiant = () => {
   const [cours, setCours] = useState([]);
@@ -73,7 +74,7 @@ const MesCoursEtudiant = () => {
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
           <p className="text-bleu-principal font-semibold">
-            Aucune Inscription ajoutée
+            {translations[lang]['aucuneInscriptionAjoutee']}
           </p>
         </>
       ) : (
