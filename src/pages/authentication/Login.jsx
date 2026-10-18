@@ -99,7 +99,7 @@ const Login = () => {
         ? <div className="flex items-center justify-center p-20">
             <Spinner />
           </div>
-        : <div className='border-2 border-gris-clair rounded-xl flex flex-col w-full max-w-xl mx-auto px-10 py-4 m-12 shadow-md '>
+        : <div className='border-2 border-gris-clair rounded-xl flex flex-col w-full max-w-lg mx-auto px-10 py-4 m-8 shadow-md '>
             <form
                 action=""
                 method="post"
