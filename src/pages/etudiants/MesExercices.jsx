@@ -5,6 +5,7 @@ import { useLocation, Link, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { translations } from "../../translations";
 
 const MesExercices = () => {
   const capitalize = (str) =>
@@ -93,8 +94,8 @@ const MesExercices = () => {
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
           <p className="text-bleu-principal font-semibold text-center">
-            Aucun exercice n'est disponible <br />
-            pour le moment
+            {translations[lang]['aucunExerciceDisponible1']} <br />
+            {translations[lang]['aucunExerciceDisponible2']}
           </p>
         </>
       ) : (
@@ -105,24 +106,24 @@ const MesExercices = () => {
               onChange={(e) => setSearch(e.target.value)}
               lang={lang}
             />
-            <div className="w-80 p-1 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
+            <div className="w-fit py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
               <button
                 className={activeClass(filter === "all")}
                 onClick={() => setFilter("all")}
               >
-                Tous les exercices
+                {translations[lang]['tousLesExercices']}
               </button>
               <button
                 className={activeClass(filter === "a_faire")}
                 onClick={() => setFilter("a_faire")}
               >
-                À faire
+                {translations[lang]['aFaire']}
               </button>
               <button
                 className={activeClass(filter === "termine")}
                 onClick={() => setFilter("termine")}
               >
-                Corrigées
+                {translations[lang]['corrigees']}
               </button>
             </div>
           </div>
@@ -171,7 +172,7 @@ const MesExercices = () => {
                                 />
                               ) : (
                                 <p className="bg-orange-cuivre/20 p-2 rounded-lg font-semibold text-orange-cuivre">
-                                  {String(lecon.lecon_ordre).padStart(2, "0")}
+                                  {lecon.lecon_ordre < 10 ? String(lecon.lecon_ordre).padStart(2, "0") : lecon.lecon_ordre}
                                 </p>
                               )}
                             </div>
@@ -179,7 +180,7 @@ const MesExercices = () => {
                               <p
                                 className={`${exercice.statut === null && "text-gris-fonce/40"} text-bleu-secondaire text-lg font-semibold`}
                               >
-                                Leçon 0{lecon.lecon_ordre} -{" "}
+                                {translations[lang]['lecon']} 0{lecon.lecon_ordre} -{" "}
                                 {capitalize(lecon.lecon_titre)} -{" "}
                                 {capitalize(exercice.exercice_titre)}
                               </p>
@@ -192,15 +193,15 @@ const MesExercices = () => {
                               </p>
                             ) : exercice.statut === "soumis" ? (
                               <p className="text-bleu-secondaire font-medium text-md bg-bleu-secondaire/20 py-1 px-5 rounded-xl">
-                                Soumis
+                                {translations[lang]['soumis']}
                               </p>
                             ) : exercice.statut === null ? (
                               <p className="text-gris-fonce/40 font-medium text-md bg-gris-clair py-1 px-5 rounded-xl">
-                                Verrouillé
+                                {translations[lang]['verrouille']}
                               </p>
                             ) : (
                               <p className="text-orange-cuivre font-medium text-md bg-orange-cuivre/20 py-1 px-5 rounded-xl">
-                                À faire
+                                {translations[lang]['aFaire']}
                               </p>
                             )}
                           </div>
