@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { FileX } from "lucide-react";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { translations } from "../../translations";
 
 const NotesDetailsPage = () => {
   const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -13,6 +14,7 @@ const NotesDetailsPage = () => {
   const [notFound, setNotFound] = useState(false)
   const [accessDenied, setAccessDenied] = useState(false)
   const { id } = useParams();
+  const { currentUser, lang } = useOutletContext();
   const navigate = useNavigate()
 
   const getNote = async () => {
@@ -65,37 +67,35 @@ const NotesDetailsPage = () => {
             <FileX className="text-gris-fonce" size={26} />
           </div>
           <h3 className="text-bleu-principal font-titres font-semibold text-lg">
-            Note introuvable
+            {translations[lang]['noteIntrouvable']}
           </h3>
           <p className="text-gris-fonce text-sm max-w-sm">
-            Cette Note n'existe pas ou a été supprimé. Vérifiez le lien ou
-            retournez à la liste des cours.
+            {translations[lang]['noteIntrouvableTexte']}
           </p>
           <button       
-           onClick={() => navigate("/etudiant/cours")}
+           onClick={() => navigate("/etudiant/notes")}
             className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
           >
-            Retour aux cours
+            {translations[lang]['retourAuxNotes']}
           </button>
         </div>
-      ) :(
+      ) : (
         !note ? (
           <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
             <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
               <FileX className="text-gris-fonce" size={26} />
             </div>
             <h3 className="text-bleu-principal font-titres font-semibold text-lg">
-              Note introuvable
+              {translations[lang]['noteIntrouvable']}
             </h3>
             <p className="text-gris-fonce text-sm max-w-sm">
-              Cette note n'existe pas. Vérifiez le lien ou
-              retournez à la liste des notes.
+              {translations[lang]['noteIntrouvableTexte']}
             </p>
             <button
               onClick={() => navigate("/etudiant/notes")}
               className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
             >
-              Retour aux notes
+              {translations[lang]['retourAuxNotes']}
             </button>
           </div>
         ): (
@@ -104,7 +104,7 @@ const NotesDetailsPage = () => {
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2 justify-start">
                 <h3 className="text-bleu-principal font-titres font-bold text-xl">
-                  COURS
+                  {translations[lang]['colCours']}
                 </h3>
                 <p className="text-sm text-bleu-secondaire">
                   {capitalize(note.cours)}
@@ -112,7 +112,7 @@ const NotesDetailsPage = () => {
               </div>
               <div className="flex flex-col gap-2 justify-start">
                 <h3 className="text-bleu-principal font-titres font-bold text-xl">
-                  EXERCICE
+                  {translations[lang]['colExercice']}
                 </h3>
                 <p className="text-sm text-bleu-secondaire">
                   {capitalize(note.exercice)}
@@ -120,7 +120,7 @@ const NotesDetailsPage = () => {
               </div>
               <div className="flex flex-col gap-2 justify-start">
                 <h3 className="text-bleu-principal font-titres font-bold text-xl">
-                  QUESTION
+                  {translations[lang]['colQuestion']}
                 </h3>
                 <p className="text-sm text-bleu-secondaire">
                   {capitalize(note.question)}
@@ -128,37 +128,37 @@ const NotesDetailsPage = () => {
               </div>
               <div className="flex flex-col gap-2 justify-start">
                 <h3 className="text-bleu-principal font-titres font-bold text-xl">
-                  SOUMIS LE
+                  {translations[lang]['colSoumisLe']}
                 </h3>
                 <p className="text-sm text-bleu-secondaire">
                   {note.soumis_le}
                 </p>
               </div>
             </div>
-            <div className="border-2 gap-3 border-gris-clair rounded-2xl flex flex-col h-40 w-40 p-5 items-center justify-center">
-              <h3 className="font-titres text-xl font-semibold">Note</h3>
+            <div className="border-2 gap-3 text-bleu-principal border-gris-clair rounded-2xl flex flex-col h-40 w-40 p-5 items-center justify-center">
+              <h3 className="font-titres text-xl font-semibold">{translations[lang]['note']}</h3>
               <h1
                 className={`font-titres ${note.note ? 'text-4xl' : 'text-xl text-center'} font-semibold ${note.note === null ? 'text-orange-cuivre' : note.note >= 10 ? "text-vert-reussite" : "text-rouge-echec"}`}
               >
-                {note.note ? `${note.note}/20` : 'En correction'}
+                {note.note ? `${note.note}/20` : translations[lang]['enCorrection']}
               </h1>
             </div>
           </div>
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2 justify-start">
               <h3 className="text-bleu-principal font-titres font-bold text-xl">
-                CORRIGÉ LE
+                {translations[lang]['corrigeLe']}
               </h3>
               <p className={`text-sm ${note.corrige_le ? 'text-bleu-secondaire' : 'text-gris-fonce/50'}`}>
-                {note.corrige_le ? note.corrige_le : 'Pas encore corrigé'}
+                {note.corrige_le ? note.corrige_le : translations[lang]['pasEncoreCorrige']}
               </p>
             </div>
             <div className="flex flex-col gap-2 justify-start">
               <h3 className="text-bleu-principal font-titres font-bold text-xl">
-                COMMENTAIRE
+                {translations[lang]['commentaire']}
               </h3>
               <p className={`text-sm ${note.commentaire ? 'text-bleu-secondaire' : 'text-gris-fonce/50'}`}>
-                {note.commentaire ? capitalize(note.commentaire) : 'Pas de commentaire'}
+                {note.commentaire ? capitalize(note.commentaire) : translations[lang]['pasDeCommentaire']}
               </p>
             </div>
           </div>
