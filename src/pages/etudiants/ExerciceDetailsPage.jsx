@@ -4,6 +4,7 @@ import { Paperclip, FileX, LockKeyhole } from "lucide-react";
 import { toast } from "react-toastify";
 import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
+import { translations } from "../../translations";
 
 const ExerciceDetailsPage = () => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -247,17 +248,16 @@ const ExerciceDetailsPage = () => {
             <FileX className="text-gris-fonce" size={26} />
           </div>
           <h3 className="text-bleu-principal font-titres font-semibold text-lg">
-            Exercice introuvable
+            {translations[lang]['exerciceIntrouvable']}
           </h3>
           <p className="text-gris-fonce text-sm max-w-sm">
-            Cet Exercice n'existe pas ou a été supprimé. Vérifiez le lien ou
-            retournez à la liste des cours.
+            {translations[lang]['exerciceIntrouvableTexte']}
           </p>
           <button
-            onClick={() => navigate("/etudiant/cours")}
+            onClick={() => navigate("/etudiant/exercices")}
             className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
           >
-            Retour aux cours
+            {translations[lang]['retourAuxExercice']}
           </button>
         </div>
       ) : locked ? (
@@ -266,17 +266,16 @@ const ExerciceDetailsPage = () => {
             <LockKeyhole className="text-gris-fonce" size={26} />
           </div>
           <h3 className="text-bleu-principal font-titres font-semibold text-lg">
-            Exercice verrouillé
+            {translations[lang]['exerciceVerrouille']}
           </h3>
           <p className="text-gris-fonce text-sm max-w-sm">
-            Vous devez d'abord terminer la leçon associée à cet exercice pour y
-            accéder.
+            {translations[lang]['exerciceVerrouilleTexte']}
           </p>
           <button
             onClick={() => navigate("/etudiant/exercices")}
             className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
           >
-            Retour aux exercices
+            {translations[lang]['retourAuxExercice']}
           </button>
         </div>
       ) : !questions ? (
@@ -285,17 +284,16 @@ const ExerciceDetailsPage = () => {
             <FileX className="text-gris-fonce" size={26} />
           </div>
           <h3 className="text-bleu-principal font-titres font-semibold text-lg">
-            Exercice introuvable
+            {translations[lang]['exerciceIntrouvable']}
           </h3>
           <p className="text-gris-fonce text-sm max-w-sm">
-            Cet exercice n'existe pas ou a été supprimé. Vérifiez le lien ou
-            retournez à la liste des exercices.
+            {translations[lang]['exerciceIntrouvableTexte']}
           </p>
           <button
             onClick={() => navigate("/etudiant/exercices")}
             className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
           >
-            Retour aux exercices
+            {translations[lang]['retourAuxExercice']}
           </button>
         </div>
       ) : (
@@ -388,10 +386,10 @@ const ExerciceDetailsPage = () => {
                             disabled={!isEditable}
                             value={
                               !isEditable
-                                ? "Deja soumis"
+                                ? translations[lang]['dejaSoumis']
                                 : soumission
-                                  ? "Soumettre à nouveau"
-                                  : "Soumettre"
+                                  ? translations[lang]['soumettreANouveau']
+                                  : translations[lang]['soumettre']
                             }
                             className={`${!isEditable ? "w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire" : soumission ? "w-50 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white" : "w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white"} font-semibold px-5 py-1 rounded-xl self-end mt-4`}
                           />
@@ -430,15 +428,14 @@ const ExerciceDetailsPage = () => {
                                     "soumissions/",
                                   )[1]
                                 ) : (
-                                  "Fichier soumis"
+                                  translations[lang]['fichierSoumis']
                                 )
                               ) : (
                                 <>
                                   <Paperclip className="mr-2" size={22} />{" "}
-                                  Glisser un fichier ici, ou{" "}
+                                  {`${translations[lang]['glisserFichier']} `}
                                   <span className="text-orange-cuivre font-semibold ml-2">
-                                    {" "}
-                                    parcourir
+                                    { translations[lang]['parcourir']}
                                   </span>
                                 </>
                               )}
@@ -488,10 +485,10 @@ const ExerciceDetailsPage = () => {
                           disabled={!isEditable}
                           value={
                             !isEditable
-                              ? "Déjà soumis"
+                              ? translations[lang]['dejaSoumis']
                               : soumission
-                                ? "Soumettre à nouveau"
-                                : "Soumettre"
+                                ? translations[lang]['soumettreANouveau']
+                                : translations[lang]['soumettre']
                           }
                           className={`${!isEditable ? "w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire" : soumission ? "w-50 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white" : "w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white"} font-semibold px-5 py-1 rounded-xl self-end mt-4`}
                         />
