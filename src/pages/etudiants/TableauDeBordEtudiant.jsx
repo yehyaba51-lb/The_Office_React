@@ -7,6 +7,7 @@ import Spinner from "../../components/shared/Spinner";
 import FetchError from "../../components/shared/FetchError";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
+import { translations } from "../../translations";
 
 const TableauDeBordEtudiant = () => {
   const [statistics, setStatistics] = useState(null);
@@ -131,7 +132,7 @@ const TableauDeBordEtudiant = () => {
       ? newInscription.map((i) => ({
           role: "student",
           badge: "cours",
-          text: `Inscrit à ${i.cours_titre}`,
+          text: `${translations[lang]['inscritA']} ${i.cours_titre}`,
           date: i.inscrit_le,
           to: "/etudiant/cours",
         }))
@@ -141,7 +142,7 @@ const TableauDeBordEtudiant = () => {
       ? soumissionCorrige.map((s) => ({
           role: "student",
           badge: "corrige",
-          text: `Soumission corrigée — "${s.texte_question}"`,
+          text: `${translations[lang]['soumissionCorrigee']} — "${s.texte_question}"`,
           note: s.note,
           date: s.corrige_le,
           to: "/etudiant/notes",
@@ -152,7 +153,7 @@ const TableauDeBordEtudiant = () => {
       ? coursTermine.map((c) => ({
           role: "student",
           badge: "soumission",
-          text: `Cours terminé — "${c.cours_titre}"`,
+          text: `${translations[lang]['coursTermine']} — "${c.cours_titre}"`,
           date: c.complete_le,
           to: "/etudiant/cours",
         }))
@@ -167,7 +168,7 @@ const TableauDeBordEtudiant = () => {
         .sort((a, b) => new Date(b.date) - new Date(a.date))
         .slice(0, 10),
     );
-  }, [coursTermine, soumissionCorrige, newInscription]);
+  }, [coursTermine, soumissionCorrige, newInscription, lang]);
 
   const filteredActivities = showAll ? activities : activities.slice(0, 5);
 
@@ -181,23 +182,23 @@ const TableauDeBordEtudiant = () => {
         <FetchError />
       ) : (
         <div className="w-full">
-          <div className="flex justify-between p-2 mx-5 w-full">
+          <div className="flex gap-5 p-2 mx-5">
             <StateBox
               icon={Book}
               titre={statistics.en_cours}
-              label={"Cours en cours"}
+              label={translations[lang]['coursEnCours']}
             />
             <StateBox
               icon={Check}
               titre={statistics.terminee}
-              label={"Cours terminés"}
+              label={translations[lang]['coursTermines']}
             />
           </div>
           <div className="flex gap-1 mx-6">
-            <div className="w-4/5">
+            <div className="w-full lg:w-2/3">
               <div className="border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col">
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-2">
-                  Activité récente
+                  {translations[lang]['activiteRecente']}
                 </h2>
                 {filteredActivities.length > 0 ? (
                   <>
@@ -216,12 +217,12 @@ const TableauDeBordEtudiant = () => {
                       className="mt-4 font-semibold text-orange-cuivre text-lg cursor-pointer hover:text-orange-cuivre/75 hover:underline transition duration-300 ease-in-out"
                       onClick={() => setShowAll((activity) => !activity)}
                     >
-                      {showAll ? "Voir moins" : "Voir plus"}
+                      {showAll ? translations[lang]['voirMoins'] : translations[lang]['voirPlus']}
                     </button>
                   </>
                 ) : (
                   <p className="text-center text-bleu-secondaire">
-                    Aucune activités récentes
+                    {translations[lang]['aucuneActiviteRecente']}
                   </p>
                 )}
               </div>
@@ -229,20 +230,20 @@ const TableauDeBordEtudiant = () => {
             <div className="w-1/3">
               <div className="border-2 border-gris-clair rounded-xl p-3 mx-5 my-1 flex flex-col gap-2">
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl">
-                  Accès rapide
+                  {translations[lang]['accesRapide']}
                 </h2>
                 <QuickAccess
-                  link={"Accéder  à mes cours"}
+                  link={translations[lang]['accederAMesCours']}
                   portail={"etudiant"}
                   direction={"cours"}
                 />
                 <QuickAccess
-                  link={"Voir mes exercices"}
+                  link={translations[lang]['voirMesExercices']}
                   portail={"etudiant"}
                   direction={"exercices"}
                 />
                 <QuickAccess
-                  link={"Mes notes"}
+                  link={translations[lang]['mesNotesLabel']}
                   portail={"etudiant"}
                   direction={"notes"}
                 />
