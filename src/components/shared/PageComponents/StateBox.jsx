@@ -26,7 +26,7 @@ const StateBox = ({ icon: Icon, titre, label, footer }) => {
             </div>
             {footer ? (
                 <div className="rounded-2xl px-8 py-0.5 border-2 border-gris-clair flex justify-center items-center">
-                    <p className='text-bleu-secondaire text-xs text-center'>{footer}</p>
+                    <p className='text-bleu-secondaire text-xs text-center truncate'>{footer}</p>
                 </div>
             ) : ''}
         </div>
