@@ -13,11 +13,11 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
   
   return (
     <div className="border-2 border-gris-clair rounded-2xl px-2 py-1 overflow-x-auto">
-      <table className="w-full table-fixed min-w-160">
+      <table className="w-full table-fixed min-w-md">
         <thead>
           <tr className="font-titres text-bleu-secondaire font-semibold text-xs">
             {columns.map((col) => (
-              <th className="px-4 py-2 text-left" key={col.key}>
+              <th className="px-4 py-2 text-left truncate" key={col.key}>
                 {translations[lang][col.label]}
               </th>
             ))}
@@ -50,7 +50,9 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                           ? 'bg-orange-cuivre/20 text-orange-cuivre px-3 py-1 rounded-full text-xs font-semibold' 
                           : 'bg-bleu-secondaire/20 text-bleu-secondaire px-3 py-1 rounded-full text-xs font-semibold'
                         }>
-                          {row.corrige_le  === null ? translations[lang]['aCorriger'] : translations[lang]['corrigee']}
+                          <div className="truncate w-full">
+                            {row.corrige_le  === null ? translations[lang]['aCorriger'] : translations[lang]['corrigee']}
+                          </div>
                         </span>
                       ) : col.key === 'texte_question' ? (
                         row[col.key].slice(0, 20) + '...'
@@ -59,36 +61,42 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                           : row.note >= 10 ? 'text-vert-reussite bg-vert-reussite/20 px-3 py-1 rounded-full text-xs font-semibold' 
                           : 'text-rouge-echec bg-rouge-echec/20 px-3 py-1 rounded-full text-xs font-semibold'
                         }>
-                          {row.note === null ? translations[lang]['enCorrection'] : row.note}
+                          <div className="truncate w-full">
+                            {row.note === null ? translations[lang]['enCorrection'] : row.note}
+                          </div>
                         </span>
                       ) : col.key === 'note_finale' ? (
                         row.note_finale === null ? '—' : row.note_finale
                       ) : col.key === 'description' ? (
                         row[col.key] ? (
-                          <p>{capitalize(row[col.key].slice(0, 40)) + '...'}</p>
+                          <p className="truncate w-full">{capitalize(row[col.key].slice(0, 40)) + '...'}</p>
                         ) : (
-                          <p>{translations[lang]['pasDeDescription']}</p>
+                          <p className="truncate w-full">{translations[lang]['pasDeDescription']}</p>
                         )
                       ) : col.key === 'categorie' ? (
                         row[col.key] ? (
-                          <p>{capitalize(row[col.key].slice(0, 40)) + '...'}</p>
+                          <p className="truncate w-full">{capitalize(row[col.key].slice(0, 40)) + '...'}</p>
                         ) : (
-                          <p>{translations[lang]['pasDeCategorie']}</p>
+                          <p className="truncate w-full">{translations[lang]['pasDeCategorie']}</p>
                         )
                       ) : col.key === 'formateur' ? (
                         row[col.key] ? (
-                          <p>{capitalize(row[col.key])}</p>
+                          <p className="truncate w-full">{capitalize(row[col.key])}</p>
                         ) : (
-                          <p>{translations[lang]['aucunFormateurAssigne']}</p>
+                          <p className="truncate w-full">{translations[lang]['aucunFormateurAssigne']}</p>
                         )
                       ) : col.key === 'lecons' ? (
                           row[col.key] ?? 0 
                       ) : col.key === 'email' ? (
-                        row[col.key]
+                        <div className="truncate w-full">
+                          {row[col.key]}
+                        </div>
                       ) : col.key === 'texte_question'? (
                         <p>{row[col.key].slice(0, 35) + '...'}</p>
                       ) : (
-                        typeof row[col.key] === 'string' ? capitalize(row[col.key]) : row[col.key]
+                        <div className="truncate w-full">
+                          {typeof row[col.key] === 'string' ? capitalize(row[col.key]) : row[col.key]}
+                        </div>
                       )}
                     </td>
                   ))}
@@ -150,23 +158,31 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                           ? 'bg-orange-cuivre/20 text-orange-cuivre px-3 py-1 rounded-full text-xs font-semibold' 
                           : 'bg-bleu-secondaire/20 text-bleu-secondaire px-3 py-1 rounded-full text-xs font-semibold'
                         }>
-                          {row.corrige_le  === null ? translations[lang]['aCorriger'] : translations[lang]['corrigee']}
+                          <div className="truncate w-full">
+                            {row.corrige_le  === null ? translations[lang]['aCorriger'] : translations[lang]['corrigee']}
+                          </div>
                         </span>
                       ) : col.key === 'note' ? (
                         <span className={row.note >= 10 
                           ? 'text-vert-reussite bg-vert-reussite/20 px-5 py-1 rounded-full text-sm font-semibold' 
                           : 'text-rouge-echec bg-rouge-echec/20 px-5 py-1 rounded-full text-sm font-semibold'
                         }>
-                          {row.note}
+                          <div className="truncate w-full">
+                            {row.note}
+                          </div>
                         </span>
                       ) : col.key === 'note_finale' ? (
                         row.note_finale === null ? '—' : row.note_finale
                       ) : col.key === 'coursCount' ? (
                         row[col.key] ?? 0 
                       ) : col.key === 'email' ? (
-                        row[col.key]
+                        <div className="truncate w-full">
+                          {row[col.key]}
+                        </div>
                       ) : (
-                        typeof row[col.key] === 'string' ? capitalize(row[col.key]) : row[col.key]
+                        <div className="truncate w-full">
+                          {typeof row[col.key] === 'string' ? capitalize(row[col.key]) : row[col.key]}
+                        </div>
                       )}
                     </td>
                   ))}
