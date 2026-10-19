@@ -47,23 +47,19 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         })()
                       ) : col.key === 'statut' ? (
                         <span className={row.corrige_le  === null 
-                          ? 'bg-orange-cuivre/20 text-orange-cuivre px-3 py-1 rounded-full text-xs font-semibold' 
-                          : 'bg-bleu-secondaire/20 text-bleu-secondaire px-3 py-1 rounded-full text-xs font-semibold'
+                          ? 'bg-orange-cuivre/20 text-orange-cuivre px-3 py-1 rounded-full text-xs font-semibold truncate' 
+                          : 'bg-bleu-secondaire/20 text-bleu-secondaire px-3 py-1 rounded-full text-xs font-semibold truncate'
                         }>
-                          <div className="truncate w-full">
-                            {row.corrige_le  === null ? translations[lang]['aCorriger'] : translations[lang]['corrigee']}
-                          </div>
+                          {row.corrige_le  === null ? translations[lang]['aCorriger'] : translations[lang]['corrigee']}
                         </span>
                       ) : col.key === 'texte_question' ? (
                         row[col.key].slice(0, 20) + '...'
                       ) : col.key === 'note' ? (
                         <span className={row.note === null ? 'bg-gris-clair text-orange-cuivre/70 px-3 py-1 rounded-full text-xs font-semibold'
-                          : row.note >= 10 ? 'text-vert-reussite bg-vert-reussite/20 px-3 py-1 rounded-full text-xs font-semibold' 
-                          : 'text-rouge-echec bg-rouge-echec/20 px-3 py-1 rounded-full text-xs font-semibold'
+                          : row.note >= 10 ? 'text-vert-reussite bg-vert-reussite/20 px-3 py-1 rounded-full text-xs font-semibold truncate' 
+                          : 'text-rouge-echec bg-rouge-echec/20 px-3 py-1 rounded-full text-xs font-semibold truncate'
                         }>
-                          <div className="truncate w-full">
                             {row.note === null ? translations[lang]['enCorrection'] : row.note}
-                          </div>
                         </span>
                       ) : col.key === 'note_finale' ? (
                         row.note_finale === null ? '—' : row.note_finale
@@ -155,12 +151,10 @@ const TableData = ({ columns, rows, onClickRow, admin=true, type=null, edit=true
                         })()
                       ) : col.key === 'statut' ? (
                         <span className={row.corrige_le  === null 
-                          ? 'bg-orange-cuivre/20 text-orange-cuivre px-3 py-1 rounded-full text-xs font-semibold' 
-                          : 'bg-bleu-secondaire/20 text-bleu-secondaire px-3 py-1 rounded-full text-xs font-semibold'
+                          ? 'bg-orange-cuivre/20 text-orange-cuivre px-3 py-1 rounded-full text-xs font-semibold w-full truncate' 
+                          : 'bg-bleu-secondaire/20 text-bleu-secondaire px-3 py-1 rounded-full text-xs font-semibold w-full truncate'
                         }>
-                          <div className="truncate w-full">
-                            {row.corrige_le  === null ? translations[lang]['aCorriger'] : translations[lang]['corrigee']}
-                          </div>
+                          {row.corrige_le  === null ? translations[lang]['aCorriger'] : translations[lang]['corrigee']}
                         </span>
                       ) : col.key === 'note' ? (
                         <span className={row.note >= 10 
