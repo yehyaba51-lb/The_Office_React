@@ -106,7 +106,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, languag
                 {isDisconnecting
                   ? <Spinner login={true} />
                   : <LogOut color="currentColor" size="20" />}
-                Se déconnecter
+                {translations[language]['seDeconnecter']}
               </button>
             </div>
           </>
@@ -116,7 +116,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, languag
             <img
               src={logo}
               alt="logo"
-              className={isCollapsed ? "hidden" : "hidden lg:block"}
+              className={isCollapsed ? "hidden" : "block md:hidden lg:block"}
             />
             <img
               src={logoLampe}
@@ -124,7 +124,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, languag
               className={
                 isCollapsed
                   ? "block md:-translate-y-10.5"
-                  : "block md:-translate-y-10.5 lg:hidden"
+                  : "hidden md:block md:-translate-y-10.5 lg:hidden"
               }
             />
           </Link>
@@ -164,7 +164,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, languag
         </div>
         <div
           className={
-            isCollapsed ? "flex gap-3" : "flex gap-3 md:flex lg:hidden"
+            isCollapsed ? "flex gap-3" : "hidden md:flex lg:hidden"
           }
         >
           <button
@@ -178,7 +178,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, languag
           className={
             isCollapsed
               ? "hidden"
-              : "hidden lg:flex w-full rounded-xl border-2 border-gris-clair py-2 px-3 flex-col gap-4 cursor-auto"
+              : "flex md:hidden lg:flex w-full rounded-xl border-2 border-gris-clair py-2 px-3 flex-col gap-4 cursor-auto"
           }
         >
           <div className="flex gap-3">
