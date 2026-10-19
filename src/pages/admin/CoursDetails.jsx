@@ -212,7 +212,7 @@ const CoursDetails = () => {
                   titre={translations[lang]['etudiantsInscrits']}
                   label={ inscriptions ? inscriptions.length : '0' }
                 />
-                <StateBox titre={translations[lang]['formateurLabel']} label={cours.lecons} />
+                <StateBox titre={translations[lang]['lecons']} label={cours.lecons} />
                 <StateBox titre={translations[lang]['exercices']} label={cours.exercices} />
               </div>
               <div className="m-5 border-2 border-gris-clair rounded-2xl px-5 py-2 flex flex-col gap-2 items-start justify-between">
