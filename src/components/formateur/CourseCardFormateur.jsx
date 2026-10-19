@@ -13,9 +13,7 @@ const CourseCardFormateur = ({ cours, etudiant = false }) => {
 
   return (
     <>
-      <div
-        className={`w-full rounded-2xl h-fit grid grid-cols-2 gap-20 justify-between p-2`}
-      >
+      <div className="w-full rounded-2xl h-fit grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-20 justify-between p-2">
         {cours.map((c, i) => (
           <Link
             key={i}
