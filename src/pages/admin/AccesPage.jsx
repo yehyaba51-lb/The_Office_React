@@ -184,16 +184,14 @@ const AccesPage = () => {
           irreversible={false}
         />
       )}
-      <div
-        className={`flex items-start justify-center p-2 mx-5 gap-7 ${loading && "mt-25"}`}
-      >
+      <div className={`w-full flex items-start justify-center p-2 mt-5 ${loading && "mt-25"}`}>
         {loading ? (
           <Spinner />
         ) : hasError ? (
           <FetchError />
         ) : (
-          <>
-            <div className="h-fit gap-2 border-2 justify-start border-gris-clair w-2/5 rounded-2xl py-6 px-4 mt-5 flex flex-col items-start">
+          <div className="flex flex-col lg:flex-row gap-5 w-full px-5">
+            <div className="h-fit gap-2 border-2 justify-start border-gris-clair w-full lg:w-2/5 rounded-2xl py-6 px-4 flex flex-col items-start">              
               <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-1">
                 {translations[lang]['accorderUnAcces']}
               </h2>
@@ -279,7 +277,7 @@ const AccesPage = () => {
                 <KeyRound className="text-white" size={16} /> {translations[lang]['donnerAcces']}
               </button>
             </div>
-            <div className="border-2 border-gris-clair w-3/5 rounded-2xl py-6 px-4 mt-5 flex flex-col gap-3 justify-center items-start">
+            <div className="border-2 h-fit border-gris-clair w-full lg:w-3/5 rounded-2xl py-6 px-4 flex flex-col gap-3 justify-start items-start">
               <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-2">
                 {translations[lang]['accesDejaAccordes']}
               </h2>
@@ -297,12 +295,12 @@ const AccesPage = () => {
                       key={access.id}
                       className="w-full text-bleu-secondaire text-md flex px-2 py-1 justify-between items-center border-2 border-gris-clair rounded-xl"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 min-w-0">
                         <div className="bg-gris-clair w-10 h-10 rounded-full flex justify-center items-center font-semibold text-bleu-principal">
                           {capitalize(access.etudiant[0])}
                         </div>
                         <div className="flex flex-col">
-                          <h3 className="text-bleu-secondaire font-semibold">
+                          <h3 className="text-bleu-secondaire font-semibold truncate">
                             {capitalize(access.etudiant)}
                           </h3>
                           <p className="text-gris-fonce text-sm">{capitalize(access.cours)}</p>
@@ -329,7 +327,7 @@ const AccesPage = () => {
 
               )}
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>
