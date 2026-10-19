@@ -156,9 +156,9 @@ const MesExercices = () => {
                               ? `${location.pathname}/${exercice.exercice_id}`
                               : ""
                           }
-                          className={`${exercice.statut === null ? "cursor-not-allowed" : exercice.statut === "a_faire" ? "cursor-pointer" : "cursor-default"} flex items-center justify-between mx-5`}
+                          className={`${exercice.statut === null ? "cursor-not-allowed" : exercice.statut === "a_faire" ? "cursor-pointer" : "cursor-default"} flex items-center justify-between gap-2 mx-2 md:mx-5`}
                         >
-                          <div className="flex gap-4 items-center">
+                          <div className="flex gap-4 items-center min-w-0">
                             <div className="w-10 h-10 flex items-center justify-center">
                               {exercice.statut === "termine" ? (
                                 <Check
@@ -176,9 +176,9 @@ const MesExercices = () => {
                                 </p>
                               )}
                             </div>
-                            <div className="flex flex-col items-start gap-1">
+                            <div className="flex flex-col items-start gap-1 w-full min-w-0">
                               <p
-                                className={`${exercice.statut === null && "text-gris-fonce/40"} text-bleu-secondaire text-lg font-semibold`}
+                                className={`${exercice.statut === null && "text-gris-fonce/40"} text-bleu-secondaire text-lg font-semibold truncate w-full`}
                               >
                                 {translations[lang]['lecon']} 0{lecon.lecon_ordre} -{" "}
                                 {capitalize(lecon.lecon_titre)} -{" "}
@@ -186,7 +186,7 @@ const MesExercices = () => {
                               </p>
                             </div>
                           </div>
-                          <div className="flex justify-center w-1/12">
+                          <div className="flex justify-center w-auto shrink-0">
                             {exercice.statut === "termine" ? (
                               <p className="text-vert-reussite font-medium text-md bg-vert-reussite/20 py-1 px-5 rounded-xl">
                                 {exercice.note}
