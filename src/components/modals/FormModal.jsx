@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { CircleX } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { translations } from "../../translations";
 
 const FormModal = ({
   type,
@@ -8,28 +9,29 @@ const FormModal = ({
   initialData,
   editFunction,
   submitFunction,
-  resetPassword
+  resetPassword,
+  language
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const formRef = useRef(null);
 
   const isEditMode = Boolean(initialData);
-
+  
   return (
     <>
       <div className="fixed bg-bleu-secondaire/20 backdrop-blur-xs inset-0"></div>
       <div
-        className="fixed inset-0 flex justify-center items-start p-22 z-10"
+        className="fixed inset-0 flex justify-center items-start p-15 px-5 md:p-22 z-10"
         onClick={() => navigate(location.pathname)}
       >
         <div
-          className="bg-white rounded-2xl px-12 py-8 w-160 flex flex-col gap-5"
+          className="bg-white rounded-2xl px-8 py-5 md:px-12 md:py-8 w-160 flex flex-col gap-5"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex w-full justify-between items-center">
             <h3 className="font-titres text-bleu-principal text-xl">
-              {isEditMode ? "Modifier" : "Créer"} {type}
+              {isEditMode ? translations[language]['modifier'] : translations[language]['creer']} {translations[language][type]}
             </h3>
             <button
               title="Fermer"
@@ -45,12 +47,12 @@ const FormModal = ({
             className="flex flex-col"
           >
             {fields.map((field) => (
-              <div key={field.label} className="flex flex-col gap-1 mb-2">
+              <div key={field.labelKey} className="flex flex-col gap-1 mb-2">
                 <label
-                  htmlFor={field.label}
+                  htmlFor={field.name}
                   className="text-gris-fonce text-sm"
                 >
-                  {field.label}
+                  {translations[language][field.labelKey]}
                 </label>
                 {field.type === "select" ? (
                   <select
@@ -62,12 +64,12 @@ const FormModal = ({
                     className={`border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition ${isEditMode && field.lockedOn ? "cursor-not-allowed" : ""}`}
                     disabled={isEditMode && field.lockedOn}
                   >
-                    <option value="">{field.placeholder}</option>
-                    {field.options.map((option) => (
+                    <option value="">{translations[language][field.placeholderKey]}</option>
+                    {field.options?.map((option) => (
                       <option
                         key={option.value}
                         value={`${option.value}`}
-                      >{`${option.label}`}</option>
+                      >{option.label ? option.label : translations[language][option.labelKey]}</option>
                     ))}
                   </select>
                 ) : (
@@ -77,7 +79,7 @@ const FormModal = ({
                     name={field.name}
                     id="prenom"
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                    placeholder={field.placeholder}
+                    placeholder={translations[language][field.placeholderKey]}
                     onKeyDown={async (e) => {
                       if(e.key === 'Enter'){
                         e.preventDefault();
@@ -105,7 +107,7 @@ const FormModal = ({
               </div>
             ))}
             <div
-              className={`mt-5 gap-3 flex  items-center ${isEditMode && type === "un compte" ? "justify-between" : "justify-end"}`}
+              className={`mt-5 gap-3 flex flex-wrap items-center ${isEditMode && type === "un compte" ? "justify-between" : "justify-end"}`}
             >
               {isEditMode && type === "un compte" && (
                 <input
@@ -114,15 +116,15 @@ const FormModal = ({
                     if(success) navigate(`${location.pathname}?reset=true&id=${initialData.id}`)
                   }}
                   type="button"
-                  value="Réinitialiser le mot de passe"
-                  className="text-sm bg-bleu-secondaire border-2 border-bleu-secondaire rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
+                  value={translations[language]['reinitialiserMotDePasse']}
+                  className="text-sm w-full sm:w-2/5 bg-bleu-secondaire border-2 border-bleu-secondaire rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
                 />
               )}
-              <div className="flex w-2/4 gap-3">
+              <div className="flex w-full sm:w-2/4 gap-3">
                 <input
                   onClick={() => navigate(location.pathname)}
                   type="button"
-                  value="Annuler"
+                  value={translations[language]['annuler']}
                   className="text-sm w-5/6 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
                 />
                 <input
@@ -147,7 +149,7 @@ const FormModal = ({
                       );
                     }
                   }}
-                  value={`${isEditMode ? "Modifier" : "Créer"}`}
+                  value={`${isEditMode ? translations[language]['modifier'] : translations[language]['creer']}`}
                   className={`text-sm w-${isEditMode ? "6/7" : "5/6"} bg-orange-cuivre border-2 border-orange-cuivre rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}
                 />
               </div>
