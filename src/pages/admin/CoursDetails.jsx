@@ -175,16 +175,16 @@ const CoursDetails = () => {
   return (
     <div  className="flex flex-col justify-center">
       {showModal && (
-        <FormModal type={ 'un exercice' } fields={ exerciceFields } submitFunction={ addExercice } />
+        <FormModal type={ 'unExercice' } fields={ exerciceFields } submitFunction={ addExercice } language={lang} />
       )}
       {showSuccess && (
-        <SuccessModal type={ 'Exercice' } content = { capitalize(selectedLecon.lecon_titre) } create={ true } lecon={ true } />
+        <SuccessModal type={ 'exercice' } content = { capitalize(selectedLecon.lecon_titre) } create={ true } lecon={ true } language={lang} />
       )}
       {showDelete && (
-        <ConfirmModal type={ "l'inscription" } inscriptionEtudiant={ capitalize(selectedInscription.etudiant) } deleteFunction={ () => supprimerInscription(selectedInscription.id) } irreversible={ false } />
+        <ConfirmModal type={ "inscription" } inscriptionEtudiant={ capitalize(selectedInscription.etudiant) } deleteFunction={ () => supprimerInscription(selectedInscription.id) } irreversible={ false } language={lang} />
       )}
       <div
-        className={`flex flex-col items-center justify-center p-2 mx-5 ${loading && "mt-25"}`}
+        className={`flex flex-col items-center justify-center p-2 mx-0 md:mx-5 ${loading && "mt-25"}`}
       >
         {loading ? (
           <Spinner />
@@ -206,7 +206,7 @@ const CoursDetails = () => {
             </div>
         ) : (
             <div className="w-full">
-              <div className="flex justify-between w-full">
+              <div className="flex justify-between w-full flex-wrap">
                 <StateBox titre={translations[lang]['formateurLabel']} label={capitalize(cours.formateur)} />
                 <StateBox
                   titre={translations[lang]['etudiantsInscrits']}
@@ -215,14 +215,14 @@ const CoursDetails = () => {
                 <StateBox titre={translations[lang]['lecons']} label={cours.lecons} />
                 <StateBox titre={translations[lang]['exercices']} label={cours.exercices} />
               </div>
-              <div className="m-5 border-2 border-gris-clair rounded-2xl px-5 py-2 flex flex-col gap-2 items-start justify-between">
+              <div className="mt-4 mx-2 border-2 border-gris-clair rounded-2xl px-5 py-2 flex flex-col gap-2 items-start justify-between">
                 <h3 className="font-titres text-gris-fonce/80 text-xl">Description</h3>
                 <p className="text-bleu-principal text-md">
                   {cours.description ? capitalize(cours.description) : translations[lang]['pasDeDescription']}
                 </p>
               </div>
-              <div className="flex flex-col gap-3 px-5 py-2 w-full mb-5">
-                <h3 className="font-titres text-bleu-principal font-semibold text-xl">Leçons</h3>
+              <div className="flex flex-col gap-3 px-0 py-2 mx-2 mt-3">
+                <h3 className="font-titres text-bleu-principal font-semibold text-xl">{translations[lang]['lecons']}</h3>
                 <div className="border-2 border-gris-clair rounded-2xl p-1 flex flex-col gap-2 justify-between">
                   {cours && lecons.length === 0 ? (
                       <p className="text-bleu-secondaire self-center p-4">{translations[lang]['pasDeLecons']}</p>
@@ -267,7 +267,7 @@ const CoursDetails = () => {
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col gap-3 px-5 py-2 mb-3">
+              <div className="flex flex-col gap-3 px-0 mx-2 py-2 mb-3">
                 <h3 className="font-titres text-bleu-principal font-semibold text-xl">
                   {translations[lang]['etudiantsInscrits']}
                 </h3>
