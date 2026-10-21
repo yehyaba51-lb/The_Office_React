@@ -243,40 +243,44 @@ const Utilisateurs = () => {
     <div>
       {showModal && (
         <FormModal
-          type={"un compte"}
+          type={"unCompte"}
           fields={userFields}
           submitFunction={addUser}
+          language={lang}
         />
       )}
       {showSuccess && (
-        <SuccessModal type={"Compte"} content={ newUserName } create={true} password={generatedPassword} />
+        <SuccessModal type={"compte"} content={ newUserName } create={true} password={generatedPassword} language={lang} />
       )}
       {showEdit && (
         <FormModal
-          type={"un compte"}
+          type={"unCompte"}
           fields={userFields}
           initialData={selectedUser}
           editFunction={(data) => editUser(selectedUser.id, data)}
           resetPassword={() => resetPassword(selectedUser.id)}
+          language={lang}
         />
       )}
       {showReset && (
         <SuccessModal
-          type={"Compte"}
+          type={"compte"}
           content={selectedUser.prenom + " " + selectedUser.nom}
           password={generatedPassword}
+          language={lang}
         />
       )}
       {showDelete && (
         <ConfirmModal
-          type={"Compte"}
+          type={"compte"}
           name={selectedUser.nom + " " + selectedUser.prenom}
           deleteFunction={() => removeUser(selectedUser.id)}
+          language={lang}
         />
       )}
-      <div className="flex px-5 mt-5 gap-4 items-center">
+      <div className={`px-0 md:px-5 mx-5 py-3 flex flex-col sm:flex-row gap-4`}>
         <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} lang={lang} />
-        <div className="w-fit py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
+        <div className="w-full sm:w-fit py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
           <button
             className={activeClass(filter === "all")}
             onClick={() => setFilter("all")}
@@ -298,7 +302,7 @@ const Utilisateurs = () => {
         </div>
       </div>
       <div
-        className={`px-5 py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
+        className={`px-0 md:px-5 mx-4 py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
       >
         {loading ? (
           <Spinner size={125} />
