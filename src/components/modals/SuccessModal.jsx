@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import { translations } from '../../translations'
 
 const SuccessModal = ({ accord, type, content, create=false, lecon=false, password, language }) => {
+  const capitalize = (str) => str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
   const [copied, setCopied] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
                   <h3 className="font-titres text-bleu-primaire text-xl flex justify-center items-start gap-1 p-2"><BadgeCheck className='text-vert-reussite' size={25} /> { type } {translations[language]["creePourTitre"]} { content }</h3>
                 ) : (
                   <>
-                    <h3 className="font-titres text-bleu-primaire text-xl">{ translations[language][type] } {translations[language]['creePourTitre']} { content }</h3>
+                    <h3 className="font-titres text-bleu-primaire text-xl">{ translations[language][type] } {translations[language]['creePourTitre']} { capitalize(content) }</h3>
                     <BadgeCheck className='text-vert-reussite' size={25} />
                   </>
                 )}
@@ -33,7 +34,7 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
             ) : !create && accord &&(
                 <h3 className="font-titres text-bleu-primaire text-xl flex w-full justify-center text-center items-start gap-1 p-2"><BadgeCheck className='text-vert-reussite' size={30} /> { translations[language][type] } { translations[language]['a'] } { content } { translations[language]['accordeA'] } {accord}</h3>
             )}
-            {create && type==='Compte' ? (
+            {create && type==='compte' ? (
               <>
                 <div className='w-4/5 rounded-xl border-2 border-gris-clair p-2 flex justify-between items-center'>
                   <h3 className='text-bleu-principal font-titres font-bold'>{password}</h3>
@@ -44,10 +45,10 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
                 </div>
                 <p className='text-sm text-bleu-secondaire'>⚠️ { translations[language]['motDePassePlusAffiche'] }</p>  
               </>
-            ) : 'motDePassePlusAffiche' === 'Compte' ? (
+            ) : type === 'compte' ? (
               <div className="flex flex-col w-full justify-center items-center gap-2 p-2">
                 <div className="flex w-full justify-center items-center gap-2 p-2">
-                  <h3 className="font-titres text-bleu-primaire text-xl text-center">{ translations[language]['motDePasseReinitialisePour'] } { content }</h3>
+                  <h3 className="font-titres text-bleu-primaire text-xl text-center">{ translations[language]['motDePasseReinitialisePour'] } { capitalize(content) }</h3>
                   <BadgeCheck className='text-vert-reussite' size={25} />
               </div>
                 <div className='w-4/5 rounded-xl border-2 border-gris-clair p-2 flex justify-between items-center'>
@@ -58,7 +59,7 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
 
               </div>
             ) : '' }
-            {copied || type !=='Compte' ? (
+            {copied || type !=='compte' ? (
               <input onClick={() => navigate(location.pathname)} type="button" value="Fermer" className={`text-sm w-2/5 bg-white border-2 border-gris-clair rounded-xl p-1 cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out text-bleu-secondaire font-semibold`} disabled={false}  />
             ) : (
               <input onClick={() => navigate(location.pathname)} type="button" value="Fermer" className={`text-sm w-2/5 cursor-not-allowed  bg-white border-2 border-gris-clair rounded-xl p-1 text-bleu-secondaire font-semibold`} title={'Copiez le mot de passe avant de fermer'} disabled={true} />
