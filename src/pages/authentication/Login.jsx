@@ -147,7 +147,7 @@ const Login = () => {
                     submitLogin()
                   }}
                   disabled={isLoggingIn}
-                  className="w-2/6 bg-orange-cuivre rounded-lg p-1 flex items-center justify-center cursor-pointer text-white font-semibold self-end hover:bg-orange-cuivre/90 transition duration-300 ease-in-out"
+                  className="w-4/7 sm:w-2/6 bg-orange-cuivre rounded-lg p-1 flex items-center justify-center cursor-pointer text-white font-semibold self-end hover:bg-orange-cuivre/90 transition duration-300 ease-in-out"
                 >
                   {isLoggingIn ? <Spinner login={true} /> : translations[language]['seConnecter']}
                 </button>
