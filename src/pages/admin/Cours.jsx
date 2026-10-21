@@ -231,32 +231,35 @@ const Cours = () => {
     <div>
       {showModal && (
         <FormModal
-          type={"un cours"}
+          type={"unCours"}
           fields={dynamicCoursFields}
           submitFunction={addCours}
+          language={lang}
         />
       )}
       {showSuccess && (
-        <SuccessModal type={"Cours"} content={ newFormateur } create={true} />
+        <SuccessModal type={"cours"} content={ newFormateur } create={true} language={lang} />
       )}
       {showDelete && (
         <ConfirmModal
-          type={"Cours"}
+          type={"cours"}
           name={selectedCours.titre}
           deleteFunction={() => removeCours(id)}
+          language={lang}
         />
       )}
       {showEdit && (
         <FormModal
-          type={"un cours"}
+          type={"unCours"}
           fields={dynamicCoursFields}
           initialData={selectedCours}
           editFunction={(data) => editCours(id, data)}
+          language={lang}
         />
       )}
       
       <div
-        className={`px-5 py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
+        className={`px-0 md:px-5 mx-5  py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
       >
         {loading ? (
           <Spinner />
@@ -271,11 +274,11 @@ const Cours = () => {
           </>
         ) : (
           <>
-            <div className="w-full flex mt-5 gap-4 items-center mb-3">
+            <div className="w-full flex flex-col md:flex-row mt-5 gap-4 md:items-center mb-3">
               <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} lang={lang} />
               <select
                 onChange={(e) => setFilter(e.target.value)}
-                className="w-75 p-2 border-2 border-gris-clair outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 rounded-xl flex text-bleu-secondaire text-md justify-center gap-5"
+                className="w-full md:w-75 p-2 border-2 border-gris-clair outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 rounded-xl flex text-bleu-secondaire text-md justify-center gap-5"
               >
                 {categories.length > 0 ? (
                   <>
