@@ -22,7 +22,7 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
             {create ? (
               <div className="flex w-full justify-center text-center items-center gap-2 p-2">
                 {lecon ? (
-                  <h3 className="font-titres text-bleu-primaire text-xl flex justify-center items-start gap-1 p-2"><BadgeCheck className='text-vert-reussite' size={25} /> { type } créé pour { content }</h3>
+                  <h3 className="font-titres text-bleu-primaire text-xl flex justify-center items-start gap-1 p-2"><BadgeCheck className='text-vert-reussite' size={25} /> { type } {translations[language]["creePourTitre"]} { content }</h3>
                 ) : (
                   <>
                     <h3 className="font-titres text-bleu-primaire text-xl">{ translations[language][type] } {translations[language]['creePourTitre']} { content }</h3>
@@ -31,7 +31,7 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
                 )}
               </div>
             ) : !create && accord &&(
-                <h3 className="font-titres text-bleu-primaire text-xl flex w-full justify-center text-center items-start gap-1 p-2"><BadgeCheck className='text-vert-reussite' size={30} /> { type } à { content } accordé à {accord}</h3>
+                <h3 className="font-titres text-bleu-primaire text-xl flex w-full justify-center text-center items-start gap-1 p-2"><BadgeCheck className='text-vert-reussite' size={30} /> { translations[language][type] } { translations[language]['a'] } { content } { translations[language]['accordeA'] } {accord}</h3>
             )}
             {create && type==='Compte' ? (
               <>
@@ -42,19 +42,19 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
                       {copied ? 'Copiée ' : 'Copier'}
                   </button>
                 </div>
-                <p className='text-sm text-bleu-secondaire'>⚠️ Ce mot de passe ne sera plus affiché</p>  
+                <p className='text-sm text-bleu-secondaire'>⚠️ { translations[language]['motDePassePlusAffiche'] }</p>  
               </>
-            ) : type === 'Compte' ? (
+            ) : 'motDePassePlusAffiche' === 'Compte' ? (
               <div className="flex flex-col w-full justify-center items-center gap-2 p-2">
                 <div className="flex w-full justify-center items-center gap-2 p-2">
-                  <h3 className="font-titres text-bleu-primaire text-xl text-center">Mot de passe réinitialisé  pour { content }</h3>
+                  <h3 className="font-titres text-bleu-primaire text-xl text-center">{ translations[language]['motDePasseReinitialisePour'] } { content }</h3>
                   <BadgeCheck className='text-vert-reussite' size={25} />
               </div>
                 <div className='w-4/5 rounded-xl border-2 border-gris-clair p-2 flex justify-between items-center'>
                   <h3 className='text-bleu-principal font-titres font-bold'>{password}</h3>
                   <button className={`text-white font-semibold text-md rounded-lg bg-orange-cuivre px-2 py-1 cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`} onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(password); passwordSuccess(); setCopied(true)}}>{copied ? 'Copiée ' : 'Copier'}</button>
                 </div>
-                <p className='text-sm text-bleu-secondaire'>⚠️ Ce mot de passe ne sera plus affiché</p>  
+                <p className='text-sm text-bleu-secondaire'>⚠️ { translations[language]['motDePassePlusAffiche'] }</p>  
 
               </div>
             ) : '' }
