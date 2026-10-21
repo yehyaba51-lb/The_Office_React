@@ -207,6 +207,10 @@ export const translations = {
     veuillezPatienter: "Veuillez patienter",
     veuillezConnecter: "Veuillez vous connecter à votre compte",
     pasDeSession: "Pas de session",
+    a: "à",
+    accordeA: "accordé à",
+    motDePassePlusAffiche: "Ce mot de passe ne sera plus affiché",
+    motDePasseReinitialisePour: "Mot de passe réinitialisé pour",
   },
   en: {
     tableauDeBord: "Dashboard",
@@ -416,5 +420,9 @@ export const translations = {
     veuillezPatienter: "Please wait",
     veuillezConnecter: "Please log in to your account",
     pasDeSession: "No session",
+    a: "to",
+    accordeA: "granted to",
+    motDePassePlusAffiche: "This password will not be shown again",
+    motDePasseReinitialisePour: "Password reset for",
   }
 };
