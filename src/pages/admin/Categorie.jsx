@@ -149,27 +149,30 @@ const Categorie = () => {
   };
 
   return (
-    <div className="px-5 py-3">
+    <div>
       {showModal && (
         <FormModal
-          type={"une catégorie"}
+          type={"uneCategorie"}
           fields={categorieFields}
           submitFunction={addCategorie}
+          language={lang}
         />
       )}
       {showSuccess && (
         <SuccessModal
-          type={"Catégorie"}
+          type={"categorie"}
           content={newCategoryName}
           create={true}
+          language={lang}
         />
       )}
       {showEdit && (
         <FormModal
-          type={"une catégorie"}
+          type={"uneCategorie"}
           initialData={selectedCategory}
           editFunction={(data) => editCategoty(id, data)}
           fields={categorieFields}
+          language={lang}
         />
       )}
       {showDelete && (
@@ -177,10 +180,11 @@ const Categorie = () => {
           type={"categorie"}
           name={selectedCategory.categorie_nom}
           deleteFunction={() => removeCategoty(id)}
+          language={lang}
         />
       )}
       <div
-        className={`px-5 py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
+        className={`px-0 md:px-5 mx-5 py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
       >
         {loading ? (
           <Spinner />
