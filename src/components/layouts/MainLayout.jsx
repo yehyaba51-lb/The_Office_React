@@ -6,6 +6,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { toast } from "react-toastify";
 import Spinner from "../shared/Spinner";
+import { translations } from "../../translations";
 
 const MainLayout = ({ role }) => {
   const [currentUser, setCurrentUser] = useState(null)
@@ -58,10 +59,10 @@ const MainLayout = ({ role }) => {
         ? 
         <div className="flex flex-col w-full items-center pt-50 gap-3 text-center py-10">
           <Spinner />
-          <p className="text-bleu-principal font-semibold">Veuillez patientez</p>
+          <p className="text-bleu-principal font-semibold">{translations[lang]['veuillezPatienter']}</p>
         </div>
         :currentUser === null
-        ? <PasDeSession />
+        ? <PasDeSession language={lang} />
         : <>
             <SideBar role={role} currentUser={currentUser} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} language={lang} />
             <div className="flex flex-col flex-1 overflow-y-auto h-screen">
