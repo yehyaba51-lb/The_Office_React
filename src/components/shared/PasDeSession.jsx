@@ -1,7 +1,8 @@
 import { WifiOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { translations } from "../../translations";
 
-const PasDeSession = () => {
+const PasDeSession = ({ language }) => {
     const navigate = useNavigate()
   return (
     <div className="flex flex-col w-full items-center pt-50 gap-3 text-center">
@@ -9,16 +10,17 @@ const PasDeSession = () => {
         <WifiOff size={50} className="text-bleu-secondaire" />
       </div>
       <h3 className="font-titres text-bleu-principal font-semibold text-2xl">
-        Pas de session
+        {translations[language]['pasDeSession']}
       </h3>
       <p className="text-gris-fonce text-xl">
-        Veuillez connecter à votre compte
+        {translations[language]['veuillezConnecter']}
       </p>
       <button
       onClick={() => navigate('/')}
         className={`text-sm w-1/6 bg-bleu-principal rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-bleu-principal/90 transition duration-300 ease-in-out`}
       >
-        Se connecter</button>
+        {translations[language]['seConnecter']}
+      </button>
     </div>
   );
 };
