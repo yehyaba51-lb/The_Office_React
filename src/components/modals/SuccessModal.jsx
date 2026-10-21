@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { BadgeCheck } from 'lucide-react'
 import { toast } from 'react-toastify'
+import { translations } from '../../translations'
 
-const SuccessModal = ({ accord, type, content, create=false, lecon=false, password }) => {
+const SuccessModal = ({ accord, type, content, create=false, lecon=false, password, language }) => {
   const [copied, setCopied] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
@@ -16,7 +17,7 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
   return (
     <>
       <div className="fixed bg-bleu-secondaire/20 backdrop-blur-xs inset-0"></div>
-        <div className="fixed inset-0 flex justify-center items-start p-22 z-10">
+        <div className="fixed inset-0 flex justify-center items-start p-15 px-5 md:p-22 z-10">
           <div className='bg-white rounded-2xl px-9 py-8 w-150 flex flex-col items-center gap-5'>
             {create ? (
               <div className="flex w-full justify-center text-center items-center gap-2 p-2">
@@ -24,7 +25,7 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
                   <h3 className="font-titres text-bleu-primaire text-xl flex justify-center items-start gap-1 p-2"><BadgeCheck className='text-vert-reussite' size={25} /> { type } créé pour { content }</h3>
                 ) : (
                   <>
-                    <h3 className="font-titres text-bleu-primaire text-xl">{ type } créé pour { content }</h3>
+                    <h3 className="font-titres text-bleu-primaire text-xl">{ translations[language][type] } {translations[language]['creePourTitre']} { content }</h3>
                     <BadgeCheck className='text-vert-reussite' size={25} />
                   </>
                 )}
