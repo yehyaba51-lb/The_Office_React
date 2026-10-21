@@ -1,40 +1,40 @@
 export const userFields = [
-  { label: "Prénom", name: "prenom", type: "text", placeholder: "Entrer votre prénom..." },
-  { label: "Nom", name: "nom", type: "text", placeholder: "Entrer votre nom..." },
-  { label: "Email", name: "email", type: "text", placeholder: "Entrer votre email..." },
+  { labelKey: "fieldPrenom", name: "prenom", type: "text", placeholderKey: "placeholderPrenom" },
+  { labelKey: "fieldNom", name: "nom", type: "text", placeholderKey: "placeholderNom" },
+  { labelKey: "email", name: "email", type: "text", placeholderKey: "placeholderEmail" },
   { 
-    label: "Rôle", 
+    labelKey: "fieldRole", 
     name: "role", 
     type: "select", 
     options: [
-      { value: "Formateur", label: "Formateur" },
-      { value: "Etudiant", label: "Étudiant" }
+      { value: "Formateur", labelKey: "singleFormateurLabel" },
+      { value: "Etudiant", labelKey: "etudiant" }
     ],
     lockedOn: true,
-    placeholder: "Choisir un rôle..."
+    placeholderKey: "placeholderRole"
   },
 ];
 
 export const coursFields = [
-  { label: "Titre", name: "cours_titre", type: "text", placeholder: "Entrer le titre du cours..." },
+  { labelKey: "fieldTitre", name: "cours_titre", type: "text", placeholderKey: "placeholderTitreCours" },
   { 
-    label: "Formateur", 
+    labelKey: "fieldFormateur", 
     name: "formateur_id", 
     type: "select", 
-    placeholder: "Choisir un formateur",
+    placeholderKey: "placeholderFormateur",
   },
   { 
-    label: "Catégorie", 
+    labelKey: "fieldCategorie", 
     name: "categorie_id", 
     type: "select", 
-    placeholder: "Choisir une catégorie",
+    placeholderKey: "placeholderCategorie",
   }
 ]
 
 export const categorieFields = [
-  { label: "Nom", name: "categorie_nom", type: "text", placeholder: "Entrez le nom de la catégorie" },
+  { labelKey: "fieldNom", name: "categorie_nom", type: "text", placeholderKey: "placeholderNomCategorie" },
 ];
 
 export const exerciceFields = [
-  { label: "Titre", name: "exercice_titre", type: "text", placeholder: "Entrer le titre de l'exercice..." },
+  { labelKey: "fieldTitre", name: "exercice_titre", type: "text", placeholderKey: "placeholderTitreExercice" },
 ];
