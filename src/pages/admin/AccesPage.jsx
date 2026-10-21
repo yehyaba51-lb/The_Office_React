@@ -170,27 +170,29 @@ const AccesPage = () => {
     <div className="flex flex-col justify-start">
       {showModal && (
         <SuccessModal
-          type={"Accès"}
+          type={"acces"}
           content={`« ${newAccessCours} »`}
           accord={`« ${newAccessEtudiant} »`}
+          language={lang}
         />
       )}
       {showDelete && selectedInscription && (
         <ConfirmModal
-          type={"l'inscription"}
+          type={"inscription"}
           name={selectedInscription.cours}
           deleteFunction={() => supprimerInscription(deleteId)}
           inscriptionEtudiant={selectedInscription.etudiant}
           irreversible={false}
+          language={lang}
         />
       )}
-      <div className={`w-full flex items-start justify-center p-2 mt-5 ${loading && "mt-25"}`}>
+      <div className={`w-full flex items-start justify-center mt-5 ${loading && "mt-25"}`}>
         {loading ? (
           <Spinner />
         ) : hasError ? (
           <FetchError />
         ) : (
-          <div className="flex flex-col lg:flex-row gap-5 w-full px-5">
+          <div className="flex flex-col lg:flex-row gap-5 w-full px-0 md:px-5 mx-5">
             <div className="h-fit gap-2 border-2 justify-start border-gris-clair w-full lg:w-2/5 rounded-2xl py-6 px-4 flex flex-col items-start">              
               <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-1">
                 {translations[lang]['accorderUnAcces']}
