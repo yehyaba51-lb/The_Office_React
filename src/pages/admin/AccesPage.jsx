@@ -295,7 +295,7 @@ const AccesPage = () => {
                   {access.map((access) => (
                     <div
                       key={access.id}
-                      className="w-full text-bleu-secondaire text-md flex px-2 py-1 justify-between items-center border-2 border-gris-clair rounded-xl"
+                      className="w-full text-bleu-secondaire text-md flex flex-col sm:flex-row px-2 py-2 gap-2 sm:gap-0 justify-between items-start sm:items-center border-2 border-gris-clair rounded-xl"
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <div className="bg-gris-clair w-10 h-10 rounded-full flex justify-center items-center font-semibold text-bleu-principal">
@@ -308,7 +308,7 @@ const AccesPage = () => {
                           <p className="text-gris-fonce text-sm">{capitalize(access.cours)}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-5">
+                      <div className="flex items-center justify-between sm:justify-end gap-5 w-full sm:w-auto">
                         <h4 className="font-titres text-md text-gris-fonce">
                           {access.inscrit_le.split(' ')[0]}
                         </h4>
