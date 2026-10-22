@@ -133,72 +133,72 @@ const Corrections = () => {
     : [];
 
   return (
-    <div
-      className={`flex flex-col justify-center items-center ${loading && "mt-25"}`}
-    >
-      {loading ? (
-        <Spinner />
-      ) : accessDenied ? (
-        <FetchError accessDenied={true} />
-      ) : hasError ? (
-        <FetchError />
-      ) : soumissions.length === 0 ? (
-        <>
-          <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
-            <Inbox size={28} className="text-bleu-secondaire" />
-          </div>
-          <p className="mt-2 text-bleu-principal font-semibold">
-            {translations[lang]['aucuneSoumissionSoumise']}
-          </p>
-        </>
-      ) : (
-        <>
-          <div className="flex px-5 mt-5 gap-4 items-center w-full">
-            {showCorrecting && (
-              <CorrectionModal
-                initialData={selectedSoumission}
-                submitFunction={(data) => soumisFunction(id, data)}
-              />
-            )}
-            <SearchBar
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              lang={lang}
-            />
-            <div className="w-fit py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
-              <button
-                className={activeClass(filter === "all")}
-                onClick={() => setFilter("all")}
-              >
-                {translations[lang]['toutesLesCorrections']}
-              </button>
-              <button
-                className={activeClass(filter === "pending")}
-                onClick={() => setFilter("pending")}
-              >
-                {translations[lang]['aCorriger']}
-              </button>
-              <button
-                className={activeClass(filter === "corrige")}
-                onClick={() => setFilter("corrige")}
-              >
-                {translations[lang]['corrigees']}
-              </button>
-            </div>
-          </div>
-          <div className="flex px-5 my-5 gap-4 items-center">
-            <TableData
-              columns={correctionsColumns}
-              rows={allFilteredSearch}
-              onClickRow={true}
-              type={"formateur"}
-              edit={false}
-              deleting={false}
-            />
-          </div>
-        </>
+    <>
+      {showCorrecting && (
+        <CorrectionModal
+          initialData={selectedSoumission}
+          submitFunction={(data) => soumisFunction(id, data)}
+          language={lang}
+        />
       )}
-    </div>
+      <div className={`px-0 md:px-5 mx-5 py-3 flex flex-col sm:flex-row gap-4`}>
+        <SearchBar
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          lang={lang}
+        />
+        <div className="w-fit mx-auto sm:mx-0 py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
+          <button
+            className={activeClass(filter === "all")}
+            onClick={() => setFilter("all")}
+          >
+            {translations[lang]['toutesLesCorrections']}
+          </button>
+          <button
+            className={activeClass(filter === "pending")}
+            onClick={() => setFilter("pending")}
+          >
+            {translations[lang]['aCorriger']}
+          </button>
+          <button
+            className={activeClass(filter === "corrige")}
+            onClick={() => setFilter("corrige")}
+          >
+            {translations[lang]['corrigees']}
+          </button>
+        </div>
+      </div>
+      <div
+        className={`px-0 md:px-5 mx-4 py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
+      >
+        {loading ? (
+          <Spinner />
+        ) : accessDenied ? (
+          <FetchError accessDenied={true} />
+        ) : hasError ? (
+          <FetchError />
+        ) : soumissions.length === 0 ? (
+          <>
+            <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
+              <Inbox size={28} className="text-bleu-secondaire" />
+            </div>
+            <p className="mt-2 text-bleu-principal font-semibold">
+              {translations[lang]['aucuneSoumissionSoumise']}
+            </p>
+          </>
+        ) : (
+          <TableData
+            columns={correctionsColumns}
+            rows={allFilteredSearch}
+            onClickRow={true}
+            type={"formateur"}
+            edit={false}
+            deleting={false}
+          />
+        )}
+      </div>
+    
+    </>
   );
 };
 
