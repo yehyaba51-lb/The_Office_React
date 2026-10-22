@@ -243,6 +243,8 @@ export const translations = {
     retour: "Retour",
     terminer: "Terminer",
     suivant: "Suivant",
+    ecrivezVotreReponseIci: 'Ecrivez votre réponse ici.',
+    leconSuivante:	"Leçon suivante"
   },
   en: {
     tableauDeBord: "Dashboard",
@@ -488,5 +490,7 @@ export const translations = {
     retour: "Back",
     terminer: "Finish",
     suivant: "Next",
+    ecrivezVotreReponseIci: 'Write your answer here.',
+    leconSuivante:	"Next lesson"
   }
 };
