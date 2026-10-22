@@ -3,8 +3,9 @@ import { CircleX } from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "../shared/Spinner";
+import { translations } from '../../translations'
 
-const LessonBuilderModal = ({ lecon }) => {
+const LessonBuilderModal = ({ lecon, language }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const formRef = useRef()
@@ -217,25 +218,25 @@ const LessonBuilderModal = ({ lecon }) => {
     <>
       <div className="fixed bg-bleu-secondaire/20 backdrop-blur-xs inset-0"></div>
       <div
-        className="fixed inset-0 flex justify-center items-start p-22 z-10"
+        className="fixed inset-0 flex justify-center items-start p-15 px-5 md:p-22 z-10"
         onClick={() => navigate(location.pathname)}
       >
         <div
-          className="bg-white rounded-2xl px-12 py-8 w-160 flex flex-col gap-5"
+          className="bg-white rounded-2xl px-8 py-5 md:px-12 md:py-8 w-160 flex flex-col gap-5"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex w-full justify-between items-center">
             <h3 className="font-titres text-bleu-primaire text-xl">
               {steps === 1
-                ? "Créer un leçon"
+                ? translations[language]['creerUneLecon']
                 : steps === 2
-                  ? "Ajouter leçon contenu"
+                  ? translations[language]['ajouterLeconContenu']
                   : steps === 3
-                    ? "Ajouter un PDF"
-                    : "Ajouter un Video"}
+                    ? translations[language]['ajouterUnPdf']
+                    : translations[language]['ajouterUneVideo']}
             </h3>
             <button
-              title="Fermer"
+              title={translations[language]['fermer']}
               className="text-gris-fonce cursor-pointer hover:text-gris-fonce/50 transition duration-300 ease-in-out"
               onClick={() => navigate(location.pathname)}
             >
@@ -247,7 +248,7 @@ const LessonBuilderModal = ({ lecon }) => {
               <>
                 <div className="flex flex-col gap-1 mb-2">
                   <label htmlFor="titre" className="text-gris-fonce text-sm">
-                    Titre
+                    {translations[language]['titre']}
                   </label>
                   <input
                     type="text"
@@ -256,12 +257,12 @@ const LessonBuilderModal = ({ lecon }) => {
                     value={titre}
                     onChange={(e) => setTitre(e.target.value)}
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                    placeholder={`Entrez titre de la leçon...`}
+                    placeholder={translations[language]['placeholderTitreLecon']}
                   />
                 </div>
                 <div className="flex flex-col gap-1 mb-2">
                   <label htmlFor="ordre" className="text-gris-fonce text-sm">
-                    Ordre
+                    {translations[language]['ordre']}
                   </label>
                   <select
                     type="text"
@@ -270,9 +271,8 @@ const LessonBuilderModal = ({ lecon }) => {
                     value={ordre}
                     onChange={(e) => setOrdre(e.target.value)}
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                    placeholder={`Entrez titre de la leçon...`}
                   >
-                    <option value="">Choisissez un ordre</option>
+                    <option value="">{translations[language]['choisissezOrdre']}</option>
                     {[...Array(lecon.length + 1)].map((_, i) => (
                       <option
                         key={i + 1}
@@ -290,7 +290,7 @@ const LessonBuilderModal = ({ lecon }) => {
               <>
                 <div className="flex flex-col gap-1 mb-2">
                   <label htmlFor="contenu" className="text-gris-fonce text-sm">
-                    Contenu
+                    {translations[language]['contenu']}
                   </label>
                   <textarea
                     type="text"
@@ -300,7 +300,6 @@ const LessonBuilderModal = ({ lecon }) => {
                     onChange={(e) => setContenu(e.target.value)}
                     rows="6"
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire resize-none outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                    placeholder={`Entrez titre de la leçon...`}
                   ></textarea>
                 </div>
               </>
@@ -311,7 +310,7 @@ const LessonBuilderModal = ({ lecon }) => {
                       className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2"
                     >
                       <p className="text-sm text-bleu-secondaire">
-                        {pdf.file ? pdf.file.name : "Choisir un fichier PDF"}
+                        {pdf.file ? pdf.file.name : translations[language]['choisirFichierPdf']}
                       </p>
                       <input
                         type="file"
@@ -325,7 +324,7 @@ const LessonBuilderModal = ({ lecon }) => {
                         htmlFor="thumbnail-upload-pdf"
                         className="bg-bleu-secondaire text-white rounded-xl px-10 py-1.5 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
                       >
-                        Parcourir
+                        {translations[language]['parcourir']}
                       </label>
                     </div>
               </>
@@ -336,7 +335,7 @@ const LessonBuilderModal = ({ lecon }) => {
                         className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2"
                       >
                         <p className="text-sm text-bleu-secondaire">
-                          {video.file ? video.file.name : "Choisir un video"}
+                          {video.file ? video.file.name : translations[language]['choisirVideo']}
                         </p>
                         <input
                           type="file"
@@ -355,19 +354,19 @@ const LessonBuilderModal = ({ lecon }) => {
                           htmlFor="thumbnail-upload-video"
                           className="bg-bleu-secondaire text-white rounded-xl px-10 py-1.5 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
                         >
-                          Parcourir
+                          {translations[language]['parcourir']}
                         </label>
                       </div>
               </>
             )}
-            <div className="flex items-center justify-between mt-5">
+            <div className="flex flex-col-reverse sm:flex-row w-full gap-3 sm:justify-between mt-4">
               <input
                 onClick={() => setSteps((prev) => prev - 1)}
                 type="button"
-                value={`${steps !== 1 ? "Retour" : ""}`}
-                className="text-bleu-secondaire cursor-pointer hover:text-bleu-secondaire/75 transition duration-300 ease-in-out"
+                value={`${steps !== 1 ? translations[language]['retour'] : ""}`}
+                className="text-bleu-secondaire cursor-pointer text-center hover:text-bleu-secondaire/75 transition duration-300 ease-in-out"
               />
-              <div className={`w-1/2 gap-3 flex`}>
+              <div className="w-full sm:w-1/2 gap-3 flex">
                 <input
                   onClick={
                     steps === 1
@@ -379,8 +378,8 @@ const LessonBuilderModal = ({ lecon }) => {
                         : () => navigate(`${location.pathname}?success=true`)
                   }
                   type="button"
-                  value={steps === 1 ? "Annule" : `Passer`}
-                  className="text-sm w-5/6 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
+                  value={steps === 1 ? translations[language]['annuler'] : translations[language]['passer']}
+                  className="w-1/2 text-sm px-4 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
                 />
                 <button
                   type="button"
@@ -415,10 +414,10 @@ const LessonBuilderModal = ({ lecon }) => {
                       }
                     )
                   }
-                  className={`text-sm w-5/6 ${canProceed ? "bg-orange-cuivre" : "bg-orange-cuivre/20"} rounded-xl p-2 text-white font-semibold ${canProceed ? "cursor-pointer hover:bg-orange-cuivre/90 transition duration-300 ease-in-out" : "cursor-not-allowed"} `}
+                  className={`text-sm w-1/2 sm:w-5/6 ${canProceed ? "bg-orange-cuivre" : "bg-orange-cuivre/20"} rounded-xl p-2 text-white font-semibold ${canProceed ? "cursor-pointer hover:bg-orange-cuivre/90 transition duration-300 ease-in-out" : "cursor-not-allowed"} `}
                   disabled={!canProceed}
                 >
-                  {loading ? <Spinner login={true} /> : steps === 4 ? `Terminer` : "Suivant"}
+                  {loading ? <Spinner login={true} /> : steps === 4 ? translations[language]['terminer'] : translations[language]['suivant']}
                 </button>
               </div>
             </div>
