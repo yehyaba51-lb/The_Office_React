@@ -230,21 +230,23 @@ const ExercicePage = () => {
 
   return (
     <div className={`flex flex-col gap-4 justify-center items-center ${loading && "mt-25"}`} >
-      {showModal && <AddQuestionModal addFunction={ajouterQuestion} />}
+      {showModal && <AddQuestionModal addFunction={ajouterQuestion} language={lang} />}
       {showSuccess && (
-        <SuccessModal type={"Question"} content={"Exercice"} create={true} />
+        <SuccessModal type={"Question"} content={"Exercice"} create={true} language={lang} />
       )}
       {showEdit && selectedQuestion && (
         <AddQuestionModal
-        initialData={selectedFullQuestion}
-        editFunction={(data) => modifierQuestion(questionId, data)}
+          initialData={selectedFullQuestion}
+          editFunction={(data) => modifierQuestion(questionId, data)}
+          language={lang}
         />
       )}
       {showDelete && (
         <ConfirmModal
-        type={"Question"}
-        deleteFunction={() => supprimerQuestion(questionId)}
-        name={"la question"}
+          type={"question"}
+          deleteFunction={() => supprimerQuestion(questionId)}
+          name={translations[lang]['laQuestion']}
+          language={lang}
         />
       )}
       {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : questions.length === 0 ? (
@@ -255,21 +257,21 @@ const ExercicePage = () => {
           <p className="text-bleu-principal font-semibold">{translations[lang]['aucuneQuestionCreee']}</p>
         </div>
       ) : (
-        <div className={`flex flex-col px-5 gap-5 mt-5 w-full`}>
+        <div className={`flex flex-col px-0 md:px-5 gap-5 mt-5 w-full`}>
           {questions.map((question) => {
             const choixForThisQuestion = choix ? choix.filter(c => c.question_id === question.question_id) : []
 
             return (
-            <div key={question.question_id} className="w-full border-2 border-gris-clair rounded-2xl px-5 py-4 flex flex-col gap-2 items-start justify-between mb-5">
-              <div className="flex justify-between w-full items-center">
-                <h3 className="font-titres block text-bleu-principal font-semibold">
+            <div key={question.question_id} className="mx-5 border-2 border-gris-clair rounded-2xl px-5 py-4 flex flex-col gap-2 items-start justify-between mb-5">
+              <div className="flex flex-col sm:flex-row justify-between w-full items-start sm:items-center gap-3">
+                <h3 className="font-titres block text-bleu-principal font-semibold wrap-break-word w-full sm:w-auto pr-2">
                   {question.texte_question}
                 </h3>
-                <div className="flex w-1/6 justify-between">
-                  <div className="rounded-2xl bg-orange-cuivre/20 text-orange-cuivre flex items-center justify-center py-1 px-5">
+                <div className="flex w-full sm:w-auto justify-between sm:justify-end items-center gap-4">
+                  <div className="rounded-2xl bg-orange-cuivre/20 text-orange-cuivre flex items-center justify-center py-1 px-3 md:px-5 whitespace-nowrap">
                     <p>{question.question_type}</p>
                   </div>
-                  <div className="flex justify-between w-1/4 items-center">
+                  <div className="flex gap-4 items-center">
                     <button
                       onClick={() =>
                         navigate(`${location.pathname}?edit=true&id=${question.question_id}`)
@@ -292,7 +294,7 @@ const ExercicePage = () => {
                   {choixForThisQuestion.map((c) => (
                     <div key={c.choix_id} className="flex items-center gap-3">
                       <div
-                        className={`w-4 h-4 rounded-full ${c.est_correct === 1 ? "bg-orange-cuivre" : "bg-gris-clair"} `}
+                        className={`w-4 h-4 shrink-0 rounded-full ${c.est_correct === 1 ? "bg-orange-cuivre" : "bg-gris-clair"} `}
                       ></div>
                       <p>{c.texte_choix}</p>
                     </div>
