@@ -234,7 +234,7 @@ const ExerciceDetailsPage = () => {
 
   return (
     <div
-      className={`px-5 py-3 flex flex-col gap-5 my-3 items-center ${loading ? "mt-25" : "my-8"}`}
+      className={`flex flex-col mx-2 md:px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}
     >
       {loading ? (
         <Spinner />
@@ -315,7 +315,7 @@ const ExerciceDetailsPage = () => {
                 return (
                   <div
                     key={index}
-                    className="rounded-2xl border-2 border-gris-clair py-3 px-8 flex flex-col gap-3 justify-center w-4/5 mx-auto my-2"
+                    className="rounded-2xl border-2 border-gris-clair py-3 px-5 md:px-8 flex flex-col gap-3 justify-center md:w-4/5 mx-2 md:mx-auto my-2"
                   >
                     <h4 className="font-titres text-orange-cuivre text-sm">
                       Question {index + 1} —{" "}
@@ -391,7 +391,7 @@ const ExerciceDetailsPage = () => {
                                   ? translations[lang]['soumettreANouveau']
                                   : translations[lang]['soumettre']
                             }
-                            className={`${!isEditable ? "w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire" : soumission ? "w-50 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white" : "w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white"} font-semibold px-5 py-1 rounded-xl self-end mt-4`}
+                            className={`${!isEditable ? "w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire" : soumission ? "w-50 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white" : "w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white"} font-semibold text-sm md:text-md px-5 py-1 rounded-xl self-end mt-4`}
                           />
                         </form>
                       </>
@@ -411,7 +411,7 @@ const ExerciceDetailsPage = () => {
                               })
                             }
                             rows={"4"}
-                            placeholder="Ecrivez votre réponse ici."
+                            placeholder={translations[lang]['ecrivezVotreReponseIci']}
                             className="w-full resize-none border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
                           />
                         ) : (
@@ -490,7 +490,7 @@ const ExerciceDetailsPage = () => {
                                 ? translations[lang]['soumettreANouveau']
                                 : translations[lang]['soumettre']
                           }
-                          className={`${!isEditable ? "w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire" : soumission ? "w-50 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white" : "w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white"} font-semibold px-5 py-1 rounded-xl self-end mt-4`}
+                          className={`${!isEditable ? "w-40 cursor-not-allowed bg-gris-clair text-bleu-secondaire" : soumission ? "w-50 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white" : "w-35 cursor-pointer hover:bg-orange-cuivre/85 transition duration-300 ease-in-out bg-orange-cuivre text-white"} font-semibold text-sm md:text-md px-5 py-1 rounded-xl self-end mt-4`}
                         />
                       </form>
                     )}
