@@ -280,7 +280,8 @@ const Utilisateurs = () => {
       )}
       <div className={`px-0 md:px-5 mx-5 py-3 flex flex-col sm:flex-row gap-4`}>
         <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} lang={lang} />
-        <div className="w-fit mx-auto sm:mx-0 py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">          <button
+        <div className="w-fit mx-auto sm:mx-0 py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
+          <button
             className={activeClass(filter === "all")}
             onClick={() => setFilter("all")}
           >
