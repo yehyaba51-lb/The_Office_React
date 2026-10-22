@@ -7,12 +7,12 @@ const RecentActivities = ({ role='admin', badge, text, note, date, to }) => {
     <>
         <div className='flex flex-col px-3 py-1'>
             {role === 'student' ? (
-                <Link to={to} className="flex justify-between items-center mt-1">
+                <Link to={to} className="flex flex-col justify-between items-start md:items-center mt-1 md:flex-row">
                     <div className='flex gap-3 items-center'>
                         <div className={`w-3 h-3 shrink-0 ${badgeColorClass(badge)}`}></div>
                         <p className="text-md text-bleu-secondaire font-semibold">{text}</p>
                     </div>
-                    <div className="flex items-center gap-10">
+                    <div className="flex items-center justify-between sm:gap-10 mt-2 w-full md:w-fit md:mt-0 md:gap-10">
                         {note !== null && note !== undefined && (
                             <p className={noteCouleurClass(note)}>{note}</p>
                         )}
