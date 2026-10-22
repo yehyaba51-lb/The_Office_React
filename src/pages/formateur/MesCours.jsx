@@ -65,7 +65,7 @@ const MesCours = () => {
 
   return (
     <div
-      className={`flex flex-col px-5 mt-8 gap-4 items-center ${loading && "mt-25"}`}
+      className={`flex flex-col justify-center items-center ${loading && "mt-25"}`}
     >
       {loading ? (
         <Spinner />
@@ -83,14 +83,20 @@ const MesCours = () => {
           </p>
         </>
       ) : (
-        <>
-          <SearchBar
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            lang={lang}
-          />
-          <CourseCardFormateur cours={searchCours} />
-        </>
+        <div className="w-full">
+          <div className="flex justify-between p-2 mx-0 md:mx-5 flex-wrap gap-1">
+            <div className="w-full flex flex-col md:flex-row gap-4 md:items-center mx-2 mt-2">
+              <SearchBar
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                lang={lang}
+              />
+
+            </div>
+            <CourseCardFormateur cours={searchCours} />
+
+          </div>
+        </div>
       )}
     </div>
   );
