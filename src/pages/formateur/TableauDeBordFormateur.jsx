@@ -151,7 +151,7 @@ const TableauDeBordFormateur = () => {
         <FetchError />
       ) : (
         <div className="w-full">
-          <div className="flex justify-between p-2 mx-5 flex-wrap gap-1">
+          <div className="flex justify-between p-2 mx-0 md:mx-5 flex-wrap gap-1">
             <StateBox
               icon={GraduationCap}
               titre={statistics.etudiants.total}
@@ -188,9 +188,9 @@ const TableauDeBordFormateur = () => {
               }
             />
           </div>
-          <div className="flex flex-col lg:flex-row mx-6 mt-5 flex-wrap">
+          <div className="flex flex-col lg:flex-row mx-0 md:mx-5 mt-5 flex-wrap">
             <div className="w-full lg:w-2/3">
-              <div className="border-2 border-gris-clair rounded-2xl p-2 mx-5 my-1 flex flex-col">
+              <div className="border-2 border-gris-clair rounded-2xl px-2 mx-5 my-1 flex flex-col">
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-1">
                   {translations[lang]['activiteRecente']}
                 </h2>
@@ -219,7 +219,7 @@ const TableauDeBordFormateur = () => {
                 )}
               </div>
             </div>
-            <div className="w-full lg:w-1/3">
+            <div className="w-full lg:w-1/3 mb-2">
               <div className="border-2 border-gris-clair rounded-xl p-3 mx-5 my-1 flex flex-col gap-2">
                 <h2 className="font-titres font-semibold text-bleu-principal text-xl">
                   {translations[lang]['accesRapide']}
