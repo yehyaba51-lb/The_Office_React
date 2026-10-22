@@ -129,7 +129,7 @@ const LessonDetailsPage = () => {
                 {content.pdfs && content.pdfs.length > 0 && (
                   <div
                     onClick={() => telechargerFunction()}
-                    className="w-full mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
+                    className="mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
                   >
                     <div className="flex gap-1 items-center">
                       <File size={18} />
@@ -170,7 +170,7 @@ const LessonDetailsPage = () => {
                     setIsBuffering(false);
                     setIsPlaying(true);
                   }}
-                  className={`w-full h-48 sm:h-80 object-cover rounded-xl sm:rounded-l-none sm:rounded-r-2xl ${showNext ? "opacity-20" : ""}`}
+                  className={`w-full h-60 sm:h-80 object-cover rounded-xl sm:rounded-l-none sm:rounded-r-2xl ${showNext ? "opacity-20" : ""}`}
                   src={`${import.meta.env.VITE_UPLOADS_URL}${content.videos[0].url_video}`}
                   controls={isPlaying ? true : false}
                 ></video>
