@@ -9,7 +9,7 @@ const RecentActivities = ({ role='admin', badge, text, note, date, to }) => {
             {role === 'student' ? (
                 <Link to={to} className="flex justify-between items-center mt-1">
                     <div className='flex gap-3 items-center'>
-                        <div className={`w-3 h-3 ${badgeColorClass(badge)}`}></div>
+                        <div className={`w-3 h-3 shrink-0 ${badgeColorClass(badge)}`}></div>
                         <p className="text-md text-bleu-secondaire font-semibold">{text}</p>
                     </div>
                     <div className="flex items-center gap-10">
@@ -23,7 +23,7 @@ const RecentActivities = ({ role='admin', badge, text, note, date, to }) => {
             ) : (
                 <div className='flex flex-col gap-1'>
                     <Link to={to} className="flex gap-2 items-center justify-start">
-                        <div className={`w-4 h-4 ${badgeColorClass(badge)}`}></div>
+                        <div className={`w-4 h-4 shrink-0 ${badgeColorClass(badge)}`}></div>
                         <p className="text-md text-bleu-secondaire font-semibold">{text}</p>
                     </Link>
                     <p className='text-gris-fonce text-xs'>{date}</p>
