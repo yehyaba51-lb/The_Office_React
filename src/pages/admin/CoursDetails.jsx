@@ -234,7 +234,7 @@ const CoursDetails = () => {
                       
                       <div className="flex justify-between">
                         <div className="flex gap-4">
-                          <div className="bg-orange-cuivre/30 w-12 h-12 rounded flex items-center justify-center text-orange-cuivre text-2xl font-bold">
+                          <div className="bg-orange-cuivre/30 w-12 h-12 shrink-0 rounded flex items-center justify-center text-orange-cuivre text-2xl font-bold">
                             {String(lecon.lecon_ordre).padStart(2, "0")}
                           </div>
                           <div className="flex flex-col items-start">
