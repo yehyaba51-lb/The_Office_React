@@ -60,7 +60,7 @@ const MesCoursEtudiant = () => {
     : "";
   return (
     <div
-      className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}
+      className={`flex flex-col mx-2 md:px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}
     >
       {loading ? (
         <Spinner />
