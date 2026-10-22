@@ -118,7 +118,7 @@ const LessonDetailsPage = () => {
 
   return (
     <div
-      className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-4"}`}
+      className={`flex flex-col gap-4 mx-2 justify-center items-center p-2 md:p-5 ${loading && "mt-25"}`}
     >
       {loading ? (
         <Spinner />
@@ -163,7 +163,7 @@ const LessonDetailsPage = () => {
           </button>
         </div>
       ) : (
-        <div className="w-full pl-5 flex gap-5 border-2 border-gris-clair rounded-2xl m-5">
+        <div className="flex flex-col sm:flex-row gap-5 border-2 border-gris-clair rounded-2xl my-5 mx-0 md:mx-5 p-3 md:p-5 w-full">
           {showNext && (
             <NextLesson
               lecon={capitalize(content.lecon.lecon_titre)}
@@ -175,7 +175,7 @@ const LessonDetailsPage = () => {
           )}
 
           <>
-            <div className="w-1/2 p-3 flex flex-col justify-between">
+            <div className="w-full sm:w-1/2 flex flex-col justify-between flex-wrap">
               <h3 className="font-titres text-bleu-secondaire text-sm mb-2">
                 {translations[lang]['notesDeLaLecon']}
               </h3>
@@ -191,7 +191,7 @@ const LessonDetailsPage = () => {
                 content.pdfs.length > 0 ? (
                   <div
                     onClick={() => telechargerFunction()}
-                    className="w-full mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
+                    className="mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
                   >
                     <div className="flex gap-1 items-center">
                       <File size={18} />
@@ -265,7 +265,7 @@ const LessonDetailsPage = () => {
               )}
             </div>
             {content.videos && content.videos.length > 0 && (
-              <div className="w-1/2 h-fit relative">
+              <div className="w-full sm:w-1/2 h-fit relative">
                 {isBuffering ? (
                   <div
                     className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center`}
@@ -294,7 +294,7 @@ const LessonDetailsPage = () => {
                     setIsBuffering(false);
                     setIsPlaying(true);
                   }}
-                  className={`w-full h-80 object-cover rounded-r-2xl ${showNext ? "opacity-20" : ""}`}
+                  className={`w-full h-60 sm:h-80 object-cover rounded-xl sm:rounded-l-none sm:rounded-r-2xl ${showNext ? "opacity-20" : ""}`}
                   src={`${import.meta.env.VITE_UPLOADS_URL}/${content.videos[0].url_video}`}
                   onTimeUpdate={(e) => {
                     const percent = e.target.currentTime / e.target.duration;
