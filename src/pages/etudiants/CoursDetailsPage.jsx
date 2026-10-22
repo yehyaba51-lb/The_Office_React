@@ -93,7 +93,7 @@ const CoursDetailsPage = () => {
   };
   return (
     <div
-      className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}
+      className={`flex flex-col px-5 gap-2 md:gap-4 items-center ${loading ? "mt-25" : "my-8"}`}
     >
       {loading ? (
         <Spinner />
@@ -124,8 +124,8 @@ const CoursDetailsPage = () => {
           <h3 className="w-full font-titres text-bleu-principal font-semibold text-xl">
             {translations[lang]['lecons']}
           </h3>
-          <div className="w-full flex gap-3">
-            <div className="px-4 py-2 w-5/8 border-2 border-gris-clair rounded-2xl flex flex-col h-fit">
+          <div className="w-full md:flex gap-3">
+            <div className="w-full px-4 py-2 md:w-5/8 border-2 border-gris-clair rounded-2xl flex flex-col h-fit">
               {cours.lecons.map((l, i) => {
                 const thisProgresion = cours.progression.find(
                   (p) => p.lecon_id === l.id,
@@ -149,9 +149,9 @@ const CoursDetailsPage = () => {
                       {l.lecon_ordre !== 1 && (
                         <hr className="border-2 border-gris-clair" />
                       )}
-                      <div className="flex items-start gap-4 p-3">
+                      <div className="flex items-start gap-4 px-1 py-3 md:px-3">
                         <div
-                          className={`flex items-center justify-center w-13 h-13 rounded-xl ${thisProgresion && thisProgresion.statut === "terminee" ? "bg-vert-reussite/25" : thisProgresion && thisProgresion.statut === "en_cours" ? "bg-orange-cuivre/20" : "bg-gris-clair/45"}`}
+                          className={`flex items-center justify-center w-10 md:w-13 h-10 md:h-13 shrink-0 rounded-xl ${thisProgresion && thisProgresion.statut === "terminee" ? "bg-vert-reussite/25" : thisProgresion && thisProgresion.statut === "en_cours" ? "bg-orange-cuivre/20" : "bg-gris-clair/45"}`}
                         >
                           {thisProgresion &&
                           thisProgresion.statut === "terminee" ? (
@@ -177,7 +177,7 @@ const CoursDetailsPage = () => {
                               {`${translations[lang]['lecon']} 0${i + 1}`}
                             </p>
                           </div>
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-start md:items-center justify-between flex-col md:flex-row">
                             <div className="flex gap-1 mt-2">
                               {l.has_video ? (
                                 <div className="mr-5 text-gris-fonce text-sm flex items-center justify-center gap-1">
@@ -240,7 +240,7 @@ const CoursDetailsPage = () => {
                 );
               })}
             </div>
-            <div className="w-3/8 flex flex-col gap-4">
+            <div className="w-full mt-3 md:mt-0 md:w-3/8 flex flex-col gap-4">
               <div className="px-4 py-2 flex flex-col gap-2 items-center justify-center border-2 border-gris-clair rounded-2xl">
                 <img
                   src={
