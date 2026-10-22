@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { CircleX } from "lucide-react";
+import { CircleX, Languages } from "lucide-react";
+import { translations } from "../../translations";
 
-const AddQuestionModal = ({ initialData, editFunction, addFunction }) => {
+const AddQuestionModal = ({ initialData, editFunction, addFunction, language }) => {
   const formRef = useRef()
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,11 +29,11 @@ const AddQuestionModal = ({ initialData, editFunction, addFunction }) => {
     <>
       <div className="fixed bg-bleu-secondaire/20 backdrop-blur-xs inset-0"></div>
       <div
-        className="fixed inset-0 flex justify-center items-start p-22 z-10"
+        className="fixed inset-0 flex justify-center items-start p-15 px-5 md:p-22 z-10"
         onClick={() => navigate(location.pathname)}
       >
         <div
-          className="bg-white rounded-2xl px-12 py-8 w-160 flex flex-col gap-5"
+          className="bg-white rounded-2xl px-6 py-5 md:px-12 md:py-8 w-160 max-h-[90vh] overflow-y-auto flex flex-col gap-5"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex w-full justify-between items-center">
@@ -50,7 +51,7 @@ const AddQuestionModal = ({ initialData, editFunction, addFunction }) => {
           <form action="" method="post" className="flex flex-col gap-3" ref={formRef}>
             <div className="flex flex-col gap-2 mb-2">
               <label htmlFor="texte" className="text-gris-fonce text-sm">
-                Texte de la question
+                {translations[language]['texteDeLaQuestion']}
               </label>
               <input
                 type="text"
@@ -65,9 +66,9 @@ const AddQuestionModal = ({ initialData, editFunction, addFunction }) => {
               {!isEditMode && (
                 <>
                   <label htmlFor="reponse" className="text-gris-fonce text-sm">
-                    Type de réponse
+                    {translations[language]['typeDeReponse']}
                   </label>
-                  <div className="flex self-center gap-5">
+                  <div className="flex flex-wrap justify-center gap-3 md:gap-5">
                     <input
                       value="Input"
                       type="button"
@@ -102,12 +103,12 @@ const AddQuestionModal = ({ initialData, editFunction, addFunction }) => {
                     <p
                       className={`text-sm text-bleu-secondaire ${isEditMode ? "hidden" : ""}`}
                     >
-                      Cochez le bouton à côté de la bonne réponse
+                      {translations[language]['cochezBonneReponse']}
                     </p>
                     <div className="flex flex-col gap-2">
                       <div className="flex justify-between items-center gap-3">
                         <label className="w-fit" htmlFor={`choix_${i + 1}`}>
-                          {`Choix ${i + 1}`}
+                          {`${translations[language]['choix']} ${i + 1}`}
                         </label>
                         <input
                           className="border-2 flex-1 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
@@ -136,13 +137,13 @@ const AddQuestionModal = ({ initialData, editFunction, addFunction }) => {
                     <p
                       className={`text-sm text-bleu-secondaire`}
                     >
-                      Cochez le bouton à côté de la bonne réponse
+                      {translations[language]['cochezBonneReponse']}
                     </p>
                     <div className="flex flex-col gap-2">
                       {newQuestionChoix.map(choix => (
                         <div key={choix.ordre} className="flex justify-between items-center gap-3">
                           <label className="w-fit" htmlFor={choix.ordre}>
-                            {`Choix ${choix.ordre}`}
+                            {`${translations[language]['choix']} ${choix.ordre}`}
                           </label>
                           <input
                             className="border-2 flex-1 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
@@ -165,16 +166,16 @@ const AddQuestionModal = ({ initialData, editFunction, addFunction }) => {
                   </>
               ))
             )}
-            <div className="flex w-2/4 gap-3 self-end">
+            <div className="flex flex-col-reverse sm:flex-row w-full sm:w-auto gap-3 justify-end mt-4">
               <input
                 onClick={() => navigate(location.pathname)}
                 type="button"
-                value="Annuler"
-                className="text-sm w-5/6 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
+                value={translations[language]['annuler']}
+                className="text-sm w-full sm:w-auto px-6 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
               />
               <input
                 type="button"
-                value={`${isEditMode ? "Modifier question" : "Ajouter question"}`}
+                value={`${isEditMode ? translations[language]['modifierQuestion'] : translations[language]['ajouterQuestionBtn']}`}
                 onClick={
                   isEditMode
                       ? async () => {
@@ -230,7 +231,7 @@ const AddQuestionModal = ({ initialData, editFunction, addFunction }) => {
                         success && navigate(`${location.pathname}?success=true`)
                       }
                     }
-                className={`text-sm w-7/8 bg-orange-cuivre border-2 border-orange-cuivre rounded-xl px-3 py-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}
+                className={`text-sm w-full sm:w-auto px-6 bg-orange-cuivre border-2 border-orange-cuivre rounded-xl py-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}
               />
             </div>
           </form>
