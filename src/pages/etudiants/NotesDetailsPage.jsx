@@ -99,8 +99,8 @@ const NotesDetailsPage = () => {
             </button>
           </div>
         ): (
-        <div className="px-8 py-5 mx-auto w-5/8 border-2 border-gris-clair rounded-2xl flex flex-col h-fit gap-3">
-          <div className="flex justify-between">
+        <div className="px-8 py-5 mx-auto w-full sm:w-5/8 border-2 border-gris-clair rounded-2xl flex flex-col h-fit gap-3">
+          <div className="flex flex-col-reverse sm:flex-row justify-between">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2 justify-start">
                 <h3 className="text-bleu-principal font-titres font-bold text-xl">
@@ -135,7 +135,7 @@ const NotesDetailsPage = () => {
                 </p>
               </div>
             </div>
-            <div className="border-2 gap-3 text-bleu-principal border-gris-clair rounded-2xl flex flex-col h-40 w-40 p-5 items-center justify-center">
+            <div className="mx-auto sm:mx-0 mb-4 border-2 gap-3 text-bleu-principal border-gris-clair rounded-2xl flex flex-col h-40 w-40 p-5 items-center justify-center">
               <h3 className="font-titres text-xl font-semibold">{translations[lang]['note']}</h3>
               <h1
                 className={`font-titres ${note.note ? 'text-4xl' : 'text-xl text-center'} font-semibold ${note.note === null ? 'text-orange-cuivre' : note.note >= 10 ? "text-vert-reussite" : "text-rouge-echec"}`}
