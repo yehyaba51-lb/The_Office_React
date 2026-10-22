@@ -5,8 +5,9 @@ import BreadCrumb from "../shared/BreadCrumb";
 import Spinner from "../shared/Spinner";
 import FetchError from "../shared/FetchError";
 import { toast } from "react-toastify";
+import { translations } from "../../translations";
 
-const CorrectionModal = ({ submitFunction, initialData }) => {
+const CorrectionModal = ({ submitFunction, initialData, language }) => {
   const [choix, setChoix] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasErrors, setHasErrors] = useState(false);
@@ -74,11 +75,11 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
     <div>
       <div className="fixed bg-bleu-secondaire/20 backdrop-blur-xs inset-0"></div>
       <div
-        className="fixed inset-0 flex justify-center items-start p-5 z-10"
+        className="fixed inset-0 flex justify-center items-start p-5 px-5 md:p-10 z-10"
         onClick={() => navigate(location.pathname)}
       >
         <div
-          className={`bg-white rounded-2xl px-12 py-8 w-160 flex flex-col gap-2 ${loading && "mt-25 items-center justify-center"}`}
+          className={`bg-white rounded-2xl px-8 py-5 md:px-12 md:py-8 w-160 flex flex-col gap-2 md:gap-5 max-h-[95vh] overflow-y-auto ${loading && "mt-25 items-center justify-center"}`}
           onClick={(e) => e.stopPropagation()}
         >
           {loading ? (
@@ -95,24 +96,23 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                     <FileX className="text-gris-fonce" size={26} />
                   </div>
                   <h3 className="text-bleu-principal font-titres font-semibold text-lg">
-                    Soumission introuvable
+                    {translations[language]['soumissionIntrouvable']}
                   </h3>
                   <p className="text-gris-fonce text-sm max-w-sm">
-                    Cette soumission n'existe pas ou a été supprimée. Vérifiez
-                    le lien ou retournez à la liste des soumission.
+                    {translations[language]['soumissionIntrouvableTexte']}
                   </p>
                   <button
                     onClick={() => navigate("/formateur/corrections")}
                     className="mt-3 bg-bleu-secondaire text-white rounded-xl px-5 py-2 text-sm font-semibold hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out cursor-pointer"
                   >
-                    Retour aux soumissions
+                    {translations[language]['retourAuxSoumissions']}
                   </button>
                 </div>
               ) : (
                 <>
                   <div className="flex w-full justify-between items-center">
                     <h3 className="font-titres text-bleu-principal text-xl">
-                      Corriger une soumission
+                      {translations[language]['corrigerUneSoumission']}
                     </h3>
                     <button
                       title="Fermer"
@@ -137,7 +137,7 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                         htmlFor="titre"
                         className="text-gris-fonce text-sm"
                       >
-                        Texte de la question
+                        {translations[language]['texteDeLaQuestion']}
                       </label>
                       <div className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition">
                         {initialData[0].texte_question}
@@ -150,7 +150,7 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                             htmlFor="titre"
                             className="text-gris-fonce text-sm"
                           >
-                            Réponse
+                            {translations[language]['reponse']}
                           </label>
                           <div className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition">
                             {initialData[0].soumission_reponse}
@@ -158,18 +158,18 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                         </>
                       ) : initialData[0].question_type === "QCM" ? (
                         <>
-                          <div className="flex items-center justify-between mt-3">
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-3 gap-2">
                             <label
                               htmlFor="titre"
                               className="text-gris-fonce text-sm"
                             >
-                              Les choix
+                              {translations[language]['lesChoix']}
                             </label>
-                            <div className="flex items-center gap-5">
+                            <div className="flex flex-wrap items-center gap-3 sm:gap-5">
                               <div className="flex gap-1 items-center">
                                 <div className="w-3 h-3 rounded-full bg-bleu-secondaire"></div>
                                 <p className="text-xs text-bleu-secondaire">
-                                  Sélection de l'étudiant
+                                  {translations[language]['selectionEtudiant']}
                                 </p>
                               </div>
                               <div className="flex gap-1 items-center">
@@ -178,7 +178,7 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                                   className="text-bleu-secondaire"
                                 />
                                 <p className="text-xs text-bleu-secondaire">
-                                  Bonne réponse
+                                  {translations[language]['bonneReponse']}
                                 </p>
                               </div>
                             </div>
@@ -189,19 +189,19 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                                 key={c.choix_id}
                                 className={`flex flex-col gap-3 border-2 border-gris-clair rounded-lg py-2 px-4 ${c.est_correct && "bg-gris-clair"}`}
                               >
-                                <div className="flex justify-between">
-                                  <div className="flex items-center gap-2">
+                                <div className="flex justify-between items-start gap-3">
+                                  <div className="flex items-start gap-2 min-w-0">
                                     <div
-                                      className={`w-3 h-3 rounded-full ${Number(initialData[0].soumission_reponse) === c.ordre ? "bg-bleu-secondaire" : "bg-white border-2 border-gris-clair"}`}
+                                      className={`w-3 h-3 shrink-0 mt-1 rounded-full ${Number(initialData[0].soumission_reponse) === c.ordre ? "bg-bleu-secondaire" : "bg-white border-2 border-gris-clair"}`}
                                     ></div>
-                                    <p className="font-semibold text-sm text-bleu-principal">
+                                    <p className="font-semibold text-sm text-bleu-principal wrap-break-word">
                                       {c.texte_choix}
                                     </p>
                                   </div>
                                   {c.est_correct === 1 && (
                                     <Check
                                       size={16}
-                                      className="text-bleu-secondaire"
+                                      className="text-bleu-secondaire shrink-0 mt-1"
                                     />
                                   )}
                                 </div>
@@ -214,7 +214,7 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                             htmlFor="titre"
                             className="text-gris-fonce text-sm"
                           >
-                            Fichier
+                            {translations[language]['fichier']}
                           </label>
                           <div
                             onClick={() => telechargerFunction()}
@@ -237,7 +237,7 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                     </div>
                     <div className="flex flex-col gap-2 mb-2">
                       <label htmlFor="note" className="text-gris-fonce text-sm">
-                        Note
+                        {translations[language]['note']}
                       </label>
                       <input
                         type="text"
@@ -252,7 +252,7 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                         htmlFor="commentaire"
                         className="text-gris-fonce text-sm"
                       >
-                        Commentaire
+                        {translations[language]['commentaire']}
                       </label>
                       <textarea
                         type="text"
@@ -266,12 +266,12 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                         className="resize-none border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
                       />
                     </div>
-                    <div className="flex w-2/4 gap-3 self-end">
+                    <div className="flex w-full gap-3 justify-end mt-4">
                       <input
                         onClick={() => navigate(location.pathname)}
                         type="button"
-                        value="Annuler"
-                        className="text-sm w-5/6 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
+                        value={translations[language]['annuler']}
+                        className="text-sm px-4 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
                       />
                       <input
                         type="button"
@@ -288,10 +288,10 @@ const CorrectionModal = ({ submitFunction, initialData }) => {
                         }}
                         value={
                           initialData[0].corrige_le === null
-                            ? "Corriger"
-                            : "Modifier"
+                            ? translations[language]['corriger']
+                            : translations[language]['modifier']
                         }
-                        className={`text-sm w-6/7 bg-orange-cuivre border-2 border-orange-cuivre rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}
+                        className={`text-sm px-4 bg-orange-cuivre border-2 border-orange-cuivre rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}
                       />
                     </div>
                   </form>
