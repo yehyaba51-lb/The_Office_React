@@ -79,8 +79,36 @@ const MesExercices = () => {
       )
     : "";
   return (
-    <div
-      className={`flex flex-col px-5 gap-4 mb-5 items-center ${loading ? "mt-25" : "my-2"}`}
+    <div>
+      <div className={`px-0 md:px-5 mx-5 py-3 flex flex-col sm:flex-row gap-4`}>
+        <SearchBar
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          lang={lang}
+        />
+        <div className="w-fit mx-auto sm:mx-0 py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
+          <button
+            className={activeClass(filter === "all")}
+            onClick={() => setFilter("all")}
+          >
+            {translations[lang]['tousLesExercices']}
+          </button>
+          <button
+            className={activeClass(filter === "a_faire")}
+            onClick={() => setFilter("a_faire")}
+          >
+            {translations[lang]['aFaire']}
+          </button>
+          <button
+            className={activeClass(filter === "termine")}
+            onClick={() => setFilter("termine")}
+          >
+            {translations[lang]['corrigees']}
+          </button>
+        </div>
+      </div>
+      <div
+      className={`px-0 md:px-5 mx-4 py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
     >
       {loading ? (
         <Spinner />
@@ -100,37 +128,10 @@ const MesExercices = () => {
         </>
       ) : (
         <>
-          <div className="w-full flex mt-5 gap-4 items-center">
-            <SearchBar
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              lang={lang}
-            />
-            <div className="w-fit py-1 px-2 border-2 border-gris-clair rounded-xl flex text-md justify-center gap-5">
-              <button
-                className={activeClass(filter === "all")}
-                onClick={() => setFilter("all")}
-              >
-                {translations[lang]['tousLesExercices']}
-              </button>
-              <button
-                className={activeClass(filter === "a_faire")}
-                onClick={() => setFilter("a_faire")}
-              >
-                {translations[lang]['aFaire']}
-              </button>
-              <button
-                className={activeClass(filter === "termine")}
-                onClick={() => setFilter("termine")}
-              >
-                {translations[lang]['corrigees']}
-              </button>
-            </div>
-          </div>
           {listOfExercices.cours.map((cours) => (
             <div
               key={cours.cours_id}
-              className="mt-5 w-full border-2 border-gris-clair rounded-2xl py-3 flex flex-col gap-2 justify-between"
+              className="mt-0 mb-5 w-full border-2 border-gris-clair rounded-2xl py-3 flex flex-col gap-2 justify-between"
             >
               <h3 className="px-5 font-titres text-bleu-principal text-xl">
                 {capitalize(cours.cours_titre)}
@@ -213,6 +214,7 @@ const MesExercices = () => {
           ))}
         </>
       )}
+    </div>
     </div>
   );
 };
