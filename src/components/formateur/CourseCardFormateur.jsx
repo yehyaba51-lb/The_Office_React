@@ -39,7 +39,7 @@ const CourseCardFormateur = ({ cours, etudiant = false }) => {
               <p className="text-md text-bleu-secondaire">
                 {c.description ? descriptionSlice(capitalize(c.description)) : translations[lang]['pasDeDescription']}
               </p>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between lg:items-center flex-col lg:flex-row">
                 {etudiant ? (
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gris-clair flex items-center justify-center text-bleu-secondaire font-semibold">
