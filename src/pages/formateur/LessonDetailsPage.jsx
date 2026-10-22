@@ -87,7 +87,7 @@ const LessonDetailsPage = () => {
 
   return (
     <div
-      className={`flex flex-col w-full gap-4 justify-center items-center p-5 ${loading && "mt-25"}`}
+      className={`flex flex-col gap-4 mx-2 justify-center items-center p-2 md:p-5 ${loading && "mt-25"}`}
     >
       {loading ? (
         <Spinner />
@@ -114,13 +114,13 @@ const LessonDetailsPage = () => {
       ) : hasErrors ? (
         <FetchError />
       ) : (
-        <div className="pl-5 flex gap-5 border-2 border-gris-clair rounded-2xl m-5 w-full">
+        <div className="flex flex-col sm:flex-row gap-5 border-2 border-gris-clair rounded-2xl my-5 mx-0 md:mx-5 p-3 md:p-5 w-full">
           <>
-            <div className="w-1/2 p-3 flex flex-col justify-between">
+            <div className="w-full sm:w-1/2 flex flex-col justify-between flex-wrap">
               <h3 className="font-titres text-bleu-secondaire text-sm mb-2">
                 {translations[lang]['notesDeLaLecon']}
               </h3>
-              <p className="text-bleu-principal text-md mb-6">
+              <p className="text-bleu-principal text-md mb-6 h-fit">
                 {content.textes.length
                   ? capitalize(content.textes[0].contenu_texte)
                   : translations[lang]['pasDeContenu']}
@@ -141,7 +141,7 @@ const LessonDetailsPage = () => {
               </div>
             </div>
             {content.videos.length !== 0 && (
-              <div className="w-1/2 h-fit relative">
+              <div className="w-full sm:w-1/2 h-fit relative">
                 {isBuffering ? (
                   <div
                     className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center`}
@@ -170,7 +170,7 @@ const LessonDetailsPage = () => {
                     setIsBuffering(false);
                     setIsPlaying(true);
                   }}
-                  className={`w-full h-80 object-cover rounded-r-2xl ${showNext ? "opacity-20" : ""}`}
+                  className={`w-full h-48 sm:h-80 object-cover rounded-xl sm:rounded-l-none sm:rounded-r-2xl ${showNext ? "opacity-20" : ""}`}
                   src={`${import.meta.env.VITE_UPLOADS_URL}${content.videos[0].url_video}`}
                   controls={isPlaying ? true : false}
                 ></video>
