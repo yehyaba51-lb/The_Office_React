@@ -105,7 +105,7 @@ const MesEtudiants = () => {
 
   return (
     <div
-      className={`flex flex-col gap-4 justify-center items-center ${loading && "mt-25"}`}
+        className={`px-0 md:px-5 mx-5  py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
     >
       {loading ? (
         <Spinner />
@@ -119,12 +119,12 @@ const MesEtudiants = () => {
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
           <p className="text-bleu-principal font-semibold">
-            Aucun étudiant inscrit
+            {translations[lang]['aucunEtudiantInscrit']}
           </p>
         </>
       ) : (
         <>
-          <div className="flex px-5 mt-5 gap-4 items-center w-full">
+          <div className="w-full flex flex-col md:flex-row mt-5 gap-4 md:items-center mb-3">
             <SearchBar
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -132,7 +132,7 @@ const MesEtudiants = () => {
             />
             <select
               onChange={(e) => setFilter(e.target.value)}
-              className="w-75 p-2 border-2 border-gris-clair outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 rounded-xl flex text-bleu-secondaire text-md justify-center gap-5"
+              className="w-full md:w-75 p-2 border-2 border-gris-clair outline-none focus:border-orange-cuivre/55 focus:ring-2 focus:ring-orange-cuivre/30 rounded-xl flex text-bleu-secondaire text-md justify-center gap-5"
             >
               <option className="" value="tous">
                 {translations[lang]['tousLesCours']}
@@ -144,13 +144,11 @@ const MesEtudiants = () => {
               ))}
             </select>
           </div>
-          <div className="flex px-5 mt-2 gap-4 items-center w-full">
-            <TableData
-              columns={mesEtudiantsColumns}
-              rows={finalizedFilteredEtudiants}
-              admin={false}
-            />
-          </div>
+          <TableData
+            columns={mesEtudiantsColumns}
+            rows={finalizedFilteredEtudiants}
+            admin={false}
+          />
         </>
       )}
     </div>
