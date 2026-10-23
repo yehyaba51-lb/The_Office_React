@@ -191,7 +191,7 @@ const TableauDeBordFormateur = () => {
           <div className="flex flex-col lg:flex-row mx-0 md:mx-5 mt-5 flex-wrap">
             <div className="w-full lg:w-2/3">
               <div className="border-2 border-gris-clair rounded-2xl px-2 mx-5 my-1 flex flex-col">
-                <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 mb-1">
+                <h2 className="font-titres font-semibold text-bleu-principal text-xl px-3 pt-3 mb-1">
                   {translations[lang]['activiteRecente']}
                 </h2>
                 {filteredActivitesFormateur.length > 0 ? (
@@ -213,7 +213,7 @@ const TableauDeBordFormateur = () => {
                     </button>
                   </>
                 ) : (
-                  <p className="text-center text-bleu-secondaire">
+                  <p className="text-center text-bleu-secondaire mt-2 p-1">
                     {translations[lang]['aucuneActiviteRecente']}
                   </p>
                 )}
