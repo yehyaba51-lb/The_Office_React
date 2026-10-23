@@ -163,7 +163,7 @@ const LessonDetailsPage = () => {
           </button>
         </div>
       ) : (
-        <div className="flex flex-col sm:flex-row gap-5 border-2 border-gris-clair rounded-2xl my-5 mx-0 md:mx-5 p-3 md:p-5 w-full">
+        <div className="flex flex-col sm:flex-row gap-5 border-2 border-gris-clair rounded-2xl my-5 mx-0 md:mx-5 p-3 md:p-5 w-full max-w-full overflow-hidden">
           {showNext && (
             <NextLesson
               lecon={capitalize(content.lecon.lecon_titre)}
@@ -175,29 +175,31 @@ const LessonDetailsPage = () => {
           )}
 
           <>
-            <div className="w-full sm:w-1/2 flex flex-col justify-between flex-wrap">
+            <div className="w-full sm:w-1/2 flex flex-col justify-between flex-wrap min-w-0 max-w-full overflow-hidden">
               <h3 className="font-titres text-bleu-secondaire text-sm mb-2">
                 {translations[lang]['notesDeLaLecon']}
               </h3>
-              <p className="text-bleu-principal text-md mb-6">
+              <p className="text-bleu-principal text-md mb-6 h-fit wrap-break-word w-full">
                 {content.textes && content.textes.length > 0
                   ? capitalizeAllFirstLetters(content.textes[0].contenu_texte)
                   : translations[lang]['pasDeContenu']}
               </p>
-              <div className="mt-auto flex flex-col gap-2">
+              <div className="mt-auto flex flex-col gap-2 w-full min-w-0">
                 {content.progression_lecon &&
                 content.progression_lecon.complete_le &&
                 content.pdfs &&
                 content.pdfs.length > 0 ? (
                   <div
                     onClick={() => telechargerFunction()}
-                    className="mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
+                    className="w-full min-w-0 gap-2 mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
                   >
-                    <div className="flex gap-1 items-center">
-                      <File size={18} />
-                      {content.pdfs[0].url_pdf.split("pdfs/")[1]}
+                    <div className="flex gap-1 items-center min-w-0 flex-1">
+                      <File size={18} className="shrink-0" />
+                      <span className="block">
+                        {content.pdfs[0].url_pdf.split("pdfs/")[1]}
+                      </span>
                     </div>
-                    <Download size={18} />
+                    <Download size={18} className="shrink-0" />
                   </div>
                 ) : content.videos && content.videos.length > 0 ? (
                   content.pdfs &&
@@ -205,7 +207,7 @@ const LessonDetailsPage = () => {
                   videoAlmostDone && (
                     <div
                       onClick={() => telechargerFunction()}
-                      className="w-full mb-2 px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
+                      className="w-full mb-2 px-2 md:px-5 py-2 cursor-pointer flex justify-between items-center border-2 border-gris-clair rounded-lg text-sm text-bleu-secondaire hover:text-bleu-principal hover:bg-gris-clair transition duration-300 ease-in-out"
                     >
                       <div className="flex gap-1 items-center">
                         <File size={18} />
