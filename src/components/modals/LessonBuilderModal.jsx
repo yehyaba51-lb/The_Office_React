@@ -218,11 +218,11 @@ const LessonBuilderModal = ({ lecon, language }) => {
     <>
       <div className="fixed bg-bleu-secondaire/20 backdrop-blur-xs inset-0"></div>
       <div
-        className="fixed inset-0 flex justify-center items-start p-15 px-5 md:p-22 z-10"
+        className="fixed inset-0 flex justify-center items-start p-4 md:p-22 z-10"
         onClick={() => navigate(location.pathname)}
       >
         <div
-          className="bg-white rounded-2xl px-8 py-5 md:px-12 md:py-8 w-160 flex flex-col gap-5"
+          className="bg-white rounded-2xl px-6 md:px-12 py-5 md:py-8 w-full max-w-xl flex flex-col gap-5"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex w-full justify-between items-center">
@@ -307,9 +307,9 @@ const LessonBuilderModal = ({ lecon, language }) => {
             {steps === 3 && (
               <>
                     <div
-                      className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2"
+                      className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2 gap-2 w-full min-w-0"
                     >
-                      <p className="text-sm text-bleu-secondaire">
+                      <p className="text-sm text-bleu-secondaire truncate flex-1">
                         {pdf.file ? pdf.file.name : translations[language]['choisirFichierPdf']}
                       </p>
                       <input
@@ -322,7 +322,7 @@ const LessonBuilderModal = ({ lecon, language }) => {
                       />
                       <label
                         htmlFor="thumbnail-upload-pdf"
-                        className="bg-bleu-secondaire text-white rounded-xl px-10 py-1.5 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
+                        className="shrink-0 whitespace-nowrap bg-bleu-secondaire text-white rounded-xl px-10 py-1.5 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
                       >
                         {translations[language]['parcourir']}
                       </label>
@@ -332,9 +332,9 @@ const LessonBuilderModal = ({ lecon, language }) => {
             {steps === 4 && (
               <>
                       <div
-                        className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2"
+                        className="border-2 border-gris-clair rounded-xl flex justify-between items-center px-4 py-2 gap-2 w-full min-w-0"
                       >
-                        <p className="text-sm text-bleu-secondaire">
+                        <p className="text-sm text-bleu-secondaire truncate flex-1">
                           {video.file ? video.file.name : translations[language]['choisirVideo']}
                         </p>
                         <input
@@ -352,7 +352,7 @@ const LessonBuilderModal = ({ lecon, language }) => {
                         />
                         <label
                           htmlFor="thumbnail-upload-video"
-                          className="bg-bleu-secondaire text-white rounded-xl px-10 py-1.5 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
+                          className="shrink-0 whitespace-nowrap bg-bleu-secondaire text-white rounded-xl px-10 py-1.5 cursor-pointer hover:bg-bleu-secondaire/90 transition duration-300 ease-in-out"
                         >
                           {translations[language]['parcourir']}
                         </label>
