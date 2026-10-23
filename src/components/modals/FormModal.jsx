@@ -125,7 +125,7 @@ const FormModal = ({
                   onClick={() => navigate(location.pathname)}
                   type="button"
                   value={translations[language]['annuler']}
-                  className="text-sm w-5/6 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
+                  className="text-sm w-1/2 md:w-5/6 bg-white border-2 border-gris-clair rounded-xl p-2 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
                 />
                 <input
                   type="button"
@@ -150,7 +150,7 @@ const FormModal = ({
                     }
                   }}
                   value={`${isEditMode ? translations[language]['modifier'] : translations[language]['creer']}`}
-                  className={`text-sm w-${isEditMode ? "6/7" : "5/6"} bg-orange-cuivre border-2 border-orange-cuivre rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}
+                  className={`text-sm w-1/2 ${isEditMode ? "md:w-6/7" : "md:w-5/6"} bg-orange-cuivre border-2 border-orange-cuivre rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out`}
                 />
               </div>
             </div>
