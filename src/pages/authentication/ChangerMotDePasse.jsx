@@ -146,7 +146,7 @@ const ChangerMotDePasse = () => {
         ? <div className="flex items-center justify-center p-20">
             <Spinner />
           </div>
-        : <div className='border-2 border-gris-clair rounded-xl flex flex-col w-full max-w-lg mx-auto px-10 py-4 m-10 shadow-md'>
+        : <div className='border-2 border-gris-clair rounded-xl flex flex-col w-full max-w-lg mx-auto px-7 md:px-10 py-4 m-10 shadow-md'>
             <form action="" method="post" className='flex flex-col gap-8' ref={formRef}>
               <h3 className='font-titres font-bold text-bleu-secondaire text-2xl'>{translations[language]['changerMotDePasse']}</h3>
               <div className='flex flex-col gap-6'>
@@ -168,7 +168,7 @@ const ChangerMotDePasse = () => {
                     passerPassword()
                   }}
                   disabled={isLoggingInPasser}
-                  className="text-sm flex items-center justify-center w-1/6 bg-white border-2 border-gris-clair rounded-xl p-1 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
+                  className="text-sm flex items-center justify-center w-2/6 md:w-1/6 bg-white border-2 border-gris-clair rounded-xl p-1 cursor-pointer text-bleu-secondaire font-semibold hover:bg-gray-100 transition duration-300 ease-in-out"
                 >
                   {isLoggingInPasser ? <Spinner login={true} /> : translations[language]['passer']}
                 </button>
@@ -179,12 +179,12 @@ const ChangerMotDePasse = () => {
                     changerFunction()
                   }}
                   disabled={isLoggingInChanger}
-                  className='w-2/7 flex items-center justify-center bg-orange-cuivre rounded-lg p-1 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out'              >
+                  className='w-2/6 md:w-2/7 flex items-center justify-center bg-orange-cuivre rounded-lg p-1 cursor-pointer text-white font-semibold hover:bg-orange-cuivre/90 transition duration-300 ease-in-out'              >
                   {isLoggingInChanger ? <Spinner login={true} /> : translations[language]['changer']}
                 </button>
               </div>
             </form>        
-            <div className="w-6/7 text-bleu-principal mt-8 border border-orange-cuivre/75 rounded-xl p-4 mx-auto m-4 justify-center items-center text-center">
+            <div className="w-full md:w-6/7 text-bleu-principal mt-8 border border-orange-cuivre/75 rounded-xl p-4 mx-auto m-4 justify-center items-center text-center">
               {translations[language]['avertissementMotDePasse']}
             </div>
           </div>
