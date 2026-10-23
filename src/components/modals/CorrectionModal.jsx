@@ -252,7 +252,7 @@ const CorrectionModal = ({ submitFunction, initialData, language }) => {
                         htmlFor="commentaire"
                         className="text-gris-fonce text-sm"
                       >
-                        {translations[language]['commentaire']}
+                        {translations[language]['commentaireLower']}
                       </label>
                       <textarea
                         type="text"
