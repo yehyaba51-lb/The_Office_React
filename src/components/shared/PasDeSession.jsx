@@ -17,7 +17,7 @@ const PasDeSession = ({ language }) => {
       </p>
       <button
       onClick={() => navigate('/')}
-        className={`text-sm w-1/6 bg-bleu-principal rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-bleu-principal/90 transition duration-300 ease-in-out`}
+        className={`text-sm mx-2 md:mx-0 w-full md:w-1/6 bg-bleu-principal rounded-xl p-2 cursor-pointer text-white font-semibold hover:bg-bleu-principal/90 transition duration-300 ease-in-out`}
       >
         {translations[language]['seConnecter']}
       </button>
