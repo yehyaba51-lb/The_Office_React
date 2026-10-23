@@ -146,6 +146,7 @@ export const translations = {
     noteIntrouvableTexte: "Cette note n'existe pas ou a été supprimée. Vérifiez le lien ou retournez à la liste des notes.",
     corrigeLe: "CORRIGÉ LE",
     commentaire: "COMMENTAIRE",
+    commentaireLower: "commentaire",
     pasEncoreCorrige: "Pas encore corrigé",
     pasDeCommentaire: "Pas de commentaire",
     video: "Vidéo",
@@ -244,7 +245,12 @@ export const translations = {
     terminer: "Terminer",
     suivant: "Suivant",
     ecrivezVotreReponseIci: 'Ecrivez votre réponse ici.',
-    leconSuivante:	"Leçon suivante"
+    leconSuivante:	"Leçon suivante",
+    pageIntrouvable: "Page introuvable",
+    pageIntrouvableTexte1: "Cette page n'existe pas ou l'adresse est incorrecte. Vérifiez le",
+    pageIntrouvableTexte2: "lien ou retournez à l'accueil.",
+    retourAccueil: "Retour à l'accueil",
+    
   },
   en: {
     tableauDeBord: "Dashboard",
@@ -391,6 +397,7 @@ export const translations = {
     noteIntrouvableTexte: "This grade doesn't exist or has been deleted. Check the link or go back to the grade list.",
     corrigeLe: "GRADED ON",
     commentaire: "COMMENT",
+    commentaireLower: "comment",
     pasEncoreCorrige: "Not graded yet",
     pasDeCommentaire: "No comment",
     video: "Video",
@@ -491,6 +498,10 @@ export const translations = {
     terminer: "Finish",
     suivant: "Next",
     ecrivezVotreReponseIci: 'Write your answer here.',
-    leconSuivante:	"Next lesson"
+    leconSuivante:	"Next lesson",
+    pageIntrouvable: "Page not found",
+    pageIntrouvableTexte1: "This page doesn't exist or the address is incorrect. Check the",
+    pageIntrouvableTexte2: "link or go back to the home page.",
+    retourAccueil: "Back to home",
   }
 };
