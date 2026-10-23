@@ -75,7 +75,7 @@ const MesCours = () => {
         <FetchError />
       ) : cours.length === 0 ? (
         <>
-          <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
+          <div className="mt-10 rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
             <Inbox size={28} className="text-bleu-secondaire" />
           </div>
           <p className="text-bleu-principal font-semibold">
