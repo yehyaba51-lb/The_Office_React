@@ -189,7 +189,7 @@ const CoursDetails = () => {
         {loading ? (
           <Spinner />
         ) : hasErrors ? (
-          <FetchError />
+          <FetchError language={lang} />
         ) : notFound ? (
           <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
               <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
@@ -229,7 +229,7 @@ const CoursDetails = () => {
                   ) : lecons.map((lecon, i) => (
                     <div
                       key={`${lecon.id}-${lecon.cours_id}`}
-                      className={`flex flex-col border-t-${i === 0 ? 0 : 2} border-gris-clair p-4 gap-3`}
+                      className={`flex flex-col ${i === 0 ? 'border-t-0' : 'border-t-2'} border-gris-clair p-4 gap-3`}
                     >
                       
                       <div className="flex justify-between">
@@ -248,7 +248,7 @@ const CoursDetails = () => {
                         </div>
                         <div className="flex gap-1">
                           <p className="text-bleu-secondaire flex text-md">
-                            {lecon.types.length > 0 ? lecon.types.join(" · ") : 'Pas de contenu'}
+                            {lecon.types.length > 0 ? lecon.types.join(" · ") : translations[lang]['pasDeContenu']}
                           </p>
                         </div>
                       </div>
