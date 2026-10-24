@@ -24,7 +24,7 @@ const Utilisateurs = () => {
   const [search, setSearch] = useState('')
   const { currentUser, lang } = useOutletContext()
   const activeClass = (isActive) =>
-    `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre"}`;
+    `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-medium cursor-pointer hover:underline hover:text-orange-cuivre"}`;
   const [searchParams] = useSearchParams();
   const showModal = searchParams.get("create") === "true";
   const showSuccess = searchParams.get("success") === "true";
@@ -307,7 +307,7 @@ const Utilisateurs = () => {
         {loading ? (
           <Spinner size={125} />
         ) : hasErrors ? (
-          <FetchError />
+          <FetchError language={lang} />
         ) : (
           <TableData columns={userColumns} rows={searchUsers} admin={true} />
         )}
