@@ -92,7 +92,7 @@ const LessonDetailsPage = () => {
       {loading ? (
         <Spinner />
       ) : accessDenied ? (
-        <FetchError accessDenied={true} />
+        <FetchError accessDenied={true} language={lang} />
       ) : notFound ? (
         <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
           <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
@@ -112,7 +112,7 @@ const LessonDetailsPage = () => {
           </button>
         </div>
       ) : hasErrors ? (
-        <FetchError />
+        <FetchError language={lang} />
       ) : (
         <div className="flex flex-col sm:flex-row gap-5 border-2 border-gris-clair rounded-2xl my-5 mx-0 md:mx-5 p-3 md:p-5 w-full max-w-full overflow-hidden">
           <>
