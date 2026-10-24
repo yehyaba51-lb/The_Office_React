@@ -61,7 +61,7 @@ const NotesDetailsPage = () => {
 
   return (
     <div className={`flex flex-col px-5 gap-4 items-center ${loading ? "mt-25" : "my-8"}`}>
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : notFound ? (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} language={lang} /> : hasErrors ? <FetchError language={lang} /> : notFound ? (
         <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
           <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
             <FileX className="text-gris-fonce" size={26} />
