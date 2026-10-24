@@ -259,12 +259,12 @@ const Cours = () => {
       )}
       
       <div
-        className={`px-0 md:px-5 mx-5  py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
+        className={`px-0 md:px-5 mx-5 py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
       >
         {loading ? (
           <Spinner />
         ) : hasErrors ? (
-          <FetchError />
+          <FetchError language={lang} />
         ) : cours.length === 0 ? (
           <>
             <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
