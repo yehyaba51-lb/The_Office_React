@@ -232,7 +232,7 @@ const ExercicePage = () => {
     <div className={`flex flex-col gap-4 justify-center items-center ${loading && "mt-25"}`} >
       {showModal && <AddQuestionModal addFunction={ajouterQuestion} language={lang} />}
       {showSuccess && (
-        <SuccessModal type={"Question"} content={"Exercice"} create={true} language={lang} />
+        <SuccessModal type={"question"} content={"Exercice"} create={true} language={lang} />
       )}
       {showEdit && selectedQuestion && (
         <AddQuestionModal
@@ -249,7 +249,7 @@ const ExercicePage = () => {
           language={lang}
         />
       )}
-      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : questions.length === 0 ? (
+      {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} language={lang} /> : hasErrors ? <FetchError language={lang} /> : questions.length === 0 ? (
         <div className="mt-10 flex flex-col items-center justify-center gap-4">
           <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
             <Inbox size={28} className="text-bleu-secondaire" />
