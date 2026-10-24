@@ -40,10 +40,10 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
                   <h3 className='text-bleu-principal font-titres font-bold'>{password}</h3>
                   <button className={`text-white font-semibold text-md rounded-lg bg-orange-cuivre px-2 py-1 cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`}
                     onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(password); passwordSuccess(); setCopied(true)}}>
-                      {copied ? 'Copiée ' : 'Copier'}
+                      {copied ? translations[language]['copiee'] : translations[language]['copier']}
                   </button>
                 </div>
-                <p className='text-sm text-bleu-secondaire'>⚠️ { translations[language]['motDePassePlusAffiche'] }</p>  
+                <p className='text-sm text-bleu-secondaire'>⚠️ { translations[language]['motDePassePlusAffiche'] }</p>
               </>
             ) : type === 'compte' ? (
               <div className="flex flex-col w-full justify-center items-center gap-2 p-2">
@@ -53,16 +53,16 @@ const SuccessModal = ({ accord, type, content, create=false, lecon=false, passwo
               </div>
                 <div className='w-4/5 rounded-xl border-2 border-gris-clair p-2 flex justify-between items-center'>
                   <h3 className='text-bleu-principal font-titres font-bold'>{password}</h3>
-                  <button className={`text-white font-semibold text-md rounded-lg bg-orange-cuivre px-2 py-1 cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`} onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(password); passwordSuccess(); setCopied(true)}}>{copied ? 'Copiée ' : 'Copier'}</button>
+                  <button className={`text-white font-semibold text-md rounded-lg bg-orange-cuivre px-2 py-1 cursor-pointer hover:bg-orange-cuivre/90 transition duration-500 ease-in-out`} onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(password); passwordSuccess(); setCopied(true)}}>{copied ? translations[language]['copiee'] : translations[language]['copier']}</button>
                 </div>
-                <p className='text-sm text-bleu-secondaire'>⚠️ { translations[language]['motDePassePlusAffiche'] }</p>  
+                <p className='text-sm text-bleu-secondaire'>⚠️ { translations[language]['motDePassePlusAffiche'] }</p>
 
               </div>
             ) : '' }
             {copied || type !=='compte' ? (
-              <input onClick={() => navigate(location.pathname)} type="button" value="Fermer" className={`text-sm w-2/5 bg-white border-2 border-gris-clair rounded-xl p-1 cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out text-bleu-secondaire font-semibold`} disabled={false}  />
+              <input onClick={() => navigate(location.pathname)} type="button" value={translations[language]['fermer']} className={`text-sm w-2/5 bg-white border-2 border-gris-clair rounded-xl p-1 cursor-pointer hover:bg-gray-100 transition duration-300 ease-in-out text-bleu-secondaire font-semibold`} disabled={false} />
             ) : (
-              <input onClick={() => navigate(location.pathname)} type="button" value="Fermer" className={`text-sm w-2/5 cursor-not-allowed  bg-white border-2 border-gris-clair rounded-xl p-1 text-bleu-secondaire font-semibold`} title={'Copiez le mot de passe avant de fermer'} disabled={true} />
+              <input onClick={() => navigate(location.pathname)} type="button" value={translations[language]['fermer']} className={`text-sm w-2/5 cursor-not-allowed bg-white border-2 border-gris-clair rounded-xl p-1 text-bleu-secondaire font-semibold`} title={translations[language]['copiezMotDePasseAvantFermer']} disabled={true} />
             )}
 
         </div>
