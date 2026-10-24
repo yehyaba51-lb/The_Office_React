@@ -189,7 +189,7 @@ const Categorie = () => {
         {loading ? (
           <Spinner />
         ) : hasErrors ? (
-          <FetchError />
+          <FetchError language={lang} />
         ) : categories.length === 0 ? (
           <>
             <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
