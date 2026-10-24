@@ -65,9 +65,9 @@ const MesCoursEtudiant = () => {
       {loading ? (
         <Spinner />
       ) : accessDenied ? (
-        <FetchError accessDenied={true} />
+        <FetchError accessDenied={true} language={lang} />
       ) : hasErrors ? (
-        <FetchError />
+        <FetchError language={lang} />
       ) : cours.length === 0 ? (
         <>
           <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
