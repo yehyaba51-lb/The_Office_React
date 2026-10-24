@@ -71,7 +71,7 @@ const MesExercices = () => {
     : [];
 
   const activeClass = (isActive) =>
-    `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-m cursor-pointer hover:underline hover:text-orange-cuivre"}`;
+    `${isActive ? "bg-orange-cuivre text-sm rounded px-3 py-1 flex justify-center items-center text-white font-semibold" : "flex justify-center items-center text-sm text-bleu-secondaire font-medium cursor-pointer hover:underline hover:text-orange-cuivre"}`;
 
   const searchExercices = filteredExercices
     ? filteredExercices.filter((c) =>
@@ -113,9 +113,9 @@ const MesExercices = () => {
       {loading ? (
         <Spinner />
       ) : accessDenied ? (
-        <FetchError accessDenied={true} />
+        <FetchError accessDenied={true} language={lang} />
       ) : hasErrors ? (
-        <FetchError />
+        <FetchError language={lang} />
       ) : listOfExercices.exercices.length === 0 ? (
         <>
           <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-15">
