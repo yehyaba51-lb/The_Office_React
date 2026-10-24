@@ -105,14 +105,14 @@ const MesEtudiants = () => {
 
   return (
     <div
-        className={`px-0 md:px-5 mx-5  py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
+        className={`px-0 md:px-5 mx-5 py-3 flex flex-col items-center justify-center ${loading && "mt-25"}`}
     >
       {loading ? (
         <Spinner />
       ) : accessDenied ? (
-        <FetchError accessDenied={true} />
+        <FetchError accessDenied={true} language={lang} />
       ) : hasError ? (
-        <FetchError />
+        <FetchError language={lang} />
       ) : inscriptions.length === 0 ? (
         <>
           <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mt-10">
