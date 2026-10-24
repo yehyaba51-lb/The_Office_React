@@ -47,7 +47,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, languag
   const [showLogoutMenu, setShowLogoutMenu] = useState(false);
 
   const activeClass = ({ isActive }) =>
-    `flex gap-2 items-center  ${isActive ? `w-full border-l-2 border-orange-cuivre rounded opacity-95 bg-gradient-to-l from-orange-cuivre/45 to-orange-cuivre/10 p-1 text-white font-semibold text-l` : `text-white opacity-65 font-medium text-sm hover:opacity-95 rounded hover:opacity-95 transition duration-300 ease-in-out`} `;
+    `flex gap-2 items-center  ${isActive ? `w-full border-l-2 border-orange-cuivre rounded opacity-95 bg-gradient-to-l from-orange-cuivre/45 to-orange-cuivre/10 p-1 text-white font-semibold text-lg` : `text-white opacity-65 font-medium text-sm hover:opacity-95 rounded hover:opacity-95 transition duration-300 ease-in-out`} `;
 
   const widthClasses = isCollapsed
     ? "md:w-15 md:px-1 md:py-20 md:items-center md:justify-between"
@@ -100,7 +100,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, languag
                       }
                     }, 400)
                   }}
-                className="cursor-pointer flex justify-center items-center  border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
+                className="cursor-pointer flex justify-center items-center border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
                 
               >
                 {isDisconnecting
@@ -186,7 +186,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, languag
               {currentUser.prenom[0].toUpperCase() + currentUser.nom[0].toUpperCase()}
             </div>
             <div className="flex flex-col text-gris-clair min-w-0">
-              <h3 className="font-titres text-gris-clair text-m font-semibold">
+              <h3 className="font-titres text-gris-clair text-sm font-semibold">
                 {capitalize(currentUser.prenom) + " " + capitalize(currentUser.nom)}
               </h3>
               <p className="text-gris-clair text-xs truncate">
@@ -205,7 +205,7 @@ const SideBar = ({ role, currentUser, mobileMenuOpen, setMobileMenuOpen, languag
                   }
                 }, 400)
               }}
-            className="cursor-pointer flex justify-center items-center  border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
+            className="cursor-pointer flex justify-center items-center border border-gris-clair rounded-xl px-3 py-2 gap-2 text-gris-clair text-sm hover:bg-gris-clair hover:text-bleu-principal transition duration-400 ease-in-out"
           >
             {isDisconnecting
               ? <Spinner login={true} />
