@@ -38,10 +38,10 @@ const AddQuestionModal = ({ initialData, editFunction, addFunction, language }) 
         >
           <div className="flex w-full justify-between items-center">
             <h3 className="font-titres text-bleu-primaire text-xl">
-              {isEditMode ? 'Modifier une question' : 'Ajouter une question'}
+              {isEditMode ? translations[language]['modifierUneQuestion'] : translations[language]['ajouterUneQuestion']}
             </h3>
             <button
-              title="Fermer"
+              title={translations[language]['fermer']}
               className="text-gris-fonce cursor-pointer hover:text-gris-fonce/50 transition duration-300 ease-in-out"
               onClick={() => navigate(location.pathname)}
             >
@@ -59,7 +59,7 @@ const AddQuestionModal = ({ initialData, editFunction, addFunction, language }) 
                 id="titre"
                 defaultValue={isEditMode ? initialData[0].texte_question : ""}
                 className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                placeholder={`Entrez le texte de la question...`}
+                placeholder={translations[language]['entrezLeTexteDeLaQuestion']}
               />
             </div>
             <div className="flex flex-col gap-2 mb-2">
@@ -70,21 +70,21 @@ const AddQuestionModal = ({ initialData, editFunction, addFunction, language }) 
                   </label>
                   <div className="flex flex-wrap justify-center gap-3 md:gap-5">
                     <input
-                      value="Input"
+                      value={translations[language]['typeInput']}
                       type="button"
                       disabled={exerciceType === "Input"}
                       className={`${exerciceType === "Input" ? "text-orange-cuivre" : "text-bleu-secondaire"}  font-semibold ${exerciceType === "Input" ? " bg-orange-cuivre/20" : "bg-white"} rounded-2xl px-8 py-1  border ${exerciceType === "Input" ? "border-orange-cuivre/20" : "border-gris-clair"} ${exerciceType === "Input" ? "cursor-default" : "cursor-pointer"} hover:border ${exerciceType === "Input" ? "" : "hover:bg-gray-100"} transition duration-300 ease-in-out`}
                       onClick={() => setExerciceType("Input")}
                     />
                     <input
-                      value="QCM"
+                      value={translations[language]['typeQcm']}
                       type="button"
                       disabled={exerciceType === "QCM"}
                       className={`${exerciceType === "QCM" ? "text-orange-cuivre" : "text-bleu-secondaire"}  font-semibold ${exerciceType === "QCM" ? " bg-orange-cuivre/20" : "bg-white"} rounded-2xl px-8 py-1  border ${exerciceType === "QCM" ? "border-orange-cuivre/20" : "border-gris-clair"} ${exerciceType === "QCM" ? "cursor-default" : "cursor-pointer"} hover:border ${exerciceType === "QCM" ? "" : "hover:bg-gray-100"} transition duration-300 ease-in-out`}
                       onClick={() => setExerciceType("QCM")}
                     />
                     <input
-                      value="File Upload"
+                      value={translations[language]['typeFileUpload']}
                       type="button"
                       disabled={exerciceType === "File Upload"}
                       className={`${exerciceType === "File Upload" ? "text-orange-cuivre" : "text-bleu-secondaire"}  font-semibold ${exerciceType === "File Upload" ? " bg-orange-cuivre/20" : "bg-white"} rounded-2xl px-8 py-1  border ${exerciceType === "File Upload" ? "border-orange-cuivre/20" : "border-gris-clair"} ${exerciceType === "File Upload" ? "cursor-default" : "cursor-pointer"} hover:border ${exerciceType === "File Upload" ? "" : "hover:bg-gray-100"} transition duration-300 ease-in-out`}
