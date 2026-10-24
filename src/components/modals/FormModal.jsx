@@ -34,7 +34,7 @@ const FormModal = ({
               {isEditMode ? translations[language]['modifier'] : translations[language]['creer']} {translations[language][type]}
             </h3>
             <button
-              title="Fermer"
+              title={translations[language]['fermer']}
               className="text-gris-fonce cursor-pointer hover:text-gris-fonce/50 transition duration-300 ease-in-out"
               onClick={() => navigate(location.pathname)}
             >
