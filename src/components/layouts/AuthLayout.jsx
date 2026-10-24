@@ -8,7 +8,7 @@ const AuthLayout = () => {
   const localStorageLanguage = localStorage.getItem('language')
   const [lang, setLang] = useState(localStorageLanguage ? localStorageLanguage : 'fr')
   
-  const activeClass = ( isActive ) => `${ isActive ? 'w-8 bg-orange-cuivre text-sm rounded p-0.5 flex justify-center items-center text-white font-semibold' : 'w-10 flex justify-center items-center text-sm text-gris-clair font-m cursor-pointer hover:underline hover:text-orange-cuivre'}`
+  const activeClass = ( isActive ) => `${ isActive ? 'w-8 bg-orange-cuivre text-sm rounded p-0.5 flex justify-center items-center text-white font-semibold' : 'w-10 flex justify-center items-center text-sm text-gris-clair font-medium cursor-pointer hover:underline hover:text-orange-cuivre'}`
 
   return (
     <div className='w-full h-screen flex flex-col'>
