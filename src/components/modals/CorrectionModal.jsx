@@ -85,9 +85,9 @@ const CorrectionModal = ({ submitFunction, initialData, language }) => {
           {loading ? (
             <Spinner />
           ) : accessDenied ? (
-            <FetchError accessDenied={true} />
+            <FetchError accessDenied={true} language={lang} />
           ) : hasErrors ? (
-            <FetchError />
+            <FetchError language={lang} />
           ) : (
             <>
               {initialData.length === 0 ? (
@@ -115,7 +115,7 @@ const CorrectionModal = ({ submitFunction, initialData, language }) => {
                       {translations[language]['corrigerUneSoumission']}
                     </h3>
                     <button
-                      title="Fermer"
+                      title={translations[language]['fermer']}
                       className="text-gris-fonce cursor-pointer hover:text-gris-fonce/50 transition duration-300 ease-in-out"
                       onClick={() => navigate(location.pathname)}
                     >
@@ -259,7 +259,7 @@ const CorrectionModal = ({ submitFunction, initialData, language }) => {
                         name="commentaire"
                         id="commentaire"
                         rows={"6"}
-                        placeholder="Optionnel"
+                        placeholder={translations[language]['optionnel']}
                         defaultValue={
                           initialData ? initialData[0].commentaire : ""
                         }
