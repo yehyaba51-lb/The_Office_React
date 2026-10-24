@@ -190,7 +190,7 @@ const AccesPage = () => {
         {loading ? (
           <Spinner />
         ) : hasError ? (
-          <FetchError />
+          <FetchError language={lang} />
         ) : (
           <div className="flex flex-col lg:flex-row gap-5 w-full px-0 md:px-5 mx-5">
             <div className="h-fit gap-2 border-2 justify-start border-gris-clair w-full lg:w-2/5 rounded-2xl py-6 px-4 flex flex-col items-start">              
@@ -242,7 +242,6 @@ const AccesPage = () => {
                     name="cours"
                     id="cours"
                     className="border-2 border-gris-clair rounded-lg p-1.5 text-sm text-bleu-secondaire outline-none focus:border-orange-cuivre/75 focus:ring-2 focus:ring-orange-cuivre/30 transition"
-                    placeholder="Entrer votre email"
                   >
                     {appliableCours.length > 0 ? appliableCours.map((cours) => (
                       <option value={Number(cours.id)} key={cours.id}>
@@ -288,7 +287,7 @@ const AccesPage = () => {
                   <div className="rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center mx-auto">
                     <Inbox size={28} className="text-bleu-secondaire" />
                   </div>
-                  <p className="mt-4 text-bleu-principal font-semibold">Aucune Inscription créé</p>
+                  <p className="mt-4 text-bleu-principal font-semibold">{translations[lang]['aucuneInscriptionCree']}</p>
                 </div>
               ) : (
                 <>
