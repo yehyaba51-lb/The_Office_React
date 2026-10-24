@@ -187,7 +187,7 @@ const TableauDeBord = () => {
       {loading ? (
         <Spinner />
       ) : hasErrors ? (
-        <FetchError />
+        <FetchError language={lang} />
       ) : (
         <div className="w-full">
           <div className="flex justify-between p-2 mx-0 md:mx-5 flex-wrap gap-1">
