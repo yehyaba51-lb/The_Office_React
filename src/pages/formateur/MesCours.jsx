@@ -70,9 +70,9 @@ const MesCours = () => {
       {loading ? (
         <Spinner />
       ) : accessDenied ? (
-        <FetchError accessDenied={true} />
+        <FetchError accessDenied={true} language={lang} />
       ) : hasError ? (
-        <FetchError />
+        <FetchError language={lang} />
       ) : cours.length === 0 ? (
         <>
           <div className="mt-10 rounded-full bg-gris-clair w-16 h-16 flex items-center justify-center">
