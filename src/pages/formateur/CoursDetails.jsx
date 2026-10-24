@@ -209,7 +209,7 @@ const CoursDetails = () => {
     }
 
     if (image.size > TAILLE_MAX) {
-      toast.error("Taile d'image trop grande");
+      toast.error("Taille d'image trop grande");
       return false;
     }
 
@@ -243,7 +243,7 @@ const CoursDetails = () => {
   
   
   return (
-    <div  className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center">
       {showModal && <LessonBuilderModal lecon={lecons} language={lang} />}
       {showSuccess && (
         <SuccessModal
@@ -257,7 +257,7 @@ const CoursDetails = () => {
       <div
         className={`flex flex-col items-center justify-center p-2 mx-0 md:mx-5 ${loading && "mt-25"}`}
       >
-        {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} /> : hasErrors ? <FetchError /> : (
+        {loading ? <Spinner /> : accessDenied ? <FetchError accessDenied={true} language={lang} /> : hasErrors ? <FetchError language={lang} /> : (
           <div className="w-full">
             {cours && cours.lecons > 0 ? (
               <>
@@ -360,7 +360,7 @@ const CoursDetails = () => {
                           onClick={() =>
                             navigate(`${location.pathname}/lecons/${lecon.id}`)
                           }
-                          className={`flex flex-col  border-t-${i=== 0 ? "0" : "2"} border-gris-clair p-4 gap-3 items-center cursor-pointer`}
+                          className={`flex flex-col ${i === 0 ? 'border-t-0' : 'border-t-2'} border-gris-clair p-4 gap-3 items-center cursor-pointer`}
                         >
                           <div className="flex flex-col sm:flex-row justify-between w-full gap-3 sm:gap-0">
                             <div className="flex gap-4 min-w-0 w-full">
