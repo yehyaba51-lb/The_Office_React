@@ -239,9 +239,9 @@ const ExerciceDetailsPage = () => {
       {loading ? (
         <Spinner />
       ) : accessDenied ? (
-        <FetchError accessDenied={true} />
+        <FetchError accessDenied={true} language={lang} />
       ) : hasErrors ? (
-        <FetchError />
+        <FetchError language={lang} />
       ) : notFound ? (
         <div className="border-2 border-gris-clair rounded-2xl p-12 flex flex-col items-center gap-3 text-center m-5">
           <div className="w-14 h-14 rounded-full bg-gris-fonce/10 flex items-center justify-center mb-2">
@@ -320,10 +320,10 @@ const ExerciceDetailsPage = () => {
                     <h4 className="font-titres text-orange-cuivre text-sm">
                       Question {index + 1} —{" "}
                       {q.question_type === "Input"
-                        ? "Réponse libre"
+                        ? translations[lang]['reponseLibre']
                         : q.question_type === "File Upload"
-                          ? "Fichier [pdf / docx]"
-                          : "QCM"}
+                          ? translations[lang]['fichierPdfDocx']
+                          : translations[lang]['typeQcm']}
                     </h4>
                     <h3 className="font-titres text-bleu-principal text-md font-semibold">
                       {capitalize(q.texte_question)}
