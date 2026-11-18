@@ -8,6 +8,25 @@ The project is deployed and live at **[theoffice.infinityfreeapp.com](https://th
 
 Login details aren't published here. Ask the project owner for a demo account.
 
+## 🧪 Try it yourself
+
+A separate demo instance, pre-loaded with sample courses, lessons and student progress, is available at **[theofficedemo.infinityfreeapp.com](https://theofficedemo.infinityfreeapp.com)**
+
+| Rôle | Email | Mot de passe |
+|---|---|---|
+| Administrateur | demo_admin@test.com | Admin1234@ |
+| Formateur | demo_teacher@test.com | Teacher1234@ |
+| Étudiant | demo_student@test.com | Student1234@ |
+| Formateur | sofia.khelifi@theoffice-demo.com | Sofia1234@ |
+| Formateur | karim.belaid@theoffice-demo.com | Karim1234@ |
+| Formateur | amina.rahal@theoffice-demo.com | Amira1234@ |
+| Étudiant | yacine.amrani@theoffice-demo.com | Yacine1234@ |
+| Étudiant | lina.boudiaf@theoffice-demo.com | lina1234@ |
+| Étudiant | samir.boukhari@theoffice-demo.com | Samir1234@ |
+| Étudiant | nour.haddad@theoffice-demo.com | Nour1234@ |
+| Étudiant | rayan.cherif@theoffice-demo.com | Rayan1234@ |
+| Étudiant | imane.saidi@theoffice-demo.com | Imane1234@ |
+
 ## Tech stack
 
 React + Vite, Tailwind CSS, React Router, react-toastify for notifications, lucide-react for icons.
